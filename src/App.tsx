@@ -26,8 +26,8 @@ function App() {
     return (
         <ThemeProvider theme={darkTheme}>
             <DBContext.Provider value={{db: new DexieDB()}}>
+                <WorkoutContextProvider>
                     <BrowserRouter>
-                        <WorkoutContextProvider>
                                 <Paper>
                                     <Routes>
                                         <Route path="/" element={<WorkoutList/>}/>
@@ -38,8 +38,8 @@ function App() {
                                                element={<YoutubePlayer />}/>
                                     </Routes>
                                 </Paper>
-                        </WorkoutContextProvider>
-                    </BrowserRouter>
+                        </BrowserRouter>
+                    </WorkoutContextProvider>
             </DBContext.Provider>
         </ThemeProvider>
     );
