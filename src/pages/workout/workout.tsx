@@ -28,6 +28,7 @@ import {DBContext} from "../../context/dbContext";
 import {ExerciseSet, Workout, WorkoutExercise} from "../../models/workout";
 import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
+import {useNavigate} from "react-router-dom";
 
 export const WorkoutPage = () => {
     const {timeStarted, followingWorkout, workoutExercises, focusedExercise, focusExercise} = useContext(WorkoutContext);
@@ -39,6 +40,7 @@ export const WorkoutPage = () => {
     const [currentSetNumber, setCurrentSetNumber] = useState(1);
     const [currentWorkoutExercise, setCurrentWorkoutExercise] = useState<WorkoutExercise | undefined>(undefined);
     const [currentWorkoutExerciseNumber, setCurrentWorkoutExerciseNumber] = useState(0);
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (!followingWorkout) { setCurrentWorkout(undefined); return; }
@@ -80,7 +82,7 @@ export const WorkoutPage = () => {
         color="inherit"
         aria-label="menu"
         sx={{mr: 2}}
-        href="/youtube"
+        onClick={() => navigate("/youtube")}
     >
         <YouTubeIcon/>
     </IconButton> : <></>}>
@@ -142,7 +144,7 @@ export const WorkoutPage = () => {
                     <ArrowRightIcon />
                 </IconButton>}
             </Box>
-            <SetParameter name={t("set")} value={currentSetNumber} min={1} incrementBy={1} onChange={(setNumber) => setCurrentSetNumber(setNumber)}/>
+            <SetParameter name={t("set")} value={currentSetNumber} min={1} max={currentWorkoutExercise?.setIds.length} incrementBy={1} onChange={(setNumber) => setCurrentSetNumber(setNumber)}/>
             {currentSet?.weight && <Parameter name={t("weight")} unit="kg" value={currentSet?.weight} min={0} incrementBy={2.5} allowDecimals/>}
             {currentSet?.reps && <Parameter name={t("reps")} value={currentSet?.reps} min={1} incrementBy={1}/>}
             {currentSet?.rpe && <Parameter name={t("rpe")} value={currentSet?.rpe} min={0} max={10} incrementBy={1}/>}

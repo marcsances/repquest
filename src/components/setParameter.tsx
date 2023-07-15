@@ -61,10 +61,10 @@ const SetParameter = (props: SetParameterProps) => {
             inputProps={{style: {textAlign: "right"}}}
         />
         <Box sx={{marginLeft: "8px", alignSelf: "center", width: "48px"}}/>
-        <IconButton onClick={onPrev} color="primary" size="small" aria-label="add" sx={{marginLeft: "8px"}}>
+        <IconButton onClick={onPrev} color="primary" size="small" aria-label="add" sx={{marginLeft: "8px"}} disabled={min ? val <= min : false}>
             <ArrowLeftIcon/>
         </IconButton>
-        <IconButton onClick={onNext} color="primary" size="small" aria-label="add" sx={{marginLeft: "4px"}}>
+        <IconButton onClick={onNext} color="primary" size="small" aria-label="add" sx={{marginLeft: "4px"}} disabled={max ? val >= max - 1 : false}>
             <ArrowRightIcon/>
         </IconButton>
     </Box>

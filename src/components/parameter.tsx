@@ -61,10 +61,10 @@ const Parameter = (props: ParameterProps) => {
             inputProps={{style: {textAlign: "right"}}}
         />
         <Typography sx={{marginLeft: "8px", alignSelf: "center", width: "48px"}}>{unit}</Typography>
-        <IconButton onClick={onRemove} color="primary" size="small" aria-label="add" sx={{marginLeft: "4px"}}>
+        <IconButton onClick={onRemove} color="primary" size="small" aria-label="add" sx={{marginLeft: "4px"}} disabled={min ? val <= min : false}>
             <RemoveIcon/>
         </IconButton>
-        <IconButton onClick={onAdd} color="primary" size="small" aria-label="add" sx={{marginLeft: "8px"}}>
+        <IconButton onClick={onAdd} color="primary" size="small" aria-label="add" sx={{marginLeft: "8px"}} disabled={max ? val >= max - 1 : false}>
             <AddIcon/>
         </IconButton>
     </Box>

@@ -6,7 +6,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import BackIcon from '@mui/icons-material/ArrowBack';
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 
 export interface WLAppBarProps {
     title: string;
@@ -16,6 +16,7 @@ export interface WLAppBarProps {
 export const WLAppBar = (props: WLAppBarProps) => {
     const location = useLocation();
     const {title, toolItems} = props;
+    const navigate = useNavigate();
 
     return <Box>
         <AppBar position="fixed">
@@ -27,7 +28,7 @@ export const WLAppBar = (props: WLAppBarProps) => {
                     aria-label="menu"
                     sx={{mr: 2}}
                     onClick={() => {
-                        window.history.go(-1)
+                        navigate(-1);
                     }}
                 >
                     <BackIcon/>
