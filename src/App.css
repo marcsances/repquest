@@ -29,10 +29,25 @@
 }
 
 @keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.video-responsive {
+    overflow: hidden;
+    padding-bottom: calc(100vh - 64px);
+    position: relative;
+    height: 0;
+}
+
+.video-responsive iframe {
+    left: 0;
+    top: 0;
+    height: calc(100vh - 64px);
+    width: 100%;
+    position: absolute;
 }

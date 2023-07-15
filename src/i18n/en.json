@@ -1,5 +1,25 @@
 {
   "workouts": "Workouts",
   "history": "History",
-  "settings": "Settings"
+  "settings": "Settings",
+  "install": "Install",
+  "date": "Date",
+  "set": "Set",
+  "weight": "Weight",
+  "reps": "Reps",
+  "rpe": "RPE",
+  "rir": "RIR",
+  "rest": "Rest",
+  "units": "Units",
+  "language": "Idioma",
+  "version": "Version",
+  "mondays": "Mondays",
+  "tuesdays": "Tuesdays",
+  "wednesdays": "Wednesdays",
+  "thursdays": "Thursdays",
+  "fridays": "Fridays",
+  "saturdays": "Saturdays",
+  "sundays": "Sundays",
+  "freeTraining": "Free workout",
+  "pickExercises": "Select exercises freely"
 }

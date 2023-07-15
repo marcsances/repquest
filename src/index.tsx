@@ -6,8 +6,12 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import i18n from "i18next";
 import {initReactI18next} from "react-i18next";
 import enJson from "./i18n/en.json";
+import caJson from "./i18n/ca.json";
+import esJson from "./i18n/es.json";
+import LanguageDetector from 'i18next-browser-languagedetector';
 
 i18n
+    .use(LanguageDetector)
     .use(initReactI18next) // passes i18n down to react-i18next
     .init({
         // the translations
@@ -16,16 +20,21 @@ i18n
         resources: {
             en: {
                 translation: enJson
+            },
+            ca: {
+                translation: caJson
+            },
+            es: {
+                translation: esJson
             }
         },
-        lng: "en", // if you're using a language detector, do not define the lng option
         fallbackLng: "en",
 
         interpolation: {
             escapeValue: false // react already safes from xss => https://www.i18next.com/translation-function/interpolation#unescape
         }
     });
-
+i18n.changeLanguage("es");
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
 );
@@ -34,6 +43,11 @@ root.render(
         <App/>
     </React.StrictMode>
 );
+
+declare let window: any;
+window.addEventListener('beforeinstallprompt', (e: any) => {
+    window.deferredPrompt = e;
+});
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

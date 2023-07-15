@@ -1,7 +1,9 @@
 import {Exercise} from "./exercise";
+import {DayOfWeek} from "./base";
 
 export interface Workout {
     name: string;
+    daysOfWeek: DayOfWeek[];
     exercises: WorkoutExercise[];
 }
 

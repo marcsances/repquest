@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {ReactNode} from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -9,14 +10,15 @@ import {useLocation} from "react-router-dom";
 
 export interface WLAppBarProps {
     title: string;
+    toolItems?: ReactNode;
 }
 
 export const WLAppBar = (props: WLAppBarProps) => {
     const location = useLocation();
-    const {title} = props;
+    const {title, toolItems} = props;
 
     return <Box>
-        <AppBar position="static">
+        <AppBar position="fixed">
             <Toolbar>
                 {!["/", "/history", "/settings"].includes(location.pathname) && <IconButton
                     size="large"
@@ -33,6 +35,7 @@ export const WLAppBar = (props: WLAppBarProps) => {
                 <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
                     {title}
                 </Typography>
+                {toolItems}
             </Toolbar>
         </AppBar>
     </Box>;
