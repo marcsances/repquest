@@ -2,19 +2,29 @@ import {Exercise} from "./exercise";
 import {DayOfWeek} from "./base";
 
 export interface Workout {
+    id: number;
     name: string;
     daysOfWeek: DayOfWeek[];
-    exercises: WorkoutExercise[];
+    workoutExerciseIds: number[];
 }
 
-export interface WorkoutRecord {
+export interface WorkoutHistory {
+    id: number;
+    userId: number;
     date: Date;
-    workout: Workout;
+    workoutExerciseIds: number[];
 }
 
 export interface WorkoutExercise {
+    id: number;
+    exerciseId: number;
+    setIds: number[];
+}
+
+export interface LocalWorkoutExercise {
+    id: number;
+    exerciseId: number;
     sets: ExerciseSet[];
-    superset: boolean;
 }
 
 export enum SetType {
@@ -27,10 +37,12 @@ export enum SetType {
 }
 
 export interface ExerciseSet {
-    exercise: Exercise;
+    id: number;
+    exerciseId: number;
     type: SetType;
     weight?: number;
-    reps_time: number;
+    reps?: number;
+    time?: number;
     rpe?: number;
     rir?: number;
     rest?: number;

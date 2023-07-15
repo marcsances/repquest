@@ -21,5 +21,7 @@
   "saturdays": "Dissabtes",
   "sundays": "Diumenges",
   "freeTraining": "Exercici lliure",
-  "pickExercises": "Seleccionar exercicis lliurement"
+  "pickExercises": "Seleccionar exercicis lliurement",
+  "youtubePlayer": "Reproductor de Youtube",
+  "noYoutube": "Aquest exercici no té vídeos a Youtube"
 }

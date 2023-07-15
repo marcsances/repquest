@@ -1,12 +1,14 @@
-import {WorkoutRecord} from "./workout";
+import {WorkoutHistory} from "./workout";
 
 export interface User {
     name: string;
-    metrics: UserMetric[];
-    history: WorkoutRecord[];
+    metricIds: number[];
+    workoutHistoryIds: number[];
+    workoutIds: number[];
 }
 
 export interface UserMetric {
+    id: number;
     name: string;
     value: number;
 }

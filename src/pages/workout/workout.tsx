@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import Layout from "../../components/layout";
 import {
     Box,
@@ -23,53 +23,78 @@ import AddIcon from '@mui/icons-material/Add';
 import Parameter from "../../components/parameter";
 import SetParameter from "../../components/setParameter";
 import {useTranslation} from "react-i18next";
+import {WorkoutContext} from "../../context/workoutContext";
+import {DBContext} from "../../context/dbContext";
+import {ExerciseSet, Workout, WorkoutExercise} from "../../models/workout";
+import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
+import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 
-export const Workout = () => {
+export const WorkoutPage = () => {
+    const {timeStarted, followingWorkout, workoutExercises, focusedExercise, focusExercise} = useContext(WorkoutContext);
+    const {db} = useContext(DBContext);
     const [viewHistory, setViewHistory] = useState(false);
     const {t} = useTranslation();
+    const [currentWorkout, setCurrentWorkout] = useState<Workout | undefined>(undefined);
+    const [currentSet, setCurrentSet] = useState<ExerciseSet | undefined>(undefined);
+    const [currentSetNumber, setCurrentSetNumber] = useState(1);
+    const [currentWorkoutExercise, setCurrentWorkoutExercise] = useState<WorkoutExercise | undefined>(undefined);
+    const [currentWorkoutExerciseNumber, setCurrentWorkoutExerciseNumber] = useState(0);
 
-    function createData(
-        delta: string,
-        set: number,
-        weight: number,
-        reps: number,
-        rpe: number,
-        rir: number,
-    ) {
-        return {delta, set, weight, reps, rpe, rir};
-    }
+    useEffect(() => {
+        if (!followingWorkout) { setCurrentWorkout(undefined); return; }
+        db?.workout.get(followingWorkout.id).then((workout) => {
+            if (workout) {
+                setCurrentWorkout(workout);
+            }
+        });
+    }, [followingWorkout, setCurrentWorkout, db]);
 
-    const rows = [
-        createData("-3D", 1, 60, 12, 8, 2),
-        createData("-3D", 2, 60, 12, 8, 2),
-        createData("-3D", 3, 60, 12, 8, 2),
-        createData("-6D", 1, 55, 12, 8, 2),
-        createData("-6D", 2, 55, 12, 8, 2),
-        createData("-6D", 3, 55, 12, 8, 2),
-        createData("-9D", 1, 55, 12, 8, 2),
-        createData("-9D", 2, 55, 12, 8, 2),
-        createData("-9D", 3, 55, 12, 8, 2)
-    ];
+    useEffect(() => {
+        if (!currentWorkout) { setCurrentWorkoutExercise(undefined); return; }
+        db?.workoutExercise.get(currentWorkout.workoutExerciseIds[currentWorkoutExerciseNumber]).then((workoutExercise) => {
+            if (workoutExercise) {
+                setCurrentWorkoutExercise(workoutExercise);
+            }
+        });
+    }, [currentWorkout, currentWorkoutExerciseNumber, setCurrentWorkoutExercise, db]);
 
-    return <Layout title={"Upper Body 1"} hideNav toolItems={<IconButton
+    useEffect(() => {
+        if (!currentWorkoutExercise) { setCurrentSet(undefined); return; }
+        db?.exerciseSet.get(currentWorkoutExercise.setIds[currentSetNumber - 1]).then((set) => {
+            if (set) {
+                setCurrentSet(set);
+            }
+        });
+    }, [currentWorkoutExercise, currentSetNumber, setCurrentSet, db]);
+
+    useEffect(() => {
+        if (!currentWorkoutExercise) { return; }
+        db?.exercise.get(currentWorkoutExercise.exerciseId).then((exercise) => {
+            if (exercise && focusExercise) {
+                focusExercise(exercise);
+            }
+        });
+    }, [currentWorkoutExercise, focusExercise, db]);
+
+    return <Layout title={followingWorkout?.name || t("freeTraining")} hideNav toolItems={focusedExercise?.yt_video ? <IconButton
         color="inherit"
         aria-label="menu"
         sx={{mr: 2}}
         href="/youtube"
     >
         <YouTubeIcon/>
-    </IconButton>}>
+    </IconButton> : <></>}>
         <Box sx={{height: "100%", display: "flex", flexDirection: "column"}}>
             <Paper variant="outlined">
                 <CardActionArea onClick={() => setViewHistory(!viewHistory)}>
                     {!viewHistory && <Box sx={{maxHeight: "235px"}}><CardMedia
                         sx={{height: 140}}
-                        image="https://www.inspireusafoundation.org/wp-content/uploads/2022/06/barbell-bench-press-benefits.jpg"
-                        title="green iguana"
+                        image={focusedExercise?.picture}
+                        title={focusedExercise?.name}
                     />
                         <CardContent>
                             <Typography gutterBottom variant="h5" component="div">
-                                Press banca con barra
+                                {focusedExercise?.name}
                             </Typography>
                             <Typography variant="body2" color="text.secondary">
                                 Notas del ejercicio
@@ -89,19 +114,19 @@ export const Workout = () => {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {rows.map((row) => (
+                                    {focusedExercise && workoutExercises.filter((it) => it.id === focusedExercise.id).flatMap((exercise) => exercise.sets.map((set, idx) =>
                                         <TableRow
-                                            key={row.delta + "@" + row.set.toString(10)}
+                                            key={set.id}
                                             sx={{'&:last-child td, &:last-child th': {border: 0}}}
                                         >
                                             <TableCell component="th" scope="row">
-                                                {row.delta}
+                                                {"Hoy"}
                                             </TableCell>
-                                            <TableCell align="right">{row.set}</TableCell>
-                                            <TableCell align="right">{row.weight}</TableCell>
-                                            <TableCell align="right">{row.reps}</TableCell>
-                                            <TableCell align="right">{row.rpe}</TableCell>
-                                            <TableCell align="right">{row.rir}</TableCell>
+                                            <TableCell align="right">{(idx + 1).toString(10)}</TableCell>
+                                            <TableCell align="right">{set.weight}</TableCell>
+                                            <TableCell align="right">{set.reps}</TableCell>
+                                            <TableCell align="right">{set.rpe}</TableCell>
+                                            <TableCell align="right">{set.rir}</TableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>
@@ -109,20 +134,25 @@ export const Workout = () => {
                         </TableContainer>}
                 </CardActionArea>
             </Paper>
-            <SetParameter name={t("set")} value={1} min={1} incrementBy={1}/>
-            <Parameter name={t("weight")} unit="kg" value={60} min={0} incrementBy={2.5} allowDecimals/>
-            <Parameter name={t("reps")} value={12} min={1} incrementBy={1}/>
-            <Parameter name={t("rpe")} value={7} min={0} max={10} incrementBy={1}/>
-            <Parameter name={t("rir")} value={2} min={0} incrementBy={1}/>
-            <Parameter name={t("rest")} unit="s" value={120} min={0} incrementBy={10}/>
+            <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>
+                {currentWorkout?.workoutExerciseIds && currentWorkoutExerciseNumber > 0 && <IconButton aria-label="previous" onClick={() => setCurrentWorkoutExerciseNumber((prevNumber) => prevNumber - 1)}>
+                    <ArrowLeftIcon />
+                </IconButton>}
+                {currentWorkout?.workoutExerciseIds && currentWorkoutExerciseNumber < currentWorkout?.workoutExerciseIds.length - 1 && <IconButton aria-label="next"onClick={() => setCurrentWorkoutExerciseNumber((prevNumber) => prevNumber + 1)}>
+                    <ArrowRightIcon />
+                </IconButton>}
+            </Box>
+            <SetParameter name={t("set")} value={currentSetNumber} min={1} incrementBy={1} onChange={(setNumber) => setCurrentSetNumber(setNumber)}/>
+            {currentSet?.weight && <Parameter name={t("weight")} unit="kg" value={currentSet?.weight} min={0} incrementBy={2.5} allowDecimals/>}
+            {currentSet?.reps && <Parameter name={t("reps")} value={currentSet?.reps} min={1} incrementBy={1}/>}
+            {currentSet?.rpe && <Parameter name={t("rpe")} value={currentSet?.rpe} min={0} max={10} incrementBy={1}/>}
+            {currentSet?.rir && <Parameter name={t("rir")} value={currentSet?.rir} min={0} incrementBy={1}/>}
+            {currentSet?.rest && <Parameter name={t("rest")} unit="s" value={currentSet?.rest} min={0} incrementBy={10}/>}
             <Box sx={{flexGrow: 1}}/>
             <Stack direction="row" spacing={{xs: 1, sm: 2, md: 4}} sx={{alignSelf: "center", marginBottom: "24px"}}>
                 <Fab color="primary" aria-label="add">
                     <DoneIcon/>
                 </Fab>
-                <IconButton>
-                    <AddIcon/>
-                </IconButton>
             </Stack>
         </Box>
     </Layout>;

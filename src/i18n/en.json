@@ -21,5 +21,7 @@
   "saturdays": "Saturdays",
   "sundays": "Sundays",
   "freeTraining": "Free workout",
-  "pickExercises": "Select exercises freely"
+  "pickExercises": "Select exercises freely",
+  "youtubePlayer": "Youtube Player",
+  "noYoutube": "This exercise does not have Youtube videos"
 }

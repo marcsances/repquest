@@ -7,6 +7,7 @@ import TimerIcon from '@mui/icons-material/Timer';
 import TranslateIcon from '@mui/icons-material/Translate';
 import InfoIcon from '@mui/icons-material/Info';
 import InstallMobileIcon from '@mui/icons-material/InstallMobile';
+import pjson from "../../../package.json";
 
 declare let window: any;
 export const SettingsPage = () => {
@@ -61,7 +62,7 @@ export const SettingsPage = () => {
                         <InfoIcon/>
                     </Avatar>
                 </ListItemAvatar>
-                <ListItemText primary={t("version")} secondary="0.1.0 UX Preview"/>
+                <ListItemText primary={t("version")} secondary={pjson.version} />
             </ListItemButton>
         </List>
     </Layout>;
