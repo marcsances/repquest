@@ -1,13 +1,13 @@
-import React from "react";
+import React, {useState} from "react";
 import Layout from "../../components/layout";
 import {useTranslation} from "react-i18next";
 import {Avatar, List, ListItemAvatar, ListItemButton, ListItemText} from "@mui/material";
-import SquareFootIcon from '@mui/icons-material/SquareFoot';
-import TimerIcon from '@mui/icons-material/Timer';
 import TranslateIcon from '@mui/icons-material/Translate';
 import InfoIcon from '@mui/icons-material/Info';
 import InstallMobileIcon from '@mui/icons-material/InstallMobile';
 import pjson from "../../../package.json";
+import i18n from "i18next";
+import LanguageSelector from "./languageSelect";
 
 declare let window: any;
 export const SettingsPage = () => {
@@ -22,25 +22,11 @@ export const SettingsPage = () => {
         }
     }
 
+    const [openLanguage, setOpenLanguage] = useState(false);
+
     return <Layout title={t("settings")}>
         <List sx={{width: '100%', height: '100%', bgcolor: 'background.paper'}}>
-            <ListItemButton component="a">
-                <ListItemAvatar>
-                    <Avatar>
-                        <SquareFootIcon/>
-                    </Avatar>
-                </ListItemAvatar>
-                <ListItemText primary={t("units")}/>
-            </ListItemButton>
-            <ListItemButton component="a">
-                <ListItemAvatar>
-                    <Avatar>
-                        <TimerIcon/>
-                    </Avatar>
-                </ListItemAvatar>
-                <ListItemText primary={t("rest")}/>
-            </ListItemButton>
-            <ListItemButton component="a">
+            <ListItemButton component="a" onClick={() => setOpenLanguage(true)}>
                 <ListItemAvatar>
                     <Avatar>
                         <TranslateIcon/>
@@ -65,5 +51,14 @@ export const SettingsPage = () => {
                 <ListItemText primary={t("version")} secondary={pjson.version} />
             </ListItemButton>
         </List>
+        <LanguageSelector
+            selectedValue={i18n.language}
+            open={openLanguage}
+            onClose={(val: string) => {
+                localStorage.setItem("lang", val);
+                i18n.changeLanguage(val).then();
+                setOpenLanguage(false);
+            }}
+        />
     </Layout>;
 }

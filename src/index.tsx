@@ -34,7 +34,10 @@ i18n
             escapeValue: false // react already safes from xss => https://www.i18next.com/translation-function/interpolation#unescape
         }
     });
-i18n.changeLanguage("es");
+const maybeLang = localStorage.getItem("lang");
+if (["ca", "es", "en"].includes(maybeLang || "")) {
+    i18n.changeLanguage(maybeLang || "en");
+}
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
 );

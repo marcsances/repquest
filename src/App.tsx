@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import './App.css';
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -13,7 +13,7 @@ import {YoutubePlayer} from "./pages/workout/youtubePlayer";
 import {createTheme, Paper, ThemeProvider} from '@mui/material';
 import {DBContext} from "./context/dbContext";
 import {DexieDB} from "./db/db";
-import {WorkoutContext, WorkoutContextProvider} from './context/workoutContext';
+import {WorkoutContextProvider} from './context/workoutContext';
 
 const darkTheme = createTheme({
     palette: {

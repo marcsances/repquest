@@ -4,7 +4,7 @@ import IconButton from "@mui/material/IconButton";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import Box from "@mui/material/Box";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 
 export interface ParameterProps {
     name: string;
@@ -20,6 +20,9 @@ export interface ParameterProps {
 const Parameter = (props: ParameterProps) => {
     const {name, value, unit, onChange, incrementBy, min, max, allowDecimals} = props;
     const [val, setVal] = useState(value);
+    useEffect(() => {
+        setVal(value)
+    }, [value]);
 
     const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         const num = parseFloat(e.target.value);

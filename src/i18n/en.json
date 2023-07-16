@@ -11,7 +11,7 @@
   "rir": "RIR",
   "rest": "Rest",
   "units": "Units",
-  "language": "Idioma",
+  "language": "Language",
   "version": "Version",
   "mondays": "Mondays",
   "tuesdays": "Tuesdays",
@@ -25,5 +25,6 @@
   "youtubePlayer": "Youtube Player",
   "noYoutube": "This exercise does not have Youtube videos",
   "workoutInProgress": "Workout in progress",
-  "stopWorkout": "Stop workout"
+  "stopWorkout": "Stop workout",
+  "today": "Today"
 }

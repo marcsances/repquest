@@ -9,13 +9,14 @@ import {WorkoutContext} from "../../context/workoutContext";
 import {useNavigate} from "react-router-dom";
 import StopIcon from '@mui/icons-material/Stop';
 import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
+
 const daysOfWeek = ["mondays", "tuesdays", "wednesdays", "thursdays", "fridays", "saturdays", "sundays"];
 
 export const WorkoutList = () => {
     const {t} = useTranslation();
     const {db} = useContext(DBContext);
     const [workouts, setWorkouts] = useState<Workout[]>([]);
-    const {startWorkout, timeStarted, currentWorkout} = useContext(WorkoutContext);
+    const {startWorkout, stopWorkout, timeStarted, currentWorkout} = useContext(WorkoutContext);
     const navigate = useNavigate();
     useEffect(() => {
         db?.workout.toArray().then((workouts) => {
@@ -29,26 +30,26 @@ export const WorkoutList = () => {
                 navigate("/workout");
             })
         }
-    }, [startWorkout]);
+    }, [startWorkout, navigate]);
 
     const onStopWorkout = useCallback(() => {
+        if (stopWorkout) {
+            stopWorkout().then();
+        }
+    }, [stopWorkout]);
 
-    }, []);
+    const [time, setTime] = useState<Date>();
 
-    const [timer, setTimer] = useState(0);
-    const refreshTimer = useCallback(() => {
-        setTimer((prevTimer) => prevTimer + 1);
-    }, [setTimer]);
-    const [retimer, setRetimer] = useState<NodeJS.Timeout | undefined>(undefined);
-    const teardown = useCallback(() => {
-        clearInterval(retimer);
-    }, [retimer]);
     useEffect(() => {
-        setRetimer(setInterval(refreshTimer, 1000));
-        return teardown;
-    }, [setRetimer, setRetimer, teardown]);
+        const interval = setInterval(() => {
+            setTime(new Date());
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, [setTime]);
 
     const workoutLabel = useMemo(() => {
+        time?.getTime();
         if (!timeStarted || !currentWorkout) return;
         const startTime = timeStarted.getTime();
         const currentTime = new Date().getTime();
@@ -57,7 +58,7 @@ export const WorkoutList = () => {
         const minutes = Math.floor((timeElapsed % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((timeElapsed % (1000 * 60)) / 1000);
         return `${currentWorkout.name} - ${hours.toString()}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
-    }, [currentWorkout, timer]);
+    }, [currentWorkout, time, timeStarted]);
 
     return <Layout title={t("workouts")}><List sx={{width: '100%', height: '100%', bgcolor: 'background.paper'}}>
         {timeStarted && currentWorkout && <><ListItemButton component="a" onClick={() => navigate("/workout")}>

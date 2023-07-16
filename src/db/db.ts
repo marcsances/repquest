@@ -1,4 +1,4 @@
-import Dexie, { Table } from 'dexie';
+import Dexie, {Table} from 'dexie';
 import {Exercise} from "../models/exercise";
 import {ExerciseSet, Workout, WorkoutExercise, WorkoutHistory} from "../models/workout";
 import {User, UserMetric} from "../models/user";
@@ -19,7 +19,7 @@ export class DexieDB extends Dexie {
         this.version(1).stores({
             exercise: "++id, name, type, *tags",
             workout: "++id, name",
-            workoutHistory: "++id, userId, date, workoutExerciseIds",
+            workoutHistory: "++id, userName, date, workoutExerciseIds",
             workoutExercise: "++id, exerciseId",
             exerciseSet: "++id, exerciseId, type",
             user: "++name",

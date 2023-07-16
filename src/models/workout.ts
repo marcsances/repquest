@@ -1,4 +1,3 @@
-import {Exercise} from "./exercise";
 import {DayOfWeek} from "./base";
 
 export interface Workout {
@@ -10,7 +9,7 @@ export interface Workout {
 
 export interface WorkoutHistory {
     id: number;
-    userId: number;
+    userName: string;
     date: Date;
     workoutExerciseIds: number[];
 }

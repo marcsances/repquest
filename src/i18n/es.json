@@ -25,5 +25,6 @@
   "youtubePlayer": "Reproductor de Youtube",
   "noYoutube": "Este ejercicio no tiene vídeo en Youtube",
   "workoutInProgress": "Entrenamiento en curso",
-  "stopWorkout": "Parar entrenamiento"
+  "stopWorkout": "Parar entrenamiento",
+  "today": "Hoy"
 }
