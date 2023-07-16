@@ -64,7 +64,7 @@ const Parameter = (props: ParameterProps) => {
         <IconButton onClick={onRemove} color="primary" size="small" aria-label="add" sx={{marginLeft: "4px"}} disabled={min ? val <= min : false}>
             <RemoveIcon/>
         </IconButton>
-        <IconButton onClick={onAdd} color="primary" size="small" aria-label="add" sx={{marginLeft: "8px"}} disabled={max ? val >= max - 1 : false}>
+        <IconButton onClick={onAdd} color="primary" size="small" aria-label="add" sx={{marginLeft: "8px"}} disabled={max ? val >= max : false}>
             <AddIcon/>
         </IconButton>
     </Box>

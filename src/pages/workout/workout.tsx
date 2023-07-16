@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext, useState} from "react";
 import Layout from "../../components/layout";
 import {
     Box,
@@ -27,6 +27,8 @@ import {DBContext} from "../../context/dbContext";
 import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import {useNavigate} from "react-router-dom";
+import {ExerciseSet} from "../../models/workout";
+import {Rest} from "./rest";
 
 export const WorkoutPage = () => {
     const {
@@ -44,14 +46,27 @@ export const WorkoutPage = () => {
         setCurrentSetNumber,
         setCurrentWorkoutExercise,
         setFocusedExercise,
-        setCurrentWorkoutExerciseNumber
+        currentRestTime,
+        setCurrentWorkoutExerciseNumber,
+        saveSet,
+        startRest,
+        stopRest
     } = useContext(WorkoutContext);
     const {db} = useContext(DBContext);
     const [viewHistory, setViewHistory] = useState(false);
     const {t} = useTranslation();
     const navigate = useNavigate();
 
-    return <Layout title={followingWorkout?.name || t("freeTraining")} hideNav
+
+    const save = async () => {
+        if (!currentSet || !saveSet) return;
+        return saveSet({
+            ...currentSet,
+            id: Date.now()
+        });
+    }
+
+    return currentRestTime ? <Rest /> : <Layout title={followingWorkout?.name || t("freeTraining")} hideNav
                    toolItems={focusedExercise?.yt_video ? <IconButton
                        color="inherit"
                        aria-label="menu"
@@ -90,7 +105,15 @@ export const WorkoutPage = () => {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {focusedExercise && workoutExercises && workoutExercises.filter((it) => it.id === focusedExercise.id).flatMap((exercise) => exercise.sets.map((set, idx) =>
+                                    { /* TODO: implement history */ }
+                                    <TableRow
+                                        sx={{'&:last-child td, &:last-child th': {border: 0}}}
+                                    >
+                                        <TableCell component="th" scope="row" colSpan={6}>
+                                            {"No implementado"}
+                                        </TableCell>
+                                    </TableRow>
+                                    {focusedExercise && workoutExercises && workoutExercises.filter((it) => it.id === focusedExercise.id).flatMap((exercise) => [].map((set: ExerciseSet, idx) =>
                                         <TableRow
                                             key={set.id}
                                             sx={{'&:last-child td, &:last-child th': {border: 0}}}
@@ -126,15 +149,19 @@ export const WorkoutPage = () => {
                           incrementBy={1} onChange={(setNumber) => { if (setCurrentSetNumber) setCurrentSetNumber(setNumber)}}/>
             {currentSet?.weight &&
                 <Parameter name={t("weight")} unit="kg" value={currentSet?.weight} min={0} incrementBy={2.5}
-                           allowDecimals/>}
-            {currentSet?.reps && <Parameter name={t("reps")} value={currentSet?.reps} min={1} incrementBy={1}/>}
-            {currentSet?.rpe && <Parameter name={t("rpe")} value={currentSet?.rpe} min={0} max={10} incrementBy={1}/>}
-            {currentSet?.rir && <Parameter name={t("rir")} value={currentSet?.rir} min={0} incrementBy={1}/>}
+                           allowDecimals onChange={(weight) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, weight})}} />}
+            {currentSet?.reps && <Parameter name={t("reps")} value={currentSet?.reps} min={1} incrementBy={1}
+                                            onChange={(reps) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, reps})}}/>}
+            {currentSet?.rpe && <Parameter name={t("rpe")} value={currentSet?.rpe} min={0} max={10} incrementBy={1}
+                                           onChange={(rpe) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, rpe})}}/>}
+            {currentSet?.rir && <Parameter name={t("rir")} value={currentSet?.rir} min={0} incrementBy={1}
+                                           onChange={(rir) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, rir})}}/>}
             {currentSet?.rest &&
-                <Parameter name={t("rest")} unit="s" value={currentSet?.rest} min={0} incrementBy={10}/>}
+                <Parameter name={t("rest")} unit="s" value={currentSet?.rest} min={0} incrementBy={10}
+                           onChange={(rest) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, rest})}}/>}
             <Box sx={{flexGrow: 1}}/>
             <Stack direction="row" spacing={{xs: 1, sm: 2, md: 4}} sx={{alignSelf: "center", marginBottom: "24px"}}>
-                <Fab color="primary" aria-label="add">
+                <Fab color="primary" aria-label="add" onClick={save}>
                     <DoneIcon/>
                 </Fab>
             </Stack>

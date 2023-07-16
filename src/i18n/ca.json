@@ -23,5 +23,7 @@
   "freeTraining": "Exercici lliure",
   "pickExercises": "Seleccionar exercicis lliurement",
   "youtubePlayer": "Reproductor de Youtube",
-  "noYoutube": "Aquest exercici no té vídeos a Youtube"
+  "noYoutube": "Aquest exercici no té vídeos a Youtube",
+  "workoutInProgress": "Entrenament en curs",
+  "stopWorkout": "Parar entrenament"
 }

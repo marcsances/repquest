@@ -23,5 +23,7 @@
   "freeTraining": "Free workout",
   "pickExercises": "Select exercises freely",
   "youtubePlayer": "Youtube Player",
-  "noYoutube": "This exercise does not have Youtube videos"
+  "noYoutube": "This exercise does not have Youtube videos",
+  "workoutInProgress": "Workout in progress",
+  "stopWorkout": "Stop workout"
 }

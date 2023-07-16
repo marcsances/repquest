@@ -9,11 +9,12 @@ const Layout = (props: {
     title: string,
     hideAppBar?: boolean,
     hideNav?: boolean,
+    hideBack?: boolean,
     toolItems?: ReactNode
 }) => {
-    const {children, title, hideAppBar, hideNav, toolItems} = props;
+    const {children, title, hideAppBar, hideNav, toolItems, hideBack} = props;
     return <Box sx={{display: "flex", flexDirection: "column", height: "100vh", width: "100vw"}}>
-        {!hideAppBar && <WLAppBar title={title} toolItems={toolItems}/>}
+        {!hideAppBar && <WLAppBar title={title} toolItems={toolItems} hideBack={hideBack}/>}
         <Paper sx={{flexGrow: 1, padding: "5px", marginTop: "56px", maxHeight: "calc(100% - 56px)"}}>{children}</Paper>
         {!hideNav && <WLNav/>}
     </Box>;

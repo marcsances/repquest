@@ -21,12 +21,6 @@ export interface WorkoutExercise {
     setIds: number[];
 }
 
-export interface LocalWorkoutExercise {
-    id: number;
-    exerciseId: number;
-    sets: ExerciseSet[];
-}
-
 export enum SetType {
     STANDARD,
     WARMUP,

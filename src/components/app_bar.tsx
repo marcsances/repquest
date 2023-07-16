@@ -11,17 +11,18 @@ import {useLocation, useNavigate} from "react-router-dom";
 export interface WLAppBarProps {
     title: string;
     toolItems?: ReactNode;
+    hideBack?: boolean;
 }
 
 export const WLAppBar = (props: WLAppBarProps) => {
     const location = useLocation();
-    const {title, toolItems} = props;
+    const {title, toolItems, hideBack} = props;
     const navigate = useNavigate();
 
     return <Box>
         <AppBar position="fixed">
             <Toolbar>
-                {!["/", "/history", "/settings"].includes(location.pathname) && <IconButton
+                {!["/", "/history", "/settings"].includes(location.pathname) && !hideBack && <IconButton
                     size="large"
                     edge="start"
                     color="inherit"

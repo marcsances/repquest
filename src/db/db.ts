@@ -20,7 +20,7 @@ export class DexieDB extends Dexie {
             exercise: "++id, name, type, *tags",
             workout: "++id, name",
             workoutHistory: "++id, userId, date, workoutExerciseIds",
-            workoutExercise: "++id",
+            workoutExercise: "++id, exerciseId",
             exerciseSet: "++id, exerciseId, type",
             user: "++name",
             userMetric: "++id"
