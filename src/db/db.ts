@@ -25,6 +25,13 @@ export class DexieDB extends Dexie {
             user: "++name",
             userMetric: "++id"
         });
+        this.version(2).upgrade((trans) => {
+            trans.db.table("exerciseSet").toCollection().modify((set: ExerciseSet) => {
+                set.date = new Date();
+                set.initial = set.id < 100;
+                set.setNumber = 0;
+            })
+        });
         this.user.count().then((count) => {
             if (count === 0) {
                 InjectData(this).then(() => {

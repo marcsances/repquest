@@ -14,6 +14,7 @@ import {createTheme, Paper, ThemeProvider} from '@mui/material';
 import {DBContext} from "./context/dbContext";
 import {DexieDB} from "./db/db";
 import {WorkoutContextProvider} from './context/workoutContext';
+import {SettingsContextProvider} from "./context/settingsContext";
 
 const darkTheme = createTheme({
     palette: {
@@ -27,18 +28,20 @@ function App() {
         <ThemeProvider theme={darkTheme}>
             <DBContext.Provider value={{db: new DexieDB()}}>
                 <WorkoutContextProvider>
-                    <BrowserRouter>
-                                <Paper>
-                                    <Routes>
-                                        <Route path="/" element={<WorkoutList/>}/>
-                                        <Route path="/history" element={<HistoryPage/>}/>
-                                        <Route path="/settings" element={<SettingsPage/>}/>
-                                        <Route path="/workout" element={<WorkoutPage/>}/>
-                                        <Route path="/youtube"
-                                               element={<YoutubePlayer />}/>
-                                    </Routes>
-                                </Paper>
-                        </BrowserRouter>
+                    <SettingsContextProvider>
+                        <BrowserRouter>
+                                    <Paper>
+                                        <Routes>
+                                            <Route path="/" element={<WorkoutList/>}/>
+                                            <Route path="/history" element={<HistoryPage/>}/>
+                                            <Route path="/settings" element={<SettingsPage/>}/>
+                                            <Route path="/workout" element={<WorkoutPage/>}/>
+                                            <Route path="/youtube"
+                                                   element={<YoutubePlayer />}/>
+                                        </Routes>
+                                    </Paper>
+                            </BrowserRouter>
+                    </SettingsContextProvider>
                     </WorkoutContextProvider>
             </DBContext.Provider>
         </ThemeProvider>

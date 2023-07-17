@@ -1,10 +1,11 @@
-import React, {useContext, useEffect, useMemo, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import Layout from "../../components/layout";
 import {
     Box,
     CardActionArea,
     CardContent,
     CardMedia,
+    Chip,
     Fab,
     Paper,
     Stack,
@@ -13,8 +14,7 @@ import {
     TableCell,
     TableContainer,
     TableHead,
-    TableRow,
-    useTheme
+    TableRow
 } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
@@ -31,6 +31,8 @@ import {useNavigate} from "react-router-dom";
 import {ExerciseSet} from "../../models/workout";
 import {Rest} from "./rest";
 import StopIcon from "@mui/icons-material/Stop";
+import {ExerciseTag} from "../../models/exercise";
+import {SettingsContext} from "../../context/settingsContext";
 
 export const WorkoutPage = () => {
     const {
@@ -45,11 +47,14 @@ export const WorkoutPage = () => {
         setCurrentSet,
         setCurrentSetNumber,
         currentWorkoutHistory,
-        currentRestTime,
+        completedExercises,
+        restTime,
         setCurrentWorkoutExerciseNumber,
         saveSet,
         stopWorkout,
+        time,
     } = useContext(WorkoutContext);
+    const {showRpe, showRir} = useContext(SettingsContext);
     const {db} = useContext(DBContext);
     const [viewHistory, setViewHistory] = useState(false);
     const {t} = useTranslation();
@@ -60,7 +65,9 @@ export const WorkoutPage = () => {
         if (!currentSet || !saveSet) return;
         return saveSet({
             ...currentSet,
-            id: Date.now()
+            id: new Date().getTime() * 100 + (Math.random() % 100),
+            date: new Date(),
+            setNumber: currentSetNumber
         });
     }
 
@@ -73,48 +80,44 @@ export const WorkoutPage = () => {
 
     useEffect(() => {
         const getData = async () => {
-            if (currentWorkoutHistory && db && currentWorkoutExercise) {
-                const exercises = await db.workoutExercise.where("id").anyOf(currentWorkoutHistory.workoutExerciseIds).filter((it) => it.exerciseId === focusedExercise?.id).toArray();
-                if (exercises) {
-                    const sets = [];
-                    for (const exercise of exercises) {
-                        sets.push(...await db.exerciseSet.where("id").anyOf(exercise.setIds).toArray());
-                    }
-                    sets.push(...await db.exerciseSet.where("id").anyOf(currentWorkoutExercise.setIds.slice(0, currentSetNumber - 1)).toArray());
-                    return sets;
+            if (currentWorkoutHistory && db && currentWorkoutExercise && focusedExercise && timeStarted) {
+                const sets: ExerciseSet[] = [];
+                if (completedExercises.includes(focusedExercise.id)) {
+                    const allSets = (await db.exerciseSet
+                        .where("exerciseId")
+                        .equals(focusedExercise.id)
+                        .toArray())
+                        .filter((it) => !it.initial);
+                    sets.push(...allSets);
+                } else {
+                    const currentSets = (await db.exerciseSet
+                        .where("id")
+                        .anyOf(currentWorkoutExercise.setIds.slice(0, currentSetNumber - 1))
+                        .toArray())
+                        .filter((it) => !it.initial)
+                    sets.push(...currentSets);
+                    const historySets = (await db.exerciseSet
+                        .where("exerciseId")
+                        .equals(focusedExercise.id)
+                        .toArray())
+                        .filter((it) => !it.initial &&
+                            !sets
+                                .filter((s) => s.id)
+                                .map((s) => s.id)
+                                .includes(it.id) &&
+                            !currentWorkoutExercise.setIds
+                                .includes(it.id))
+                    sets.push(...historySets);
                 }
+                return sets;
             }
         }
         getData().then((result) => {
             setHistory(result || []);
         });
-    }, [db, currentWorkoutHistory, focusedExercise, currentSetNumber, currentWorkoutExercise]);
+    }, [db, currentWorkoutHistory, focusedExercise, currentSetNumber, currentWorkoutExercise, time]);
 
-    const [time, setTime] = useState<Date>();
-
-    const theme = useTheme();
-
-    const workoutLabel = useMemo(() => {
-        time?.getTime(); /* just for exhaustive deps to not warn */
-        if (!timeStarted || !focusedExercise) return;
-        const startTime = timeStarted.getTime();
-        const currentTime = new Date().getTime();
-        const timeElapsed = currentTime - startTime;
-        const hours = Math.floor(timeElapsed / (1000 * 60 * 60));
-        const minutes = Math.floor((timeElapsed % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((timeElapsed % (1000 * 60)) / 1000);
-        return `${focusedExercise.name} - ${hours.toString()}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
-    }, [focusedExercise, time, timeStarted]);
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setTime(new Date());
-        }, 1000);
-
-        return () => clearInterval(interval);
-    }, [setTime]);
-
-    return currentRestTime ? <Rest /> : <Layout title={followingWorkout?.name || t("freeTraining")} hideNav
+    return restTime ? <Rest /> : <Layout title={followingWorkout?.name || t("freeTraining")} hideNav
                    toolItems={focusedExercise?.yt_video ? <IconButton
                        color="inherit"
                        aria-label="menu"
@@ -138,18 +141,24 @@ export const WorkoutPage = () => {
                             <Typography variant="body2" color="text.secondary">
                                 {currentSet?.cues}
                             </Typography>
+                            <Stack direction="row" spacing={{xs: 1, sm: 2, md: 4}} sx={{marginTop: "16px"}}>
+                                {focusedExercise?.tags.map((tag) => (<Chip key={tag} label={t("tags." + ExerciseTag[tag].toLowerCase())} />))}
+                            </Stack>
                         </CardContent></Box>}
                     {viewHistory &&
                         <TableContainer component={Paper} sx={{flexGrow: 1, maxHeight: "235px"}}>
                             <Table size="small" aria-label="simple table">
                                 <TableHead>
                                     <TableRow>
+                                        <TableCell colSpan={6} align="center">{focusedExercise?.name}</TableCell>
+                                    </TableRow>
+                                    <TableRow>
                                         <TableCell>&nbsp;</TableCell>
                                         <TableCell align="right">{t("set")}</TableCell>
                                         <TableCell align="right">{t("weight")}</TableCell>
                                         <TableCell align="right">{t("reps")}</TableCell>
-                                        <TableCell align="right">{t("rpe")}</TableCell>
-                                        <TableCell align="right">{t("rir")}</TableCell>
+                                        {showRpe && <TableCell align="right">{t("rpe")}</TableCell>}
+                                        {showRir && <TableCell align="right">{t("rir")}</TableCell>}
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -159,13 +168,13 @@ export const WorkoutPage = () => {
                                             sx={{'&:last-child td, &:last-child th': {border: 0}}}
                                         >
                                             <TableCell component="th" scope="row">
-                                                {t("today")}
+                                                {set.date.getDate().toString(10).padStart(2, "0") + "/" + set.date.getMonth().toString(10).padStart(2, "0")}
                                             </TableCell>
-                                            <TableCell align="right">{(idx + 1).toString(10)}</TableCell>
+                                            <TableCell align="right">{set.setNumber}</TableCell>
                                             <TableCell align="right">{set.weight}</TableCell>
                                             <TableCell align="right">{set.reps}</TableCell>
-                                            <TableCell align="right">{set.rpe}</TableCell>
-                                            <TableCell align="right">{set.rir}</TableCell>
+                                            {showRpe && <TableCell align="right">{set.rpe}</TableCell>}
+                                            {showRir && <TableCell align="right">{set.rir}</TableCell>}
                                         </TableRow>
                                     )}
                                 </TableBody>
@@ -173,7 +182,8 @@ export const WorkoutPage = () => {
                         </TableContainer>}
                 </CardActionArea>
             </Paper>
-            <Box sx={{overflow: "scroll", flexShrink: 1}}>
+            <Box sx={{flexGrow: 1}}/>
+            {!completedExercises.includes(focusedExercise?.id || -1) && <Box sx={{overflow: "scroll", flexShrink: 1}}>
             <SetParameter name={t("set")} value={currentSetNumber} min={1} max={currentWorkoutExercise?.setIds.length}
                           incrementBy={1} onChange={(setNumber) => { if (setCurrentSetNumber) setCurrentSetNumber(setNumber)}}/>
             {currentSet?.weight &&
@@ -181,14 +191,17 @@ export const WorkoutPage = () => {
                            allowDecimals onChange={(weight) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, weight})}} />}
             {currentSet?.reps && <Parameter name={t("reps")} value={currentSet?.reps} min={1} incrementBy={1}
                                             onChange={(reps) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, reps})}}/>}
-            {currentSet?.rpe && <Parameter name={t("rpe")} value={currentSet?.rpe} min={0} max={10} incrementBy={1}
+            {showRpe && currentSet?.rpe && <Parameter name={t("rpe")} value={currentSet?.rpe} min={0} max={10} incrementBy={1}
                                            onChange={(rpe) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, rpe})}}/>}
-            {currentSet?.rir && <Parameter name={t("rir")} value={currentSet?.rir} min={0} incrementBy={1}
+            {showRir && currentSet?.rir && <Parameter name={t("rir")} value={currentSet?.rir} min={0} incrementBy={1}
                                            onChange={(rir) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, rir})}}/>}
             {currentSet?.rest &&
                 <Parameter name={t("rest")} unit="s" value={currentSet?.rest} min={0} incrementBy={10}
                            onChange={(rest) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, rest})}}/>}
-            </Box>
+            </Box>}
+            {completedExercises.includes(focusedExercise?.id || -1) && <Box sx={{overflow: "scroll", flexShrink: 1, alignSelf: "center"}}>
+                <Typography>{t("exerciseComplete")}</Typography>
+            </Box>}
             <Box sx={{flexGrow: 1}}/>
             <Stack direction="row" spacing={{xs: 1, sm: 2, md: 4}} sx={{alignSelf: "center", marginTop: "10px"}}>
                 {currentWorkout?.workoutExerciseIds && setCurrentWorkoutExerciseNumber && currentWorkoutExerciseNumber > 0 &&
@@ -196,9 +209,9 @@ export const WorkoutPage = () => {
                          onClick={() => setCurrentWorkoutExerciseNumber(currentWorkoutExerciseNumber - 1)}>
                         <ArrowLeftIcon/>
                     </Fab>}
-                <Fab color="success" aria-label="add" onClick={save}>
+                {!completedExercises.includes(focusedExercise?.id || -1) && <Fab color="success" aria-label="add" onClick={save}>
                     <DoneIcon/>
-                </Fab>
+                </Fab>}
                 <Fab aria-label="stop" color="error"
                      onClick={() => {if (window.confirm(t("stopWorkout") + "?")) stop().then()}}>
                     <StopIcon/>

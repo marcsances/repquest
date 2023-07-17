@@ -10,10 +10,11 @@ interface IWorkoutContext {
     currentWorkout?: Workout;
     currentSet?: ExerciseSet;
     currentSetNumber: number;
-    currentRestTime: number;
+    restStarted?: Date;
+    restTime: number;
     currentWorkoutHistory?: WorkoutHistory;
-    setCurrentRestTime?: (restTime: number) => void;
     currentWorkoutExercise?: WorkoutExercise;
+    completedExercises: number[];
     currentWorkoutExerciseNumber: number;
     setCurrentWorkout?: (currentWorkout?: Workout) => void;
     setCurrentSet?: (currentSet?: ExerciseSet) => void;
@@ -26,7 +27,9 @@ interface IWorkoutContext {
     saveSet?: (set: ExerciseSet) => Promise<void>;
     startRest?: (rest: number) => void;
     stopRest?: () => void;
+    setRestTime?: (rest: number) => void;
     setFocusedExercise?: (exercise: Exercise) => void;
+    time: Date;
 }
 
 export const WorkoutContext = React.createContext({
@@ -36,11 +39,14 @@ export const WorkoutContext = React.createContext({
     focusedExercise: undefined,
     currentWorkout: undefined,
     currentSet: undefined,
-    currentRestTime: 0,
+    completedExercises: [],
+    restStarted: undefined,
+    restTime: 0,
     currentWorkoutHistory: undefined,
     currentSetNumber: 1,
     currentWorkoutExercise: undefined,
-    currentWorkoutExerciseNumber: 0
+    currentWorkoutExerciseNumber: 0,
+    time: new Date()
 } as IWorkoutContext);
 
 export const WorkoutContextProvider = (props: { children: ReactElement }) => {
@@ -53,10 +59,23 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
     const [currentSetNumber, setCurrentSetNumber] = useState(1);
     const [currentWorkoutExercise, setCurrentWorkoutExercise] = useState<WorkoutExercise | undefined>(undefined);
     const [currentWorkoutExerciseNumber, setCurrentWorkoutExerciseNumber] = useState(0);
-    const [currentRestTime, setCurrentRestTime] = useState(0);
+    const [completedExercises, setCompletedExercises] = useState<number[]>([]);
+    const [restStarted, setRestStarted] = useState<Date | undefined>(undefined);
+    const [restTime, setRestTime] = useState<number>(0);
     const [followingWorkout, setFollowingWorkout] = useState<Workout | undefined>(undefined);
     const [init, setInit] = useState(false);
     const {db} = useContext(DBContext);
+
+    const [time, setTime] = useState<Date>(new Date());
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setTime(new Date());
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, [setTime]);
+
 
     // Session recovery if we navigate away
     useEffect(() => {
@@ -75,7 +94,9 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
             setCurrentWorkoutExercise(context.currentWorkoutExercise);
             setCurrentWorkoutExerciseNumber(context.currentWorkoutExerciseNumber);
             setFollowingWorkout(context.followingWorkout);
-            setCurrentRestTime(context.currentRestTime);
+            setRestStarted(context.restStarted ? new Date(context.restStarted) : undefined);
+            setRestTime(context.restTime);
+            setCompletedExercises(context.completedExercises);
         }
         setInit(true);
     }, []);
@@ -86,7 +107,7 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
         setCurrentSetNumber(1);
         setCurrentWorkoutExerciseNumber(0);
         setCurrentWorkoutHistory({
-            id: new Date().getTime(),
+            id: new Date().getTime() * 100 + (Math.random() % 100),
             userName: "Default User",
             date: new Date(),
             workoutExerciseIds: [],
@@ -94,8 +115,9 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
         setFollowingWorkout(followingWorkout);
         setFocusedExercise(undefined);
         setCurrentSet(undefined);
-        setCurrentRestTime(0);
-    }, [setCurrentWorkoutHistory, setWorkoutExercises, setCurrentSetNumber, setCurrentWorkoutExerciseNumber, setFollowingWorkout, setFocusedExercise]);
+        setRestStarted(undefined);
+        setCompletedExercises([]);
+    }, [setCurrentWorkoutHistory, setWorkoutExercises, setCurrentSetNumber, setCurrentWorkoutExerciseNumber, setFollowingWorkout, setFocusedExercise, setCompletedExercises]);
 
     useEffect(() => {
         if (!setCurrentWorkout) return;
@@ -148,21 +170,9 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
         });
     }, [focusedExercise, currentWorkoutExercise, setFocusedExercise, db]);
 
-    const [restTimer, setRestTimer] = useState<NodeJS.Timeout | undefined>(undefined);
-
-    const timeoutHandler = useCallback(() => {
-        setCurrentRestTime((prevTime) => (prevTime > 0 ? prevTime - 1 : 0));
-    }, [setCurrentRestTime]);
-
-    const startRest = useCallback((time: number) => {
-        setCurrentRestTime(time);
-        if (restTimer) clearInterval(restTimer);
-        setRestTimer(setInterval(timeoutHandler, 1000));
-    }, [timeoutHandler, setRestTimer, restTimer]);
-
     const saveSet = useCallback(async (set: ExerciseSet) => {
         if (!currentWorkoutExercise || !currentWorkoutExercise.setIds) return;
-        await db?.exerciseSet.put(set);
+        await db?.exerciseSet.put({...set, initial: false});
         currentWorkoutExercise.setIds[currentSetNumber - 1] = set.id;
         await db?.workoutExercise.update(currentWorkoutExercise.id, currentWorkoutExercise);
         if (currentSetNumber >= currentWorkoutExercise.setIds.length) {
@@ -174,6 +184,7 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
                     workoutExerciseIds: prevHistory?.workoutExerciseIds.concat([exerciseId])
                 } : undefined
             });
+            setCompletedExercises((prevExercises) => prevExercises.concat([currentWorkoutExercise.exerciseId]))
             setCurrentWorkoutExerciseNumber((prevNumber) => prevNumber + 1);
             setCurrentSetNumber(1);
         } else {
@@ -182,13 +193,16 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
         if (set.rest) {
             startRest(set.rest);
         }
-    }, [db, currentWorkoutExercise, currentSetNumber, setCurrentWorkoutHistory, setCurrentWorkoutExerciseNumber, setCurrentSetNumber, startRest]);
-
+    }, [db, currentWorkoutExercise, currentSetNumber, setCurrentWorkoutHistory, setCurrentWorkoutExerciseNumber, setCurrentSetNumber, setCompletedExercises]);
+    const startRest = useCallback((time: number) => {
+        setRestStarted(new Date());
+        setRestTime(time);
+    }, [setRestStarted]);
 
     const stopRest = useCallback(() => {
-        setCurrentRestTime(0);
-        clearInterval(restTimer);
-    }, [setCurrentRestTime, restTimer]);
+        setRestStarted(undefined);
+        setRestTime(0);
+    }, [setRestStarted]);
 
     const stopWorkout = useCallback(async () => {
         if (currentWorkoutHistory) await db?.workoutHistory.put(currentWorkoutHistory);
@@ -200,10 +214,12 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
         setFollowingWorkout(undefined);
         setFocusedExercise(undefined);
         setCurrentSet(undefined);
-        setCurrentRestTime(0);
+        setRestStarted(undefined);
+        setRestTime(0);
+        setCompletedExercises([]);
     }, [db, currentWorkoutHistory, setWorkoutExercises, setCurrentSetNumber,
-        setCurrentWorkoutExerciseNumber, setCurrentWorkoutHistory, setFollowingWorkout, setFocusedExercise,
-        setCurrentSet, setCurrentRestTime]);
+        setCurrentWorkoutExerciseNumber, setCurrentWorkoutHistory, setFollowingWorkout, setFocusedExercise, setCompletedExercises,
+        setCurrentSet, setRestStarted, setRestTime]);
 
     const context = useMemo(() => ({
         timeStarted: currentWorkoutHistory?.date,
@@ -213,6 +229,9 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
         currentWorkout,
         currentSet,
         currentSetNumber,
+        restTime,
+        restStarted,
+        time,
         currentWorkoutExercise,
         currentWorkoutExerciseNumber,
         currentWorkoutHistory,
@@ -222,9 +241,10 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
         setCurrentWorkoutExercise,
         setFocusedExercise,
         setCurrentWorkoutExerciseNumber,
-        setCurrentRestTime,
+        setRestStarted,
         setCurrentWorkoutHistory,
-        startWorkout, saveSet, stopWorkout, startRest, stopRest, currentRestTime
+        completedExercises,
+        startWorkout, saveSet, stopWorkout, startRest, stopRest, setRestTime
     }), [currentWorkoutHistory,
         followingWorkout,
         workoutExercises,
@@ -233,6 +253,9 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
         currentSet,
         currentSetNumber,
         currentWorkoutExercise,
+        restTime,
+        restStarted,
+        time,
         currentWorkoutExerciseNumber,
         setCurrentWorkout,
         setCurrentSet,
@@ -240,9 +263,9 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
         setCurrentWorkoutExercise,
         setFocusedExercise,
         setCurrentWorkoutExerciseNumber,
-        setCurrentRestTime,
         setCurrentWorkoutHistory,
-        startWorkout, saveSet, stopWorkout, startRest, stopRest, currentRestTime]);
+        completedExercises,
+        startWorkout, saveSet, stopWorkout, startRest, stopRest, setRestTime]);
 
     useEffect(() => {
         if (!init) {

@@ -16,7 +16,7 @@ export const WorkoutList = () => {
     const {t} = useTranslation();
     const {db} = useContext(DBContext);
     const [workouts, setWorkouts] = useState<Workout[]>([]);
-    const {startWorkout, stopWorkout, timeStarted, currentWorkout} = useContext(WorkoutContext);
+    const {startWorkout, stopWorkout, time, timeStarted, currentWorkout} = useContext(WorkoutContext);
     const navigate = useNavigate();
     useEffect(() => {
         db?.workout.toArray().then((workouts) => {
@@ -37,16 +37,6 @@ export const WorkoutList = () => {
             stopWorkout().then();
         }
     }, [stopWorkout]);
-
-    const [time, setTime] = useState<Date>();
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setTime(new Date());
-        }, 1000);
-
-        return () => clearInterval(interval);
-    }, [setTime]);
 
     const workoutLabel = useMemo(() => {
         time?.getTime();

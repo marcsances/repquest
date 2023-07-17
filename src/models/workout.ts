@@ -32,6 +32,8 @@ export enum SetType {
 export interface ExerciseSet {
     id: number;
     exerciseId: number;
+    date: Date;
+    setNumber: number;
     type: SetType;
     weight?: number;
     reps?: number;
@@ -40,5 +42,6 @@ export interface ExerciseSet {
     rir?: number;
     rest?: number;
     cues?: string;
+    initial?: boolean;
 }
 

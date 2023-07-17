@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import Layout from "../../components/layout";
 import {useTranslation} from "react-i18next";
 import {Avatar, List, ListItemAvatar, ListItemButton, ListItemText} from "@mui/material";
@@ -8,6 +8,9 @@ import InstallMobileIcon from '@mui/icons-material/InstallMobile';
 import pjson from "../../../package.json";
 import i18n from "i18next";
 import LanguageSelector from "./languageSelect";
+import {SettingsContext} from "../../context/settingsContext";
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
 declare let window: any;
 export const SettingsPage = () => {
@@ -21,6 +24,8 @@ export const SettingsPage = () => {
             }
         }
     }
+
+    const { showRpe, showRir, saveRir, saveRpe } = useContext(SettingsContext);
 
     const [openLanguage, setOpenLanguage] = useState(false);
 
@@ -42,6 +47,22 @@ export const SettingsPage = () => {
                 </ListItemAvatar>
                 <ListItemText primary={t("install")}/>
             </ListItemButton>}
+            <ListItemButton component="a" onClick={() => { if (saveRpe) saveRpe(!showRpe) }}>
+                <ListItemAvatar>
+                    <Avatar>
+                        {showRpe ? <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />}
+                    </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary={t("showRPE")} secondary={t("rpeIs")} />
+            </ListItemButton>
+            <ListItemButton component="a" onClick={() => { if (saveRir) saveRir(!showRir) }}>
+                <ListItemAvatar>
+                    <Avatar>
+                        {showRir ? <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />}
+                    </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary={t("showRIR")} secondary={t("rirIs")} />
+            </ListItemButton>
             <ListItemButton component="a">
                 <ListItemAvatar>
                     <Avatar>
