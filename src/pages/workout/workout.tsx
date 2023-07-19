@@ -166,7 +166,6 @@ export const WorkoutPage = () => {
                         </TableContainer>}
                 </CardActionArea>
             </Paper>
-            <Box sx={{flexGrow: 1}}/>
             {<Box sx={{overflow: "scroll", flexShrink: 1}}>
             <SetParameter name={t("set")} value={currentSetNumber} min={1} max={currentWorkoutExercise?.setIds.length}
                           incrementBy={1} onChange={(setNumber) => { if (setCurrentSetNumber) setCurrentSetNumber(setNumber)}}/>
