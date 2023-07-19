@@ -36,6 +36,8 @@
   "rirIs": "Reps In Reserve",
   "weightUnit": "Weight units",
   "oneRmFormula": "1RM formula (one rep max)",
+  "yes": "Yes",
+  "no": "No",
   "tags": {
     "warmup": "Warmup",
     "cardio": "Cardio",

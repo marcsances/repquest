@@ -36,6 +36,8 @@
   "rirIs": "Repeticiones en Reserva",
   "weightUnit": "Unidad de peso",
   "oneRmFormula": "Fórmula de 1RM (repetición máxima)",
+  "yes": "Sí",
+  "no": "No",
   "tags": {
     "warmup": "Calentamiento",
     "cardio": "Cardio",

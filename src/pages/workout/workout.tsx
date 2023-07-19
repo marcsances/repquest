@@ -2,10 +2,14 @@ import React, {useContext, useEffect, useMemo, useState} from "react";
 import Layout from "../../components/layout";
 import {
     Box,
+    Button,
     CardActionArea,
     CardContent,
     CardMedia,
     Chip,
+    Dialog,
+    DialogActions,
+    DialogTitle,
     Fab,
     Paper,
     Stack,
@@ -79,6 +83,7 @@ export const WorkoutPage = () => {
     }
 
     const [ history, setHistory ] = useState<ExerciseSet[]>([]);
+    const [stopDialogOpen, setStopDialogOpen] = useState(false);
 
     useEffect(() => {
         const getData = async () => {
@@ -194,8 +199,24 @@ export const WorkoutPage = () => {
                 {<Fab color="success" aria-label="add" onClick={save}>
                     <DoneIcon/>
                 </Fab>}
+                <Dialog
+                    open={stopDialogOpen}
+                    onClose={() => setStopDialogOpen(false)}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">
+                        {t("stopWorkout")}?
+                    </DialogTitle>
+                    <DialogActions>
+                        <Button onClick={() => setStopDialogOpen(false)} autoFocus>
+                            {t("no")}
+                        </Button>
+                        <Button onClick={() => stop().then(() => setStopDialogOpen(false))}>{t("yes")}</Button>
+                    </DialogActions>
+                </Dialog>
                 <Fab aria-label="stop" color="error"
-                     onClick={() => {if (window.confirm(t("stopWorkout") + "?")) stop().then()}}>
+                     onClick={() => setStopDialogOpen(true)}>
                     <StopIcon/>
                 </Fab>
                 {currentWorkout?.workoutExerciseIds && setCurrentWorkoutExerciseNumber && currentWorkoutExerciseNumber < currentWorkout?.workoutExerciseIds.length - 1 &&
