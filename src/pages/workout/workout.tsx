@@ -33,6 +33,7 @@ import {Rest} from "./rest";
 import StopIcon from "@mui/icons-material/Stop";
 import {ExerciseTag} from "../../models/exercise";
 import {SettingsContext} from "../../context/settingsContext";
+import {compareSetHistoryEntries} from "../../utils/comparators";
 
 export const WorkoutPage = () => {
     const {
@@ -47,7 +48,7 @@ export const WorkoutPage = () => {
         setCurrentSet,
         setCurrentSetNumber,
         currentWorkoutHistory,
-        completedExercises,
+        storedExercises,
         restTime,
         setCurrentWorkoutExerciseNumber,
         saveSet,
@@ -82,33 +83,13 @@ export const WorkoutPage = () => {
         const getData = async () => {
             if (currentWorkoutHistory && db && currentWorkoutExercise && focusedExercise && timeStarted) {
                 const sets: ExerciseSet[] = [];
-                if (completedExercises.includes(focusedExercise.id)) {
-                    const allSets = (await db.exerciseSet
-                        .where("exerciseId")
-                        .equals(focusedExercise.id)
-                        .toArray())
-                        .filter((it) => !it.initial);
-                    sets.push(...allSets);
-                } else {
-                    const currentSets = (await db.exerciseSet
-                        .where("id")
-                        .anyOf(currentWorkoutExercise.setIds.slice(0, currentSetNumber - 1))
-                        .toArray())
-                        .filter((it) => !it.initial)
-                    sets.push(...currentSets);
-                    const historySets = (await db.exerciseSet
-                        .where("exerciseId")
-                        .equals(focusedExercise.id)
-                        .toArray())
-                        .filter((it) => !it.initial &&
-                            !sets
-                                .filter((s) => s.id)
-                                .map((s) => s.id)
-                                .includes(it.id) &&
-                            !currentWorkoutExercise.setIds
-                                .includes(it.id))
-                    sets.push(...historySets);
-                }
+                const allSets = (await db.exerciseSet
+                    .where("exerciseId")
+                    .equals(focusedExercise.id)
+                    .toArray())
+                    .filter((it) => !it.initial)
+                    .sort(compareSetHistoryEntries);
+                sets.push(...allSets);
                 return sets;
             }
         }
@@ -183,7 +164,7 @@ export const WorkoutPage = () => {
                 </CardActionArea>
             </Paper>
             <Box sx={{flexGrow: 1}}/>
-            {!completedExercises.includes(focusedExercise?.id || -1) && <Box sx={{overflow: "scroll", flexShrink: 1}}>
+            {<Box sx={{overflow: "scroll", flexShrink: 1}}>
             <SetParameter name={t("set")} value={currentSetNumber} min={1} max={currentWorkoutExercise?.setIds.length}
                           incrementBy={1} onChange={(setNumber) => { if (setCurrentSetNumber) setCurrentSetNumber(setNumber)}}/>
             {currentSet?.weight &&
@@ -199,9 +180,6 @@ export const WorkoutPage = () => {
                 <Parameter name={t("rest")} unit="s" value={currentSet?.rest} min={0} incrementBy={10}
                            onChange={(rest) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, rest})}}/>}
             </Box>}
-            {completedExercises.includes(focusedExercise?.id || -1) && <Box sx={{overflow: "scroll", flexShrink: 1, alignSelf: "center"}}>
-                <Typography>{t("exerciseComplete")}</Typography>
-            </Box>}
             <Box sx={{flexGrow: 1}}/>
             <Stack direction="row" spacing={{xs: 1, sm: 2, md: 4}} sx={{alignSelf: "center", marginTop: "10px"}}>
                 {currentWorkout?.workoutExerciseIds && setCurrentWorkoutExerciseNumber && currentWorkoutExerciseNumber > 0 &&
@@ -209,7 +187,7 @@ export const WorkoutPage = () => {
                          onClick={() => setCurrentWorkoutExerciseNumber(currentWorkoutExerciseNumber - 1)}>
                         <ArrowLeftIcon/>
                     </Fab>}
-                {!completedExercises.includes(focusedExercise?.id || -1) && <Fab color="success" aria-label="add" onClick={save}>
+                {<Fab color="success" aria-label="add" onClick={save}>
                     <DoneIcon/>
                 </Fab>}
                 <Fab aria-label="stop" color="error"

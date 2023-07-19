@@ -25,6 +25,7 @@ export const Rest = () => {
     useEffect(() => {
         if (currentRestTime <= 0 && stopRest) {
             stopRest();
+            navigator.vibrate([1000, 1000, 1000, 1000, 1000, 1000]);
         }
     }, [currentRestTime, time, stopRest]);
 

@@ -15,6 +15,8 @@ import {DBContext} from "./context/dbContext";
 import {DexieDB} from "./db/db";
 import {WorkoutContextProvider} from './context/workoutContext';
 import {SettingsContextProvider} from "./context/settingsContext";
+import {UserContext} from './context/userContext';
+import {HistoryEntry} from "./pages/history/historyEntry";
 
 const darkTheme = createTheme({
     palette: {
@@ -27,22 +29,25 @@ function App() {
     return (
         <ThemeProvider theme={darkTheme}>
             <DBContext.Provider value={{db: new DexieDB()}}>
-                <WorkoutContextProvider>
-                    <SettingsContextProvider>
-                        <BrowserRouter>
-                                    <Paper>
-                                        <Routes>
-                                            <Route path="/" element={<WorkoutList/>}/>
-                                            <Route path="/history" element={<HistoryPage/>}/>
-                                            <Route path="/settings" element={<SettingsPage/>}/>
-                                            <Route path="/workout" element={<WorkoutPage/>}/>
-                                            <Route path="/youtube"
-                                                   element={<YoutubePlayer />}/>
-                                        </Routes>
-                                    </Paper>
+                <UserContext.Provider value={{userName: "Default User"}}>
+                    <WorkoutContextProvider>
+                        <SettingsContextProvider>
+                            <BrowserRouter>
+                                <Paper>
+                                    <Routes>
+                                        <Route path="/" element={<WorkoutList/>}/>
+                                        <Route path="/history" element={<HistoryPage/>}/>
+                                        <Route path="/history/:workoutId" element={<HistoryEntry/>}/>
+                                        <Route path="/settings" element={<SettingsPage/>}/>
+                                        <Route path="/workout" element={<WorkoutPage/>}/>
+                                        <Route path="/youtube"
+                                               element={<YoutubePlayer/>}/>
+                                    </Routes>
+                                </Paper>
                             </BrowserRouter>
-                    </SettingsContextProvider>
+                        </SettingsContextProvider>
                     </WorkoutContextProvider>
+                </UserContext.Provider>
             </DBContext.Provider>
         </ThemeProvider>
     );

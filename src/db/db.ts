@@ -32,6 +32,15 @@ export class DexieDB extends Dexie {
                 set.setNumber = 0;
             })
         });
+        this.version(3).stores({
+            exercise: "++id, name, type, *tags",
+            workout: "++id, name",
+            workoutHistory: "++id, userName, date, workoutExerciseIds",
+            workoutExercise: "++id, exerciseId, setIds",
+            exerciseSet: "++id, exerciseId, type",
+            user: "++name",
+            userMetric: "++id"
+        })
         this.user.count().then((count) => {
             if (count === 0) {
                 InjectData(this).then(() => {

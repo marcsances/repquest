@@ -10,6 +10,7 @@ export interface Workout {
 export interface WorkoutHistory {
     id: number;
     userName: string;
+    workoutName: string;
     date: Date;
     workoutExerciseIds: number[];
 }
