@@ -7,10 +7,12 @@ import {WorkoutContext} from "../../context/workoutContext";
 import StopIcon from '@mui/icons-material/Stop';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import {SettingsContext} from "../../context/settingsContext";
 
 export const Rest = () => {
     const { t } = useTranslation();
     const { restStarted, restTime, setRestTime, stopRest, time, focusedExercise, currentSet } = useContext(WorkoutContext);
+    const { useLbs } = useContext(SettingsContext);
     const moreTime = useCallback(() => {
         if (!restTime || !setRestTime) {return;}
         setRestTime(restTime + 10);
@@ -40,7 +42,7 @@ export const Rest = () => {
                 {focusedExercise?.name}
             </Typography>
             {currentSet && currentSet.weight && <Typography variant="h5" sx={{alignSelf: "center", textAlign: "center", color: "rgb(192, 192, 192)"}}>
-                {t("weight")}: {currentSet?.weight} kg
+                {t("weight")}: {currentSet?.weight} {useLbs ? "lbs" : "kg"}
             </Typography>}
             <Box sx={{flexGrow: 1}}/>
             <Stack direction="row" spacing={{xs: 1, sm: 2, md: 4}} sx={{alignSelf: "center", marginBottom: "24px"}}>

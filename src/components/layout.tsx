@@ -14,7 +14,7 @@ const Layout = (props: {
     const {children, title, hideAppBar, hideNav, toolItems, hideBack} = props;
     return <Paper sx={{display: "flex", flexDirection: "column", height: "100%", position: "absolute", width: "100vw"}}>
         {!hideAppBar && <WLAppBar title={title} toolItems={toolItems} hideBack={hideBack}/>}
-        <Paper sx={{flexGrow: 1, padding: "5px", marginTop: "56px", maxHeight: "calc(100%F - 56px)"}}>{children}</Paper>
+        <Paper sx={{flexGrow: 1, padding: "5px", marginTop: "56px", maxHeight: "calc(100% - 56px)"}}>{children}</Paper>
         {!hideNav && <WLNav/>}
     </Paper>;
 }

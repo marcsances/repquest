@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useMemo, useState} from "react";
 import Layout from "../../components/layout";
 import {
     Box,
@@ -34,6 +34,7 @@ import StopIcon from "@mui/icons-material/Stop";
 import {ExerciseTag} from "../../models/exercise";
 import {SettingsContext} from "../../context/settingsContext";
 import {compareSetHistoryEntries} from "../../utils/comparators";
+import {getOneRm} from "../../utils/oneRm";
 
 export const WorkoutPage = () => {
     const {
@@ -55,7 +56,7 @@ export const WorkoutPage = () => {
         stopWorkout,
         time,
     } = useContext(WorkoutContext);
-    const {showRpe, showRir} = useContext(SettingsContext);
+    const {showRpe, showRir, useLbs, oneRm} = useContext(SettingsContext);
     const {db} = useContext(DBContext);
     const [viewHistory, setViewHistory] = useState(false);
     const {t} = useTranslation();
@@ -97,6 +98,8 @@ export const WorkoutPage = () => {
             setHistory(result || []);
         });
     }, [db, currentWorkoutHistory, focusedExercise, currentSetNumber, currentWorkoutExercise, time]);
+
+    const oneRmVal = useMemo(() => currentSet?.weight && currentSet?.reps ? getOneRm(currentSet?.weight, currentSet?.reps, oneRm) : 0, [currentSet]);
 
     return restTime ? <Rest /> : <Layout title={followingWorkout?.name || t("freeTraining")} hideNav
                    toolItems={focusedExercise?.yt_video ? <IconButton
@@ -168,7 +171,7 @@ export const WorkoutPage = () => {
             <SetParameter name={t("set")} value={currentSetNumber} min={1} max={currentWorkoutExercise?.setIds.length}
                           incrementBy={1} onChange={(setNumber) => { if (setCurrentSetNumber) setCurrentSetNumber(setNumber)}}/>
             {currentSet?.weight &&
-                <Parameter name={t("weight")} unit="kg" value={currentSet?.weight} min={0} incrementBy={2.5}
+                <Parameter name={t("weight")} unit={useLbs ? "lbs" : "kg"} value={currentSet?.weight} min={0} incrementBy={2.5}
                            allowDecimals onChange={(weight) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, weight})}} />}
             {currentSet?.reps && <Parameter name={t("reps")} value={currentSet?.reps} min={1} incrementBy={1}
                                             onChange={(reps) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, reps})}}/>}
@@ -179,6 +182,8 @@ export const WorkoutPage = () => {
             {currentSet?.rest &&
                 <Parameter name={t("rest")} unit="s" value={currentSet?.rest} min={0} incrementBy={10}
                            onChange={(rest) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, rest})}}/>}
+            {currentSet?.weight && currentSet?.reps &&
+                <Typography sx={{paddingLeft: "8px"}}>1RM: {oneRmVal} {useLbs ? "lbs" : "kg"}</Typography>}
             </Box>}
             <Box sx={{flexGrow: 1}}/>
             <Stack direction="row" spacing={{xs: 1, sm: 2, md: 4}} sx={{alignSelf: "center", marginTop: "10px"}}>

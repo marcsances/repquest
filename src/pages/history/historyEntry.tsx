@@ -3,7 +3,7 @@ import Layout from "../../components/layout";
 import {useTranslation} from "react-i18next";
 import {DBContext} from "../../context/dbContext";
 import {WorkoutContext} from "../../context/workoutContext";
-import {ExerciseSet} from "../../models/workout";
+import {ExerciseSet, WorkoutHistory} from "../../models/workout";
 import {Avatar, List, ListItemAvatar, ListItemButton, ListItemText} from "@mui/material";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import {useParams} from "react-router-dom";
@@ -16,13 +16,15 @@ export const HistoryEntry = () => {
     const { workoutId } = useParams();
     const {followingWorkout} = useContext(WorkoutContext);
     const [ history, setHistory ] = useState<{id: number, exercise?: Exercise, sets: ExerciseSet[]}[]>([]);
-    
+    const [historyEntry, setHistoryEntry] = useState<WorkoutHistory | undefined>(undefined);
+
     const fetchHistory = useCallback(async () => {
         if (!db) return;
         const entries = [];
         if (!workoutId) { return; }
         const historyEntry = await (db.workoutHistory.get(parseFloat(workoutId)));
         if (!historyEntry) { return; }
+        setHistoryEntry(historyEntry);
         const workoutExercises = await db.workoutExercise.where("id").anyOf(historyEntry?.workoutExerciseIds).toArray();
         for (const workoutExercise of workoutExercises) {
             const exercise = await db.exercise.get(workoutExercise.exerciseId);
@@ -45,7 +47,7 @@ export const HistoryEntry = () => {
         // effect triggers when following workout changes since when we stop a workout we want the history entry to show up
         fetchHistory();
     }, [followingWorkout])
-    return <Layout title={t("history")}><List sx={{width: '100%', height: '100%', bgcolor: 'background.paper'}}>
+    return <Layout title={historyEntry?.workoutName || t("freeTraining")}><List sx={{width: '100%', height: '100%', bgcolor: 'background.paper'}}>
         {history.map((entry) =>  <ListItemButton key={entry.id} component="a">
             <ListItemAvatar>
                 {!entry.exercise?.picture && <Avatar>

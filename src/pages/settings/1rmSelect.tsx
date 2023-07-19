@@ -7,7 +7,7 @@ export interface SimpleDialogProps {
     onClose: (value: string) => void;
 }
 
-const LanguageSelector = (props: SimpleDialogProps) => {
+const OneRmSelector = (props: SimpleDialogProps) => {
     const { onClose, selectedValue, open } = props;
 
     const handleClose = () => {
@@ -21,30 +21,22 @@ const LanguageSelector = (props: SimpleDialogProps) => {
 
     return (
         <Dialog onClose={handleClose} open={open}>
-            <DialogTitle>{t("language")}</DialogTitle>
+            <DialogTitle>{t("oneRm")}</DialogTitle>
             <List sx={{ pt: 0 }}>
                 <ListItem disableGutters>
                     <ListItemButton
                         autoFocus
-                        onClick={() => handleListItemClick('ca')}
+                        onClick={() => handleListItemClick('epley')}
                     >
-                        <ListItemText primary="Català" />
+                        <ListItemText primary="Epley" />
                     </ListItemButton>
                 </ListItem>
                 <ListItem disableGutters>
                     <ListItemButton
                         autoFocus
-                        onClick={() => handleListItemClick('en')}
+                        onClick={() => handleListItemClick('brzycki')}
                     >
-                        <ListItemText primary="English" />
-                    </ListItemButton>
-                </ListItem>
-                <ListItem disableGutters>
-                    <ListItemButton
-                        autoFocus
-                        onClick={() => handleListItemClick('es')}
-                    >
-                        <ListItemText primary="Español" />
+                        <ListItemText primary="Brzycki" />
                     </ListItemButton>
                 </ListItem>
             </List>
@@ -52,4 +44,4 @@ const LanguageSelector = (props: SimpleDialogProps) => {
     );
 }
 
-export default LanguageSelector;
+export default OneRmSelector;

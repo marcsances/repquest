@@ -34,6 +34,8 @@
   "showRIR": "Show RIR",
   "hideRIR": "Hide RIR",
   "rirIs": "Reps In Reserve",
+  "weightUnit": "Weight units",
+  "oneRmFormula": "1RM formula (one rep max)",
   "tags": {
     "warmup": "Warmup",
     "cardio": "Cardio",
