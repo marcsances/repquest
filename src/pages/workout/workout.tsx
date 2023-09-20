@@ -118,10 +118,10 @@ export const WorkoutPage = () => {
         <Box sx={{height: "calc(100% - 24px)", display: "flex", flexDirection: "column"}}>
             <Paper variant="outlined">
                 <CardActionArea onClick={() => setViewHistory(!viewHistory)}>
-                    {!viewHistory && <Box><CardMedia
+                    {!viewHistory && focusedExercise && <Box><CardMedia
                         sx={{height: "25vh"}}
-                        image={focusedExercise?.picture}
-                        title={focusedExercise?.name}
+                        image={focusedExercise.picture}
+                        title={focusedExercise.name}
                     />
                         <CardContent>
                             <Typography gutterBottom variant="h5" component="div">
@@ -191,8 +191,9 @@ export const WorkoutPage = () => {
             </Box>}
             <Box sx={{flexGrow: 1}}/>
             <Stack direction="row" spacing={{xs: 1, sm: 2, md: 4}} sx={{alignSelf: "center", marginTop: "10px"}}>
-                {currentWorkout?.workoutExerciseIds && setCurrentWorkoutExerciseNumber && currentWorkoutExerciseNumber > 0 &&
+                {currentWorkout?.workoutExerciseIds && setCurrentWorkoutExerciseNumber &&
                     <Fab aria-label="previous" color="primary"
+                         disabled={currentWorkoutExerciseNumber <= 0}
                          onClick={() => setCurrentWorkoutExerciseNumber(currentWorkoutExerciseNumber - 1)}>
                         <ArrowLeftIcon/>
                     </Fab>}
@@ -219,8 +220,9 @@ export const WorkoutPage = () => {
                      onClick={() => setStopDialogOpen(true)}>
                     <StopIcon/>
                 </Fab>
-                {currentWorkout?.workoutExerciseIds && setCurrentWorkoutExerciseNumber && currentWorkoutExerciseNumber < currentWorkout?.workoutExerciseIds.length - 1 &&
+                {currentWorkout?.workoutExerciseIds && setCurrentWorkoutExerciseNumber &&
                     <Fab aria-label="next" color="primary"
+                         disabled={currentWorkoutExerciseNumber >= currentWorkout?.workoutExerciseIds.length - 1}
                                 onClick={() => setCurrentWorkoutExerciseNumber(currentWorkoutExerciseNumber + 1)}>
                         <ArrowRightIcon/>
                     </Fab>}

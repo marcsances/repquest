@@ -46,3 +46,9 @@ export interface ExerciseSet {
     initial?: boolean;
 }
 
+export interface Plan {
+    id: number;
+    name: string;
+    workoutIds: number[];
+}
+

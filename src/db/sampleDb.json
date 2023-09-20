@@ -830,5 +830,12 @@
       "workoutHistoryIds": [],
       "workoutIds": [1, 2, 3, 4, 5]
     }
+  ],
+  "plans": [
+    {
+      "id": 1,
+      "name": "Upper/Lower",
+      "workoutIds": [1,2,3,4,5]
+    }
   ]
 }

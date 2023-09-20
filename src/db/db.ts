@@ -1,6 +1,6 @@
 import Dexie, {Table} from 'dexie';
 import {Exercise} from "../models/exercise";
-import {ExerciseSet, Workout, WorkoutExercise, WorkoutHistory} from "../models/workout";
+import {ExerciseSet, Plan, Workout, WorkoutExercise, WorkoutHistory} from "../models/workout";
 import {User, UserMetric} from "../models/user";
 import {InjectData} from "./dbInjector";
 
@@ -14,6 +14,7 @@ export class DexieDB extends Dexie {
     exerciseSet!: Table<ExerciseSet>;
     user!: Table<User>;
     userMetric!: Table<UserMetric>;
+    plan!: Table<Plan>;
     constructor() {
         super('weightlog');
         this.version(1).stores({
@@ -40,6 +41,22 @@ export class DexieDB extends Dexie {
             exerciseSet: "++id, exerciseId, type",
             user: "++name",
             userMetric: "++id"
+        });
+        this.version(4).stores({
+            exercise: "++id, name, type, *tags",
+            workout: "++id, name",
+            workoutHistory: "++id, userName, date, workoutExerciseIds",
+            workoutExercise: "++id, exerciseId, setIds",
+            exerciseSet: "++id, exerciseId, type",
+            user: "++name",
+            userMetric: "++id",
+            plan: "++id, workoutId, name"
+        }).upgrade((trans) => {
+            trans.db.table("plan").add({
+                id: 1,
+                name: "Upper / Lower",
+                workoutIds: [ 1, 2, 3, 4, 5]
+            })
         })
         this.user.count().then((count) => {
             if (count === 0) {
