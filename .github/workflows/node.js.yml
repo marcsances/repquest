@@ -40,7 +40,7 @@ jobs:
         scp -o StrictHostKeyChecking=no -i id_rsa -P ${{ secrets.SSH_PORT }} build/package.tar.gz ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.SSH_PATH }}/package.tar.gz
     - name: Extract archive
       run: |
-        ssh -o StrictHostKeyChecking=no -i id_rsa -P ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 'echo testing'
+        ssh -o StrictHostKeyChecking=no -i id_rsa -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.SSH_PATH }}; tar zxvf package.tar.gz; rm package.tar.gz"
         rm id_rsa
     - name: Archive production artifacts
       uses: actions/upload-artifact@v3
