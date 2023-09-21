@@ -38,9 +38,10 @@ jobs:
         echo "${{ secrets.SSH_PRIVATE_KEY }}" > id_rsa
         chmod 400 id_rsa
         scp -o StrictHostKeyChecking=no -i id_rsa -P ${{ secrets.SSH_PORT }} build/package.tar.gz ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.SSH_PATH }}/package.tar.gz
+        ssh -o StrictHostKeyChecking=no -i id_rsa -P ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.SSH_PATH }}; tar zxvf package.tar.gz; rm package.tar.gz"
         rm id_rsa
     - name: Archive production artifacts
       uses: actions/upload-artifact@v3
       with:
           name: package
-          path: build/package.zip
+          path: build/package.tar.gz
