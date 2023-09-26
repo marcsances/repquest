@@ -53,8 +53,8 @@ export class DexieDB extends Dexie {
             userMetric: "++id",
             plan: "++id, workoutId, name"
         });
-        this.user.count().then((count) => {
-            if (count === 0) {
+        this.exercise.count().then((count) => {
+            if (count < 32) {
                 InjectData(this).then(() => {
                     window.location.reload();
                 });
