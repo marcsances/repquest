@@ -39,6 +39,8 @@ export interface ExerciseSet {
     weight?: number;
     reps?: number;
     time?: number;
+    distance?: number;
+    laps?: number;
     rpe?: number;
     rir?: number;
     rest?: number;

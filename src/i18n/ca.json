@@ -9,7 +9,10 @@
   "reps": "Reps",
   "rpe": "RPE",
   "rir": "RIR",
+  "distance": "Distància",
+  "laps": "Voltes",
   "rest": "Descans",
+  "amount": "Quantitat",
   "units": "Unitats",
   "language": "Idioma",
   "version": "Versió",
@@ -48,6 +51,7 @@
   "deleteWorkout": "Eliminar rutina",
   "ok": "D'acord",
   "cancel": "Cancel·lar",
+  "time": "Temps",
   "tags": {
     "warmup": "Escalfament",
     "cardio": "Cardio",

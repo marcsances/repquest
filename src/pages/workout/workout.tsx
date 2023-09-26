@@ -145,7 +145,7 @@ export const WorkoutPage = () => {
                                         <TableCell>&nbsp;</TableCell>
                                         <TableCell align="right">{t("set")}</TableCell>
                                         <TableCell align="right">{t("weight")}</TableCell>
-                                        <TableCell align="right">{t("reps")}</TableCell>
+                                        <TableCell align="right">{t("amount")}</TableCell>
                                         {showRpe && <TableCell align="right">{t("rpe")}</TableCell>}
                                         {showRir && <TableCell align="right">{t("rir")}</TableCell>}
                                     </TableRow>
@@ -161,7 +161,7 @@ export const WorkoutPage = () => {
                                             </TableCell>
                                             <TableCell align="right">{set.setNumber}</TableCell>
                                             <TableCell align="right">{set.weight}</TableCell>
-                                            <TableCell align="right">{set.reps}</TableCell>
+                                            <TableCell align="right">{set.reps || set.time || set.laps || set.distance}</TableCell>
                                             {showRpe && <TableCell align="right">{set.rpe}</TableCell>}
                                             {showRir && <TableCell align="right">{set.rir}</TableCell>}
                                         </TableRow>
@@ -179,6 +179,12 @@ export const WorkoutPage = () => {
                            allowDecimals onChange={(weight) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, weight})}} />}
             {currentSet?.reps && <Parameter name={t("reps")} value={currentSet?.reps} min={1} incrementBy={1}
                                             onChange={(reps) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, reps})}}/>}
+            {currentSet?.time && <Parameter name={t("time")} unit="s" value={currentSet?.time} min={1} incrementBy={1}
+                                            onChange={(time) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, time})}}/>}
+            {currentSet?.distance && <Parameter name={t("distance")} unit="m" value={currentSet?.distance} min={1} incrementBy={1}
+                                            onChange={(distance) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, distance})}}/>}
+            {currentSet?.laps && <Parameter name={t("laps")} value={currentSet?.laps} min={1} incrementBy={1}
+                                                onChange={(laps) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, laps})}}/>}
             {showRpe && currentSet?.rpe && <Parameter name={t("rpe")} value={currentSet?.rpe} min={0} max={10} incrementBy={1}
                                            onChange={(rpe) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, rpe})}}/>}
             {showRir && currentSet?.rir && <Parameter name={t("rir")} value={currentSet?.rir} min={0} incrementBy={1}

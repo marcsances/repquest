@@ -141,6 +141,7 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
             setCurrentWorkoutExercise(undefined);
             return;
         }
+        if (currentWorkoutExerciseNumber >= currentWorkout.workoutExerciseIds.length) return;
         db?.workoutExercise.get(currentWorkout.workoutExerciseIds[currentWorkoutExerciseNumber]).then((workoutExercise) => {
             if (workoutExercise) {
                 setCurrentSetNumber(1);

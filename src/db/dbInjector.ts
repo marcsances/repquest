@@ -18,8 +18,5 @@ export async function InjectData(db: DexieDB) {
         for (const user of sampleDb.users) {
             await db.user.put(user);
         }
-        for (const plan of sampleDb.plans) {
-            await db.plan.put(plan);
-        }
     })
 }

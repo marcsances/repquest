@@ -3,6 +3,7 @@ import {Exercise} from "../models/exercise";
 import {ExerciseSet, Plan, Workout, WorkoutExercise, WorkoutHistory} from "../models/workout";
 import {User, UserMetric} from "../models/user";
 import {InjectData} from "./dbInjector";
+import sampleDb from "./sampleDb.json";
 
 export class DexieDB extends Dexie {
     // 'friends' is added by dexie when declaring the stores()
@@ -51,20 +52,23 @@ export class DexieDB extends Dexie {
             user: "++name",
             userMetric: "++id",
             plan: "++id, workoutId, name"
-        }).upgrade((trans) => {
-            trans.db.table("plan").add({
-                id: 1,
-                name: "Upper / Lower",
-                workoutIds: [ 1, 2, 3, 4, 5]
-            })
-        })
+        });
         this.user.count().then((count) => {
             if (count === 0) {
                 InjectData(this).then(() => {
                     window.location.reload();
                 });
             }
-        })
+        });
+        this.plan.count().then((count) => {
+            if (count < 2) {
+                (async () => { for (const plan of sampleDb.plans) {
+                    await this.table("plan").put(plan);
+                } })().then(() => {
+                    window.location.reload();
+                })
+            }
+        });
     }
 }
 

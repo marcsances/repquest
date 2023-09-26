@@ -20,6 +20,9 @@
   "fridays": "Viernes",
   "saturdays": "Sábados",
   "sundays": "Domingos",
+  "distance": "Distancia",
+  "laps": "Vueltas",
+  "amount": "Cantidad",
   "freeTraining": "Ejercicio libre",
   "pickExercises": "Seleccionar ejercicios libremente",
   "youtubePlayer": "Reproductor de Youtube",
@@ -48,6 +51,7 @@
   "deleteWorkout": "Eliminar rutina",
   "ok": "Aceptar",
   "cancel": "Cancelar",
+  "time": "Tiempo",
   "tags": {
     "warmup": "Calentamiento",
     "cardio": "Cardio",

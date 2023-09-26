@@ -731,7 +731,8 @@
       "exerciseId": 37,
       "type": 0,
       "weight": 40,
-      "reps": 4,
+      "laps": 4,
+      "rest": 90,
       "cues": "Se considera una repetición como una ida y vuelta. El peso indicado es la suma de las dos mancuernas."
     }
   ],
