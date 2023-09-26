@@ -258,6 +258,54 @@
       "picture": "https://hips.hearstapps.com/hmg-prod/images/hdm119918mh15842-1545237096.png?crop=0.668xw:1.00xh;0.117xw,0&resize=1200:*",
       "yt_video": "ao5nY7lb088",
       "tags": [4, 17]
+    },
+    {
+      "id": 32,
+      "name": "Rotación externa en máquina de cable",
+      "type": 0,
+      "picture": "https://cdn-0.weighttraining.guide/wp-content/uploads/2016/10/Cable-Standing-Shoulder-External-Rotation-resized.png?ezimgfmt=ng%3Awebp%2Fngcb4",
+      "yt_video": "3DMyOwvPbIE",
+      "tags": [2, 4, 12]
+    },
+    {
+      "id": 33,
+      "name": "Sentadilla en pared",
+      "type": 2,
+      "picture": "https://www.vissco.com/wp-content/uploads/animation/sub/wall-squat.gif",
+      "yt_video": "C_yptcKJ4zk",
+      "tags": [2, 4, 18, 19, 21]
+    },
+    {
+      "id": 34,
+      "name": "V Up",
+      "type": 1,
+      "picture": "https://i.ytimg.com/vi/7UVgs18Y1P4/maxresdefault.jpg",
+      "yt_video": "fhNIL1LngMo",
+      "tags": [4, 17]
+    },
+    {
+      "id": 35,
+      "name": "Planchas con flexión de rodilla",
+      "type": 1,
+      "picture": "https://media.post.rvohealth.io/wp-content/uploads/sites/2/2019/04/Plank_Feature-800x420.png",
+      "yt_video": "pI7uWJXcfPE",
+      "tags": [4, 17]
+    },
+    {
+      "id": 36,
+      "name": "Extensiones lumbares",
+      "type": 1,
+      "picture": "https://bod-blog-assets.prod.cd.beachbodyondemand.com/bod-blog/wp-content/uploads/2022/09/06161402/core-exercises-for-beginners-600-superman.jpg",
+      "yt_video": "Ji83bo7vZFM",
+      "tags": [4, 15]
+    },
+    {
+      "id": 37,
+      "name": "Paseo del granjero con mancuernas",
+      "type": 0,
+      "picture": "https://cdn.shopify.com/s/files/1/1497/9682/files/2_7ea8df98-f67a-44f6-88be-64a3cc9a6daf.jpg?v=1653565544",
+      "yt_video": "K4R8uc1x_OA",
+      "tags": [5, 11, 18, 19, 20]
     }
   ],
   "sets": [
@@ -632,6 +680,59 @@
       "time": 30,
       "rpe": 8,
       "rest": 120
+    },
+    {
+      "id": 38,
+      "exerciseId": 32,
+      "type": 0,
+      "weight": 10,
+      "reps": 15,
+      "rpe": 7,
+      "rir": 5,
+      "rest": 90
+    },
+    {
+      "id": 39,
+      "exerciseId": 33,
+      "type": 0,
+      "time": 90,
+      "rpe": 8,
+      "rest": 90
+    },
+    {
+      "id": 40,
+      "exerciseId": 34,
+      "type": 0,
+      "reps": 15,
+      "rpe": 8,
+      "rir": 2,
+      "rest": 90
+    },
+    {
+      "id": 41,
+      "exerciseId": 36,
+      "type": 0,
+      "reps": 15,
+      "rpe": 8,
+      "rir": 2,
+      "rest": 90
+    },
+    {
+      "id": 42,
+      "exerciseId": 35,
+      "type": 0,
+      "reps": 15,
+      "rpe": 8,
+      "rir": 2,
+      "rest": 90
+    },
+    {
+      "id": 43,
+      "exerciseId": 37,
+      "type": 0,
+      "weight": 40,
+      "reps": 4,
+      "cues": "Se considera una repetición como una ida y vuelta. El peso indicado es la suma de las dos mancuernas."
     }
   ],
   "workoutExercises": [
@@ -789,6 +890,36 @@
       "id": 31,
       "exerciseId": 31,
       "setIds": [37, 37, 37]
+    },
+    {
+      "id": 32,
+      "exerciseId": 32,
+      "setIds": [38, 38, 38]
+    },
+    {
+      "id": 33,
+      "exerciseId": 33,
+      "setIds": [39, 39, 39]
+    },
+    {
+      "id": 34,
+      "exerciseId": 34,
+      "setIds": [40, 40, 40]
+    },
+    {
+      "id": 35,
+      "exerciseId": 36,
+      "setIds": [41, 41, 41]
+    },
+    {
+      "id": 36,
+      "exerciseId": 35,
+      "setIds": [42, 42, 42]
+    },
+    {
+      "id": 37,
+      "exerciseId": 37,
+      "setIds": [43, 43, 43]
     }
   ],
   "workouts": [
@@ -821,6 +952,12 @@
       "name": "Lower Body 2",
       "daysOfWeek": [4],
       "workoutExerciseIds": [1, 24, 25, 26, 27, 28, 29, 30, 9]
+    },
+    {
+      "id": 6,
+      "name": "Movilidad & Core",
+      "daysOfWeek": [3],
+      "workoutExerciseIds": [1, 32, 33, 15, 34, 35, 36, 37, 9]
     }
   ],
   "users": [
@@ -836,6 +973,11 @@
       "id": 1,
       "name": "Upper/Lower",
       "workoutIds": [1,2,3,4,5]
+    },
+    {
+      "id": 2,
+      "name": "Movilidad & Core",
+      "workoutIds": [6]
     }
   ]
 }
