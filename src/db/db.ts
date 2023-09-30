@@ -54,14 +54,14 @@ export class DexieDB extends Dexie {
             plan: "++id, workoutId, name"
         });
         this.exercise.count().then((count) => {
-            if (count < 32) {
+            if (count < 39) {
                 InjectData(this).then(() => {
                     window.location.reload();
                 });
             }
         });
         this.plan.count().then((count) => {
-            if (count < 2) {
+            if (count < 3) {
                 (async () => { for (const plan of sampleDb.plans) {
                     await this.table("plan").put(plan);
                 } })().then(() => {

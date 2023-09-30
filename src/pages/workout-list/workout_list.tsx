@@ -6,11 +6,12 @@ import {
     List,
     ListItemAvatar,
     ListItemButton,
-    ListItemText, Snackbar,
+    ListItemText,
+    Snackbar,
     SpeedDial,
     SpeedDialAction,
     SpeedDialIcon,
-    tooltipClasses, useTheme
+    useTheme
 } from "@mui/material";
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import {Plan, Workout} from "../../models/workout";
@@ -24,7 +25,6 @@ import MenuIcon from '@mui/icons-material/Menu';
 import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 import CloseIcon from '@mui/icons-material/Close';
 import Selector from "../../components/selector";
-import i18n from "i18next";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -35,7 +35,7 @@ export const WorkoutList = () => {
     const {t} = useTranslation();
     const {db} = useContext(DBContext);
     const [workouts, setWorkouts] = useState<Workout[]>([]);
-    const [currentPlan, setCurrentPlan] = useState<number>(1);
+    const [currentPlan, setCurrentPlan] = useState<number>(parseInt(localStorage.getItem("currentPlan") || "1", 10));
     const [plans, setPlans] = useState<Plan[]>([]);
     const {startWorkout, stopWorkout, time, timeStarted, currentWorkout} = useContext(WorkoutContext);
     const navigate = useNavigate();
@@ -145,6 +145,7 @@ export const WorkoutList = () => {
             selectedValue={currentPlan.toString()}
             open={openPlanSelector}
             onClose={(val: string) => {
+                localStorage.setItem("currentPlan", val);
                 setCurrentPlan(parseInt(val));
                 setOpenPlanSelector(false);
             }}

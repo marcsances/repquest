@@ -52,6 +52,9 @@
   "ok": "D'acord",
   "cancel": "Cancel·lar",
   "time": "Temps",
+  "leftSide": "Costat esquerre",
+  "rightSide": "Costat dret",
+  "dropSet": "Sèrie en caiguda",
   "tags": {
     "warmup": "Escalfament",
     "cardio": "Cardio",

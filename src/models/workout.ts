@@ -30,6 +30,12 @@ export enum SetType {
     FAILURE
 }
 
+export enum SetSide {
+    BOTH,
+    LEFT,
+    RIGHT
+}
+
 export interface ExerciseSet {
     id: number;
     exerciseId: number;
@@ -46,6 +52,7 @@ export interface ExerciseSet {
     rest?: number;
     cues?: string;
     initial?: boolean;
+    side?: SetSide;
 }
 
 export interface Plan {

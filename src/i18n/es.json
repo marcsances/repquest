@@ -52,6 +52,9 @@
   "ok": "Aceptar",
   "cancel": "Cancelar",
   "time": "Tiempo",
+  "leftSide": "Lado izquierdo",
+  "rightSide": "Lado derecho",
+  "dropSet": "Serie en caída",
   "tags": {
     "warmup": "Calentamiento",
     "cardio": "Cardio",

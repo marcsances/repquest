@@ -159,7 +159,8 @@ export const WorkoutPage = () => {
                                             <TableCell component="th" scope="row">
                                                 {set.date.getDate().toString(10).padStart(2, "0") + "/" + set.date.getMonth().toString(10).padStart(2, "0")}
                                             </TableCell>
-                                            <TableCell align="right">{set.setNumber}</TableCell>
+                                            <TableCell
+                                                align="right">{set.setNumber}{set.side === 1 ? "L" : ""}{set.side === 2 ? "R" : ""}</TableCell>
                                             <TableCell align="right">{set.weight}</TableCell>
                                             <TableCell align="right">{set.reps || set.time || set.laps || set.distance}</TableCell>
                                             {showRpe && <TableCell align="right">{set.rpe}</TableCell>}
@@ -172,6 +173,10 @@ export const WorkoutPage = () => {
                 </CardActionArea>
             </Paper>
             {<Box sx={{overflow: "scroll", flexShrink: 1}}>
+                {currentSet?.side && <Typography sx={{marginTop: "8px", textAlign: "center"}} variant="h4"
+                                                 component="p">{currentSet.side === 1 ? t("leftSide") : t("rightSide")}</Typography>}
+                {currentSet?.type === 2 && <Typography sx={{marginTop: "8px", textAlign: "center"}} variant="h4"
+                                                       component="p">{t("dropSet")}</Typography>}
             <SetParameter name={t("set")} value={currentSetNumber} min={1} max={currentWorkoutExercise?.setIds.length}
                           incrementBy={1} onChange={(setNumber) => { if (setCurrentSetNumber) setCurrentSetNumber(setNumber)}}/>
             {currentSet?.weight &&

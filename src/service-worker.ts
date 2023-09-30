@@ -24,7 +24,7 @@ clientsClaim();
 // even if you decide not to use precaching. See https://cra.link/PWA
 //precacheAndRoute(self.__WB_MANIFEST);
 self.__WB_MANIFEST.concat(); // to make it present
-"0.1.16".concat();
+"0.1.17".concat();
 
 // Set up App Shell-style routing, so that all navigation requests
 // are fulfilled with your index.html shell. Learn more at

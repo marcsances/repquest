@@ -52,6 +52,9 @@
   "deleteWorkout": "Delete workout",
   "ok": "OK",
   "cancel": "Cancel",
+  "leftSide": "Left side",
+  "rightSide": "Right side",
+  "dropSet": "Drop set",
   "tags": {
     "warmup": "Warmup",
     "cardio": "Cardio",
