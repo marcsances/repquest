@@ -28,6 +28,7 @@ import Selector from "../../components/selector";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import {RestInProgress} from "../../components/restInProgress";
 
 const daysOfWeek = ["mondays", "tuesdays", "wednesdays", "thursdays", "fridays", "saturdays", "sundays"];
 
@@ -37,7 +38,7 @@ export const WorkoutList = () => {
     const [workouts, setWorkouts] = useState<Workout[]>([]);
     const [currentPlan, setCurrentPlan] = useState<number>(parseInt(localStorage.getItem("currentPlan") || "1", 10));
     const [plans, setPlans] = useState<Plan[]>([]);
-    const {startWorkout, stopWorkout, time, timeStarted, currentWorkout} = useContext(WorkoutContext);
+    const {startWorkout, stopWorkout, time, timeStarted, currentWorkout, restTime} = useContext(WorkoutContext);
     const navigate = useNavigate();
     const theme = useTheme();
     const [notImplemented, setNotImplemented] = useState(false);
@@ -94,21 +95,24 @@ export const WorkoutList = () => {
     }, [currentWorkout, time, timeStarted]);
 
     return <Layout title={t("workouts")}><List sx={{width: '100%', height: '100%', bgcolor: 'background.paper'}}>
-        {timeStarted && currentWorkout && <><ListItemButton component="a" onClick={() => navigate("/workout")}>
-            <ListItemAvatar>
-                <Avatar>
-                    <DirectionsRunIcon/>
-                </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary={t("workoutInProgress")} secondary={workoutLabel}/>
-        </ListItemButton><ListItemButton component="a" onClick={() => onStopWorkout()}>
-            <ListItemAvatar>
-                <Avatar>
-                    <StopIcon/>
-                </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary={t("stopWorkout")} secondary={workoutLabel}/>
-        </ListItemButton></>}
+        {timeStarted && currentWorkout && <>            {!!restTime &&
+            <RestInProgress onClick={() => navigate("/workout")}/>}
+            <ListItemButton component="a" onClick={() => navigate("/workout")}>
+                <ListItemAvatar>
+                    <Avatar>
+                        <DirectionsRunIcon/>
+                    </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary={t("workoutInProgress")} secondary={workoutLabel}/>
+            </ListItemButton><ListItemButton component="a" onClick={() => onStopWorkout()}>
+                <ListItemAvatar>
+                    <Avatar>
+                        <StopIcon/>
+                    </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary={t("stopWorkout")} secondary={workoutLabel}/>
+            </ListItemButton>
+        </>}
         {!currentWorkout && workouts.map((workout) => <ListItemButton key={workout.id} component="a"
                                                                       onClick={() => onSelectWorkout(workout)}>
                 <ListItemAvatar>
@@ -120,25 +124,35 @@ export const WorkoutList = () => {
             </ListItemButton>
         )}
         {!currentWorkout && <SpeedDial sx={{position: 'absolute', bottom: 72, right: 16}} ariaLabel="Actions"
-                                       icon={<SpeedDialIcon icon={<MenuIcon/>} openIcon={<CloseIcon/>} />}
-                                       open={showMenu} onOpen={() => setShowMenu(true)} onClose={() => setShowMenu(false)}>
+                                       icon={<SpeedDialIcon icon={<MenuIcon/>} openIcon={<CloseIcon/>}/>}
+                                       open={showMenu} onOpen={() => setShowMenu(true)}
+                                       onClose={() => setShowMenu(false)}>
             <SpeedDialAction tooltipOpen
                              icon={<EditCalendarIcon/>}
                              tooltipTitle={t("managePlans")}
                              sx={speedDialActionSx}
-                             onClick={() => { setNotImplemented(true); setShowMenu(false); }}
+                             onClick={() => {
+                                 setNotImplemented(true);
+                                 setShowMenu(false);
+                             }}
             />
             <SpeedDialAction tooltipOpen
                              icon={<EventNoteIcon/>}
                              tooltipTitle={t("selectPlan")}
                              sx={speedDialActionSx}
-                             onClick={() => { setOpenPlanSelector(true); setShowMenu(false); }}
+                             onClick={() => {
+                                 setOpenPlanSelector(true);
+                                 setShowMenu(false);
+                             }}
             />
             <SpeedDialAction tooltipOpen
                              icon={<AddIcon/>}
                              tooltipTitle={t("addWorkout")}
                              sx={speedDialActionSx}
-                             onClick={() => { setNotImplemented(true); setShowMenu(false); }}
+                             onClick={() => {
+                                 setNotImplemented(true);
+                                 setShowMenu(false);
+                             }}
             />
         </SpeedDial>}
         <Selector
@@ -150,7 +164,7 @@ export const WorkoutList = () => {
                 setOpenPlanSelector(false);
             }}
             title={t("selectPlan")}
-            entries={plans.map((p) => ({ key: p.id.toString(), text: p.name}))}
+            entries={plans.map((p) => ({key: p.id.toString(), text: p.name}))}
         />
         <Selector open={!!targetWorkout} selectedValue="cancel" onClose={(key: string) => {
             if (key === "start" && targetWorkout && startWorkout) {
