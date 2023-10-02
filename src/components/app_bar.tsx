@@ -12,11 +12,12 @@ export interface WLAppBarProps {
     title: string;
     toolItems?: ReactNode;
     hideBack?: boolean;
+    onBack?: () => void;
 }
 
 export const WLAppBar = (props: WLAppBarProps) => {
     const location = useLocation();
-    const {title, toolItems, hideBack} = props;
+    const {title, toolItems, hideBack, onBack} = props;
     const navigate = useNavigate();
 
     return <Box>
@@ -29,7 +30,8 @@ export const WLAppBar = (props: WLAppBarProps) => {
                     aria-label="menu"
                     sx={{mr: 2}}
                     onClick={() => {
-                        navigate(-1);
+                        if (!onBack) navigate(-1);
+                        else onBack();
                     }}
                 >
                     <BackIcon/>

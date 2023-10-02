@@ -55,6 +55,8 @@
   "leftSide": "Left side",
   "rightSide": "Right side",
   "dropSet": "Drop set",
+  "restInProgress": "Rest in progress",
+  "remaining": "remaining",
   "tags": {
     "warmup": "Warmup",
     "cardio": "Cardio",

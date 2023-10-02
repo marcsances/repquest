@@ -9,7 +9,8 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import {SettingsContext} from "../../context/settingsContext";
 
-export const Rest = () => {
+export const Rest = (props: { onBack: () => void }) => {
+    const { onBack } = props;
     const { t } = useTranslation();
     const { restStarted, restTime, setRestTime, stopRest, time, focusedExercise, currentSet } = useContext(WorkoutContext);
     const { useLbs } = useContext(SettingsContext);
@@ -30,7 +31,7 @@ export const Rest = () => {
         }
     }, [currentRestTime, time, stopRest]);
 
-    return <Layout title={t("rest")} hideNav hideBack>
+    return <Layout title={t("rest")} hideNav onBack={onBack}>
         <Box sx={{height: "100%", display: "flex", flexDirection: "column"}}>
             <Box sx={{flexGrow: 1}}/>
             <CircularProgress variant="determinate" value={currentRestTime * 100 / restTime} sx={{alignSelf: "center", margin: "12px"}} size="8rem" />

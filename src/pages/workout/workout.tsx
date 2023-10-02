@@ -39,6 +39,7 @@ import {ExerciseTag} from "../../models/exercise";
 import {SettingsContext} from "../../context/settingsContext";
 import {compareSetHistoryEntries} from "../../utils/comparators";
 import {getOneRm} from "../../utils/oneRm";
+import {RestInProgress} from "../../components/restInProgress";
 
 export const WorkoutPage = () => {
     const {
@@ -65,10 +66,12 @@ export const WorkoutPage = () => {
     const [viewHistory, setViewHistory] = useState(false);
     const {t} = useTranslation();
     const navigate = useNavigate();
+    const [ showRest, setShowRest ] = useState(true);
 
 
     const save = async () => {
         if (!currentSet || !saveSet) return;
+        setShowRest(true);
         return saveSet({
             ...currentSet,
             id: new Date().getTime() * 100 + (Math.random() % 100),
@@ -106,7 +109,7 @@ export const WorkoutPage = () => {
 
     const oneRmVal = useMemo(() => currentSet?.weight && currentSet?.reps ? getOneRm(currentSet?.weight, currentSet?.reps, oneRm) : 0, [currentSet]);
 
-    return restTime ? <Rest /> : <Layout title={followingWorkout?.name || t("freeTraining")} hideNav
+    return !!restTime && showRest ? <Rest onBack={() => setShowRest(false)} /> : <Layout title={followingWorkout?.name || t("freeTraining")} hideNav
                    toolItems={focusedExercise?.yt_video ? <IconButton
                        color="inherit"
                        aria-label="menu"
@@ -116,6 +119,7 @@ export const WorkoutPage = () => {
                        <YouTubeIcon/>
                    </IconButton> : <></>}>
         <Box sx={{height: "calc(100% - 24px)", display: "flex", flexDirection: "column"}}>
+            {!!restTime && !showRest && <RestInProgress onClick={() => setShowRest(true)} />}
             <Paper variant="outlined">
                 <CardActionArea onClick={() => setViewHistory(!viewHistory)}>
                     {!viewHistory && focusedExercise && <Box><CardMedia

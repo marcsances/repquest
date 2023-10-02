@@ -55,6 +55,8 @@
   "leftSide": "Costat esquerre",
   "rightSide": "Costat dret",
   "dropSet": "Sèrie en caiguda",
+  "restInProgress": "Descans en curs",
+  "remaining": "restants",
   "tags": {
     "warmup": "Escalfament",
     "cardio": "Cardio",

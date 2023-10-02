@@ -55,6 +55,8 @@
   "leftSide": "Lado izquierdo",
   "rightSide": "Lado derecho",
   "dropSet": "Serie en caída",
+  "restInProgress": "Descanso en curso",
+  "remaining": "restante",
   "tags": {
     "warmup": "Calentamiento",
     "cardio": "Cardio",
