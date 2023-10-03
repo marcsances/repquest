@@ -21,7 +21,7 @@ async function generateBackup(db: DexieDB, level: string) {
         backupObject.settings = {
             showRpe: localStorage.getItem("showRpe"),
             showRir: localStorage.getItem("showRir"),
-            weightUnit: localStorage.getItem("useLbs") ? "lbs" : "kg",
+            weightUnit: localStorage.getItem("useLbs") === "true" ? "lbs" : "kg",
             wakeLock: localStorage.getItem("wakeLock"),
             oneRmFormula: localStorage.getItem("oneRm") ? OneRm[parseInt(localStorage.getItem("oneRem") || "0")] : null
         }
