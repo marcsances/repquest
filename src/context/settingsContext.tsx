@@ -1,5 +1,6 @@
-import React, {ReactElement, useCallback, useEffect, useState} from "react";
+import React, {ReactElement, useCallback, useContext, useEffect, useState} from "react";
 import {OneRm} from "../utils/oneRm";
+import {WorkoutContext} from "./workoutContext";
 
 export interface ISettingsContext {
     showRpe: boolean;
@@ -37,32 +38,35 @@ export const SettingsContextProvider = (props: { children: ReactElement }) => {
     const [errorWakeLock, setErrorWakeLock] = useState(false);
     const [oneRm, setOneRm] = useState(parseInt(localStorage.getItem("oneRm") || "0"));
     const [wakeLockSentinel, setWakeLockSentinel] = useState<WakeLockSentinel | null>(null);
-
+    const {time} = useContext(WorkoutContext);
     const toggleWakeLock = () => {
         setWakeLock((prev) => {
             localStorage.setItem("wakeLock", prev ? "false" : "true");
             return !prev;
         });
     };
+
     const requestWakeLock = useCallback(async () => {
-        if (wakeLock && "wakeLock" in navigator && !wakeLockSentinel) {
+        if (!("wakeLock" in navigator)) return;
+        if (wakeLock && !wakeLockSentinel) {
                 try {
                     const sentinel: WakeLockSentinel = await (navigator as any).wakeLock.request("screen");
                     sentinel.addEventListener("release", () => {
                         setWakeLockSentinel(null);
                     });
                     setWakeLockSentinel(sentinel);
+                    setErrorWakeLock(false);
                 } catch {
                     setErrorWakeLock(true);
                 }
-            } else if (!wakeLock && "wakeLock" in navigator && wakeLockSentinel) {
-                await wakeLockSentinel.release();
-            }
+        } else if (!wakeLock && wakeLockSentinel) {
+            await wakeLockSentinel.release();
+        }
     }, [wakeLock, wakeLockSentinel, setWakeLockSentinel]);
 
     useEffect(() => {
         requestWakeLock()
-    }, [requestWakeLock, wakeLock, wakeLockSentinel, setWakeLock, setWakeLockSentinel]);
+    }, [requestWakeLock, errorWakeLock, time, wakeLock, wakeLockSentinel, setWakeLock, setWakeLockSentinel]);
     const saveRpe = useCallback((value: boolean) => {
         localStorage.setItem("showRpe", value ? "true" : "false");
         setRpe(value);
