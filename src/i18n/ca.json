@@ -96,5 +96,26 @@
     "calves": "Bessons",
     "glutes": "Glutis",
     "hips": "Malucs"
+  },
+  "comingSoon": "Molt aviat...",
+  "backup": {
+    "title": "Còpia de seguretat i importació",
+    "description": "Fer una còpia de seguretat de les teves dades o importar dades a l'app",
+    "doBackup": "Realitzar còpia de seguretat",
+    "toFile": "A un fitxer",
+    "toGoogleDrive": "A Google Drive",
+    "importData": "Importar dades",
+    "fromFile": "Des d'un fitxer",
+    "fromGoogleDrive": "Des de Google Drive",
+    "whatToBackup": "Trieu què voleu exportar",
+    "whatToImport": "Trieu què voleu importar",
+    "items": {
+      "exercises": "Exercicis",
+      "workouts": "Exercicis i rutines",
+      "plans": "Exercicis, rutines i plans d'entrenament",
+      "everything": "Totes les dades (inclòs historial personal i preferències)",
+      "restoreBackup": "Restaurar còpia de seguretat (substituïr totes les dades existents)"
+    },
+    "backingUp": "Còpia en curs..."
   }
 }

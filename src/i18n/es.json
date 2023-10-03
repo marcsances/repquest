@@ -96,5 +96,26 @@
     "calves": "Gemelos",
     "glutes": "Glúteos",
     "hips": "Caderas"
+  },
+  "comingSoon": "Muy pronto...",
+  "backup": {
+    "title": "Copia de seguridad e importación",
+    "description": "Hacer una copia de seguridad de tus datos o importar datos a la app",
+    "doBackup": "Realitar copia de seguridad",
+    "toFile": "A un archivo",
+    "toGoogleDrive": "A Google Drive",
+    "importData": "Importar datos",
+    "fromFile": "Desde un archivo",
+    "fromGoogleDrive": "Desde Google Drive",
+    "whatToBackup": "Seleccionar datos a exportar",
+    "whatToImport": "Seleccionar datos a importar",
+    "items": {
+      "exercises": "Ejercicios",
+      "workouts": "Ejercicos y rutinas",
+      "plans": "Ejercicios, rutinas y planes de entrenamiento",
+      "everything": "Todos los datos (incluido historial personal y preferencias)",
+      "restoreBackup": "Restaurar copia de seguridad (reemplazar todos los datos existentes)"
+    },
+    "backingUp": "Realizando copia..."
   }
 }

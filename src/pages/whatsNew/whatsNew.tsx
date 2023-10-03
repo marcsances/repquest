@@ -10,12 +10,13 @@ export const WhatsNew = () => {
     const {t} = useTranslation();
     return <Layout title={t("whatsNew")} hideNav>
         <Box sx={{padding: "20px"}}>
-            <Typography variant="h4">WeightLog Version 0.1.20</Typography>
+            <Typography variant="h4">WeightLog Version 0.1.21</Typography>
             <Typography variant="subtitle1">Released on 03/10/2023</Typography>
             <Typography variant="subtitle2">Copyright Marc Sances 2023. All rights reserved.</Typography>
             <br/>
             <Typography variant="h5">Features</Typography>
             <ul>
+                <li>New backup feature in design, currently supporting data export to a file.</li>
                 <li>You can change the type of set from the workout window.</li>
                 <li>Restored vibration support only for Android phones.</li>
                 <li>Screen orientation is locked where supported.</li>

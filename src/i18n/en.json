@@ -96,5 +96,26 @@
     "calves": "Calves",
     "glutes": "Glutes",
     "hips": "Hips"
+  },
+  "comingSoon": "Coming soon...",
+  "backup": {
+    "title": "Backup & Import",
+    "description": "Backup your training data or import data into the app",
+    "doBackup": "Perform backup",
+    "toFile": "To a file",
+    "toGoogleDrive": "To Google Drive",
+    "importData": "Import data",
+    "fromFile": "From a file",
+    "fromGoogleDrive": "From Google Drive",
+    "whatToBackup": "Select what do to backup",
+    "whatToImport": "Select what to import",
+    "items": {
+      "exercises": "Exercises",
+      "workouts": "Exercises and workouts",
+      "plans": "Exercises, workouts and workout plans",
+      "everything": "Everything (including user history and preferences)",
+      "restoreBackup": "Restore backup (ovewrite all existing data)"
+    },
+    "backingUp": "Backing up..."
   }
 }

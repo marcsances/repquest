@@ -20,6 +20,7 @@ import {HistoryEntry} from "./pages/history/historyEntry";
 import ErrorBoundary from './components/errorBoundary';
 import {PictureViewer} from "./pages/workout/pictureViewer";
 import {WhatsNew} from "./pages/whatsNew/whatsNew";
+import {Backup} from "./pages/settings/backup";
 
 const darkTheme = createTheme({
     palette: {
@@ -42,6 +43,8 @@ function App() {
                                             <Route path="/" element={<WorkoutList/>}/>
                                             <Route path="/history" element={<HistoryPage/>}/>
                                             <Route path="/history/:workoutId" element={<HistoryEntry/>}/>
+                                            <Route path="/settings/backup"
+                                                   element={<Backup/>}/>
                                             <Route path="/settings" element={<SettingsPage/>}/>
                                             <Route path="/workout" element={<WorkoutPage/>}/>
                                             <Route path="/youtube"

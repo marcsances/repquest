@@ -14,6 +14,7 @@ import Selector from "../../components/selector";
 import {OneRm} from "../../utils/oneRm";
 import {Cake} from "@mui/icons-material";
 import {useNavigate} from "react-router-dom";
+import BackupIcon from "@mui/icons-material/Backup";
 
 declare let window: any;
 export const SettingsPage = () => {
@@ -82,6 +83,14 @@ export const SettingsPage = () => {
                     </Avatar>
                 </ListItemAvatar>
                 <ListItemText primary={t("oneRmFormula")} secondary={oneRm === OneRm.EPLEY ? "Epley" : "Brzycki"} />
+            </ListItemButton>
+            <ListItemButton component="a" onClick={() => navigate("/settings/backup")}>
+                <ListItemAvatar>
+                    <Avatar>
+                        <BackupIcon/>
+                    </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary={t("backup.title")} secondary={t("backup.description")} />
             </ListItemButton>
             <ListItemButton component="a" onClick={() => navigate("/whats-new")}>
                 <ListItemAvatar>

@@ -53,6 +53,16 @@ export class DexieDB extends Dexie {
             userMetric: "++id",
             plan: "++id, workoutId, name"
         });
+        this.version(5).stores({
+            exercise: "++id, name, type, *tags",
+            workout: "++id, name",
+            workoutHistory: "++id, userName, date, workoutExerciseIds",
+            workoutExercise: "++id, exerciseId, setIds",
+            exerciseSet: "++id, exerciseId, type, initial",
+            user: "++name",
+            userMetric: "++id",
+            plan: "++id, workoutId, name"
+        });
         this.exercise.count().then((count) => {
             if (count < 39) {
                 InjectData(this).then(() => {
