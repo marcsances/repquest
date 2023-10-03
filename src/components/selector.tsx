@@ -1,13 +1,14 @@
 import {Avatar, Dialog, DialogTitle, List, ListItem, ListItemAvatar, ListItemButton, ListItemText} from "@mui/material";
 import {useTranslation} from "react-i18next";
-import React, {ReactElement} from "react";
+import React from "react";
+import KeyValue from "../models/keyvalue";
 
 export interface SimpleDialogProps {
     open: boolean;
     selectedValue: string;
     onClose: (value: string) => void;
     title: string;
-    entries: { key: string, text: string, icon?: ReactElement }[];
+    entries: KeyValue[];
 }
 
 const Selector = (props: SimpleDialogProps) => {
@@ -31,7 +32,7 @@ const Selector = (props: SimpleDialogProps) => {
                     <ListItemButton
                         autoFocus
                     >
-                        <ListItemText primary={it.text} />
+                        <ListItemText primary={it.value} />
                     </ListItemButton>
                 </ListItem>))}
             </List>

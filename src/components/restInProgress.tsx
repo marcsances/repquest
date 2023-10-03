@@ -1,6 +1,6 @@
 import * as React from "react";
+import {useContext, useEffect, useMemo} from "react";
 import {useTranslation} from "react-i18next";
-import {useContext, useMemo} from "react";
 import {WorkoutContext} from "../context/workoutContext";
 import {Avatar, Box, CircularProgress, ListItemAvatar, ListItemButton, ListItemText} from "@mui/material";
 import HourglassBottomIcon from '@mui/icons-material/HourglassBottom';
@@ -12,7 +12,14 @@ export const RestInProgress = (props: {onClick: () => void}) => {
     const { restStarted, restTime, time } = useContext(WorkoutContext);
     const currentRestTime = useMemo(() => restStarted ? restTime - (Date.now() - restStarted?.getTime()) / 1000 : 0, [time, restStarted, restTime]);
     const restLabel = Math.floor(currentRestTime).toString() + " s " + t("remaining");
-    return <ListItemButton component="a" onClick={onClick}>
+    useEffect(() => {
+        if (currentRestTime === 0 && "vibrate" in navigator && navigator.userAgent.includes("Android")) {
+            try {
+                navigator.vibrate(3000);
+            } catch {}
+        }
+    }, [currentRestTime]);
+    return currentRestTime >= 0 ? <Box sx={{position: "relative", height: "96px"}}><ListItemButton component="a" onClick={onClick} sx={{height: "96px"}}>
         <ListItemAvatar>
             <Avatar>
                 <Box position="relative" display="inline-flex">
@@ -35,5 +42,5 @@ export const RestInProgress = (props: {onClick: () => void}) => {
             </Avatar>
         </ListItemAvatar>
         <ListItemText primary={t("restInProgress")} secondary={restLabel}/>
-    </ListItemButton>
+    </ListItemButton></Box> : <></>;
 }

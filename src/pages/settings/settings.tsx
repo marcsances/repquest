@@ -3,7 +3,6 @@ import Layout from "../../components/layout";
 import {useTranslation} from "react-i18next";
 import {Avatar, List, ListItemAvatar, ListItemButton, ListItemText} from "@mui/material";
 import TranslateIcon from '@mui/icons-material/Translate';
-import InfoIcon from '@mui/icons-material/Info';
 import InstallMobileIcon from '@mui/icons-material/InstallMobile';
 import pjson from "../../../package.json";
 import i18n from "i18next";
@@ -13,6 +12,8 @@ import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import Selector from "../../components/selector";
 import {OneRm} from "../../utils/oneRm";
+import {Cake} from "@mui/icons-material";
+import {useNavigate} from "react-router-dom";
 
 declare let window: any;
 export const SettingsPage = () => {
@@ -28,7 +29,7 @@ export const SettingsPage = () => {
     }
 
     const { showRpe, showRir, useLbs, oneRm, saveLbs, saveRir, saveRpe, saveOneRm } = useContext(SettingsContext);
-
+    const navigate = useNavigate();
     const [openLanguage, setOpenLanguage] = useState(false);
     const [openOneRm, setOpenOneRm] = useState(false);
 
@@ -82,13 +83,13 @@ export const SettingsPage = () => {
                 </ListItemAvatar>
                 <ListItemText primary={t("oneRmFormula")} secondary={oneRm === OneRm.EPLEY ? "Epley" : "Brzycki"} />
             </ListItemButton>
-            <ListItemButton component="a">
+            <ListItemButton component="a" onClick={() => navigate("/whats-new")}>
                 <ListItemAvatar>
                     <Avatar>
-                        <InfoIcon/>
+                        <Cake/>
                     </Avatar>
                 </ListItemAvatar>
-                <ListItemText primary={t("version")} secondary={pjson.version} />
+                <ListItemText primary={t("whatsNew")} secondary={t("version") + " " + pjson.version} />
             </ListItemButton>
         </List>
         <Selector
@@ -100,7 +101,7 @@ export const SettingsPage = () => {
                 setOpenLanguage(false);
             }}
             title={t("language")}
-            entries={[{key: "ca", text: "Català"}, {key: "en", text: "English"}, {key: "es", text: "Español"}]}
+            entries={[{key: "ca", value: "Català"}, {key: "en", value: "English"}, {key: "es", value: "Español"}]}
         />
         <Selector
             selectedValue={oneRm.toString(10)}
@@ -110,7 +111,7 @@ export const SettingsPage = () => {
                 setOpenOneRm(false);
             }}
             title={t("oneRmFormula")}
-            entries={[{key: OneRm.EPLEY.toString(10), text: "Epley"}, {key: OneRm.BRZYCKI.toString(10), text: "Brzycki"}]}
+            entries={[{key: OneRm.EPLEY.toString(10), value: "Epley"}, {key: OneRm.BRZYCKI.toString(10), value: "Brzycki"}]}
         />
     </Layout>;
 }

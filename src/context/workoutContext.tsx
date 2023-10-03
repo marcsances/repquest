@@ -73,7 +73,7 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
     useEffect(() => {
         const interval = setInterval(() => {
             setTime(new Date());
-        }, 1000);
+        }, 200);
 
         return () => clearInterval(interval);
     }, [setTime]);
@@ -223,7 +223,7 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
             startRest(set.rest);
         }
         pruneSets();
-    }, [db, currentWorkoutExercise, currentSetNumber, storedExercises, setCurrentWorkoutHistory, setCurrentWorkoutExerciseNumber, setCurrentSetNumber, setStoredExercises]);
+    }, [db, currentWorkoutExercise, currentSetNumber, currentWorkoutHistory, pruneSets, storedExercises, setCurrentWorkoutHistory, setCurrentWorkoutExerciseNumber, setCurrentSetNumber, setStoredExercises]);
     const startRest = useCallback((time: number) => {
         setRestStarted(new Date());
         setRestTime(time);

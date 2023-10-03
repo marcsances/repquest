@@ -11,6 +11,10 @@ import {
     DialogActions,
     DialogTitle,
     Fab,
+    ListItemIcon,
+    ListItemText,
+    Menu,
+    MenuItem,
     Paper,
     Stack,
     Table,
@@ -32,7 +36,7 @@ import {DBContext} from "../../context/dbContext";
 import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import {useNavigate} from "react-router-dom";
-import {ExerciseSet} from "../../models/workout";
+import {ExerciseSet, SetType} from "../../models/workout";
 import {Rest} from "./rest";
 import StopIcon from "@mui/icons-material/Stop";
 import {ExerciseTag} from "../../models/exercise";
@@ -40,6 +44,11 @@ import {SettingsContext} from "../../context/settingsContext";
 import {compareSetHistoryEntries} from "../../utils/comparators";
 import {getOneRm} from "../../utils/oneRm";
 import {RestInProgress} from "../../components/restInProgress";
+import ToggleParameter from "../../components/toggleParameter";
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import CollectionsIcon from '@mui/icons-material/Collections';
+import HistoryIcon from '@mui/icons-material/History';
+import {CheckBox, CheckBoxOutlineBlank, ErrorOutlineRounded} from "@mui/icons-material";
 
 export const WorkoutPage = () => {
     const {
@@ -61,13 +70,14 @@ export const WorkoutPage = () => {
         stopWorkout,
         time,
     } = useContext(WorkoutContext);
-    const {showRpe, showRir, useLbs, oneRm} = useContext(SettingsContext);
+    const {showRpe, showRir, useLbs, oneRm, wakeLock,
+        saveWakeLock, saveRpe,
+        saveRir, errorWakeLock } = useContext(SettingsContext);
     const {db} = useContext(DBContext);
     const [viewHistory, setViewHistory] = useState(false);
     const {t} = useTranslation();
     const navigate = useNavigate();
     const [ showRest, setShowRest ] = useState(true);
-
 
     const save = async () => {
         if (!currentSet || !saveSet) return;
@@ -107,23 +117,82 @@ export const WorkoutPage = () => {
         });
     }, [db, currentWorkoutHistory, focusedExercise, currentSetNumber, currentWorkoutExercise, time]);
 
+    const setOptions = useMemo(() => ([{
+        key: 0,
+        value: t("workSet")
+    },
+        {
+            key: 1,
+            value: t("warmup")
+        },
+        {
+            key: 2,
+            value: t("dropSet")
+        },
+        {
+            key: 3,
+            value: t("failure")
+        }]), [])
+
     const oneRmVal = useMemo(() => currentSet?.weight && currentSet?.reps ? getOneRm(currentSet?.weight, currentSet?.reps, oneRm) : 0, [currentSet]);
 
+    const [menuAnchor, setMenuAnchor] = React.useState<null | HTMLElement>(null);
+    const menuOpen = Boolean(menuAnchor);
+    const openMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setMenuAnchor(event.currentTarget);
+    };
+    const closeMenu = () => {
+        setMenuAnchor(null);
+    }
+    const toolbar = <IconButton aria-label="menu" color="inherit" onClick={openMenu}><MoreVertIcon /></IconButton>;
+
     return !!restTime && showRest ? <Rest onBack={() => setShowRest(false)} /> : <Layout title={followingWorkout?.name || t("freeTraining")} hideNav
-                   toolItems={focusedExercise?.yt_video ? <IconButton
-                       color="inherit"
-                       aria-label="menu"
-                       sx={{mr: 2}}
-                       onClick={() => navigate("/youtube")}
-                   >
-                       <YouTubeIcon/>
-                   </IconButton> : <></>}>
+                   toolItems={toolbar}>
+        <Menu
+            anchorEl={menuAnchor}
+            open={menuOpen}
+            onClose={closeMenu}
+            MenuListProps={{
+                'aria-labelledby': 'menu',
+            }}
+        >
+            {focusedExercise?.yt_video && <MenuItem onClick={() => { navigate("/youtube"); closeMenu(); }}><ListItemIcon>
+                <YouTubeIcon />
+            </ListItemIcon>
+                <ListItemText>{t("actions.viewOnYoutube")}</ListItemText></MenuItem>}
+            <MenuItem onClick={() => { navigate("/picture"); closeMenu(); }}><ListItemIcon>
+                <CollectionsIcon />
+            </ListItemIcon>
+                <ListItemText>{t("actions.viewPicture")}</ListItemText></MenuItem>
+            <MenuItem onClick={() => { setViewHistory((prevHistory) => !prevHistory); closeMenu()}}><ListItemIcon>
+                <HistoryIcon />
+            </ListItemIcon>
+                <ListItemText>{t("actions.viewHistory")}</ListItemText></MenuItem>
+            {/* <MenuItem onClick={closeMenu}><ListItemIcon>
+                <AddCircleOutlineIcon />
+            </ListItemIcon>
+                <ListItemText>{t("actions.addSet")}</ListItemText></MenuItem> */}
+            {"wakeLock" in navigator && !errorWakeLock && saveWakeLock && <MenuItem onClick={() => { saveWakeLock(!wakeLock);}} disabled={errorWakeLock}><ListItemIcon>
+                {wakeLock && !errorWakeLock && <CheckBox />}
+                {!wakeLock && !errorWakeLock && <CheckBoxOutlineBlank/>}
+                {errorWakeLock && <ErrorOutlineRounded/>}
+            </ListItemIcon>
+                <ListItemText>{errorWakeLock ? t("errorWakeLock") : t("wakeLock")}</ListItemText></MenuItem>}
+            {saveRpe && <MenuItem onClick={() => { saveRpe(!showRpe);}}><ListItemIcon>
+                {showRpe ? <CheckBox /> : <CheckBoxOutlineBlank />}
+            </ListItemIcon>
+                <ListItemText>{t("showRPE")}</ListItemText></MenuItem>}
+            {saveRir && <MenuItem onClick={() => { saveRir(!showRir);}}><ListItemIcon>
+                {showRir ? <CheckBox /> : <CheckBoxOutlineBlank />}
+            </ListItemIcon>
+                <ListItemText>{t("showRIR")}</ListItemText></MenuItem>}
+        </Menu>
         <Box sx={{height: "calc(100% - 24px)", display: "flex", flexDirection: "column"}}>
             {!!restTime && !showRest && <RestInProgress onClick={() => setShowRest(true)} />}
             <Paper variant="outlined">
                 <CardActionArea onClick={() => setViewHistory(!viewHistory)}>
                     {!viewHistory && focusedExercise && <Box><CardMedia
-                        sx={{height: "25vh"}}
+                        sx={{height: "15vh"}}
                         image={focusedExercise.picture}
                         title={focusedExercise.name}
                     />
@@ -164,7 +233,7 @@ export const WorkoutPage = () => {
                                                 {set.date.getDate().toString(10).padStart(2, "0") + "/" + set.date.getMonth().toString(10).padStart(2, "0")}
                                             </TableCell>
                                             <TableCell
-                                                align="right">{set.setNumber}{set.side === 1 ? "L" : ""}{set.side === 2 ? "R" : ""}</TableCell>
+                                                align="right">{set.setNumber}{set.type === 1 ? "W" : ""}{set.type === 2 ? "D" : ""}{set.type === 3 ? "F" : ""}{set.side === 1 ? "L" : ""}{set.side === 2 ? "R" : ""}</TableCell>
                                             <TableCell align="right">{set.weight}</TableCell>
                                             <TableCell align="right">{set.reps || set.time || set.laps || set.distance}</TableCell>
                                             {showRpe && <TableCell align="right">{set.rpe}</TableCell>}
@@ -179,8 +248,7 @@ export const WorkoutPage = () => {
             {<Box sx={{overflow: "scroll", flexShrink: 1}}>
                 {currentSet?.side && <Typography sx={{marginTop: "8px", textAlign: "center"}} variant="h4"
                                                  component="p">{currentSet.side === 1 ? t("leftSide") : t("rightSide")}</Typography>}
-                {currentSet?.type === 2 && <Typography sx={{marginTop: "8px", textAlign: "center"}} variant="h4"
-                                                       component="p">{t("dropSet")}</Typography>}
+                {currentSet && <ToggleParameter<SetType> options={setOptions} value={currentSet.type} onChange={(type: number) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, type})}} />}
             <SetParameter name={t("set")} value={currentSetNumber} min={1} max={currentWorkoutExercise?.setIds.length}
                           incrementBy={1} onChange={(setNumber) => { if (setCurrentSetNumber) setCurrentSetNumber(setNumber)}}/>
             {currentSet?.weight &&

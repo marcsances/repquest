@@ -31,7 +31,7 @@ export const HistoryEntry = () => {
             entries.push({id: new Date().getTime(), exercise, sets: (await db.exerciseSet.where("id").anyOf(workoutExercise.setIds).toArray()).sort(compareSetHistoryEntries)});
         }
         setHistory(entries);
-    }, [db])
+    }, [db, workoutId, t])
 
     const getLabelForEntry = useCallback((sets: ExerciseSet[]) => sets.map((set) => {
         if (set.weight && set.reps) {
@@ -46,7 +46,7 @@ export const HistoryEntry = () => {
     useEffect(() => {
         // effect triggers when following workout changes since when we stop a workout we want the history entry to show up
         fetchHistory();
-    }, [followingWorkout])
+    }, [followingWorkout, fetchHistory])
     return <Layout title={historyEntry?.workoutName || t("freeTraining")}><List sx={{width: '100%', height: '100%', bgcolor: 'background.paper'}}>
         {history.map((entry) =>  <ListItemButton key={entry.id} component="a">
             <ListItemAvatar>

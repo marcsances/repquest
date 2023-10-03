@@ -164,7 +164,7 @@ export const WorkoutList = () => {
                 setOpenPlanSelector(false);
             }}
             title={t("selectPlan")}
-            entries={plans.map((p) => ({key: p.id.toString(), text: p.name}))}
+            entries={plans.map((p) => ({ key: p.id.toString(), value: p.name}))}
         />
         <Selector open={!!targetWorkout} selectedValue="cancel" onClose={(key: string) => {
             if (key === "start" && targetWorkout && startWorkout) {
@@ -176,10 +176,10 @@ export const WorkoutList = () => {
             }
             setTargetWorkout(undefined)
         }} title={targetWorkout?.name || ""} entries={[
-            {key: "start", text: t("startWorkout"), icon: <DirectionsRunIcon/>},
-            {key: "edit", text: t("editWorkout"), icon: <EditIcon/>},
-            {key: "delete", text: t("deleteWorkout"), icon: <DeleteIcon/>},
-            {key: "cancel", text: t("cancel"), icon: <CloseIcon/>}]}></Selector>
+            {key: "start", value: t("startWorkout"), icon: <DirectionsRunIcon/>},
+            {key: "edit", value: t("editWorkout"), icon: <EditIcon/>},
+            {key: "delete", value: t("deleteWorkout"), icon: <DeleteIcon/>},
+            {key: "cancel", value: t("cancel"), icon: <CloseIcon/>}]}></Selector>
         <Snackbar
             open={notImplemented}
             autoHideDuration={2000}

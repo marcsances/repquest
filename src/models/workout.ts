@@ -25,8 +25,6 @@ export enum SetType {
     STANDARD,
     WARMUP,
     DROPSET,
-    DROPUP,
-    PYRAMID,
     FAILURE
 }
 

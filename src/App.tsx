@@ -17,6 +17,9 @@ import {WorkoutContextProvider} from './context/workoutContext';
 import {SettingsContextProvider} from "./context/settingsContext";
 import {UserContext} from './context/userContext';
 import {HistoryEntry} from "./pages/history/historyEntry";
+import ErrorBoundary from './components/errorBoundary';
+import {PictureViewer} from "./pages/workout/pictureViewer";
+import {WhatsNew} from "./pages/whatsNew/whatsNew";
 
 const darkTheme = createTheme({
     palette: {
@@ -27,29 +30,35 @@ const darkTheme = createTheme({
 function App() {
 
     return (
-        <ThemeProvider theme={darkTheme}>
-            <DBContext.Provider value={{db: new DexieDB()}}>
-                <UserContext.Provider value={{userName: "Default User"}}>
-                    <WorkoutContextProvider>
-                        <SettingsContextProvider>
-                            <BrowserRouter>
-                                <Paper>
-                                    <Routes>
-                                        <Route path="/" element={<WorkoutList/>}/>
-                                        <Route path="/history" element={<HistoryPage/>}/>
-                                        <Route path="/history/:workoutId" element={<HistoryEntry/>}/>
-                                        <Route path="/settings" element={<SettingsPage/>}/>
-                                        <Route path="/workout" element={<WorkoutPage/>}/>
-                                        <Route path="/youtube"
-                                               element={<YoutubePlayer/>}/>
-                                    </Routes>
-                                </Paper>
-                            </BrowserRouter>
-                        </SettingsContextProvider>
-                    </WorkoutContextProvider>
-                </UserContext.Provider>
-            </DBContext.Provider>
-        </ThemeProvider>
+        <ErrorBoundary>
+            <ThemeProvider theme={darkTheme}>
+                <DBContext.Provider value={{db: new DexieDB()}}>
+                    <UserContext.Provider value={{userName: "Default User"}}>
+                        <WorkoutContextProvider>
+                            <SettingsContextProvider>
+                                <BrowserRouter>
+                                    <Paper>
+                                        <Routes>
+                                            <Route path="/" element={<WorkoutList/>}/>
+                                            <Route path="/history" element={<HistoryPage/>}/>
+                                            <Route path="/history/:workoutId" element={<HistoryEntry/>}/>
+                                            <Route path="/settings" element={<SettingsPage/>}/>
+                                            <Route path="/workout" element={<WorkoutPage/>}/>
+                                            <Route path="/youtube"
+                                                   element={<YoutubePlayer/>}/>
+                                            <Route path="/picture"
+                                                   element={<PictureViewer/>}/>
+                                            <Route path="/whats-new"
+                                                   element={<WhatsNew/>}/>
+                                        </Routes>
+                                    </Paper>
+                                </BrowserRouter>
+                            </SettingsContextProvider>
+                        </WorkoutContextProvider>
+                    </UserContext.Provider>
+                </DBContext.Provider>
+            </ThemeProvider>
+        </ErrorBoundary>
     );
 }
 
