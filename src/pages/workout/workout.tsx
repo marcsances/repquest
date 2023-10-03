@@ -231,7 +231,7 @@ export const WorkoutPage = () => {
                                             sx={{'&:last-child td, &:last-child th': {border: 0}}}
                                         >
                                             <TableCell component="th" scope="row">
-                                                {set.date.getDate().toString(10).padStart(2, "0") + "/" + set.date.getMonth().toString(10).padStart(2, "0")}
+                                                {set.date.getDate().toString(10).padStart(2, "0") + "/" + (set.date.getMonth() + 1).toString(10).padStart(2, "0")}
                                             </TableCell>
                                             <TableCell
                                                 align="right">{set.setNumber}{set.type === 1 ? "W" : ""}{set.type === 2 ? "D" : ""}{set.type === 3 ? "F" : ""}{set.side === 1 ? "L" : ""}{set.side === 2 ? "R" : ""}</TableCell>
