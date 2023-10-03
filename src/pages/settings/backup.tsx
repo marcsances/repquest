@@ -88,8 +88,8 @@ export const Backup  = () => {
             selectedValue="cancel"
             open={mode !== "" && !isWorking}
             onClose={(val: string) => {
-                setIsWorking(true);
                 if (val !== "cancel" && mode === "backup" && target === "json" && db) {
+                    setIsWorking(true);
                     backupToJSON(db, val).then((blobUrl) => {
                         const link = document.createElement('a');
                         link.setAttribute('target', '_blank');

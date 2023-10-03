@@ -102,7 +102,7 @@
   "backup": {
     "title": "Copia de seguridad e importación",
     "description": "Hacer una copia de seguridad de tus datos o importar datos a la app",
-    "doBackup": "Realitar copia de seguridad",
+    "doBackup": "Realizar copia de seguridad",
     "toFile": "A un archivo",
     "toGoogleDrive": "A Google Drive",
     "importData": "Importar datos",
