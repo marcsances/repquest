@@ -22,7 +22,7 @@ const SetParameter = (props: SetParameterProps) => {
 
     const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         const num = parseFloat(e.target.value);
-        if ((min && num < min) || (max && num > max)) {
+        if ((min && num < min) || (max && num > max) || !e.target.value) {
             return;
         }
         const newVal = allowDecimals ? num : Math.floor(num);

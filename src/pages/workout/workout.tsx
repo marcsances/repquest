@@ -71,7 +71,7 @@ export const WorkoutPage = () => {
         time,
     } = useContext(WorkoutContext);
     const {showRpe, showRir, useLbs, oneRm, wakeLock,
-        saveWakeLock, saveRpe,
+        toggleWakeLock, saveRpe,
         saveRir, errorWakeLock } = useContext(SettingsContext);
     const {db} = useContext(DBContext);
     const [viewHistory, setViewHistory] = useState(false);
@@ -172,7 +172,8 @@ export const WorkoutPage = () => {
                 <AddCircleOutlineIcon />
             </ListItemIcon>
                 <ListItemText>{t("actions.addSet")}</ListItemText></MenuItem> */}
-            {"wakeLock" in navigator && !errorWakeLock && saveWakeLock && <MenuItem onClick={() => { saveWakeLock(!wakeLock);}} disabled={errorWakeLock}><ListItemIcon>
+            {"wakeLock" in navigator && !errorWakeLock && toggleWakeLock &&
+                <MenuItem onClick={toggleWakeLock} disabled={errorWakeLock}><ListItemIcon>
                 {wakeLock && !errorWakeLock && <CheckBox />}
                 {!wakeLock && !errorWakeLock && <CheckBoxOutlineBlank/>}
                 {errorWakeLock && <ErrorOutlineRounded/>}
@@ -246,30 +247,40 @@ export const WorkoutPage = () => {
                 </CardActionArea>
             </Paper>
             {<Box sx={{overflow: "scroll", flexShrink: 1}}>
-                {currentSet?.side && <Typography sx={{marginTop: "8px", textAlign: "center"}} variant="h4"
+                {!!currentSet?.side && <Typography sx={{marginTop: "8px", textAlign: "center"}} variant="h4"
                                                  component="p">{currentSet.side === 1 ? t("leftSide") : t("rightSide")}</Typography>}
-                {currentSet && <ToggleParameter<SetType> options={setOptions} value={currentSet.type} onChange={(type: number) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, type})}} />}
+                {!!currentSet && currentSet?.weight !== undefined &&
+                    <ToggleParameter<SetType> options={setOptions} value={currentSet.type} onChange={(type: number) => {
+                        if (currentSet && setCurrentSet) setCurrentSet({...currentSet, type})
+                    }}/>}
             <SetParameter name={t("set")} value={currentSetNumber} min={1} max={currentWorkoutExercise?.setIds.length}
                           incrementBy={1} onChange={(setNumber) => { if (setCurrentSetNumber) setCurrentSetNumber(setNumber)}}/>
-            {currentSet?.weight &&
-                <Parameter name={t("weight")} unit={useLbs ? "lbs" : "kg"} value={currentSet?.weight} min={0} incrementBy={2.5}
+                {currentSet?.weight !== undefined &&
+                    <Parameter name={t("weight")} unit={useLbs ? "lbs" : "kg"} value={currentSet?.weight || 0} min={0}
+                               incrementBy={2.5}
                            allowDecimals onChange={(weight) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, weight})}} />}
-            {currentSet?.reps && <Parameter name={t("reps")} value={currentSet?.reps} min={1} incrementBy={1}
+                {currentSet?.reps !== undefined &&
+                    <Parameter name={t("reps")} value={currentSet?.reps || 0} min={1} incrementBy={1}
                                             onChange={(reps) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, reps})}}/>}
-            {currentSet?.time && <Parameter name={t("time")} unit="s" value={currentSet?.time} min={1} incrementBy={1}
+                {currentSet?.time !== undefined &&
+                    <Parameter name={t("time")} unit="s" value={currentSet?.time || 0} min={1} incrementBy={1}
                                             onChange={(time) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, time})}}/>}
-            {currentSet?.distance && <Parameter name={t("distance")} unit="m" value={currentSet?.distance} min={1} incrementBy={1}
+                {currentSet?.distance !== undefined &&
+                    <Parameter name={t("distance")} unit="m" value={currentSet?.distance || 0} min={1} incrementBy={1}
                                             onChange={(distance) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, distance})}}/>}
-            {currentSet?.laps && <Parameter name={t("laps")} value={currentSet?.laps} min={1} incrementBy={1}
+                {currentSet?.laps !== undefined &&
+                    <Parameter name={t("laps")} value={currentSet?.laps || 0} min={1} incrementBy={1}
                                                 onChange={(laps) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, laps})}}/>}
-            {showRpe && currentSet?.rpe && <Parameter name={t("rpe")} value={currentSet?.rpe} min={0} max={10} incrementBy={1}
+                {showRpe && currentSet?.reps !== undefined &&
+                    <Parameter name={t("rpe")} value={currentSet?.rpe || 0} min={0} max={10} incrementBy={1}
                                            onChange={(rpe) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, rpe})}}/>}
-            {showRir && currentSet?.rir && <Parameter name={t("rir")} value={currentSet?.rir} min={0} incrementBy={1}
+                {showRir && currentSet?.reps !== undefined &&
+                    <Parameter name={t("rir")} value={currentSet?.rir || 0} min={0} incrementBy={1}
                                            onChange={(rir) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, rir})}}/>}
-            {currentSet?.rest &&
-                <Parameter name={t("rest")} unit="s" value={currentSet?.rest} min={0} incrementBy={10}
+                {currentSet?.rest !== undefined &&
+                    <Parameter name={t("rest")} unit="s" value={currentSet?.rest || 0} min={0} incrementBy={10}
                            onChange={(rest) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, rest})}}/>}
-            {currentSet?.weight && currentSet?.reps &&
+                {currentSet?.weight !== undefined && currentSet?.reps !== undefined &&
                 <Typography sx={{paddingLeft: "8px"}}>1RM: {oneRmVal} {useLbs ? "lbs" : "kg"}</Typography>}
             </Box>}
             <Box sx={{flexGrow: 1}}/>

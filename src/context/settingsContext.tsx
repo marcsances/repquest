@@ -11,7 +11,7 @@ export interface ISettingsContext {
     saveLbs?: (value: boolean) => void;
     saveOneRm?: (value: OneRm) => void;
     wakeLock?: boolean;
-    saveWakeLock?: (value: boolean) => void;
+    toggleWakeLock?: () => void;
     errorWakeLock ?: boolean;
 }
 
@@ -38,10 +38,16 @@ export const SettingsContextProvider = (props: { children: ReactElement }) => {
     const [oneRm, setOneRm] = useState(parseInt(localStorage.getItem("oneRm") || "0"));
     const [wakeLockSentinel, setWakeLockSentinel] = useState<WakeLockSentinel | null>(null);
 
+    const toggleWakeLock = () => {
+        setWakeLock((prev) => {
+            localStorage.setItem("wakeLock", prev ? "false" : "true");
+            return !prev;
+        });
+    };
     const requestWakeLock = useCallback(async () => {
-            if (wakeLock && "wakeLock" in navigator && !wakeLockSentinel) {
+        if (wakeLock && "wakeLock" in navigator && !wakeLockSentinel) {
                 try {
-                    const sentinel: WakeLockSentinel = await (navigator.wakeLock as any).request("screen");
+                    const sentinel: WakeLockSentinel = await (navigator as any).wakeLock.request("screen");
                     sentinel.addEventListener("release", () => {
                         setWakeLockSentinel(null);
                     });
@@ -52,9 +58,11 @@ export const SettingsContextProvider = (props: { children: ReactElement }) => {
             } else if (!wakeLock && "wakeLock" in navigator && wakeLockSentinel) {
                 await wakeLockSentinel.release();
             }
-        }, [wakeLock, wakeLockSentinel, setWakeLock, setWakeLockSentinel]);
+    }, [wakeLock, wakeLockSentinel, setWakeLockSentinel]);
 
-    useEffect(() => { if ("wakeLock" in navigator) requestWakeLock() }, [requestWakeLock, wakeLock, wakeLockSentinel, setWakeLock, setWakeLockSentinel]);
+    useEffect(() => {
+        requestWakeLock()
+    }, [requestWakeLock, wakeLock, wakeLockSentinel, setWakeLock, setWakeLockSentinel]);
     const saveRpe = useCallback((value: boolean) => {
         localStorage.setItem("showRpe", value ? "true" : "false");
         setRpe(value);
@@ -70,10 +78,6 @@ export const SettingsContextProvider = (props: { children: ReactElement }) => {
     const saveOneRm = useCallback((value: OneRm) => {
         localStorage.setItem("oneRm", value.toString(10));
         setOneRm(value);
-    }, [])
-    const saveWakeLock = useCallback((value: boolean) => {
-        localStorage.setItem("wakeLock", value ? "true" : "false");
-        setWakeLock(value);
     }, []);
     const settings = {
         showRpe: rpe,
@@ -84,7 +88,8 @@ export const SettingsContextProvider = (props: { children: ReactElement }) => {
         saveRir,
         saveLbs,
         saveOneRm,
-        saveWakeLock,
+        wakeLock,
+        toggleWakeLock,
         errorWakeLock
     }
     return <SettingsContext.Provider value={settings}>

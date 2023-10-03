@@ -25,6 +25,11 @@ const Parameter = (props: ParameterProps) => {
     }, [value]);
 
     const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (!e.target.value || e.target.value === "") {
+            setVal(0);
+            if (onChange) onChange(0);
+            return;
+        }
         const num = parseFloat(e.target.value);
         if ((min && num < min) || (max && num > max)) {
             return;
