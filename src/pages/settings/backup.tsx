@@ -101,6 +101,9 @@ export const Backup  = () => {
                         setMode("");
                         setIsWorking(false);
                     })
+                } else if (val === "cancel") {
+                    setMode("")
+                    setIsWorking(false);
                 }
             }}
             title={t(mode === "backup" ? "backup.whatToBackup" : "backup.whatToImport")}

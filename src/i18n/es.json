@@ -1,4 +1,5 @@
 {
+  "loading": "Cargando...",
   "workouts": "Rutinas",
   "history": "Historial",
   "settings": "Ajustes",
@@ -118,5 +119,14 @@
       "restoreBackup": "Restaurar copia de seguridad (reemplazar todos los datos existentes)"
     },
     "backingUp": "Realizando copia..."
-  }
+  },
+  "workoutEditor": {
+    "name": "Nombre",
+    "type": "Tipo",
+    "youtubeId": "ID de vídeo de Youtube",
+    "tags": "Etiquetas"
+  },
+  "exercises": "Ejercicios",
+  "addExercise": "Añadir ejercicio",
+  "filter": "Filtrar"
 }

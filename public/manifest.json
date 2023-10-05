@@ -1,6 +1,8 @@
 {
   "short_name": "WeightLog",
   "name": "WeightLog",
+  "description": "WeightLog is a simple online fitness tracking app.",
+  "lang": "en",
   "icons": [
     {
       "src": "favicon.ico",
@@ -20,6 +22,7 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#1F1F8B",
+  "background_color": "#121212",
+  "categories": ["fitness", "health", "health & fitness"]
 }

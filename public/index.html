@@ -8,6 +8,16 @@
     <meta name="theme-color" content="#000000" />
     <meta name="description" content="Weightlog Gym App" />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <link href="splashscreens/iphone5_splash.png" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+    <link href="splashscreens/iphone6_splash.png" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+    <link href="splashscreens/iphoneplus_splash.png" media="(device-width: 621px) and (device-height: 1104px) and (-webkit-device-pixel-ratio: 3)" rel="apple-touch-startup-image" />
+    <link href="splashscreens/iphonex_splash.png" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)" rel="apple-touch-startup-image" />
+    <link href="splashscreens/iphonexr_splash.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+    <link href="splashscreens/iphonexsmax_splash.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)" rel="apple-touch-startup-image" />
+    <link href="splashscreens/ipad_splash.png" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+    <link href="splashscreens/ipadpro1_splash.png" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+    <link href="splashscreens/ipadpro3_splash.png" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+    <link href="splashscreens/ipadpro2_splash.png" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
@@ -23,8 +33,28 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>Weight Log</title>
+    <style type="text/css">
+      .rotate {
+        transform: rotate(-90deg) translate(-100vh);
+        width: 100vh;
+        height: 100vw;
+        transform-origin: top left;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+    </style>
+    <script type="text/javascript">
+      // If orientation is changed and not lock, pseudo rotate the content
+      function reorient(e) {
+        const portrait = (window.screen.orientation.angle % 180 === 0);
+        document.getElementsByTagName("body")[0].className = portrait ? "" : "rotate";
+      }
+      window.onorientationchange = reorient;
+      window.setTimeout(reorient, 0);
+    </script>
   </head>
-  <body style="background-color: rgb(18, 18, 18)">
+  <body style="background-color: rgb(18, 18, 18); overflow: hidden">
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <!--

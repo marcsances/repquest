@@ -21,9 +21,9 @@ export const WLAppBar = (props: WLAppBarProps) => {
     const navigate = useNavigate();
 
     return <Box>
-        <AppBar position="fixed">
+        <AppBar position="fixed" style={{zIndex:1}}>
             <Toolbar>
-                {!["/", "/history", "/settings"].includes(location.pathname) && !hideBack && <IconButton
+                {!["/", "/history", "/settings", "/exercises"].includes(location.pathname) && !hideBack && <IconButton
                     size="large"
                     edge="start"
                     color="inherit"
@@ -36,7 +36,7 @@ export const WLAppBar = (props: WLAppBarProps) => {
                 >
                     <BackIcon/>
                 </IconButton>}
-                <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
+                <Typography variant="h6" component="div" sx={{flexGrow: 1, whiteSpace: "nowrap", overflow: "hidden", maxWidth: "90%", textOverflow: "ellipsis"}}>
                     {title}
                 </Typography>
                 {toolItems}

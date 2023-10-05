@@ -21,6 +21,8 @@ import ErrorBoundary from './components/errorBoundary';
 import {PictureViewer} from "./pages/workout/pictureViewer";
 import {WhatsNew} from "./pages/whatsNew/whatsNew";
 import {Backup} from "./pages/settings/backup";
+import {ExerciseList} from "./pages/workout-editor/exercise_list";
+import {ExerciseEditor} from "./pages/workout-editor/exercise_editor";
 
 const darkTheme = createTheme({
     palette: {
@@ -47,6 +49,8 @@ function App() {
                                                    element={<Backup/>}/>
                                             <Route path="/settings" element={<SettingsPage/>}/>
                                             <Route path="/workout" element={<WorkoutPage/>}/>
+                                            <Route path="/exercises" element={<ExerciseList />}/>
+                                            <Route path="/exercises/:exerciseId" element={<ExerciseEditor/>}/>
                                             <Route path="/youtube"
                                                    element={<YoutubePlayer/>}/>
                                             <Route path="/picture"

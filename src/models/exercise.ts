@@ -1,11 +1,3 @@
-export enum ExerciseType {
-    WEIGHTED,
-    UNWEIGHTED,
-    TIMED,
-    DISTANCE,
-    OBJECTIVE
-}
-
 export enum ExerciseTag {
     WARMUP,
     CARDIO,
@@ -35,7 +27,6 @@ export enum ExerciseTag {
 export interface Exercise {
     id: number;
     name: string;
-    type: ExerciseType;
     picture?: string;
     yt_video?: string;
     tags: ExerciseTag[];

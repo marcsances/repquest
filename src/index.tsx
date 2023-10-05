@@ -73,13 +73,6 @@ document.addEventListener('gestureend', function(e) {
     document.body.style.zoom = 0.99;
 });
 
-if ("orientation" in window.screen && "lock" in window.screen.orientation && /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ) {
-    // lock orientation if possible
-    try {
-        window.screen.orientation.lock("portrait").catch();
-    } catch {}
-}
-
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://cra.link/PWA

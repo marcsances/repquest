@@ -1,4 +1,4 @@
-import React, {ReactNode} from "react";
+import React, {CSSProperties, ReactNode} from "react";
 import WLAppBar from "./app_bar";
 import WLNav from "./nav";
 import {Paper} from "@mui/material";
@@ -10,10 +10,11 @@ const Layout = (props: {
     hideNav?: boolean,
     hideBack?: boolean,
     toolItems?: ReactNode,
-    onBack?: () => void
+    onBack?: () => void,
+    sx?: CSSProperties
 }) => {
-    const {children, title, hideAppBar, hideNav, toolItems, hideBack, onBack} = props;
-    return <Paper sx={{display: "flex", flexDirection: "column", height: "100%", position: "absolute", width: "100vw"}}>
+    const {children, title, hideAppBar, hideNav, toolItems, hideBack, onBack, sx} = props;
+    return <Paper sx={{display: "flex", flexDirection: "column", height: "100%", position: "absolute", width: "100%", ...sx}}>
         {!hideAppBar && <WLAppBar title={title} toolItems={toolItems} hideBack={hideBack} onBack={onBack}/>}
         <Paper sx={{flexGrow: 1, padding: "5px", marginTop: "56px", maxHeight: "calc(100% - 56px)"}}>{children}</Paper>
         {!hideNav && <WLNav/>}

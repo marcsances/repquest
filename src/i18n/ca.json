@@ -1,4 +1,5 @@
 {
+  "loading": "S'està carregant...",
   "workouts": "Rutines",
   "history": "Historial",
   "settings": "Configuració",
@@ -117,5 +118,14 @@
       "restoreBackup": "Restaurar còpia de seguretat (substituïr totes les dades existents)"
     },
     "backingUp": "Còpia en curs..."
-  }
+  },
+  "workoutEditor": {
+    "name": "Nom",
+    "type": "Tipus",
+    "youtubeId": "ID de vídeo de Youtube",
+    "tags": "Etiquetes"
+  },
+  "exercises": "Exercicis",
+  "addExercise": "Afegir exercici",
+  "filter": "Filtrar"
 }

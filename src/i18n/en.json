@@ -1,4 +1,5 @@
 {
+  "loading": "Loading...",
   "workouts": "Workouts",
   "history": "History",
   "settings": "Settings",
@@ -117,5 +118,17 @@
       "restoreBackup": "Restore backup (ovewrite all existing data)"
     },
     "backingUp": "Backing up..."
+  },
+  "exercises": "Exercises",
+  "addExercise": "Add exercise",
+  "filter": "Filter",
+  "workoutEditor": {
+    "name": "Name",
+    "type": "Type",
+    "youtubeId": "Youtube video ID",
+    "tags": "Tags"
+  },
+  "errors": {
+    "pleaseValidYoutubeUrl": "Please provide a valid Youtube URL"
   }
 }

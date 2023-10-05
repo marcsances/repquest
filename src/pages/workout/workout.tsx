@@ -193,7 +193,7 @@ export const WorkoutPage = () => {
             <Paper variant="outlined">
                 <CardActionArea onClick={() => setViewHistory(!viewHistory)}>
                     {!viewHistory && focusedExercise && <Box><CardMedia
-                        sx={{height: "15vh"}}
+                        sx={{height: "15%"}}
                         image={focusedExercise.picture}
                         title={focusedExercise.name}
                     />

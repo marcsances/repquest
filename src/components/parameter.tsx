@@ -19,23 +19,26 @@ export interface ParameterProps {
 
 const Parameter = (props: ParameterProps) => {
     const {name, value, unit, onChange, incrementBy, min, max, allowDecimals} = props;
+    const [displayVal, setDisplayVal] = useState<string>(value.toString());
     const [val, setVal] = useState(value);
     useEffect(() => {
         setVal(value)
     }, [value]);
+    useEffect(() => {
+        setDisplayVal(val.toString());
+    }, [val]);
 
-    const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (!e.target.value || e.target.value === "") {
-            setVal(0);
-            if (onChange) onChange(0);
-            return;
+    const onChangeInput = () => {
+        if (!displayVal || displayVal === "") {
+            setDisplayVal(val.toString());
         }
-        const num = parseFloat(e.target.value);
+        const num = parseFloat(displayVal);
         if ((min && num < min) || (max && num > max)) {
             return;
         }
         const newVal = allowDecimals ? num : Math.floor(num);
         setVal(newVal);
+        setDisplayVal(newVal.toString());
         if (onChange) onChange(newVal);
     }
 
@@ -45,6 +48,7 @@ const Parameter = (props: ParameterProps) => {
             return;
         }
         setVal(newVal);
+        setDisplayVal(newVal.toString());
         if (onChange) onChange(newVal);
     }
 
@@ -54,6 +58,7 @@ const Parameter = (props: ParameterProps) => {
             return;
         }
         setVal(newVal);
+        setDisplayVal(newVal.toString());
         if (onChange) onChange(newVal);
     }
 
@@ -62,10 +67,11 @@ const Parameter = (props: ParameterProps) => {
         <TextField
             id="outlined-number"
             type="number"
-            value={val}
+            value={displayVal}
             variant="standard"
             sx={{flexGrow: 1}}
-            onChange={onChangeInput}
+            onChange={(ev) => setDisplayVal(ev.target.value)}
+            onBlur={onChangeInput}
             inputProps={{style: {textAlign: "right"}}}
         />
         <Typography sx={{marginLeft: "8px", alignSelf: "center", width: "48px"}}>{unit}</Typography>

@@ -1,4 +1,5 @@
 import {ExerciseSet} from "../models/workout";
+import {Exercise} from "../models/exercise";
 
 export const compareSetHistoryEntries = (set1: ExerciseSet, set2: ExerciseSet) => {
     // sort by day descending and by set number ascending
@@ -17,4 +18,8 @@ export const compareSetHistoryEntries = (set1: ExerciseSet, set2: ExerciseSet) =
         return 1;
     }
     return 0;
+}
+
+export const compareExercises = (exercise1: Exercise, exercise2: Exercise) => {
+    return exercise1.name.localeCompare(exercise2.name);
 }

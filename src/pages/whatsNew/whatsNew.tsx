@@ -8,6 +8,21 @@ export const WhatsNew = () => {
     const {t} = useTranslation();
     return <Layout title={t("whatsNew")} hideNav>
         <Box sx={{padding: "20px"}}>
+            <Typography variant="h4">WeightLog Version 0.1.27</Typography>
+            <Typography variant="subtitle1">Released on 05/10/2023</Typography>
+            <Typography variant="subtitle2">Copyright Marc Sances 2023. All rights reserved.</Typography>
+            <br/>
+            <Typography variant="h5">Features</Typography>
+            <ul>
+                <li>Pseudo rotation allows to use the app in iOS with rotation unlocked.</li>
+                <li>Added custom splash screen for iOS and some theme coloring for the PWA.</li>
+                <li>Added exercise database browser and editor (work in progress).</li>
+            </ul>
+            <br/>
+            <Typography variant="h5">Bugfixes</Typography>
+            <ul>
+                <li>The cancel button in the backup menu is now functional.</li>
+            </ul>
             <Typography variant="h4">WeightLog Version 0.1.26</Typography>
             <Typography variant="subtitle1">Released on 03/10/2023</Typography>
             <Typography variant="subtitle2">Copyright Marc Sances 2023. All rights reserved.</Typography>

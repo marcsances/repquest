@@ -29,6 +29,7 @@ import AddIcon from "@mui/icons-material/Add";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {RestInProgress} from "../../components/restInProgress";
+import {SpeedDialActionSx} from "../../utils/globalStyles";
 
 const daysOfWeek = ["mondays", "tuesdays", "wednesdays", "thursdays", "fridays", "saturdays", "sundays"];
 
@@ -70,18 +71,6 @@ export const WorkoutList = () => {
         }
     }, [stopWorkout]);
 
-    const speedDialActionSx = {
-        marginTop: "16px",
-        "& .MuiSpeedDialAction-fab": {
-            backgroundColor: theme.palette.text.primary,
-            color: theme.palette.background.default
-        },
-        "& .MuiSpeedDialAction-staticTooltipLabel": {
-            backgroundColor: theme.palette.text.primary,
-            color: theme.palette.background.default
-        }
-    };
-
     const workoutLabel = useMemo(() => {
         time?.getTime();
         if (!timeStarted || !currentWorkout) return;
@@ -94,7 +83,10 @@ export const WorkoutList = () => {
         return `${currentWorkout.name} - ${hours.toString()}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
     }, [currentWorkout, time, timeStarted]);
 
-    return <Layout title={t("workouts")}><List sx={{width: '100%', height: '100%', bgcolor: 'background.paper'}}>
+
+    const speedDialActionSx = SpeedDialActionSx(theme);
+
+    return <Layout title={t("workouts")}><List sx={{width: '100%', height: '100%', bgcolor: 'background.paper', overflow: "scroll"}}>
         {timeStarted && currentWorkout && <>            {!!restTime &&
             <RestInProgress onClick={() => navigate("/workout")}/>}
             <ListItemButton component="a" onClick={() => navigate("/workout")}>
@@ -123,7 +115,7 @@ export const WorkoutList = () => {
                 <ListItemText primary={workout.name} secondary={workout.daysOfWeek.map((d) => t(daysOfWeek[d])).join(",")}/>
             </ListItemButton>
         )}
-        {!currentWorkout && <SpeedDial sx={{position: 'absolute', bottom: 72, right: 16}} ariaLabel="Actions"
+        {!currentWorkout && <SpeedDial sx={{position: 'fixed', bottom: 72, right: 16, zIndex: 1}} ariaLabel="Actions"
                                        icon={<SpeedDialIcon icon={<MenuIcon/>} openIcon={<CloseIcon/>}/>}
                                        open={showMenu} onOpen={() => setShowMenu(true)}
                                        onClose={() => setShowMenu(false)}>
