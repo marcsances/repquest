@@ -123,9 +123,18 @@
     "name": "Nom",
     "type": "Tipus",
     "youtubeId": "ID de vídeo de Youtube",
-    "tags": "Etiquetes"
+    "tags": "Etiquetes",
+    "uploadPicture": "Puja una imatge",
+    "enterPictureUrl": "Introduïr adreça de la imatge",
+    "clearPicture": "Esborrar la imatge"
+  },
+  "errors": {
+    "pleaseValidYoutubeUrl": "Introduïu una adreça de Youtube vàlida",
+    "pleaseValidUrl": "Introduïu una adreça web vàlida"
   },
   "exercises": "Exercicis",
   "addExercise": "Afegir exercici",
-  "filter": "Filtrar"
+  "filter": "Filtrar",
+  "saved": "S'ha desat",
+  "somethingWentWrong": "Quelcom no ha funcionat..."
 }

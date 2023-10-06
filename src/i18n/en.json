@@ -126,9 +126,15 @@
     "name": "Name",
     "type": "Type",
     "youtubeId": "Youtube video ID",
-    "tags": "Tags"
+    "tags": "Tags",
+    "uploadPicture": "Upload picture",
+    "enterPictureUrl": "Enter picture URL",
+    "clearPicture": "Clear picture"
   },
   "errors": {
-    "pleaseValidYoutubeUrl": "Please provide a valid Youtube URL"
-  }
+    "pleaseValidYoutubeUrl": "Please provide a valid Youtube URL",
+    "pleaseValidUrl": "Please provide a valid URL"
+  },
+  "saved": "Saved",
+  "somethingWentWrong": "Something went wrong."
 }

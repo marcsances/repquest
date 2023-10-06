@@ -6,8 +6,23 @@ import {Box} from "@mui/material";
 
 export const WhatsNew = () => {
     const {t} = useTranslation();
-    return <Layout title={t("whatsNew")} hideNav>
-        <Box sx={{padding: "20px"}}>
+    return <Layout title={t("whatsNew")} hideNav scroll>
+        <Box sx={{padding: "20px", height: "100%", width: "100%"}}>
+            <Typography variant="h4">WeightLog Version 0.1.28</Typography>
+            <Typography variant="subtitle1">Released on 06/10/2023</Typography>
+            <Typography variant="subtitle2">Copyright Marc Sances 2023. All rights reserved.</Typography>
+            <br/>
+            <Typography variant="h5">Features</Typography>
+            <ul>
+                <li>Exercise editor now able to save.</li>
+                <li>Exercise editor now able to edit exercise names, youtube ID and picture (tags coming soon).</li>
+            </ul>
+            <Typography variant="h5">Bugfixes</Typography>
+            <ul>
+                <li>The image in the workout card is visible again.</li>
+                <li>The what's new page can be scrolled again.</li>
+                <li>Added missing assets for iOS splash screens.</li>
+            </ul>
             <Typography variant="h4">WeightLog Version 0.1.27</Typography>
             <Typography variant="subtitle1">Released on 05/10/2023</Typography>
             <Typography variant="subtitle2">Copyright Marc Sances 2023. All rights reserved.</Typography>

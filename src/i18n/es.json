@@ -124,9 +124,18 @@
     "name": "Nombre",
     "type": "Tipo",
     "youtubeId": "ID de vídeo de Youtube",
-    "tags": "Etiquetas"
+    "tags": "Etiquetas",
+    "uploadPicture": "Subir una imagen",
+    "enterPictureUrl": "Introducir dirección de la imagen",
+    "clearPicture": "Eliminar imagen"
+  },
+  "errors": {
+    "pleaseValidYoutubeUrl": "Introduzca una dirección de Youtube válida",
+    "pleaseValidUrl": "Introduzca una URL válida"
   },
   "exercises": "Ejercicios",
   "addExercise": "Añadir ejercicio",
-  "filter": "Filtrar"
+  "filter": "Filtrar",
+  "saved": "Guardado",
+  "somethingWentWrong": "Algo falló..."
 }

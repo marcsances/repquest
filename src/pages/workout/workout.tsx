@@ -145,6 +145,7 @@ export const WorkoutPage = () => {
         setMenuAnchor(null);
     }
     const toolbar = <IconButton aria-label="menu" color="inherit" onClick={openMenu}><MoreVertIcon /></IconButton>;
+    const portrait = (window.screen.orientation.angle % 180 === 0);
 
     return !!restTime && showRest ? <Rest onBack={() => setShowRest(false)} /> : <Layout title={followingWorkout?.name || t("freeTraining")} hideNav
                    toolItems={toolbar}>
@@ -193,7 +194,7 @@ export const WorkoutPage = () => {
             <Paper variant="outlined">
                 <CardActionArea onClick={() => setViewHistory(!viewHistory)}>
                     {!viewHistory && focusedExercise && <Box><CardMedia
-                        sx={{height: "15%"}}
+                        sx={{height: "30" + (portrait ? "vh" : "vw")}}
                         image={focusedExercise.picture}
                         title={focusedExercise.name}
                     />
