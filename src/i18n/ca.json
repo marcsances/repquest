@@ -120,6 +120,7 @@
     "backingUp": "Còpia en curs..."
   },
   "workoutEditor": {
+    "title": "Workout editor",
     "name": "Nom",
     "type": "Tipus",
     "youtubeId": "ID de vídeo de Youtube",

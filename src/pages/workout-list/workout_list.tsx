@@ -163,6 +163,8 @@ export const WorkoutList = () => {
                 startWorkout(targetWorkout).then(() => {
                     navigate("/workout");
                 })
+            } else if (key === "edit" && targetWorkout) {
+                navigate("/workout/" + targetWorkout.id.toString());
             } else if (key !== "cancel") {
                 setNotImplemented(true);
             }

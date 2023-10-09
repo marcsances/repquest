@@ -123,6 +123,7 @@
   "addExercise": "Add exercise",
   "filter": "Filter",
   "workoutEditor": {
+    "title": "Workout editor",
     "name": "Name",
     "type": "Type",
     "youtubeId": "Youtube video ID",

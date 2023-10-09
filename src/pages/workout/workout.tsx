@@ -264,14 +264,14 @@ export const WorkoutPage = () => {
                     <Parameter name={t("reps")} value={currentSet?.reps || 0} min={1} incrementBy={1}
                                             onChange={(reps) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, reps})}}/>}
                 {currentSet?.time !== undefined &&
-                    <Parameter name={t("time")} unit="s" value={currentSet?.time || 0} min={1} incrementBy={1}
-                                            onChange={(time) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, time})}}/>}
+                    <Parameter name={t("time")} unit="min" value={currentSet?.time || 0} min={0} incrementBy={1}
+                               allowDecimals onChange={(time) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, time})}}/>}
                 {currentSet?.distance !== undefined &&
                     <Parameter name={t("distance")} unit="m" value={currentSet?.distance || 0} min={1} incrementBy={1}
-                                            onChange={(distance) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, distance})}}/>}
+                               allowDecimals onChange={(distance) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, distance})}}/>}
                 {currentSet?.laps !== undefined &&
                     <Parameter name={t("laps")} value={currentSet?.laps || 0} min={1} incrementBy={1}
-                                                onChange={(laps) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, laps})}}/>}
+                               allowDecimals onChange={(laps) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, laps})}}/>}
                 {showRpe && currentSet?.reps !== undefined &&
                     <Parameter name={t("rpe")} value={currentSet?.rpe || 0} min={0} max={10} incrementBy={1}
                                            onChange={(rpe) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, rpe})}}/>}

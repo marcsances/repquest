@@ -121,6 +121,7 @@
     "backingUp": "Realizando copia..."
   },
   "workoutEditor": {
+    "title": "Editor de rutinas",
     "name": "Nombre",
     "type": "Tipo",
     "youtubeId": "ID de vídeo de Youtube",
