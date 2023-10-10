@@ -23,6 +23,8 @@ import {WhatsNew} from "./pages/whatsNew/whatsNew";
 import {Backup} from "./pages/settings/backup";
 import {ExerciseList} from "./pages/workout-editor/exercise_list";
 import {ExerciseEditor} from "./pages/workout-editor/exercise_editor";
+import {WorkoutEditor} from './pages/workout-editor/workout_editor';
+import {WorkoutExerciseEditor} from './pages/workout-editor/workoutExercise_editor';
 
 const darkTheme = createTheme({
     palette: {
@@ -49,6 +51,8 @@ function App() {
                                                    element={<Backup/>}/>
                                             <Route path="/settings" element={<SettingsPage/>}/>
                                             <Route path="/workout" element={<WorkoutPage/>}/>
+                                            <Route path="/workout/:workoutId" element={<WorkoutEditor/>}/>
+                                            <Route path="/workoutExercise/:workoutExerciseId" element={<WorkoutExerciseEditor/>}/>
                                             <Route path="/exercises" element={<ExerciseList />}/>
                                             <Route path="/exercises/:exerciseId" element={<ExerciseEditor/>}/>
                                             <Route path="/youtube"

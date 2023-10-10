@@ -53,10 +53,12 @@
   "startWorkout": "Start workout",
   "editWorkout": "Edit workout",
   "deleteWorkout": "Delete workout",
+  "delete": "Delete",
   "ok": "OK",
   "cancel": "Cancel",
   "leftSide": "Left side",
   "rightSide": "Right side",
+  "bilateral": "Bilateral",
   "setType": "Set type",
   "workSet": "Work set",
   "warmup": "Warmup",
@@ -66,7 +68,9 @@
     "viewOnYoutube": "View on Youtube",
     "viewPicture": "View picture",
     "viewHistory": "View history",
-    "addSet": "Add set"
+    "addSet": "Add set",
+    "moveUp": "Move up",
+    "moveDown": "Move down"
   },
   "restInProgress": "Rest in progress",
   "remaining": "remaining",
@@ -123,6 +127,7 @@
   "addExercise": "Add exercise",
   "filter": "Filter",
   "workoutEditor": {
+    "title": "Workout editor",
     "name": "Name",
     "type": "Type",
     "youtubeId": "Youtube video ID",
@@ -136,5 +141,20 @@
     "pleaseValidUrl": "Please provide a valid URL"
   },
   "saved": "Saved",
-  "somethingWentWrong": "Something went wrong."
+  "somethingWentWrong": "Something went wrong.",
+  "useCheckboxes": "Use the checkboxes to select the parameters you wish to input during workouts.",
+  "confirmDeleteWorkout": {
+    "title": "Delete workout",
+    "message": "The workout will be removed from the workout plan, but any existing workout history entries will be kept until you delete them."
+  },
+  "confirmDeleteWorkoutExercise": {
+    "title": "Delete workout exercise",
+    "message": "The exercise will be removed from the workout, but any existing workout history entries will be kept until you delete them."
+  },
+  "confirmDeleteSet": {
+    "title": "Delete set",
+    "message": "The set will be removed from the workout, but any existing workout history entries will be kept until you delete them."
+  },
+  "selectExercise": "Select exercise",
+  "searchExercises": "Search exercises..."
 }

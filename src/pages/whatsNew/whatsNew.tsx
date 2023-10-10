@@ -8,6 +8,14 @@ export const WhatsNew = () => {
     const {t} = useTranslation();
     return <Layout title={t("whatsNew")} hideNav scroll>
         <Box sx={{padding: "20px", height: "100%", width: "100%"}}>
+            <Typography variant="h4">WeightLog Version 0.1.29</Typography>
+            <Typography variant="subtitle1">Released on 10/10/2023</Typography>
+            <Typography variant="subtitle2">Copyright Marc Sances 2023. All rights reserved.</Typography>
+            <br/>
+            <Typography variant="h5">Features</Typography>
+            <ul>
+                <li>Partially functional workout editor (can add and remove exercises but only in existing workouts)</li>
+            </ul>
             <Typography variant="h4">WeightLog Version 0.1.28</Typography>
             <Typography variant="subtitle1">Released on 06/10/2023</Typography>
             <Typography variant="subtitle2">Copyright Marc Sances 2023. All rights reserved.</Typography>

@@ -1,5 +1,5 @@
 import Typography from "@mui/material/Typography";
-import {TextField} from "@mui/material";
+import {Checkbox, TextField} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
@@ -9,8 +9,9 @@ import React, {useEffect, useState} from "react";
 export interface ParameterProps {
     name: string;
     unit?: string;
-    value: number;
+    value?: number;
     onChange?: (value: number) => void;
+    onToggle?: (toggle: boolean) => void;
     incrementBy?: number;
     min?: number;
     max?: number;
@@ -18,19 +19,23 @@ export interface ParameterProps {
 }
 
 const Parameter = (props: ParameterProps) => {
-    const {name, value, unit, onChange, incrementBy, min, max, allowDecimals} = props;
-    const [displayVal, setDisplayVal] = useState<string>(value.toString());
+    const {name, value, unit, onChange, onToggle, incrementBy, min, max, allowDecimals} = props;
+    const [displayVal, setDisplayVal] = useState<string>(value?.toString() || "");
     const [val, setVal] = useState(value);
+    const [paramDisabled, setParamDisabled] = useState(value === undefined);
+    useEffect(() => {
+        setParamDisabled(value === undefined)
+    }, [value, setParamDisabled]);
     useEffect(() => {
         setVal(value)
-    }, [value]);
+    }, [value, setVal]);
     useEffect(() => {
-        setDisplayVal(val.toString());
-    }, [val]);
+        setDisplayVal(val?.toString() || "");
+    }, [val, setDisplayVal]);
 
     const onChangeInput = () => {
         if (!displayVal || displayVal === "") {
-            setDisplayVal(val.toString());
+            setDisplayVal(val?.toString() || "");
         }
         const num = parseFloat(displayVal);
         if ((min && num < min) || (max && num > max)) {
@@ -43,6 +48,7 @@ const Parameter = (props: ParameterProps) => {
     }
 
     const onAdd = () => {
+        if (!val) return;
         const newVal = val + (incrementBy || 1);
         if ((min !== undefined && newVal < min) || (max !== undefined && newVal > max)) {
             return;
@@ -53,6 +59,7 @@ const Parameter = (props: ParameterProps) => {
     }
 
     const onRemove = () => {
+        if (!val) return;
         const newVal = val - (incrementBy || 1);
         if ((min !== undefined && newVal < min) || (max !== undefined && newVal > max)) {
             return;
@@ -62,7 +69,10 @@ const Parameter = (props: ParameterProps) => {
         if (onChange) onChange(newVal);
     }
 
+    const disabled = val === undefined;
+
     return <Box sx={{display: "flex", flexDirection: "row", margin: "8px"}}>
+        {onToggle && <Checkbox checked={!paramDisabled} onChange={(ev) => onToggle(ev.target.checked)} />}
         <Typography sx={{marginRight: "8px", alignSelf: "center", width: "200px"}}>{name}</Typography>
         <TextField
             id="outlined-number"
@@ -72,13 +82,14 @@ const Parameter = (props: ParameterProps) => {
             sx={{flexGrow: 1}}
             onChange={(ev) => setDisplayVal(ev.target.value)}
             onBlur={onChangeInput}
+            disabled={disabled}
             inputProps={{style: {textAlign: "right"}}}
         />
         <Typography sx={{marginLeft: "8px", alignSelf: "center", width: "48px"}}>{unit}</Typography>
-        <IconButton onClick={onRemove} color="primary" size="small" aria-label="add" sx={{marginLeft: "4px"}} disabled={min ? val <= min : false}>
+        <IconButton onClick={onRemove} color="primary" size="small" aria-label="add" sx={{marginLeft: "4px"}} disabled={min || disabled ? (min && val && val <= min) || disabled : false}>
             <RemoveIcon/>
         </IconButton>
-        <IconButton onClick={onAdd} color="primary" size="small" aria-label="add" sx={{marginLeft: "8px"}} disabled={max ? val >= max : false}>
+        <IconButton onClick={onAdd} color="primary" size="small" aria-label="add" sx={{marginLeft: "8px"}} disabled={min || disabled ? (min && val && val <= min) || disabled : false}>
             <AddIcon/>
         </IconButton>
     </Box>

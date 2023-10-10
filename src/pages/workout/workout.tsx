@@ -132,7 +132,7 @@ export const WorkoutPage = () => {
         {
             key: 3,
             value: t("failure")
-        }]), [])
+        }]), [t])
 
     const oneRmVal = useMemo(() => currentSet?.weight && currentSet?.reps ? getOneRm(currentSet?.weight, currentSet?.reps, oneRm) : 0, [currentSet]);
 
@@ -232,7 +232,7 @@ export const WorkoutPage = () => {
                                             sx={{'&:last-child td, &:last-child th': {border: 0}}}
                                         >
                                             <TableCell component="th" scope="row">
-                                                {set.date.getDate().toString(10).padStart(2, "0") + "/" + (set.date.getMonth() + 1).toString(10).padStart(2, "0")}
+                                                {set.date ? set.date.getDate().toString(10).padStart(2, "0") + "/" + (set.date.getMonth() + 1).toString(10).padStart(2, "0") : ""}
                                             </TableCell>
                                             <TableCell
                                                 align="right">{set.setNumber}{set.type === 1 ? "W" : ""}{set.type === 2 ? "D" : ""}{set.type === 3 ? "F" : ""}{set.side === 1 ? "L" : ""}{set.side === 2 ? "R" : ""}</TableCell>
@@ -247,7 +247,7 @@ export const WorkoutPage = () => {
                         </TableContainer>}
                 </CardActionArea>
             </Paper>
-            {<Box sx={{overflow: "scroll", flexShrink: 1}}>
+            {<Box sx={{overflow: "auto", flexShrink: 1}}>
                 {!!currentSet?.side && <Typography sx={{marginTop: "8px", textAlign: "center"}} variant="h4"
                                                  component="p">{currentSet.side === 1 ? t("leftSide") : t("rightSide")}</Typography>}
                 {!!currentSet && currentSet?.weight !== undefined &&
@@ -264,14 +264,14 @@ export const WorkoutPage = () => {
                     <Parameter name={t("reps")} value={currentSet?.reps || 0} min={1} incrementBy={1}
                                             onChange={(reps) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, reps})}}/>}
                 {currentSet?.time !== undefined &&
-                    <Parameter name={t("time")} unit="s" value={currentSet?.time || 0} min={1} incrementBy={1}
-                                            onChange={(time) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, time})}}/>}
+                    <Parameter name={t("time")} unit="min" value={currentSet?.time || 0} min={0} incrementBy={1}
+                               allowDecimals onChange={(time) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, time})}}/>}
                 {currentSet?.distance !== undefined &&
                     <Parameter name={t("distance")} unit="m" value={currentSet?.distance || 0} min={1} incrementBy={1}
-                                            onChange={(distance) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, distance})}}/>}
+                               allowDecimals onChange={(distance) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, distance})}}/>}
                 {currentSet?.laps !== undefined &&
                     <Parameter name={t("laps")} value={currentSet?.laps || 0} min={1} incrementBy={1}
-                                                onChange={(laps) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, laps})}}/>}
+                               allowDecimals onChange={(laps) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, laps})}}/>}
                 {showRpe && currentSet?.reps !== undefined &&
                     <Parameter name={t("rpe")} value={currentSet?.rpe || 0} min={0} max={10} incrementBy={1}
                                            onChange={(rpe) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, rpe})}}/>}
