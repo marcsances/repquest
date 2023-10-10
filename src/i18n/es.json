@@ -151,6 +151,10 @@
     "title": "Eliminar ejercicio de la rutina",
     "message": "El ejercicio será eliminado de la rutina, pero las entradas del historial seguirán siendo visibles hasta que las elimines manualmente."
   },
+  "confirmDeleteSet": {
+    "title": "Eliminar serie de la rutina",
+    "message": "La serie será eliminada de la rutina, pero las entradas del historial seguirán siendo visibles hasta que las elimines manualmente."
+  },
   "selectExercise": "Seleccionar ejercicio",
   "searchExercises": "Buscar ejercicios..."
 }

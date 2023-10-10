@@ -79,7 +79,7 @@ export const WorkoutEditor = () => {
         if (!db || !workout || entries === undefined) return;
         setEntries(undefined);
         const workoutExercise: WorkoutExercise = {
-            id: new Date().getTime() * 100 + (Math.random() % 100),
+            id: Math.floor(new Date().getTime() * 100 + (Math.random() % 100)),
             exerciseId: exercise.id,
             setIds: []
         };

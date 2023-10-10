@@ -148,8 +148,12 @@
     "message": "La rutina s'esborrarà del pla d'entrenament, però les entrades de l'historial es conservaran fins que les suprimiu manualment."
   },
   "confirmDeleteWorkoutExercise": {
-    "title": "Eliminar execici de la rutina",
+    "title": "Eliminar exercici de la rutina",
     "message": "L'exercici s'esborrarà de la rutina, però les entrades de l'historial es conservaran fins que les suprimiu manualment."
+  },
+  "confirmDeleteSet": {
+    "title": "Eliminar sèrie",
+    "message": "La sèrie s'esborrarà de la rutina, però les entrades de l'historial es conservaran fins que les suprimiu manualment."
   },
   "selectExercise": "Seleccionar exercici",
   "searchExercises": "Cercar exercicis..."

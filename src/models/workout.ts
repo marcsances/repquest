@@ -37,8 +37,8 @@ export enum SetSide {
 export interface ExerciseSet {
     id: number;
     exerciseId: number;
-    date: Date;
-    setNumber: number;
+    date?: Date;
+    setNumber?: number;
     type: SetType;
     weight?: number;
     reps?: number;

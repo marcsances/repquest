@@ -151,6 +151,10 @@
     "title": "Delete workout exercise",
     "message": "The exercise will be removed from the workout, but any existing workout history entries will be kept until you delete them."
   },
+  "confirmDeleteSet": {
+    "title": "Delete set",
+    "message": "The set will be removed from the workout, but any existing workout history entries will be kept until you delete them."
+  },
   "selectExercise": "Select exercise",
   "searchExercises": "Search exercises..."
 }

@@ -2,6 +2,7 @@ import {ExerciseSet} from "../models/workout";
 import {Exercise} from "../models/exercise";
 
 export const compareSetHistoryEntries = (set1: ExerciseSet, set2: ExerciseSet) => {
+    if (!set1.date || !set2.date) return set1.id - set2.id;
     // sort by day descending and by set number ascending
     const day1 = Math.floor(set1.date.getTime() / (1000 * 3600 * 24));
     const day2 = Math.floor(set2.date.getTime() / (1000 * 3600 * 24));
@@ -11,10 +12,10 @@ export const compareSetHistoryEntries = (set1: ExerciseSet, set2: ExerciseSet) =
     if (day2 < day1) {
         return -1;
     }
-    if (set1.setNumber < set2.setNumber) {
+    if (set1.setNumber && set2.setNumber && set1.setNumber < set2.setNumber) {
         return -1;
     }
-    if (set2.setNumber < set1.setNumber) {
+    if (set2.setNumber && set1.setNumber && set2.setNumber < set1.setNumber) {
         return 1;
     }
     return 0;

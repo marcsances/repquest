@@ -6,6 +6,7 @@ import ToggleParameter from "../../components/toggleParameter";
 import SetParameter from "../../components/setParameter";
 import Parameter from "../../components/parameter";
 import {SettingsContext} from "../../context/settingsContext";
+import ConfirmDialog from "../../components/confirmDialog";
 
 interface SetEditorProps {
     open: boolean;
@@ -21,6 +22,7 @@ const SetEditor = (props: SetEditorProps) => {
     const {useLbs, showRpe, showRir} = useContext(SettingsContext);
     const {t} = useTranslation();
     const [exerciseSet, setExerciseSet] = useState(set);
+    const [confirmDelete, setConfirmDelete] = useState(false);
     useEffect(() => {
         setExerciseSet(set);
     }, [set, setExerciseSet]);
@@ -77,8 +79,15 @@ const SetEditor = (props: SetEditorProps) => {
 
             </Box>
         </DialogContent>
+        <ConfirmDialog title={t("confirmDeleteSet.title")} message={t("confirmDeleteSet.message")} open={confirmDelete} onDismiss={(r) => {
+            setConfirmDelete(false);
+            if (r) {
+                onDelete();
+                onClose();
+            }
+        }}/>
         <DialogActions sx={{ display: "flex", flexDirection: "row" }}>
-            <Button onClick={() => { onDelete(); onClose(); }} autoFocus color="error">
+            <Button onClick={() => setConfirmDelete(true)} autoFocus color="error">
                 {t("delete")}
             </Button>
             <span style={{flexGrow: 1}}>&nbsp;</span>
