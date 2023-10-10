@@ -14,10 +14,11 @@ export interface SetParameterProps {
     min?: number;
     max?: number;
     allowDecimals?: boolean;
+    disabled?: boolean;
 }
 
 const SetParameter = (props: SetParameterProps) => {
-    const {name, value, onChange, incrementBy, min, max, allowDecimals} = props;
+    const {name, value, onChange, incrementBy, min, max, allowDecimals, disabled} = props;
     const [val, setVal] = useState(value);
 
     const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,12 +62,12 @@ const SetParameter = (props: SetParameterProps) => {
             inputProps={{style: {textAlign: "right"}}}
         />
         <Box sx={{marginLeft: "8px", alignSelf: "center", width: "48px"}}/>
-        <IconButton onClick={onPrev} color="primary" size="small" aria-label="add" sx={{marginLeft: "8px"}} disabled={min ? val <= min : false}>
+        {!disabled && <><IconButton onClick={onPrev} color="primary" size="small" aria-label="add" sx={{marginLeft: "8px"}} disabled={min || disabled ? (min && val <= min) || disabled : false}>
             <ArrowLeftIcon/>
         </IconButton>
-        <IconButton onClick={onNext} color="primary" size="small" aria-label="add" sx={{marginLeft: "4px"}} disabled={max ? val >= max : false}>
+        <IconButton onClick={onNext} color="primary" size="small" aria-label="add" sx={{marginLeft: "4px"}} disabled={max || disabled ? (max && val >= max) || disabled : false}>
             <ArrowRightIcon/>
-        </IconButton>
+        </IconButton></>}
     </Box>
 }
 

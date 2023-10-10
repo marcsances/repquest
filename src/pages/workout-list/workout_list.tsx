@@ -30,13 +30,15 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {RestInProgress} from "../../components/restInProgress";
 import {SpeedDialActionSx} from "../../utils/globalStyles";
+import ConfirmDialog from "../../components/confirmDialog";
+import Loader from "../../components/Loader";
 
 const daysOfWeek = ["mondays", "tuesdays", "wednesdays", "thursdays", "fridays", "saturdays", "sundays"];
 
 export const WorkoutList = () => {
     const {t} = useTranslation();
     const {db} = useContext(DBContext);
-    const [workouts, setWorkouts] = useState<Workout[]>([]);
+    const [workouts, setWorkouts] = useState<Workout[] | undefined>(undefined);
     const [currentPlan, setCurrentPlan] = useState<number>(parseInt(localStorage.getItem("currentPlan") || "1", 10));
     const [plans, setPlans] = useState<Plan[]>([]);
     const {startWorkout, stopWorkout, time, timeStarted, currentWorkout, restTime} = useContext(WorkoutContext);
@@ -46,6 +48,7 @@ export const WorkoutList = () => {
     const [showMenu, setShowMenu] = useState(false);
     const [openPlanSelector, setOpenPlanSelector] = useState(false);
     const [targetWorkout, setTargetWorkout] = useState<Workout | undefined>(undefined);
+    const [confirmDelete, setConfirmDelete] = useState(false);
     useEffect(() => {
         db?.plan.toArray().then((plans) => {
             setPlans(plans);
@@ -63,7 +66,7 @@ export const WorkoutList = () => {
 
     const onSelectWorkout = useCallback((workout: Workout) => {
         setTargetWorkout(workout);
-    }, [startWorkout, navigate]);
+    }, [setTargetWorkout]);
 
     const onStopWorkout = useCallback(() => {
         if (stopWorkout) {
@@ -86,7 +89,7 @@ export const WorkoutList = () => {
 
     const speedDialActionSx = SpeedDialActionSx(theme);
 
-    return <Layout title={t("workouts")}><List sx={{width: '100%', height: '100%', bgcolor: 'background.paper', overflow: "scroll"}}>
+    return <Layout title={t("workouts")}><List sx={{width: '100%', height: 'calc(100% - 78px)', overflow: "auto"}}>
         {timeStarted && currentWorkout && <>            {!!restTime &&
             <RestInProgress onClick={() => navigate("/workout")}/>}
             <ListItemButton component="a" onClick={() => navigate("/workout")}>
@@ -105,7 +108,8 @@ export const WorkoutList = () => {
                 <ListItemText primary={t("stopWorkout")} secondary={workoutLabel}/>
             </ListItemButton>
         </>}
-        {!currentWorkout && workouts.map((workout) => <ListItemButton key={workout.id} component="a"
+        {!currentWorkout && workouts === undefined && <Loader/>}
+        {!currentWorkout && workouts !== undefined && workouts.map((workout) => <ListItemButton key={workout.id} component="a"
                                                                       onClick={() => onSelectWorkout(workout)}>
                 <ListItemAvatar>
                     <Avatar>
@@ -115,7 +119,7 @@ export const WorkoutList = () => {
                 <ListItemText primary={workout.name} secondary={workout.daysOfWeek.map((d) => t(daysOfWeek[d])).join(",")}/>
             </ListItemButton>
         )}
-        {!currentWorkout && <SpeedDial sx={{position: 'fixed', bottom: 72, right: 16, zIndex: 1}} ariaLabel="Actions"
+        {!currentWorkout && workouts !== undefined && <SpeedDial sx={{position: 'fixed', bottom: 72, right: 16, zIndex: 1}} ariaLabel="Actions"
                                        icon={<SpeedDialIcon icon={<MenuIcon/>} openIcon={<CloseIcon/>}/>}
                                        open={showMenu} onOpen={() => setShowMenu(true)}
                                        onClose={() => setShowMenu(false)}>
@@ -158,13 +162,16 @@ export const WorkoutList = () => {
             title={t("selectPlan")}
             entries={plans.map((p) => ({ key: p.id.toString(), value: p.name}))}
         />
-        <Selector open={!!targetWorkout} selectedValue="cancel" onClose={(key: string) => {
+        {!!targetWorkout && <Selector open selectedValue="cancel" onClose={(key: string) => {
             if (key === "start" && targetWorkout && startWorkout) {
                 startWorkout(targetWorkout).then(() => {
                     navigate("/workout");
                 })
             } else if (key === "edit" && targetWorkout) {
                 navigate("/workout/" + targetWorkout.id.toString());
+            } else if (key === "delete") {
+                setConfirmDelete(true);
+                return;
             } else if (key !== "cancel") {
                 setNotImplemented(true);
             }
@@ -173,12 +180,17 @@ export const WorkoutList = () => {
             {key: "start", value: t("startWorkout"), icon: <DirectionsRunIcon/>},
             {key: "edit", value: t("editWorkout"), icon: <EditIcon/>},
             {key: "delete", value: t("deleteWorkout"), icon: <DeleteIcon/>},
-            {key: "cancel", value: t("cancel"), icon: <CloseIcon/>}]}></Selector>
+            {key: "cancel", value: t("cancel"), icon: <CloseIcon/>}]}></Selector>}
         <Snackbar
             open={notImplemented}
             autoHideDuration={2000}
             onClose={() => setNotImplemented(false)}
             message={t("notImplemented")}
         />
+        <ConfirmDialog title={t("confirmDeleteWorkout.title")} message={t("confirmDeleteWorkout.message")} open={confirmDelete} onDismiss={(r) => {
+            if (r) setNotImplemented(true);
+            setConfirmDelete(false);
+            setTargetWorkout(undefined);
+        }}/>
     </List></Layout>;
 }

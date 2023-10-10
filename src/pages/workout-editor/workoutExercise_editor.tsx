@@ -6,38 +6,38 @@ import {
     List,
     ListItemAvatar,
     ListItemButton,
+    ListItemIcon,
     ListItemText,
-    Snackbar,
-    SpeedDial,
-    SpeedDialAction,
-    SpeedDialIcon,
-    useTheme
+    Menu,
+    MenuItem,
+    Snackbar
 } from "@mui/material";
 import {DBContext} from "../../context/dbContext";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import {Exercise} from "../../models/exercise";
-import MenuIcon from "@mui/icons-material/Menu";
-import CloseIcon from "@mui/icons-material/Close";
 import AddIcon from "@mui/icons-material/Add";
-import {SpeedDialActionSx} from "../../utils/globalStyles";
-import {useNavigate, useParams} from "react-router-dom";
-import {ExerciseSet, SetType, WorkoutExercise} from "../../models/workout";
+import {useParams} from "react-router-dom";
+import {ExerciseSet, SetType} from "../../models/workout";
 import {SettingsContext} from "../../context/settingsContext";
 import {getLabelForSet} from "../../utils/setUtils";
+import SetEditor from "./set_editor";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import IconButton from "@mui/material/IconButton";
+import DeleteIcon from "@mui/icons-material/Delete";
+import {KeyboardArrowDown, KeyboardArrowUp} from "@mui/icons-material";
 
 export const WorkoutExerciseEditor = () => {
     const {t} = useTranslation();
     const {db} = useContext(DBContext);
-    const theme = useTheme();
-    const [ showMenu, setShowMenu ] = useState(false);
-    const [ notImplemented, setNotImplemented ] = useState(false);
-    const speedDialActionSx = SpeedDialActionSx(theme);
-    const navigate = useNavigate();
     const { workoutExerciseId } = useParams();
-    const [ workoutExercise, setWorkoutExercise ] = useState<WorkoutExercise | undefined>(undefined);
     const [ exercise, setExercise ] = useState<Exercise | undefined>(undefined);
-    const [ sets, setSets ] = useState<ExerciseSet[]>([]);
+    const [ sets, setSets ] = useState<ExerciseSet[] | undefined>(undefined);
     const { useLbs } = useContext(SettingsContext);
+    const [ editingSet, setEditingSet ] = useState<ExerciseSet | undefined>(undefined);
+    const [snackbar, setSnackbar] = useState("");
+    const [ setNumber, setSetNumber ] = useState(1);
+    const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null);
+    const [entryIdx, setEntryIdx] = useState(0);
 
     const getSetType = (set: ExerciseSet) => {
         if (set.type === SetType.WARMUP) {
@@ -53,7 +53,6 @@ export const WorkoutExerciseEditor = () => {
     }
 
     const fetch = useCallback(async () => {
-        debugger;
         if (!db || !workoutExerciseId) return;
         const workoutExercise = await db.workoutExercise.get(parseInt(workoutExerciseId));
         if (!workoutExercise) return;
@@ -64,17 +63,18 @@ export const WorkoutExerciseEditor = () => {
             const set = await db.exerciseSet.get({ id: setId });
             if (set) sets.push(set);
         }
-        setWorkoutExercise(workoutExercise);
         setExercise(maybeExercise);
         setSets(sets);
-    }, [db, workoutExerciseId, setWorkoutExercise, setExercise, setSets]);
+    }, [db, workoutExerciseId, setExercise, setSets]);
 
-    useEffect(() => { fetch().then().catch((e) => {
-    }) }, [ workoutExerciseId, fetch ]);
+    useEffect(() => { setSets(undefined); fetch().then() }, [ workoutExerciseId, fetch ]);
 
-    return <Layout title={exercise?.name ? exercise.name : t("workoutEditor.title")}>
-        <List sx={{width: '100%', height: 'calc(100% - 72px)', bgcolor: 'background.paper', overflow: "scroll"}}>
-            {sets.map((set, idx) =>  <ListItemButton key={idx + set.id.toString()} component="a" onClick={() => navigate("/set/" + set.id.toString())}>
+    return <Layout title={exercise?.name ? exercise.name : t("workoutEditor.title")} hideNav toolItems={exercise ? <IconButton aria-label="menu" color="inherit" onClick={() => setSnackbar(t("notImplemented"))}><DeleteIcon /></IconButton> : undefined}>
+        {sets !== undefined && <List sx={{width: '100%', height: 'calc(100% - 78px)', overflow: "auto"}}>
+            {sets.map((set, idx) =>  <ListItemButton key={idx + set.id.toString()} component="a" onClick={() => {
+                setEditingSet(set);
+                setSetNumber(idx + 1);
+            }}>
                 <ListItemAvatar>
                     {!exercise?.picture && <Avatar>
                         <FitnessCenterIcon/>
@@ -82,27 +82,51 @@ export const WorkoutExerciseEditor = () => {
                     {exercise?.picture && <Avatar src={exercise.picture} />}
                 </ListItemAvatar>
                 <ListItemText primary={getSetType(set)} secondary={getLabelForSet(set, useLbs, t)}/>
+                <IconButton onClick={(e) => {
+                    e.stopPropagation();
+                    setMenuAnchor(e.currentTarget);
+                    setEntryIdx(idx);
+                }}><MoreVertIcon /></IconButton>
             </ListItemButton>)}
-        </List>
-        <SpeedDial sx={{position: 'fixed', bottom: 72, right: 16, zIndex: 1}} ariaLabel="Actions"
-                   icon={<SpeedDialIcon icon={<MenuIcon/>} openIcon={<CloseIcon/>}/>}
-                   open={showMenu} onOpen={() => setShowMenu(true)}
-                   onClose={() => setShowMenu(false)}>
-            <SpeedDialAction tooltipOpen
-                             icon={<AddIcon/>}
-                             tooltipTitle={t("addSet")}
-                             sx={speedDialActionSx}
-                             onClick={() => {
-                                 setNotImplemented(true);
-                                 setShowMenu(false);
-                             }}
-            />
-        </SpeedDial>
+            <ListItemButton component="a" onClick={() => {
+                setSnackbar(t("notImplemented"))
+            }}>
+                <ListItemAvatar>
+                    <Avatar><AddIcon /></Avatar>
+                </ListItemAvatar>
+                <ListItemText primary={t("actions.addSet")} />
+            </ListItemButton>
+        </List>}
         <Snackbar
-            open={notImplemented}
+            open={snackbar !== ""}
             autoHideDuration={2000}
-            onClose={() => setNotImplemented(false)}
-            message={t("notImplemented")}
+            onClose={() => setSnackbar("")}
+            message={snackbar}
         />
+        {sets !== undefined && <Menu
+            anchorEl={menuAnchor}
+            open={menuAnchor !== null}
+            onClose={() => { setMenuAnchor(null)}}
+        >
+            {entryIdx > 0 && <MenuItem onClick={() => {}}><ListItemIcon>
+                <KeyboardArrowUp />
+            </ListItemIcon>
+                <ListItemText>{t("actions.moveUp")}</ListItemText></MenuItem>}
+            {entryIdx <= sets.length - 1 && <MenuItem onClick={() => {}}><ListItemIcon>
+                <KeyboardArrowDown />
+            </ListItemIcon>
+                <ListItemText>{t("actions.moveDown")}</ListItemText></MenuItem>}
+            <MenuItem onClick={() => {}}><ListItemIcon>
+                <DeleteIcon />
+            </ListItemIcon>
+                <ListItemText>{t("delete")}</ListItemText></MenuItem>
+        </Menu>}
+        {editingSet && <SetEditor open set={editingSet} setNumber={setNumber} onChange={(set: ExerciseSet) => {
+            db?.exerciseSet.put(set).then(() => {
+                setSnackbar(t("saved"));
+            }).catch(() => {
+                setSnackbar(t("somethingWentWrong"))
+            });
+        }} onDelete={() => {}} onClose={() => setEditingSet(undefined)} />}
     </Layout>;
 }

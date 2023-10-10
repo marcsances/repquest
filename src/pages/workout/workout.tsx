@@ -132,7 +132,7 @@ export const WorkoutPage = () => {
         {
             key: 3,
             value: t("failure")
-        }]), [])
+        }]), [t])
 
     const oneRmVal = useMemo(() => currentSet?.weight && currentSet?.reps ? getOneRm(currentSet?.weight, currentSet?.reps, oneRm) : 0, [currentSet]);
 
@@ -247,7 +247,7 @@ export const WorkoutPage = () => {
                         </TableContainer>}
                 </CardActionArea>
             </Paper>
-            {<Box sx={{overflow: "scroll", flexShrink: 1}}>
+            {<Box sx={{overflow: "auto", flexShrink: 1}}>
                 {!!currentSet?.side && <Typography sx={{marginTop: "8px", textAlign: "center"}} variant="h4"
                                                  component="p">{currentSet.side === 1 ? t("leftSide") : t("rightSide")}</Typography>}
                 {!!currentSet && currentSet?.weight !== undefined &&

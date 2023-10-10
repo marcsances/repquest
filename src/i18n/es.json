@@ -52,11 +52,13 @@
   "startWorkout": "Iniciar entrenamiento",
   "editWorkout": "Editar rutina",
   "deleteWorkout": "Eliminar rutina",
+  "delete": "Eliminar",
   "ok": "Aceptar",
   "cancel": "Cancelar",
   "time": "Tiempo",
   "leftSide": "Lado izquierdo",
   "rightSide": "Lado derecho",
+  "bilateral": "Bilateral",
   "setType": "Tipo de serie",
   "workSet": "Serie",
   "warmup": "Calentar",
@@ -66,13 +68,14 @@
     "viewOnYoutube": "Ver en Youtube",
     "viewPicture": "Ver imagen",
     "viewHistory": "Ver historial",
-    "addSet": "Añadir serie"
+    "addSet": "Añadir serie",
+    "moveUp": "Subir",
+    "moveDown": "Bajar"
   },
   "restInProgress": "Descanso en curso",
   "remaining": "restante",
   "wakeLock": "Mantener pantalla activa",
   "errorWakeLock": "No se puede bloquear la pantalla",
-  "whatsNew": "What's new",
   "tags": {
     "warmup": "Calentamiento",
     "cardio": "Cardio",
@@ -138,5 +141,16 @@
   "addExercise": "Añadir ejercicio",
   "filter": "Filtrar",
   "saved": "Guardado",
-  "somethingWentWrong": "Algo falló..."
+  "somethingWentWrong": "Algo falló...",
+  "useCheckboxes": "Use las casillas para seleccionar los parámetros que desea ver durante el entrenamiento.",
+  "confirmDeleteWorkout": {
+    "title": "Eliminar rutina",
+    "message": "La rutina será eliminada del plan de entrenamiento, pero las entradas del historial seguirán siendo visibles hasta que las elimines manualmente."
+  },
+  "confirmDeleteWorkoutExercise": {
+    "title": "Eliminar ejercicio de la rutina",
+    "message": "El ejercicio será eliminado de la rutina, pero las entradas del historial seguirán siendo visibles hasta que las elimines manualmente."
+  },
+  "selectExercise": "Seleccionar ejercicio",
+  "searchExercises": "Buscar ejercicios..."
 }

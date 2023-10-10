@@ -52,11 +52,13 @@
   "startWorkout": "Iniciar entrenament",
   "editWorkout": "Editar rutina",
   "deleteWorkout": "Eliminar rutina",
+  "delete": "Esborrar",
   "ok": "D'acord",
   "cancel": "Cancel·lar",
   "time": "Temps",
   "leftSide": "Costat esquerre",
   "rightSide": "Costat dret",
+  "bilateral": "Bilateral",
   "setType": "Tipus de sèrie",
   "workSet": "Sèrie",
   "warmup": "Escalfar",
@@ -66,7 +68,9 @@
     "viewOnYoutube": "Veure a YouTube",
     "viewPicture": "Veure imatge",
     "viewHistory": "Veure historial",
-    "addSet": "Afegir sèrie"
+    "addSet": "Afegir sèrie",
+    "moveUp": "Pujar",
+    "moveDown": "Baixar"
   },
   "restInProgress": "Descans en curs",
   "remaining": "restants",
@@ -120,7 +124,7 @@
     "backingUp": "Còpia en curs..."
   },
   "workoutEditor": {
-    "title": "Workout editor",
+    "title": "Editor de rutines",
     "name": "Nom",
     "type": "Tipus",
     "youtubeId": "ID de vídeo de Youtube",
@@ -137,5 +141,16 @@
   "addExercise": "Afegir exercici",
   "filter": "Filtrar",
   "saved": "S'ha desat",
-  "somethingWentWrong": "Quelcom no ha funcionat..."
+  "somethingWentWrong": "Quelcom no ha funcionat...",
+  "useCheckboxes": "Feu servir les caselles per a seleccionar els paràmetres que voleu introduïr durant els entrenaments.",
+  "confirmDeleteWorkout": {
+    "title": "Eliminar rutina",
+    "message": "La rutina s'esborrarà del pla d'entrenament, però les entrades de l'historial es conservaran fins que les suprimiu manualment."
+  },
+  "confirmDeleteWorkoutExercise": {
+    "title": "Eliminar execici de la rutina",
+    "message": "L'exercici s'esborrarà de la rutina, però les entrades de l'historial es conservaran fins que les suprimiu manualment."
+  },
+  "selectExercise": "Seleccionar exercici",
+  "searchExercises": "Cercar exercicis..."
 }

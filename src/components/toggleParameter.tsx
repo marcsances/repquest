@@ -20,7 +20,7 @@ const ToggleParameter = function <T> (props: ToggleParameterProps<T>) {
         newVal: any,
     ) => onChange(newVal as unknown as T);
 
-    return <Box sx={{display: "flex", flexDirection: "row", margin: "8px", maxWidth: "100%", overflow: "scroll", textOverflow: "ellipsis", whiteSpace: "nowrap", ...sx}}>
+    return <Box sx={{display: "flex", flexDirection: "row", margin: "8px", maxWidth: "100%", overflow: "auto", textOverflow: "ellipsis", whiteSpace: "nowrap", ...sx}}>
         {name && <Typography sx={{marginRight: "8px", alignSelf: "center", width: "200px"}}>{name}</Typography>}
         <ToggleButtonGroup
             color="primary"
