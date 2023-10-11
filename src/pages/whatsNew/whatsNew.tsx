@@ -8,6 +8,24 @@ export const WhatsNew = () => {
     const {t} = useTranslation();
     return <Layout title={t("whatsNew")} hideNav scroll>
         <Box sx={{padding: "20px", height: "100%", width: "100%"}}>
+            <Typography variant="h4">WeightLog Version 0.1.30</Typography>
+            <Typography variant="subtitle1">Released on 11/10/2023</Typography>
+            <Typography variant="subtitle2">Copyright Marc Sances 2023. All rights reserved.</Typography>
+            <Typography>Welcome to our first public version of WeightLog! We've worked hard to allow you to start using WeightLog.</Typography>
+            <br/>
+            <Typography variant="h5">Features</Typography>
+            <ul>
+                <li>Workout editor is fully functional now, including adding new exercises and creating and deleting exercises, workouts and plans.</li>
+            </ul>
+            <Typography variant="h5">Bugfixes</Typography>
+            <ul>
+                <li>Fixed glitch in youtube url field in exercise editor.</li>
+                <li>Fixed width of app bar in desktop.</li>
+            </ul>
+            <Typography variant="h4">WeightLog Version 0.1.28</Typography>
+            <Typography variant="subtitle1">Released on 06/10/2023</Typography>
+            <Typography variant="subtitle2">Copyright Marc Sances 2023. All rights reserved.</Typography>
+            <br/>
             <Typography variant="h4">WeightLog Version 0.1.29</Typography>
             <Typography variant="subtitle1">Released on 10/10/2023</Typography>
             <Typography variant="subtitle2">Copyright Marc Sances 2023. All rights reserved.</Typography>

@@ -5,6 +5,8 @@ import {User, UserMetric} from "../models/user";
 import {InjectData} from "./dbInjector";
 import sampleDb from "./sampleDb.json";
 
+const INJECTOR_ENABLED = false;
+
 export class DexieDB extends Dexie {
     // 'friends' is added by dexie when declaring the stores()
     // We just tell the typing system this is the case
@@ -64,14 +66,23 @@ export class DexieDB extends Dexie {
             plan: "++id, workoutId, name"
         });
         this.exercise.count().then((count) => {
-            if (count < 39) {
+            if (count < 39 && INJECTOR_ENABLED) {
                 InjectData(this).then(() => {
                     window.location.reload();
                 });
             }
         });
         this.plan.count().then((count) => {
-            if (count < 3) {
+            if (count === 0 && !INJECTOR_ENABLED) {
+                this.plan.put({
+                    id: 1,
+                    name: "WeightLog",
+                    workoutIds: []
+                }).then(() => {
+                    window.location.reload();
+                })
+            }
+            if (count < 3 && INJECTOR_ENABLED) {
                 (async () => { for (const plan of sampleDb.plans) {
                     await this.table("plan").put(plan);
                 } })().then(() => {

@@ -3,6 +3,7 @@ import Layout from "../../components/layout";
 import {useTranslation} from "react-i18next";
 import {
     Avatar,
+    IconButton,
     List,
     ListItemAvatar,
     ListItemButton,
@@ -22,7 +23,6 @@ import StopIcon from '@mui/icons-material/Stop';
 import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
 import EventNoteIcon from '@mui/icons-material/EventNote';
 import MenuIcon from '@mui/icons-material/Menu';
-import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 import CloseIcon from '@mui/icons-material/Close';
 import Selector from "../../components/selector";
 import AddIcon from "@mui/icons-material/Add";
@@ -32,6 +32,9 @@ import {RestInProgress} from "../../components/restInProgress";
 import {SpeedDialActionSx} from "../../utils/globalStyles";
 import ConfirmDialog from "../../components/confirmDialog";
 import Loader from "../../components/Loader";
+import WorkoutDetailsEditor from "../workout-editor/workoutDetails_editor";
+import getId from "../../utils/id";
+import {Cake} from "@mui/icons-material";
 
 const daysOfWeek = ["mondays", "tuesdays", "wednesdays", "thursdays", "fridays", "saturdays", "sundays"];
 
@@ -41,28 +44,33 @@ export const WorkoutList = () => {
     const [workouts, setWorkouts] = useState<Workout[] | undefined>(undefined);
     const [currentPlan, setCurrentPlan] = useState<number>(parseInt(localStorage.getItem("currentPlan") || "1", 10));
     const [plans, setPlans] = useState<Plan[]>([]);
+    const [plan, setPlan] = useState<Plan | undefined>(undefined);
     const {startWorkout, stopWorkout, time, timeStarted, currentWorkout, restTime} = useContext(WorkoutContext);
     const navigate = useNavigate();
     const theme = useTheme();
-    const [notImplemented, setNotImplemented] = useState(false);
+    const [snackbar, setSnackbar] = useState("");
     const [showMenu, setShowMenu] = useState(false);
     const [openPlanSelector, setOpenPlanSelector] = useState(false);
     const [targetWorkout, setTargetWorkout] = useState<Workout | undefined>(undefined);
     const [confirmDelete, setConfirmDelete] = useState(false);
+    const [newWorkoutTarget, setNewWorkoutTarget] = useState<Workout | null>(null);
+    const [refetch, setRefetch] = useState(new Date());
+    const [ confirmDeletePlan, setConfirmDeletePlan ] = useState<Plan | undefined>(undefined);
     useEffect(() => {
         db?.plan.toArray().then((plans) => {
-            setPlans(plans);
+            setPlans(plans.filter((it) => !it.deleted));
         });
-    }, [setPlans, db]);
+    }, [setPlans, db, refetch]);
     useEffect(() => {
         db?.plan.get(currentPlan).then((plan) => {
             if (!plan) return;
+            setPlan(plan);
             db?.workout.bulkGet(plan.workoutIds).then((workouts) => {
-                setWorkouts(workouts.filter((it) => it !== undefined).map((it) => it as Workout));
+                setWorkouts(workouts.filter((it) => it !== undefined && !it.deleted).map((it) => it as Workout));
             })
         })
 
-    }, [setWorkouts, currentPlan, db]);
+    }, [setWorkouts, currentPlan, db, refetch]);
 
     const onSelectWorkout = useCallback((workout: Workout) => {
         setTargetWorkout(workout);
@@ -88,21 +96,35 @@ export const WorkoutList = () => {
 
 
     const speedDialActionSx = SpeedDialActionSx(theme);
+    const newWorkout = () => {
+        setNewWorkoutTarget({
+            id: getId(),
+            name: "",
+            daysOfWeek: [],
+            workoutExerciseIds: []
+        });
+        setShowMenu(false);
+    };
 
-    return <Layout title={t("workouts")}><List sx={{width: '100%', height: 'calc(100% - 78px)', overflow: "auto"}}>
+    return <Layout title={plan?.name ? t("workoutPlan") + " - " + plan.name : t("workouts")} toolItems={<IconButton onClick={() => {
+        const name = prompt(t("enterPlanNewName"), plan?.name || "");
+        if (db && !!name && !!plan && name !== plan.name && name.length > 0) {
+            db.plan.put({...plan, name}).then(() => setRefetch(new Date()));
+        }
+    }}><EditIcon/></IconButton>}><List sx={{width: '100%', height: 'calc(100% - 78px)', overflow: "auto"}}>
         {timeStarted && currentWorkout && <>            {!!restTime &&
             <RestInProgress onClick={() => navigate("/workout")}/>}
             <ListItemButton component="a" onClick={() => navigate("/workout")}>
                 <ListItemAvatar>
-                    <Avatar>
-                        <DirectionsRunIcon/>
+                    <Avatar sx={{bgcolor: (theme) => theme.palette.success.main}}>
+                        <DirectionsRunIcon sx={{color: (theme) => theme.palette.success.contrastText}}/>
                     </Avatar>
                 </ListItemAvatar>
                 <ListItemText primary={t("workoutInProgress")} secondary={workoutLabel}/>
             </ListItemButton><ListItemButton component="a" onClick={() => onStopWorkout()}>
                 <ListItemAvatar>
-                    <Avatar>
-                        <StopIcon/>
+                    <Avatar sx={{bgcolor: (theme) => theme.palette.error.main}}>
+                        <StopIcon sx={{color: (theme) => theme.palette.error.contrastText}}/>
                     </Avatar>
                 </ListItemAvatar>
                 <ListItemText primary={t("stopWorkout")} secondary={workoutLabel}/>
@@ -113,25 +135,35 @@ export const WorkoutList = () => {
                                                                       onClick={() => onSelectWorkout(workout)}>
                 <ListItemAvatar>
                     <Avatar>
-                        <FitnessCenterIcon/>
+                        {workout.daysOfWeek.length === 1 ? t(["mon", "tue", "wed", "thu", "fri", "sat", "sun"][workout.daysOfWeek[0]]) : <FitnessCenterIcon/>}
                     </Avatar>
                 </ListItemAvatar>
-                <ListItemText primary={workout.name} secondary={workout.daysOfWeek.map((d) => t(daysOfWeek[d])).join(",")}/>
+                <ListItemText primary={workout.name} secondary={workout.daysOfWeek.map((d) => t(daysOfWeek[d])).join(", ")}/>
             </ListItemButton>
         )}
+        {!currentWorkout && workouts!== undefined && workouts.length === 0 && <ListItemButton component="a"
+                                                                                              onClick={newWorkout}>
+            <ListItemAvatar>
+                <Avatar sx={{bgcolor: (theme) => theme.palette.success.main}}>
+                    <Cake sx={{color: (theme) => theme.palette.success.contrastText}}/>
+                </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary={t("welcomeToWeightLog")} secondary={t("startAddingAWorkout")}/>
+        </ListItemButton>}
+        {!currentWorkout && <ListItemButton component="a"
+                                            onClick={newWorkout}>
+            <ListItemAvatar>
+                <Avatar sx={{bgcolor: (theme) => theme.palette.primary.main}}>
+                    <AddIcon sx={{color: (theme) => theme.palette.primary.contrastText}}/>
+                </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary={t("addWorkout")}/>
+        </ListItemButton>}
+
         {!currentWorkout && workouts !== undefined && <SpeedDial sx={{position: 'fixed', bottom: 72, right: 16, zIndex: 1}} ariaLabel="Actions"
                                        icon={<SpeedDialIcon icon={<MenuIcon/>} openIcon={<CloseIcon/>}/>}
                                        open={showMenu} onOpen={() => setShowMenu(true)}
                                        onClose={() => setShowMenu(false)}>
-            <SpeedDialAction tooltipOpen
-                             icon={<EditCalendarIcon/>}
-                             tooltipTitle={t("managePlans")}
-                             sx={speedDialActionSx}
-                             onClick={() => {
-                                 setNotImplemented(true);
-                                 setShowMenu(false);
-                             }}
-            />
             <SpeedDialAction tooltipOpen
                              icon={<EventNoteIcon/>}
                              tooltipTitle={t("selectPlan")}
@@ -145,22 +177,36 @@ export const WorkoutList = () => {
                              icon={<AddIcon/>}
                              tooltipTitle={t("addWorkout")}
                              sx={speedDialActionSx}
-                             onClick={() => {
-                                 setNotImplemented(true);
-                                 setShowMenu(false);
-                             }}
+                             onClick={newWorkout}
             />
         </SpeedDial>}
         <Selector
             selectedValue={currentPlan.toString()}
             open={openPlanSelector}
             onClose={(val: string) => {
-                localStorage.setItem("currentPlan", val);
-                setCurrentPlan(parseInt(val));
+                if (val === "++new" && db) {
+                    const name = prompt(t("enterNewPlanName"))
+                    if (name && name.length > 0) {
+                        const newPlan = {
+                            id: getId(),
+                            name,
+                            workoutIds: []
+                        };
+                        db.plan.put(newPlan).then(() => {
+                            localStorage.setItem("currentPlan", newPlan.id.toString());
+                            setCurrentPlan(newPlan.id);
+                            setRefetch(new Date());
+                        });
+                    }
+                } else {
+                    localStorage.setItem("currentPlan", val);
+                    setCurrentPlan(parseInt(val));
+                }
+
                 setOpenPlanSelector(false);
             }}
             title={t("selectPlan")}
-            entries={plans.map((p) => ({ key: p.id.toString(), value: p.name}))}
+            entries={[{key: "++new", value: t("newPlan"), icon: <Avatar><AddIcon/></Avatar>}, ...plans.map((p) => ({ key: p.id.toString(), value: p.name, extras: {action: () => {setConfirmDeletePlan(p)}, actionIcon: <DeleteIcon />} }))]}
         />
         {!!targetWorkout && <Selector open selectedValue="cancel" onClose={(key: string) => {
             if (key === "start" && targetWorkout && startWorkout) {
@@ -172,8 +218,6 @@ export const WorkoutList = () => {
             } else if (key === "delete") {
                 setConfirmDelete(true);
                 return;
-            } else if (key !== "cancel") {
-                setNotImplemented(true);
             }
             setTargetWorkout(undefined)
         }} title={targetWorkout?.name || ""} entries={[
@@ -182,15 +226,41 @@ export const WorkoutList = () => {
             {key: "delete", value: t("deleteWorkout"), icon: <DeleteIcon/>},
             {key: "cancel", value: t("cancel"), icon: <CloseIcon/>}]}></Selector>}
         <Snackbar
-            open={notImplemented}
+            open={snackbar !== ""}
             autoHideDuration={2000}
-            onClose={() => setNotImplemented(false)}
-            message={t("notImplemented")}
+            onClose={() => setSnackbar("")}
+            message={snackbar}
         />
+        <ConfirmDialog title={t("confirmDeletePlan.title")} message={t("confirmDeletePlan.message")} open={confirmDeletePlan !== undefined} onDismiss={(r) => {
+            if (r && confirmDeletePlan) {
+                db?.plan.put({...confirmDeletePlan, deleted: true}).then(() => {
+                    setRefetch(new Date());
+                });
+            }
+            setConfirmDeletePlan(undefined);
+            setTargetWorkout(undefined);
+        }}/>
         <ConfirmDialog title={t("confirmDeleteWorkout.title")} message={t("confirmDeleteWorkout.message")} open={confirmDelete} onDismiss={(r) => {
-            if (r) setNotImplemented(true);
+            if (r && targetWorkout) {
+                db?.workout.put({...targetWorkout, deleted: true}).then(() => {
+                    setRefetch(new Date());
+                });
+            }
             setConfirmDelete(false);
             setTargetWorkout(undefined);
         }}/>
+        {!!newWorkoutTarget && !currentWorkout && plan && <WorkoutDetailsEditor title={t("addWorkout")} workout={newWorkoutTarget} onChange={(newWorkout) => {
+            db?.workout.put(newWorkout).then(() => {
+                db?.plan.put({...plan, workoutIds: plan.workoutIds.concat([newWorkout.id])}).then(() => {
+                    navigate("/workout/" + newWorkout.id)
+                }).catch((e) => {
+                    console.error(e);
+                    setSnackbar(t("somethingWentWrong"));
+                });
+            }).catch((e) => {
+                console.error(e);
+                setSnackbar(t("somethingWentWrong"));
+            })
+        }} onClose={() => setNewWorkoutTarget(null)} open />}
     </List></Layout>;
 }

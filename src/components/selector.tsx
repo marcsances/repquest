@@ -1,14 +1,28 @@
-import {Avatar, Dialog, DialogTitle, List, ListItem, ListItemAvatar, ListItemButton, ListItemText} from "@mui/material";
-import {useTranslation} from "react-i18next";
-import React from "react";
+import {
+    Avatar,
+    Dialog,
+    DialogTitle,
+    IconButton,
+    List,
+    ListItem,
+    ListItemAvatar,
+    ListItemButton,
+    ListItemText
+} from "@mui/material";
+import React, {ReactElement} from "react";
 import KeyValue from "../models/keyvalue";
+
+export interface SelectorExtras {
+    action?: () => void;
+    actionIcon?: ReactElement;
+}
 
 export interface SimpleDialogProps {
     open: boolean;
     selectedValue: string;
     onClose: (value: string) => void;
     title: string;
-    entries: KeyValue[];
+    entries: KeyValue<string, string, SelectorExtras>[];
 }
 
 const Selector = (props: SimpleDialogProps) => {
@@ -21,19 +35,19 @@ const Selector = (props: SimpleDialogProps) => {
     const handleListItemClick = (value: string) => {
         onClose(value);
     };
-    const { t } = useTranslation();
 
     return (
         <Dialog onClose={handleClose} open={open}>
             <DialogTitle>{title}</DialogTitle>
             <List sx={{ padding: "16px" }}>
-                {entries.map((it) => (<ListItem disableGutters key={it.key} onClick={() => handleListItemClick(it.key)}>
-                    {it.icon && <ListItemAvatar><Avatar>{it.icon}</Avatar></ListItemAvatar>}
-                    <ListItemButton
+                {entries.map((it) => (<ListItem sx={{ display: "flex", flexDirection: "row" }}disableGutters key={it.key} onClick={() => handleListItemClick(it.key)}>
+                    <ListItemButton sx={{ flexGrow: 1 }}
                         autoFocus
                     >
+                        {it.icon && <ListItemAvatar><Avatar>{it.icon}</Avatar></ListItemAvatar>}
                         <ListItemText primary={it.value} />
                     </ListItemButton>
+                    {it.extras?.action && <IconButton sx={{ flexShrink: 1 }} onClick={(e) => { e.stopPropagation(); if (it.extras?.action) it.extras?.action()}}>{it.extras?.actionIcon}</IconButton>}
                 </ListItem>))}
             </List>
         </Dialog>

@@ -3,8 +3,6 @@ import Layout from "../../components/layout";
 import {useTranslation} from "react-i18next";
 import {
     Avatar,
-    Box,
-    CircularProgress,
     List,
     ListItemAvatar,
     ListItemButton,
@@ -28,6 +26,9 @@ import {Edit, KeyboardArrowDown, KeyboardArrowUp} from "@mui/icons-material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ExercisePicker from "./exercise_picker";
 import ConfirmDialog from "../../components/confirmDialog";
+import WorkoutDetailsEditor from "./workoutDetails_editor";
+import Loader from "../../components/Loader";
+import getId from "../../utils/id";
 
 interface Entry {
     workoutExercise: WorkoutExercise;
@@ -47,6 +48,7 @@ export const WorkoutEditor = () => {
     const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null);
     const [entryIdx, setEntryIdx] = useState(0);
     const [ pickerOpen, setPickerOpen ] = useState(false);
+    const [ detailsEditorOpen, setDetailsEditorOpen ] = useState(false);
     const [ deleteTarget, setDeleteTarget ] = useState<WorkoutExercise | null>(null);
     const [ refetch, setRefetch ] = useState(new Date());
 
@@ -79,7 +81,7 @@ export const WorkoutEditor = () => {
         if (!db || !workout || entries === undefined) return;
         setEntries(undefined);
         const workoutExercise: WorkoutExercise = {
-            id: Math.floor(new Date().getTime() * 100 + (Math.random() % 100)),
+            id: getId(),
             exerciseId: exercise.id,
             setIds: []
         };
@@ -89,7 +91,7 @@ export const WorkoutEditor = () => {
                 workoutExerciseIds: [...workout.workoutExerciseIds, workoutExercise.id]
             };
             return db.workout.put(newWorkout).then(() => {
-                setRefetch(new Date());
+                navigate("/workoutExercise/" + workoutExercise.id);
             });
         }).catch((e) => {
             console.error(e);
@@ -99,7 +101,7 @@ export const WorkoutEditor = () => {
 
     useEffect(() => { setEntries(undefined); fetch().then(); }, [ workoutId, fetch ]);
 
-    return <Layout title={workout?.name ? workout.name : t("workoutEditor.title")} hideNav toolItems={workout ? <IconButton color="inherit" onClick={() => setSnackbar(t("notImplemented"))}><Edit /></IconButton> : undefined}>
+    return <Layout onBack={() => navigate("/")} title={workout?.name ? workout.name : t("workoutEditor.title")} hideNav toolItems={workout ? <IconButton color="inherit" onClick={() => setDetailsEditorOpen(true)}><Edit /></IconButton> : undefined}>
         {entries !== undefined && <List sx={{width: '100%', height: 'calc(100% - 24px)', overflow: "auto"}}>
             {entries.map((entry, idx) =>  <ListItemButton key={entry.workoutExercise.id} component="a" onClick={() => navigate("/workoutExercise/" + entry.workoutExercise.id.toString())}>
                 <ListItemAvatar>
@@ -117,12 +119,14 @@ export const WorkoutEditor = () => {
             </ListItemButton>)}
             <ListItemButton component="a" onClick={() => setPickerOpen(true)}>
                 <ListItemAvatar>
-                    <Avatar><AddIcon /></Avatar>
+                    <Avatar sx={{bgcolor: (theme) => theme.palette.primary.main}}>
+                        <AddIcon sx={{color: (theme) => theme.palette.primary.contrastText}}/>
+                    </Avatar>
                 </ListItemAvatar>
                 <ListItemText primary={t("addExercise")} />
             </ListItemButton>
         </List>}
-        {entries === undefined && <Box sx={{display: "flex", alignItems: "center", justifyContent: "center", width: "100%", height: "100%"}}><CircularProgress/></Box>}
+        {entries === undefined && <Loader/>}
         <Snackbar
             open={snackbar !== ""}
             autoHideDuration={2000}
@@ -189,5 +193,14 @@ export const WorkoutEditor = () => {
             setDeleteTarget(null);
         }}/>
         {pickerOpen && <ExercisePicker open onClose={() => setPickerOpen(false)} onSelectExercise={(e) => insertExercise(e)} />}
+        {detailsEditorOpen && workout && <WorkoutDetailsEditor title={t("editWorkout")} workout={workout} onChange={(newWorkout) => {
+            db?.workout.put(newWorkout).then(() => {
+                setSnackbar(t("saved"));
+                setRefetch(new Date());
+            }).catch((e) => {
+                console.error(e);
+                setSnackbar(t("somethingWentWrong"));
+            })
+        }} onClose={() => setDetailsEditorOpen(false)} open />}
     </Layout>;
 }

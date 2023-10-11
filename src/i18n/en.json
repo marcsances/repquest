@@ -25,6 +25,13 @@
   "fridays": "Fridays",
   "saturdays": "Saturdays",
   "sundays": "Sundays",
+  "mon": "Mon",
+  "tue": "Tue",
+  "wed": "Wed",
+  "thu": "Thu",
+  "fri": "Fri",
+  "sat": "Sat",
+  "sun": "Sun",
   "freeTraining": "Free workout",
   "pickExercises": "Select exercises freely",
   "youtubePlayer": "Youtube Player",
@@ -125,6 +132,7 @@
   },
   "exercises": "Exercises",
   "addExercise": "Add exercise",
+  "newExercise": "New exercise",
   "filter": "Filter",
   "workoutEditor": {
     "title": "Workout editor",
@@ -138,7 +146,8 @@
   },
   "errors": {
     "pleaseValidYoutubeUrl": "Please provide a valid Youtube URL",
-    "pleaseValidUrl": "Please provide a valid URL"
+    "pleaseValidUrl": "Please provide a valid URL",
+    "requiredField": "This field is required"
   },
   "saved": "Saved",
   "somethingWentWrong": "Something went wrong.",
@@ -151,10 +160,29 @@
     "title": "Delete workout exercise",
     "message": "The exercise will be removed from the workout, but any existing workout history entries will be kept until you delete them."
   },
+  "confirmDeleteExercise": {
+    "title": "Delete exercise",
+    "message": "The exercise will be hidden from the database, but it will still be visible in the history and any workouts that include it."
+  },
   "confirmDeleteSet": {
     "title": "Delete set",
     "message": "The set will be removed from the workout, but any existing workout history entries will be kept until you delete them."
   },
+  "confirmDeletePlan": {
+    "title": "Delete plan",
+    "message": "The plan will be deleted, but the history entries will be preserved."
+  },
   "selectExercise": "Select exercise",
-  "searchExercises": "Search exercises..."
+  "searchExercises": "Search exercises...",
+  "cues": "Cues",
+  "selectTags": "Select tags",
+  "exerciseType": "Exercise type",
+  "equipmentType": "Equipment used",
+  "muscleGroup": "Muscle groups",
+  "newPlan": "New workout plan",
+  "enterNewPlanName": "Enter the name for the new plan:",
+  "enterPlanNewName": "Enter a new name for this plan:",
+  "workoutPlan": "Workout plan",
+  "welcomeToWeightLog": "Welcome to WeightLog! Be aware this app is in testing and may present errors. We await your feedback!",
+  "startAddingAWorkout": "Create a workout to begin."
 }

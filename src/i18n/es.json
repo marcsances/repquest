@@ -21,6 +21,13 @@
   "fridays": "Viernes",
   "saturdays": "Sábados",
   "sundays": "Domingos",
+  "mon": "Lun",
+  "tue": "Mar",
+  "wed": "Mié",
+  "thu": "Jue",
+  "fri": "Vie",
+  "sat": "Sáb",
+  "sun": "Dom",
   "distance": "Distancia",
   "laps": "Vueltas",
   "amount": "Cantidad",
@@ -79,8 +86,8 @@
   "tags": {
     "warmup": "Calentamiento",
     "cardio": "Cardio",
-    "mobility": "Mobilidat",
-    "flexibility": "Flexibilidat",
+    "mobility": "Mobilidad",
+    "flexibility": "Flexibilidad",
     "body_weight": "Peso corporal",
     "free_weight": "Peso libre",
     "machine": "Máquina",
@@ -135,7 +142,8 @@
   },
   "errors": {
     "pleaseValidYoutubeUrl": "Introduzca una dirección de Youtube válida",
-    "pleaseValidUrl": "Introduzca una URL válida"
+    "pleaseValidUrl": "Introduzca una URL válida",
+    "requiredField": "Campo obligatorio"
   },
   "exercises": "Ejercicios",
   "addExercise": "Añadir ejercicio",
@@ -155,6 +163,26 @@
     "title": "Eliminar serie de la rutina",
     "message": "La serie será eliminada de la rutina, pero las entradas del historial seguirán siendo visibles hasta que las elimines manualmente."
   },
+  "confirmDeleteExercise": {
+    "title": "Eliminar ejercicio",
+    "message": "El ejercicio será ocultado de la base de datos, pero seguirá siendo visible en el historial y las rutinas que lo incluyan."
+  },
+  "confirmDeletePlan": {
+    "title": "Eliminar plan",
+    "message": "El plan será eliminado, pero las entradas del historial seguirán siendo visibles."
+  },
   "selectExercise": "Seleccionar ejercicio",
-  "searchExercises": "Buscar ejercicios..."
+  "searchExercises": "Buscar ejercicios...",
+  "cues": "Indicaciones",
+  "selectTags": "Seleccionar etiquetas",
+  "exerciseType": "Tipo de ejercicio",
+  "equipmentType": "Equipamiento usado",
+  "muscleGroup": "Grupos musculares",
+  "newPlan": "Nuevo plan de entrenamiento",
+  "enterNewPlanName": "Introduzca el nombre para el nuevo plan:",
+  "enterPlanNewName": "Introduzca el nuevo nombre para este plan:",
+  "workoutPlan": "Plan de entrenamiento",
+  "newExercise": "Nuevo ejercicio",
+  "welcomeToWeightLog": "Bienvenido a WeightLog! Ten en cuenta que esta app está en fase de pruebas y puede presentar errores. Esperamos tus comentarios!",
+  "startAddingAWorkout": "Crea una rutina para empezar."
 }

@@ -3,6 +3,7 @@ import {ExerciseSet, Workout, WorkoutExercise, WorkoutHistory} from "../models/w
 import {Exercise} from "../models/exercise";
 import {DBContext} from "./dbContext";
 import {useTranslation} from "react-i18next";
+import getId from "../utils/id";
 
 interface IWorkoutContext {
     timeStarted?: Date;
@@ -109,7 +110,7 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
         setCurrentSetNumber(1);
         setCurrentWorkoutExerciseNumber(0);
         setCurrentWorkoutHistory({
-            id: new Date().getTime() * 100 + (Math.random() % 100),
+            id: getId(),
             userName: "Default User",
             date: new Date(),
             workoutExerciseIds: [],

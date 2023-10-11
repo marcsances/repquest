@@ -30,4 +30,5 @@ export interface Exercise {
     picture?: string;
     yt_video?: string;
     tags: ExerciseTag[];
+    deleted?: boolean;
 }

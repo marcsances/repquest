@@ -5,6 +5,7 @@ export interface Workout {
     name: string;
     daysOfWeek: DayOfWeek[];
     workoutExerciseIds: number[];
+    deleted?: boolean;
 }
 
 export interface WorkoutHistory {
@@ -57,5 +58,6 @@ export interface Plan {
     id: number;
     name: string;
     workoutIds: number[];
+    deleted?: boolean;
 }
 

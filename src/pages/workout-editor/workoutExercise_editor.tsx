@@ -26,6 +26,7 @@ export const WorkoutExerciseEditor = () => {
     const [ setNumber, setSetNumber ] = useState(1);
     const [refetch, setRefetch ] = useState(new Date());
     const [ workoutExercise, setWorkoutExercise] = useState<WorkoutExercise | undefined>(undefined);
+
     const getSetType = (set: ExerciseSet) => {
         if (set.type === SetType.WARMUP) {
             return t("warmup")
@@ -64,7 +65,7 @@ export const WorkoutExerciseEditor = () => {
         db.workoutExercise.put(newWorkoutExercise).then(() => setRefetch(new Date()));
     };
 
-    return <Layout title={exercise?.name ? exercise.name : t("workoutEditor.title")} hideNav toolItems={exercise ? <IconButton aria-label="menu" color="inherit" onClick={() => setSnackbar(t("notImplemented"))}><DeleteIcon /></IconButton> : undefined}>
+    return <Layout title={exercise?.name ? exercise.name : t("workoutEditor.title")} hideNav>
         {sets !== undefined && <List sx={{width: '100%', height: 'calc(100% - 78px)', overflow: "auto"}}>
             {sets.map((set, idx) =>  <ListItemButton key={idx + set.id.toString()} component="a" onClick={() => {
                 setEditingSet(set);
@@ -103,7 +104,9 @@ export const WorkoutExerciseEditor = () => {
                 })
             }}>
                 <ListItemAvatar>
-                    <Avatar><AddIcon /></Avatar>
+                    <Avatar sx={{bgcolor: (theme) => theme.palette.primary.main}}>
+                        <AddIcon sx={{color: (theme) => theme.palette.primary.contrastText}}/>
+                    </Avatar>
                 </ListItemAvatar>
                 <ListItemText primary={t("actions.addSet")} />
             </ListItemButton>

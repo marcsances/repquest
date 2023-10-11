@@ -24,6 +24,13 @@
   "fridays": "Divendres",
   "saturdays": "Dissabtes",
   "sundays": "Diumenges",
+  "mon": "Dl",
+  "tue": "Dm",
+  "wed": "Dc",
+  "thu": "Dj",
+  "fri": "Dv",
+  "sat": "Ds",
+  "sun": "Dg",
   "freeTraining": "Exercici lliure",
   "pickExercises": "Seleccionar exercicis lliurement",
   "youtubePlayer": "Reproductor de Youtube",
@@ -135,7 +142,8 @@
   },
   "errors": {
     "pleaseValidYoutubeUrl": "Introduïu una adreça de Youtube vàlida",
-    "pleaseValidUrl": "Introduïu una adreça web vàlida"
+    "pleaseValidUrl": "Introduïu una adreça web vàlida",
+    "requiredField": "Aquest camp és obligatori"
   },
   "exercises": "Exercicis",
   "addExercise": "Afegir exercici",
@@ -151,10 +159,30 @@
     "title": "Eliminar exercici de la rutina",
     "message": "L'exercici s'esborrarà de la rutina, però les entrades de l'historial es conservaran fins que les suprimiu manualment."
   },
+  "confirmDeleteExercise": {
+    "title": "Eliminar exercici",
+    "message": "L'exercici s'amagarà de la llista, però seguirà disponible en les rutines que l'incloguin i les entrades de l'historial."
+  },
   "confirmDeleteSet": {
     "title": "Eliminar sèrie",
     "message": "La sèrie s'esborrarà de la rutina, però les entrades de l'historial es conservaran fins que les suprimiu manualment."
   },
+  "confirmDeletePlan": {
+    "title": "Eliminar pla d'entrenament",
+    "message": "El pla serà esborrat, però les entrades de l'historial es conservaran."
+  },
   "selectExercise": "Seleccionar exercici",
-  "searchExercises": "Cercar exercicis..."
+  "searchExercises": "Cercar exercicis...",
+  "cues": "Indicacions",
+  "selectTags": "Triar etiquetes",
+  "exerciseType": "Tipus d'exercici",
+  "equipmentType": "Equipament utilitzat",
+  "muscleGroup": "Grups musculars",
+  "newPlan": "Nou pla d'entrenament",
+  "enterNewPlanName": "Introduïu el nom per al nou pla d'entrenament:",
+  "enterPlanNewName": "Introduïu un nou nom per aquest pla d'entrenament:",
+  "workoutPlan": "Pla d'entrenament",
+  "newExercise": "Nou exercici",
+  "welcomeToWeightLog": "Benvinguts a WeightLog! Teniu en compte que aquesta aplicació està en fase de proves i pot presentar errades. Esperem el vostre feedback!",
+  "startAddingAWorkout": "Creeu una rutina per a començar."
 }

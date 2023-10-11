@@ -38,10 +38,10 @@ export const WLAppBar = (props: WLAppBarProps) => {
                 >
                     <BackIcon/>
                 </IconButton>}
-                <Typography variant="h6" component="div" sx={{flexGrow: 1, whiteSpace: "nowrap", overflow: "hidden", maxWidth: "90%", textOverflow: "ellipsis"}}>
+                <Typography variant="h6" component="div" sx={{flexGrow: 1, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
                     {title}
                 </Typography>
-                {toolItems}
+                <Box sx={{flexShrink: 1}}>{toolItems}</Box>
             </Toolbar>
         </AppBar>
     </Box>;

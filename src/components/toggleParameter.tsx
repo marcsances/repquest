@@ -7,25 +7,26 @@ import KeyValue from "../models/keyvalue";
 export interface ToggleParameterProps<K> {
     name?: string;
     options: KeyValue<K, string>[];
-    value: K;
-    onChange: (key: K) => void;
+    value: K | K[];
+    onChange: ((key: K) => void) | ((key: K[]) => void);
     sx?: CSSProperties;
+    multi?: boolean;
 }
 
 const ToggleParameter = function <T> (props: ToggleParameterProps<T>) {
-    const {name, value, options, onChange, sx} = props;
+    const {name, value, options, onChange, sx, multi} = props;
 
     const onChangeEv = (
         event: React.MouseEvent<HTMLElement>,
         newVal: any,
-    ) => onChange(newVal as unknown as T);
+    ) => onChange(newVal as any);
 
     return <Box sx={{display: "flex", flexDirection: "row", margin: "8px", maxWidth: "100%", overflow: "auto", textOverflow: "ellipsis", whiteSpace: "nowrap", ...sx}}>
         {name && <Typography sx={{marginRight: "8px", alignSelf: "center", width: "200px"}}>{name}</Typography>}
         <ToggleButtonGroup
             color="primary"
             value={value}
-            exclusive
+            exclusive={!multi}
             onChange={onChangeEv}
             aria-label="Platform"
             sx={{flexGrow: 1, display: "flex", flexDirection: "row"}}

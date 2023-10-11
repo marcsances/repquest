@@ -1,5 +1,5 @@
 import {ExerciseSet, SetSide, SetType} from "../../models/workout";
-import {Box, Button, Dialog, DialogActions, DialogContent, DialogTitle} from "@mui/material";
+import {Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} from "@mui/material";
 import React, {useContext, useEffect, useState} from "react";
 import {useTranslation} from "react-i18next";
 import ToggleParameter from "../../components/toggleParameter";
@@ -42,15 +42,17 @@ const SetEditor = (props: SetEditorProps) => {
 
     return <Dialog fullScreen open={open} onClose={onClose}>
         <DialogTitle>{t("set")}</DialogTitle>
-        <DialogContent>
+        <DialogContent sx={{ height : "100%", overflow: 0, display: "flex", flexDirection: "column"}}>
             {t("useCheckboxes")}
-            <Box sx={{overflow: "auto", flexShrink: 1}}>
+            {exerciseSet.weight !== undefined && <ToggleParameter<SetType> options={setOptions} value={exerciseSet.type} onChange={(type: number) => setExerciseSet((prevState) => ({ ...prevState, type }))}/>}
+            {exerciseSet.reps !== undefined && <ToggleParameter<SetSide> options={sideOptions} value={exerciseSet.side || SetSide.BOTH}
+                                                                         onChange={(side: SetSide) => setExerciseSet((prevState) => ({ ...prevState, side }))}/>}
+            <SetParameter name={t("set")} value={setNumber} min={setNumber}
+                          max={setNumber} disabled />
+
+            <Box sx={{overflow: "auto", flexShrink: 1, marginTop: "8px", marginBottom: "8px"}}>
                 
-                {exerciseSet.weight !== undefined && <ToggleParameter<SetType> options={setOptions} value={exerciseSet.type} onChange={(type: number) => setExerciseSet((prevState) => ({ ...prevState, type }))}/>}
-                {exerciseSet.reps !== undefined && <ToggleParameter<SetSide> options={sideOptions} value={exerciseSet.side || SetSide.BOTH}
-                                                                             onChange={(side) => setExerciseSet((prevState) => ({ ...prevState, side }))}/>}
-                <SetParameter name={t("set")} value={setNumber} min={setNumber}
-                              max={setNumber} disabled />
+
                 <Parameter name={t("weight")} unit={useLbs ? "lbs" : "kg"} value={exerciseSet.weight} min={0}
                                incrementBy={2.5}
                                onToggle={(enabled) => setExerciseSet((prevState) => ({...prevState, weight: enabled ? set.weight || 0 : undefined}))}
@@ -78,6 +80,7 @@ const SetEditor = (props: SetEditorProps) => {
                            onChange={(rest) => setExerciseSet((prevSet) => ({...prevSet, rest}))} />
 
             </Box>
+            <TextField sx={{width: "100%"}} label={t("cues")} value={exerciseSet.cues} onChange={(ev) => setExerciseSet((prevState) => ({...prevState, cues: ev.target.value}))} />
         </DialogContent>
         <ConfirmDialog title={t("confirmDeleteSet.title")} message={t("confirmDeleteSet.message")} open={confirmDelete} onDismiss={(r) => {
             setConfirmDelete(false);
