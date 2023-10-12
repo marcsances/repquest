@@ -128,7 +128,9 @@
       "everything": "Todos los datos (incluido historial personal y preferencias)",
       "restoreBackup": "Restaurar copia de seguridad (reemplazar todos los datos existentes)"
     },
-    "backingUp": "Realizando copia..."
+    "backingUp": "Realizando copia...",
+    "importing": "Importación en curso, por favor no salga de la página",
+    "importSuccess": "Se ha completado la importación. WeightLog se va a reiniciar."
   },
   "workoutEditor": {
     "title": "Editor de rutinas",
@@ -143,7 +145,8 @@
   "errors": {
     "pleaseValidYoutubeUrl": "Introduzca una dirección de Youtube válida",
     "pleaseValidUrl": "Introduzca una URL válida",
-    "requiredField": "Campo obligatorio"
+    "requiredField": "Campo obligatorio",
+    "invalidJSON": "Esta copia de seguridad no es vàlida"
   },
   "exercises": "Ejercicios",
   "addExercise": "Añadir ejercicio",
@@ -184,5 +187,6 @@
   "workoutPlan": "Plan de entrenamiento",
   "newExercise": "Nuevo ejercicio",
   "welcomeToWeightLog": "Bienvenido a WeightLog! Ten en cuenta que esta app está en fase de pruebas y puede presentar errores. Esperamos tus comentarios!",
-  "startAddingAWorkout": "Crea una rutina para empezar."
+  "startAddingAWorkout": "Crea una rutina para empezar.",
+  "importWillReplaceEverything": "TODOS los datos de la aplicación serán ELIMINADOS y luego se importará la copia de seguridad reemplazando TODO. Esta operación no se puede revertir. ¿Desea continuar?"
 }

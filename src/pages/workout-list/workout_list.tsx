@@ -56,6 +56,7 @@ export const WorkoutList = () => {
     const [newWorkoutTarget, setNewWorkoutTarget] = useState<Workout | null>(null);
     const [refetch, setRefetch] = useState(new Date());
     const [ confirmDeletePlan, setConfirmDeletePlan ] = useState<Plan | undefined>(undefined);
+    const [mustSelectPlan, setMustSelectPlan] = useState(false);
     useEffect(() => {
         db?.plan.toArray().then((plans) => {
             setPlans(plans.filter((it) => !it.deleted));
@@ -63,7 +64,12 @@ export const WorkoutList = () => {
     }, [setPlans, db, refetch]);
     useEffect(() => {
         db?.plan.get(currentPlan).then((plan) => {
-            if (!plan) return;
+            if (!plan) {
+                setMustSelectPlan(true);
+                setOpenPlanSelector(true);
+                return;
+            }
+            setMustSelectPlan(false);
             setPlan(plan);
             db?.workout.bulkGet(plan.workoutIds).then((workouts) => {
                 setWorkouts(workouts.filter((it) => it !== undefined && !it.deleted).map((it) => it as Workout));
@@ -198,6 +204,8 @@ export const WorkoutList = () => {
                             setRefetch(new Date());
                         });
                     }
+                } else if (val === currentPlan.toString() && mustSelectPlan) {
+                    return;
                 } else {
                     localStorage.setItem("currentPlan", val);
                     setCurrentPlan(parseInt(val));

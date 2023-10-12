@@ -128,7 +128,9 @@
       "everything": "Everything (including user history and preferences)",
       "restoreBackup": "Restore backup (ovewrite all existing data)"
     },
-    "backingUp": "Backing up..."
+    "backingUp": "Backing up...",
+    "importing": "Importing. Please do not leave the page",
+    "importSuccess": "Import has been completed. WeightLog will restart now."
   },
   "exercises": "Exercises",
   "addExercise": "Add exercise",
@@ -147,7 +149,8 @@
   "errors": {
     "pleaseValidYoutubeUrl": "Please provide a valid Youtube URL",
     "pleaseValidUrl": "Please provide a valid URL",
-    "requiredField": "This field is required"
+    "requiredField": "This field is required",
+    "invalidJSON": "This backup file is not valid"
   },
   "saved": "Saved",
   "somethingWentWrong": "Something went wrong.",
@@ -184,5 +187,6 @@
   "enterPlanNewName": "Enter a new name for this plan:",
   "workoutPlan": "Workout plan",
   "welcomeToWeightLog": "Welcome to WeightLog! Be aware this app is in testing and may present errors. We await your feedback!",
-  "startAddingAWorkout": "Create a workout to begin."
+  "startAddingAWorkout": "Create a workout to begin.",
+  "importWillReplaceEverything": "ALL the application data will be DELETED and then the backup will be imported replacing EVERYTHING. This operation cannot be rolled back. Continue?"
 }

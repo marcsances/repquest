@@ -128,7 +128,9 @@
       "everything": "Totes les dades (inclòs historial personal i preferències)",
       "restoreBackup": "Restaurar còpia de seguretat (substituïr totes les dades existents)"
     },
-    "backingUp": "Còpia en curs..."
+    "backingUp": "Còpia en curs...",
+    "importing": "S'està important, si us plau no marxeu...",
+    "importSuccess": "S'ha completat la importació. WeightLog es reiniciarà."
   },
   "workoutEditor": {
     "title": "Editor de rutines",
@@ -143,7 +145,8 @@
   "errors": {
     "pleaseValidYoutubeUrl": "Introduïu una adreça de Youtube vàlida",
     "pleaseValidUrl": "Introduïu una adreça web vàlida",
-    "requiredField": "Aquest camp és obligatori"
+    "requiredField": "Aquest camp és obligatori",
+    "invalidJSON": "Aquesta còpia de seguretat no és vàlida"
   },
   "exercises": "Exercicis",
   "addExercise": "Afegir exercici",
@@ -184,5 +187,6 @@
   "workoutPlan": "Pla d'entrenament",
   "newExercise": "Nou exercici",
   "welcomeToWeightLog": "Benvinguts a WeightLog! Teniu en compte que aquesta aplicació està en fase de proves i pot presentar errades. Esperem el vostre feedback!",
-  "startAddingAWorkout": "Creeu una rutina per a començar."
+  "startAddingAWorkout": "Creeu una rutina per a començar.",
+  "importWillReplaceEverything": "TOTES les dades de la aplicació seran ELIMINADES i després s'importarà la còpia de seguretat substituint TOT. Aquesta operació és irreversible. Voleu continuar?"
 }

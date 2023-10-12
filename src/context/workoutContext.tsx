@@ -4,6 +4,7 @@ import {Exercise} from "../models/exercise";
 import {DBContext} from "./dbContext";
 import {useTranslation} from "react-i18next";
 import getId from "../utils/id";
+import {Transaction} from "dexie";
 
 interface IWorkoutContext {
     timeStarted?: Date;
@@ -190,40 +191,48 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
         });
     }, [focusedExercise, currentWorkoutExercise, setFocusedExercise, db]);
 
-    const pruneSets = useCallback(async () => {
-        if (!db || !focusedExercise) return;
-        const allStoredSets = (await db.workoutExercise.toArray()).flatMap((it) => it.setIds);
-        const missingSets = (await db.exerciseSet.where("id").noneOf(allStoredSets).toArray()).filter((it) => !it.initial);
+    const pruneSets = useCallback(async (tx: Transaction) => {
+        if (!db || !focusedExercise || !currentWorkoutExercise) return;
+        const allStoredSets: number[] = (await tx.db.table("workoutExercise").toArray()).flatMap((it) => it.setIds);
+        const missingSets: ExerciseSet[] = (await tx.db.table("exerciseSet").toArray()).filter((it) => !it.initial && !allStoredSets.includes(it) && !currentWorkoutExercise.setIds.includes(it.id));
         for (const set of missingSets) {
-            await db.exerciseSet.delete(set.id);
+            await tx.db.table("exerciseSet").delete(set.id);
         }
-    }, [db, focusedExercise])
+    }, [db, focusedExercise, currentWorkoutExercise])
 
     const saveSet = useCallback(async (set: ExerciseSet) => {
-        if (!currentWorkoutExercise || !currentWorkoutExercise.setIds) return;
-        await db?.exerciseSet.put({...set, initial: false});
-        currentWorkoutExercise.setIds[currentSetNumber - 1] = set.id;
-        await db?.workoutExercise.update(currentWorkoutExercise.id, currentWorkoutExercise);
-        let workoutExerciseId = storedExercises[set.exerciseId];
-        if (!workoutExerciseId) {
-            workoutExerciseId = new Date().getTime();
-            await db?.workoutExercise.put({...currentWorkoutExercise, id: workoutExerciseId});
-            setStoredExercises((prevExercises) => ({...prevExercises, [set.exerciseId]: workoutExerciseId}));
-            setCurrentWorkoutExercise(currentWorkoutExercise);
-            if (currentWorkoutHistory) setCurrentWorkoutHistory({...currentWorkoutHistory, workoutExerciseIds: currentWorkoutHistory.workoutExerciseIds.concat([workoutExerciseId])});
-        } else {
-            await db?.workoutExercise.update(workoutExerciseId, {...currentWorkoutExercise, id: workoutExerciseId});
-        }
-        if (currentSetNumber >= currentWorkoutExercise.setIds.length) {
-            setCurrentWorkoutExerciseNumber((prevNumber) => prevNumber + 1);
-            setCurrentSetNumber(1);
-        } else {
-            setCurrentSetNumber((prevNumber) => prevNumber + 1);
-        }
-        if (set.rest) {
-            startRest(set.rest);
-        }
-        pruneSets();
+        if (!currentWorkoutExercise || !db || !currentWorkoutExercise.setIds) return;
+        db.transaction("rw", [db.exerciseSet, db.workoutExercise], (tx) => {
+            (async () => {
+                await db?.exerciseSet.put({...set, initial: false});
+                currentWorkoutExercise.setIds[currentSetNumber - 1] = set.id;
+                await db?.workoutExercise.update(currentWorkoutExercise.id, currentWorkoutExercise);
+                let workoutExerciseId = storedExercises[set.exerciseId];
+                if (!workoutExerciseId) {
+                    workoutExerciseId = new Date().getTime();
+                    await db?.workoutExercise.put({...currentWorkoutExercise, id: workoutExerciseId});
+                    setStoredExercises((prevExercises) => ({...prevExercises, [set.exerciseId]: workoutExerciseId}));
+                    setCurrentWorkoutExercise(currentWorkoutExercise);
+                    if (currentWorkoutHistory) setCurrentWorkoutHistory({...currentWorkoutHistory, workoutExerciseIds: currentWorkoutHistory.workoutExerciseIds.concat([workoutExerciseId])});
+                } else {
+                    await db?.workoutExercise.update(workoutExerciseId, {...currentWorkoutExercise, id: workoutExerciseId});
+                }
+                if (currentSetNumber >= currentWorkoutExercise.setIds.length) {
+                    setCurrentWorkoutExerciseNumber((prevNumber) => prevNumber + 1);
+                    setCurrentSetNumber(1);
+                } else {
+                    setCurrentSetNumber((prevNumber) => prevNumber + 1);
+                }
+                if (set.rest) {
+                    startRest(set.rest);
+                }
+                await pruneSets(tx);
+            })().catch((e) => {
+                tx.abort();
+                console.error(e);
+            })
+        })
+
     }, [db, currentWorkoutExercise, currentSetNumber, currentWorkoutHistory, pruneSets, storedExercises, setCurrentWorkoutHistory, setCurrentWorkoutExerciseNumber, setCurrentSetNumber, setStoredExercises]);
     const startRest = useCallback((time: number) => {
         setRestStarted(new Date());
@@ -303,7 +312,7 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
             return;
         }
         // take away timer from the stored context
-        const { time, ...rest } = context;
+        const {time, ...rest} = context;
         localStorage.setItem("workoutContext", JSON.stringify(rest));
     }, [init, currentWorkoutHistory,
         followingWorkout,

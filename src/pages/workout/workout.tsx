@@ -86,7 +86,8 @@ export const WorkoutPage = () => {
             ...currentSet,
             id: new Date().getTime() * 100 + (Math.random() % 100),
             date: new Date(),
-            setNumber: currentSetNumber
+            setNumber: currentSetNumber,
+            initial: false
         });
     }
 
