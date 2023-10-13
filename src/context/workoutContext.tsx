@@ -198,7 +198,12 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
         for (const set of missingSets) {
             await tx.db.table("exerciseSet").delete(set.id);
         }
-    }, [db, focusedExercise, currentWorkoutExercise])
+    }, [db, focusedExercise, currentWorkoutExercise]);
+
+    const startRest = useCallback((time: number) => {
+        setRestStarted(new Date());
+        setRestTime(time);
+    }, [setRestStarted]);
 
     const saveSet = useCallback(async (set: ExerciseSet) => {
         if (!currentWorkoutExercise || !db || !currentWorkoutExercise.setIds) return;
@@ -228,16 +233,14 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
                 }
                 await pruneSets(tx);
             })().catch((e) => {
+                debugger;
                 tx.abort();
                 console.error(e);
             })
         })
 
-    }, [db, currentWorkoutExercise, currentSetNumber, currentWorkoutHistory, pruneSets, storedExercises, setCurrentWorkoutHistory, setCurrentWorkoutExerciseNumber, setCurrentSetNumber, setStoredExercises]);
-    const startRest = useCallback((time: number) => {
-        setRestStarted(new Date());
-        setRestTime(time);
-    }, [setRestStarted]);
+    }, [db, currentWorkoutExercise, currentSetNumber, currentWorkoutHistory, pruneSets, storedExercises, setCurrentWorkoutHistory, setCurrentWorkoutExerciseNumber, setCurrentSetNumber, setStoredExercises, startRest]);
+
 
     const stopRest = useCallback(() => {
         setRestStarted(undefined);

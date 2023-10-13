@@ -85,7 +85,8 @@ export function importFromJSON(db: DexieDB, level: string, payload: BackupObject
                         setIds[set.id] = id;
                         await trans.db.table("exerciseSet").put({
                             ...set,
-                            id
+                            id,
+                            exerciseId: exerciseIds[set.id]
                         });
                     }
                     const workoutExerciseIds: Record<number, number> = {};

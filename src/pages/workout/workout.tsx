@@ -49,6 +49,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import CollectionsIcon from '@mui/icons-material/Collections';
 import HistoryIcon from '@mui/icons-material/History';
 import {CheckBox, CheckBoxOutlineBlank, ErrorOutlineRounded} from "@mui/icons-material";
+import getId from "../../utils/id";
 
 export const WorkoutPage = () => {
     const {
@@ -84,7 +85,7 @@ export const WorkoutPage = () => {
         setShowRest(true);
         return saveSet({
             ...currentSet,
-            id: new Date().getTime() * 100 + (Math.random() % 100),
+            id: getId(),
             date: new Date(),
             setNumber: currentSetNumber,
             initial: false
