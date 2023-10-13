@@ -1,3 +1,3 @@
-const getId = () => Math.floor(new Date().getTime() * 100 + (Math.random() * 100));
+const getId = () => Math.floor(new Date().getTime() * 10000 + (Math.random() * 10000));
 
 export default getId;

@@ -8,6 +8,13 @@ export const WhatsNew = () => {
     const {t} = useTranslation();
     return <Layout title={t("whatsNew")} hideNav scroll>
         <Box sx={{padding: "20px", height: "100%", width: "100%"}}>
+            <Typography variant="h4">WeightLog Version 0.1.31</Typography>
+            <Typography variant="subtitle1">Released on 13/10/2023</Typography>
+            <Typography variant="subtitle2">Copyright Marc Sances 2023. All rights reserved.</Typography>
+            <Typography variant="h5">Features</Typography>
+            <ul>
+                <li>Added backup restore feature.</li>
+            </ul>
             <Typography variant="h4">WeightLog Version 0.1.30</Typography>
             <Typography variant="subtitle1">Released on 11/10/2023</Typography>
             <Typography variant="subtitle2">Copyright Marc Sances 2023. All rights reserved.</Typography>
@@ -22,10 +29,6 @@ export const WhatsNew = () => {
                 <li>Fixed glitch in youtube url field in exercise editor.</li>
                 <li>Fixed width of app bar in desktop.</li>
             </ul>
-            <Typography variant="h4">WeightLog Version 0.1.28</Typography>
-            <Typography variant="subtitle1">Released on 06/10/2023</Typography>
-            <Typography variant="subtitle2">Copyright Marc Sances 2023. All rights reserved.</Typography>
-            <br/>
             <Typography variant="h4">WeightLog Version 0.1.29</Typography>
             <Typography variant="subtitle1">Released on 10/10/2023</Typography>
             <Typography variant="subtitle2">Copyright Marc Sances 2023. All rights reserved.</Typography>
