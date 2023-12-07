@@ -4,7 +4,6 @@ import {Exercise} from "../models/exercise";
 import {DBContext} from "./dbContext";
 import {useTranslation} from "react-i18next";
 import getId from "../utils/id";
-import {Transaction} from "dexie";
 
 interface IWorkoutContext {
     timeStarted?: Date;
@@ -167,7 +166,7 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
         if (!set) {
             set = await db.exerciseSet.get(currentWorkoutExercise.setIds[currentSetNumber - 1]);
         }
-        return set;
+        return set ? {...set, initial: false} : set;
     }, [currentSet, currentWorkoutExercise, currentSetNumber, db, storedExercises]);
 
     useEffect(() => {
@@ -191,15 +190,6 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
         });
     }, [focusedExercise, currentWorkoutExercise, setFocusedExercise, db]);
 
-    const pruneSets = useCallback(async (tx: Transaction) => {
-        if (!db || !focusedExercise || !currentWorkoutExercise) return;
-        const allStoredSets: number[] = (await tx.db.table("workoutExercise").toArray()).flatMap((it) => it.setIds);
-        const missingSets: ExerciseSet[] = (await tx.db.table("exerciseSet").toArray()).filter((it) => !it.initial && !allStoredSets.includes(it) && !currentWorkoutExercise.setIds.includes(it.id));
-        for (const set of missingSets) {
-            await tx.db.table("exerciseSet").delete(set.id);
-        }
-    }, [db, focusedExercise, currentWorkoutExercise]);
-
     const startRest = useCallback((time: number) => {
         setRestStarted(new Date());
         setRestTime(time);
@@ -211,17 +201,7 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
             (async () => {
                 await db?.exerciseSet.put({...set, initial: false});
                 currentWorkoutExercise.setIds[currentSetNumber - 1] = set.id;
-                await db?.workoutExercise.update(currentWorkoutExercise.id, currentWorkoutExercise);
-                let workoutExerciseId = storedExercises[set.exerciseId];
-                if (!workoutExerciseId) {
-                    workoutExerciseId = new Date().getTime();
-                    await db?.workoutExercise.put({...currentWorkoutExercise, id: workoutExerciseId});
-                    setStoredExercises((prevExercises) => ({...prevExercises, [set.exerciseId]: workoutExerciseId}));
-                    setCurrentWorkoutExercise(currentWorkoutExercise);
-                    if (currentWorkoutHistory) setCurrentWorkoutHistory({...currentWorkoutHistory, workoutExerciseIds: currentWorkoutHistory.workoutExerciseIds.concat([workoutExerciseId])});
-                } else {
-                    await db?.workoutExercise.update(workoutExerciseId, {...currentWorkoutExercise, id: workoutExerciseId});
-                }
+                await db?.workoutExercise.put({...currentWorkoutExercise, id: getId()});
                 if (currentSetNumber >= currentWorkoutExercise.setIds.length) {
                     setCurrentWorkoutExerciseNumber((prevNumber) => prevNumber + 1);
                     setCurrentSetNumber(1);
@@ -231,7 +211,6 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
                 if (set.rest) {
                     startRest(set.rest);
                 }
-                await pruneSets(tx);
             })().catch((e) => {
                 debugger;
                 tx.abort();
@@ -239,7 +218,7 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
             })
         })
 
-    }, [db, currentWorkoutExercise, currentSetNumber, currentWorkoutHistory, pruneSets, storedExercises, setCurrentWorkoutHistory, setCurrentWorkoutExerciseNumber, setCurrentSetNumber, setStoredExercises, startRest]);
+    }, [db, currentWorkoutExercise, currentSetNumber, currentWorkoutHistory, storedExercises, setCurrentWorkoutHistory, setCurrentWorkoutExerciseNumber, setCurrentSetNumber, setStoredExercises, startRest]);
 
 
     const stopRest = useCallback(() => {

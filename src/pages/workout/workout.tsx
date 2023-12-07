@@ -85,7 +85,7 @@ export const WorkoutPage = () => {
         setShowRest(true);
         return saveSet({
             ...currentSet,
-            id: getId(),
+            id: currentSet.initial ? getId() : currentSet.id,
             date: new Date(),
             setNumber: currentSetNumber,
             initial: false
