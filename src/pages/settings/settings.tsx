@@ -15,10 +15,13 @@ import {OneRm} from "../../utils/oneRm";
 import {Cake} from "@mui/icons-material";
 import {useNavigate} from "react-router-dom";
 import BackupIcon from "@mui/icons-material/Backup";
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import {DBContext} from "../../context/dbContext";
 
 declare let window: any;
 export const SettingsPage = () => {
     const {t} = useTranslation();
+    const {db} = useContext(DBContext);
     const install = async () => {
         if (window.deferredPrompt !== null) {
             window.deferredPrompt.prompt();
@@ -91,6 +94,22 @@ export const SettingsPage = () => {
                     </Avatar>
                 </ListItemAvatar>
                 <ListItemText primary={t("backup.title")} secondary={t("backup.description")} />
+            </ListItemButton>
+            <ListItemButton component="a" onClick={() => {
+                if (confirm(t("resetAllWarning")) && confirm(t("resetAllWarning2"))) {
+                    db?.delete().then(() => {
+                        localStorage.clear();
+                        sessionStorage.clear();
+                        location.href = window.location.origin;
+                    });
+                }
+            }}>
+                <ListItemAvatar>
+                    <Avatar>
+                        <RestartAltIcon/>
+                    </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary={t("resetAll")} secondary={t("resetAllTip")}/>
             </ListItemButton>
             <ListItemButton component="a" onClick={() => navigate("/whats-new")}>
                 <ListItemAvatar>

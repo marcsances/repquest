@@ -239,7 +239,10 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
     }, [setRestStarted]);
 
     const stopWorkout = useCallback(async () => {
-        if (currentWorkoutHistory) await db?.workoutHistory.put(currentWorkoutHistory);
+        if (currentWorkoutHistory) await db?.workoutHistory.put({
+            ...currentWorkoutHistory,
+            workoutExerciseIds: currentWorkoutExerciseIds
+        });
         setWorkoutExercises(undefined);
         setFocusedExercise(undefined);
         setCurrentSetNumber(1);
@@ -251,7 +254,7 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
         setRestStarted(undefined);
         setRestTime(0);
         setStoredExercises([]);
-    }, [db, currentWorkoutHistory, setWorkoutExercises, setCurrentSetNumber,
+    }, [db, currentWorkoutHistory, currentWorkoutExerciseIds, setWorkoutExercises, setCurrentSetNumber,
         setCurrentWorkoutExerciseNumber, setCurrentWorkoutHistory, setFollowingWorkout, setFocusedExercise, setStoredExercises,
         setCurrentSet, setRestStarted, setRestTime]);
 

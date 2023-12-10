@@ -32,7 +32,8 @@ export const HistoryPage = () => {
                     <FitnessCenterIcon/>
                 </Avatar>
             </ListItemAvatar>
-            <ListItemText primary={entry.workoutName} secondary={entry.date.toLocaleDateString() + " " + entry.date.toLocaleTimeString()}/>
+            <ListItemText primary={entry.workoutName}
+                          secondary={new Date(entry.date).toLocaleDateString() + " " + new Date(entry.date).toLocaleTimeString()}/>
         </ListItemButton>)}
     </List>
     </Layout>;

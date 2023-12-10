@@ -126,7 +126,7 @@ export const Backup = () => {
         <ListSubheader>{t("backup.importData")}</ListSubheader>
         <ListItemButton component="a" onClick={() => {
             readPayload();
-        }} disabled={isWorking}>
+        }} disabled>
             <ListItemAvatar><Avatar>
                 <Box position="relative" display="inline-flex">
                     {isWorking && mode === "restore" && target === "json" && <Loader/>}
@@ -148,7 +148,7 @@ export const Backup = () => {
             </Avatar>
             </ListItemAvatar>
             <ListItemText primary={t("backup.fromFile")}
-                          secondary={isWorking && mode === "backup" && target === "json" ? t("backup.importing") : undefined}/>
+                          secondary={isWorking && mode === "backup" && target === "json" ? t("backup.importing") : t("comingSoon")}/>
         </ListItemButton>
         <ListItemButton component="a" disabled>
             <ListItemAvatar>

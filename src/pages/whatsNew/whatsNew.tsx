@@ -8,6 +8,18 @@ export const WhatsNew = () => {
     const {t} = useTranslation();
     return <Layout title={t("whatsNew")} hideNav scroll>
         <Box sx={{padding: "20px", height: "100%", width: "100%"}}>
+            <Typography variant="h4">WeightLog Version 0.1.32</Typography>
+            <Typography variant="subtitle1">Released on 10/12/2023</Typography>
+            <Typography variant="subtitle2">Copyright Marc Sances 2023. All rights reserved.</Typography>
+            <Typography variant="h5">Features</Typography>
+            <ul>
+                <li>Fixed issues with fetching workout history.</li>
+                <li>Added factory reset feature.</li>
+                <li>We disabled the backup reset feature as it causes issues in the app. We aim to restore it as soon as
+                    possible.
+                </li>
+                <li>We changed the build system and the application will perform faster.</li>
+            </ul>
             <Typography variant="h4">WeightLog Version 0.1.31</Typography>
             <Typography variant="subtitle1">Released on 13/10/2023</Typography>
             <Typography variant="subtitle2">Copyright Marc Sances 2023. All rights reserved.</Typography>

@@ -188,5 +188,9 @@
   "newExercise": "Nou exercici",
   "welcomeToWeightLog": "Benvinguts a WeightLog! Teniu en compte que aquesta aplicació està en fase de proves i pot presentar errades. Esperem el vostre feedback!",
   "startAddingAWorkout": "Creeu una rutina per a començar.",
-  "importWillReplaceEverything": "TOTES les dades de la aplicació seran ELIMINADES i després s'importarà la còpia de seguretat substituint TOT. Aquesta operació és irreversible. Voleu continuar?"
+  "importWillReplaceEverything": "TOTES les dades de la aplicació seran ELIMINADES i després s'importarà la còpia de seguretat substituint TOT. Aquesta operació és irreversible. Voleu continuar?",
+  "resetAll": "Reinici de fàbrica",
+  "resetAllTip": "Esborrar totes les dades de WeightLog",
+  "resetAllWarning": "TOTES les dades de la aplicació seran ELIMINADES. Assegureu-vos que heu fet una còpia de seguretat primer. Voleu continuar?",
+  "resetAllWarning2": "Darrer avís: TOTES les dades de la aplicació seran ELIMINADES! Segur que voleu continuar?"
 }

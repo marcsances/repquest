@@ -188,5 +188,9 @@
   "workoutPlan": "Workout plan",
   "welcomeToWeightLog": "Welcome to WeightLog! Be aware this app is in testing and may present errors. We await your feedback!",
   "startAddingAWorkout": "Create a workout to begin.",
-  "importWillReplaceEverything": "ALL the application data will be DELETED and then the backup will be imported replacing EVERYTHING. This operation cannot be rolled back. Continue?"
+  "importWillReplaceEverything": "ALL the application data will be DELETED and then the backup will be imported replacing EVERYTHING. This operation cannot be rolled back. Continue?",
+  "resetAll": "Factory reset",
+  "resetAllTip": "Delete all application data",
+  "resetAllWarning": "ALL application data will be reset. Make sure you made a backup before proceeding. Are you sure you want to continue?",
+  "resetAllWarning2": "Last warning: ALL application data will be RESET! Are you sure you want to continue?"
 }

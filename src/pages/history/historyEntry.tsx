@@ -28,7 +28,8 @@ export const HistoryEntry = () => {
         const workoutExercises = await db.workoutExercise.where("id").anyOf(historyEntry?.workoutExerciseIds).toArray();
         for (const workoutExercise of workoutExercises) {
             const exercise = await db.exercise.get(workoutExercise.exerciseId);
-            entries.push({id: new Date().getTime(), exercise, sets: (await db.exerciseSet.where("id").anyOf(workoutExercise.setIds).toArray()).sort(compareSetHistoryEntries)});
+            const sets = (await db.exerciseSet.where("id").anyOf(workoutExercise.setIds).toArray()).filter((it) => !it.initial).sort(compareSetHistoryEntries);
+            if (sets.length > 0) entries.push({id: new Date().getTime(), exercise, sets});
         }
         setHistory(entries);
     }, [db, workoutId, t])

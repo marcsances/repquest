@@ -256,7 +256,8 @@ export const WorkoutPage = () => {
                     <ToggleParameter<SetType> options={setOptions} value={currentSet.type} onChange={(type: number) => {
                         if (currentSet && setCurrentSet) setCurrentSet({...currentSet, type})
                     }}/>}
-            <SetParameter name={t("set")} value={currentSetNumber} min={1} max={currentWorkoutExercise?.setIds.length}
+                <SetParameter key={currentSetNumber} name={t("set")} value={currentSetNumber} min={1}
+                              max={currentWorkoutExercise?.setIds.length}
                           incrementBy={1} onChange={(setNumber) => { if (setCurrentSetNumber) setCurrentSetNumber(setNumber)}}/>
                 {currentSet?.weight !== undefined &&
                     <Parameter name={t("weight")} unit={useLbs ? "lbs" : "kg"} value={currentSet?.weight || 0} min={0}

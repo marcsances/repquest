@@ -16,7 +16,7 @@ export class DexieDB extends Dexie {
     plan!: Table<Plan>;
     constructor() {
         super('weightlog');
-        this.version(1).stores({
+        this.version(2).stores({
             exercise: "++id, name, type, *tags",
             workout: "++id, name",
             workoutHistory: "++id, userName, date, workoutExerciseIds",

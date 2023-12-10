@@ -25,7 +25,7 @@ async function generateBackup(db: DexieDB, level: string) {
     };
     if (["workouts", "plans", "everything", "restoreBackup"].includes(level)) {
         backupObject.workouts = await db.workout.toArray();
-        backupObject.exerciseSets = (await db.exerciseSet.toArray()).filter((it) => it.initial || it.id < 100);
+        backupObject.exerciseSets = await db.exerciseSet.toArray();
         backupObject.workoutExercises = await db.workoutExercise.toArray();
     }
     if (["plans", "everything", "restoreBackup"].includes(level)) {

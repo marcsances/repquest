@@ -188,5 +188,9 @@
   "newExercise": "Nuevo ejercicio",
   "welcomeToWeightLog": "Bienvenido a WeightLog! Ten en cuenta que esta app está en fase de pruebas y puede presentar errores. Esperamos tus comentarios!",
   "startAddingAWorkout": "Crea una rutina para empezar.",
-  "importWillReplaceEverything": "TODOS los datos de la aplicación serán ELIMINADOS y luego se importará la copia de seguridad reemplazando TODO. Esta operación no se puede revertir. ¿Desea continuar?"
+  "importWillReplaceEverything": "TODOS los datos de la aplicación serán ELIMINADOS y luego se importará la copia de seguridad reemplazando TODO. Esta operación no se puede revertir. ¿Desea continuar?",
+  "resetAll": "Reinicio de fábrica",
+  "resetAllTip": "Borrar todos los datos de WeightLog",
+  "resetAllWarning": "TODOS los datos de WeightLog serán eliminados para siempre. ¡Asegúrate de haber hecho una copia de seguridad! ¿Deseas continuar?",
+  "resetAllWarning2": "Último aviso: ¡TODOS los datos de WeightLog serán eliminados para siempre! ¿Seguro que quieres continuar?"
 }
