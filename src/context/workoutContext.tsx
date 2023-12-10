@@ -16,6 +16,7 @@ interface IWorkoutContext {
     restTime: number;
     currentWorkoutHistory?: WorkoutHistory;
     currentWorkoutExercise?: WorkoutExercise;
+    currentWorkoutExerciseIds?: number[];
     storedExercises: Record<number, number>;
     currentWorkoutExerciseNumber: number;
     setCurrentWorkout?: (currentWorkout?: Workout) => void;
@@ -56,6 +57,7 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
     const [workoutExercises, setWorkoutExercises] = useState<WorkoutExercise[] | undefined>(undefined);
     const [focusedExercise, setFocusedExercise] = useState<Exercise | undefined>(undefined);
     const [currentWorkout, setCurrentWorkout] = useState<Workout | undefined>(undefined);
+    const [currentWorkoutExerciseIds, setCurrentWorkoutExerciseIds] = useState<number[]>([]);
     const [currentWorkoutHistory, setCurrentWorkoutHistory] = useState<WorkoutHistory | undefined>(undefined);
     const [currentSet, setCurrentSet] = useState<ExerciseSet | undefined>(undefined);
     const [currentSetNumber, setCurrentSetNumber] = useState(1);
@@ -96,6 +98,7 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
             setCurrentSetNumber(context.currentSetNumber);
             setCurrentWorkoutExercise(context.currentWorkoutExercise);
             setCurrentWorkoutExerciseNumber(context.currentWorkoutExerciseNumber);
+            setCurrentWorkoutExerciseIds(context.currentWorkoutExerciseIds || []);
             setFollowingWorkout(context.followingWorkout);
             setRestStarted(context.restStarted ? new Date(context.restStarted) : undefined);
             setRestTime(context.restTime);
@@ -132,6 +135,7 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
         db?.workout.get(followingWorkout.id).then((workout) => {
             if (workout) {
                 setCurrentWorkout(workout);
+                setCurrentWorkoutExerciseIds(workout.workoutExerciseIds);
             }
         });
     }, [followingWorkout, setCurrentWorkout, db]);
@@ -142,11 +146,12 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
             setCurrentWorkoutExercise(undefined);
             return;
         }
-        if (currentWorkoutExerciseNumber >= currentWorkout.workoutExerciseIds.length) return;
-        db?.workoutExercise.get(currentWorkout.workoutExerciseIds[currentWorkoutExerciseNumber]).then((workoutExercise) => {
+        if (currentWorkoutExerciseNumber >= currentWorkoutExerciseIds.length) return;
+        db?.workoutExercise.get(currentWorkoutExerciseIds[currentWorkoutExerciseNumber]).then((workoutExercise) => {
             if (workoutExercise) {
                 setCurrentSetNumber(1);
-                setCurrentWorkoutExercise(workoutExercise);
+                const weid = workoutExercise.initial ? getId() : workoutExercise.id;
+                setCurrentWorkoutExercise({...workoutExercise, id: weid, initial: false});
             }
         });
     }, [currentWorkout, currentWorkoutExerciseNumber, setCurrentWorkoutExercise, db]);
@@ -166,7 +171,7 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
         if (!set) {
             set = await db.exerciseSet.get(currentWorkoutExercise.setIds[currentSetNumber - 1]);
         }
-        return set ? {...set, initial: false} : set;
+        return set;
     }, [currentSet, currentWorkoutExercise, currentSetNumber, db, storedExercises]);
 
     useEffect(() => {
@@ -196,7 +201,7 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
     }, [setRestStarted]);
 
     const saveSet = useCallback(async (set: ExerciseSet) => {
-        if (!currentWorkoutExercise || !db || !currentWorkoutExercise.setIds) return;
+        if (!currentWorkoutExercise || !db || !currentWorkout || !currentWorkoutExercise.setIds) return;
         db.transaction("rw", [db.exerciseSet, db.workoutExercise], (tx) => {
             (async () => {
                 await db?.exerciseSet.put({...set, initial: false});
@@ -212,7 +217,6 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
                     startRest(set.rest);
                 }
             })().catch((e) => {
-                debugger;
                 tx.abort();
                 console.error(e);
             })

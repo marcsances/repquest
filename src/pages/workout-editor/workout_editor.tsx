@@ -83,7 +83,8 @@ export const WorkoutEditor = () => {
         const workoutExercise: WorkoutExercise = {
             id: getId(),
             exerciseId: exercise.id,
-            setIds: []
+            setIds: [],
+            initial: true
         };
         db.workoutExercise.put(workoutExercise).then(() => {
             const newWorkout = {

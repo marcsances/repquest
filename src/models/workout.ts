@@ -20,6 +20,7 @@ export interface WorkoutExercise {
     id: number;
     exerciseId: number;
     setIds: number[];
+    initial: boolean;
 }
 
 export enum SetType {
