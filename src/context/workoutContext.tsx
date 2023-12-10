@@ -147,11 +147,11 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
             return;
         }
         if (currentWorkoutExerciseNumber >= currentWorkoutExerciseIds.length) return;
+        console.log("en " + currentWorkoutExerciseNumber)
         db?.workoutExercise.get(currentWorkoutExerciseIds[currentWorkoutExerciseNumber]).then((workoutExercise) => {
             if (workoutExercise) {
                 setCurrentSetNumber(1);
-                const weid = workoutExercise.initial ? getId() : workoutExercise.id;
-                setCurrentWorkoutExercise({...workoutExercise, id: weid, initial: false});
+                setCurrentWorkoutExercise({...workoutExercise, initial: false});
             }
         });
     }, [currentWorkout, currentWorkoutExerciseNumber, setCurrentWorkoutExercise, db]);
@@ -206,7 +206,15 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
             (async () => {
                 await db?.exerciseSet.put({...set, initial: false});
                 currentWorkoutExercise.setIds[currentSetNumber - 1] = set.id;
-                await db?.workoutExercise.put({...currentWorkoutExercise, id: getId()});
+                const oldId = currentWorkoutExercise.id;
+                const newId = getId();
+                await db?.workoutExercise.put({...currentWorkoutExercise, id: newId});
+                setCurrentWorkoutExercise({...currentWorkoutExercise, id: newId});
+                setCurrentWorkoutExerciseIds((prevIds) => {
+                    const ret = [...prevIds];
+                    ret.splice(prevIds.indexOf(oldId), 1, newId);
+                    return ret;
+                });
                 if (currentSetNumber >= currentWorkoutExercise.setIds.length) {
                     setCurrentWorkoutExerciseNumber((prevNumber) => prevNumber + 1);
                     setCurrentSetNumber(1);

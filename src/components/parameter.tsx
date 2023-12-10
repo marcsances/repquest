@@ -16,10 +16,11 @@ export interface ParameterProps {
     min?: number;
     max?: number;
     allowDecimals?: boolean;
+    disabled?: boolean;
 }
 
 const Parameter = (props: ParameterProps) => {
-    const {name, value, unit, onChange, onToggle, incrementBy, min, max, allowDecimals} = props;
+    const {name, value, unit, onChange, onToggle, incrementBy, min, max, allowDecimals, disabled} = props;
     const [displayVal, setDisplayVal] = useState<string>(value?.toString() || "");
     const [val, setVal] = useState(value);
     const [paramDisabled, setParamDisabled] = useState(value === undefined);
@@ -69,7 +70,7 @@ const Parameter = (props: ParameterProps) => {
         if (onChange) onChange(newVal);
     }
 
-    const disabled = val === undefined;
+    const isDisabled = val === undefined || disabled;
 
     return <Box sx={{display: "flex", flexDirection: "row", margin: "8px"}}>
         {onToggle && <Checkbox checked={!paramDisabled} onChange={(ev) => onToggle(ev.target.checked)} />}
@@ -82,14 +83,16 @@ const Parameter = (props: ParameterProps) => {
             sx={{flexGrow: 1}}
             onChange={(ev) => setDisplayVal(ev.target.value)}
             onBlur={onChangeInput}
-            disabled={disabled}
+            disabled={isDisabled}
             inputProps={{style: {textAlign: "right"}}}
         />
         <Typography sx={{marginLeft: "8px", alignSelf: "center", width: "48px"}}>{unit}</Typography>
-        <IconButton onClick={onRemove} color="primary" size="small" aria-label="add" sx={{marginLeft: "4px"}} disabled={min || disabled ? (min && val && val <= min) || disabled : false}>
+        <IconButton onClick={onRemove} color="primary" size="small" aria-label="add" sx={{marginLeft: "4px"}}
+                    disabled={min || isDisabled ? (min && val && val <= min) || isDisabled : false}>
             <RemoveIcon/>
         </IconButton>
-        <IconButton onClick={onAdd} color="primary" size="small" aria-label="add" sx={{marginLeft: "8px"}} disabled={min || disabled ? (min && val && val <= min) || disabled : false}>
+        <IconButton onClick={onAdd} color="primary" size="small" aria-label="add" sx={{marginLeft: "8px"}}
+                    disabled={min || isDisabled ? (min && val && val <= min) || isDisabled : false}>
             <AddIcon/>
         </IconButton>
     </Box>
