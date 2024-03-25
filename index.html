@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!--
+    This file is part of WeightLog.
+
+    WeightLog is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WeightLog is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WeightLog.  If not, see <https://www.gnu.org/licenses/>.
+    -->
+    <meta charset="utf-8" />
+      <link href="/favicon.ico" rel="icon"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="HandheldFriendly" content="true" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="Weightlog Gym App" />
+      <link href="/logo192.png" rel="apple-touch-icon"/>
+      <link href="/splashscreens/iphone5_splash.png"
+            media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)"
+            rel="apple-touch-startup-image"/>
+      <link href="/splashscreens/iphone6_splash.png"
+            media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)"
+            rel="apple-touch-startup-image"/>
+      <link href="/splashscreens/iphoneplus_splash.png"
+            media="(device-width: 621px) and (device-height: 1104px) and (-webkit-device-pixel-ratio: 3)"
+            rel="apple-touch-startup-image"/>
+      <link href="/splashscreens/iphonex_splash.png"
+            media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)"
+            rel="apple-touch-startup-image"/>
+      <link href="/splashscreens/iphonexr_splash.png"
+            media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)"
+            rel="apple-touch-startup-image"/>
+      <link href="/splashscreens/iphonexsmax_splash.png"
+            media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)"
+            rel="apple-touch-startup-image"/>
+      <link href="/splashscreens/ipad_splash.png"
+            media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)"
+            rel="apple-touch-startup-image"/>
+      <link href="/splashscreens/ipadpro1_splash.png"
+            media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2)"
+            rel="apple-touch-startup-image"/>
+      <link href="/splashscreens/ipadpro3_splash.png"
+            media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)"
+            rel="apple-touch-startup-image"/>
+      <link href="/splashscreens/ipadpro2_splash.png"
+            media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)"
+            rel="apple-touch-startup-image"/>
+      <script src="/src/index.tsx" type="module"></script>
+
+      <link href="/manifest.json" rel="manifest"/>
+    <title>WeightLog</title>
+    <style type="text/css">
+      .rotate {
+        transform: rotate(-90deg) translate(-100vh);
+        width: 100vh;
+        height: 100vw;
+        transform-origin: top left;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+    </style>
+    <script type="text/javascript">
+      // If orientation is changed and not lock, pseudo rotate the content
+      function reorient(e) {
+        const portrait = (window.screen.orientation.angle % 180 === 0);
+        document.getElementsByTagName("body")[0].className = portrait ? "" : "rotate";
+      }
+      window.onorientationchange = reorient;
+      window.setTimeout(reorient, 0);
+    </script>
+  </head>
+  <body style="background-color: rgb(18, 18, 18); overflow: hidden">
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+  </body>
+</html>
