@@ -133,9 +133,11 @@
     "doBackup": "Realitzar còpia de seguretat",
     "toFile": "A un fitxer",
     "toGoogleDrive": "A Google Drive",
+    "toWeightCloud": "A WeightCloud",
     "importData": "Importar dades",
     "fromFile": "Des d'un fitxer",
     "fromGoogleDrive": "Des de Google Drive",
+    "fromWeightCloud": "Des de WeightCloud",
     "whatToBackup": "Trieu què voleu exportar",
     "whatToImport": "Trieu què voleu importar",
     "items": {
@@ -317,5 +319,20 @@
   "reactionEmojisDescription": "Trieu les emoticones que apareixen per defecte",
   "defaults": "Valors per omissió",
   "feedback": "Informar d'un error / Comentaris",
-  "feedbackDescription": "Informeu d'un error o envieu-nos propostes de millora"
+  "feedbackDescription": "Informeu d'un error o envieu-nos propostes de millora",
+  "weightcloud": {
+    "login": {
+      "login": "Inicieu la sessió a WeightCloud",
+      "username": "Nom d'usuari",
+      "password": "Contrassenya",
+      "do_login": "Iniciar sessió",
+      "wrong_credentials": "Les credencials no són correctes",
+      "logged_in": "Heu iniciat sessió com a {{user}}",
+      "logout": "Tancar sessió",
+      "logged_out": "Heu tancat la sessió",
+      "syncing": "S'està sincronitzant amb WeightCloud...",
+      "synced": "S'ha sincronitzat amb WeightCloud"
+    },
+    "alpha": "WeightCloud és una funcionalitat en proves i només està disponible per a usuaris sel·leccionats. Si voleu participar en la beta tancada, contacteu amb nosaltres."
+  }
 }

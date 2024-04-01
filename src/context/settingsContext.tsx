@@ -28,6 +28,8 @@ export interface ISettingsContext {
     useLbs: boolean;
     oneRm: OneRm;
     emojis: string[];
+    refreshToken: string;
+    fullname: string;
     saveRpe?: (value: boolean) => void;
     saveRir?: (value: boolean) => void;
     saveLbs?: (value: boolean) => void;
@@ -39,6 +41,8 @@ export interface ISettingsContext {
     lang?: string;
     saveLang?: (value: string) => void;
     saveEmojis?: (value: string[]) => void;
+    saveRefreshToken?: (value: string) => void;
+    saveFullname?: (value: string) => void;
 }
 
 export const SettingsContext = React.createContext({
@@ -65,6 +69,8 @@ export const SettingsContextProvider = (props: { children: ReactElement }) => {
     const [autostop, setAutostop] = useState(localStorage.getItem("autostopDisabled") !== "true");
     const [wakeLock, setWakeLock] = useState(localStorage.getItem("wakeLock") === "true");
     const [errorWakeLock, setErrorWakeLock] = useState(false);
+    const [refreshToken, setRefreshToken] = useState(localStorage.getItem("refreshToken") || "");
+    const [fullname, setFullname] = useState(localStorage.getItem("fullname") || "");
     const [oneRm, setOneRm] = useState(parseInt(localStorage.getItem("oneRm") || "0"));
     const [emojis, setEmojis] = useState<string[]>(localStorage.getItem("emojis")?.split(";") || DEFAULT_EMOJIS);
     const [wakeLockSentinel, setWakeLockSentinel] = useState<WakeLockSentinel | null>(null);
@@ -94,6 +100,8 @@ export const SettingsContextProvider = (props: { children: ReactElement }) => {
         if (user?.lang !== undefined) setLang(user.lang);
         if (user?.wakeLock !== undefined) setWakeLock(user.wakeLock);
         if (user?.emojis !== undefined) setEmojis(user.emojis);
+        if (user?.refreshToken !== undefined) setRefreshToken(user.refreshToken);
+        if (user?.fullname !== undefined) setFullname(user.fullname);
     }, [user]);
 
     const requestWakeLock = useCallback(async () => {
@@ -137,6 +145,16 @@ export const SettingsContextProvider = (props: { children: ReactElement }) => {
         else masterDb?.user.update(userName, {useLbs: value});
         setLbs(value);
     }, []);
+    const saveRefreshToken = useCallback((value: string) => {
+        if (userName === "Default User") localStorage.setItem("refreshToken", value);
+        else masterDb?.user.update(userName, {refreshToken: value});
+        setRefreshToken(value);
+    }, []);
+    const saveFullname = useCallback((value: string) => {
+        if (userName === "Default User") localStorage.setItem("fullname", value);
+        else masterDb?.user.update(userName, {fullname: value});
+        setFullname(value);
+    }, []);
     const saveOneRm = useCallback((value: OneRm) => {
         if (userName === "Default User") localStorage.setItem("oneRm", value.toString(10));
         else masterDb?.user.update(userName, {oneRm: value});
@@ -160,6 +178,8 @@ export const SettingsContextProvider = (props: { children: ReactElement }) => {
         emojis,
         lang,
         autostop,
+        refreshToken,
+        fullname,
         saveRpe,
         saveRir,
         saveLbs,
@@ -169,7 +189,9 @@ export const SettingsContextProvider = (props: { children: ReactElement }) => {
         wakeLock,
         toggleWakeLock,
         errorWakeLock,
-        saveEmojis
+        saveEmojis,
+        saveRefreshToken,
+        saveFullname
     };
     return <SettingsContext.Provider value={settings}>
         {children}

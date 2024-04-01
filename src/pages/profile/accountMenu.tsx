@@ -24,6 +24,7 @@ import {
     DeleteForever,
     History,
     Link,
+    Login,
     QueryStats,
     Straighten,
     SwapHoriz
@@ -111,6 +112,14 @@ export const AccountMenu = () => {
                     </Avatar>
                 </ListItemAvatar>
                 <ListItemText primary={t("account.switchAccounts")} />
+            </ListItemButton>
+            <ListItemButton component="a" onClick={() => navigate("/account/login")}>
+                <ListItemAvatar>
+                    <Avatar sx={{bgcolor: (theme) => theme.palette.primary.main}}>
+                        <Login/>
+                    </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary={t("weightcloud.login.login")} />
             </ListItemButton>
             {userName !== "Default User" && <ListItemButton component="a" onClick={deleteAccount}>
                 <ListItemAvatar>

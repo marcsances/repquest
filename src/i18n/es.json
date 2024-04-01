@@ -133,9 +133,11 @@
     "doBackup": "Realizar copia de seguridad",
     "toFile": "A un archivo",
     "toGoogleDrive": "A Google Drive",
+    "toWeightCloud": "A WeightCloud",
     "importData": "Importar datos",
     "fromFile": "Desde un archivo",
     "fromGoogleDrive": "Desde Google Drive",
+    "fromWeightCloud": "Desde WeightCloud",
     "whatToBackup": "Seleccionar datos a exportar",
     "whatToImport": "Seleccionar datos a importar",
     "items": {
@@ -317,5 +319,20 @@
   "reactionEmojisDescription": "Escoger los emoticonos que aparecen por defecto",
   "defaults": "Valores por defecto",
   "feedback": "Informar de un error / Comentarios",
-  "feedbackDescription": "Informar de un problema o enviar propuestas de mejora"
+  "feedbackDescription": "Informar de un problema o enviar propuestas de mejora",
+  "weightcloud": {
+    "login": {
+      "login": "Iniciar sesión en WeightCloud",
+      "username": "Nombre de usuario",
+      "password": "Contraseña",
+      "do_login": "Iniciar sesión",
+      "wrong_credentials": "Las credenciales no son correctas",
+      "logged_in": "Ha iniciado sesión como {{user}}",
+      "logout": "Cerrar sesión",
+      "logged_out": "Ha cerrado la sesión",
+      "syncing": "Se está sincronizando con WeightCloud",
+      "synced": "Se ha sincronizado con WeightCloud"
+    },
+    "alpha": "WeightCloud es una funcionalidad en pruebas y solo está disponible para usuarios seleccionados. Si desea participar en las pruebas cerradas, contacte con nosotros."
+  }
 }

@@ -133,9 +133,11 @@
     "doBackup": "Perform backup",
     "toFile": "To a file",
     "toGoogleDrive": "To Google Drive",
+    "toWeightCloud": "To WeightCloud",
     "importData": "Import data",
     "fromFile": "From a file",
     "fromGoogleDrive": "From Google Drive",
+    "fromWeightCloud": "From WeightCloud",
     "whatToBackup": "Select what do to backup",
     "whatToImport": "Select what to import",
     "items": {
@@ -317,5 +319,20 @@
   "reactionEmojisDescription": "Choose the default emotes to show in the notes section",
   "defaults": "Defaults",
   "feedback": "Bug report / Comments",
-  "feedbackDescription": "Send us a bug report or comments to improve our app"
+  "feedbackDescription": "Send us a bug report or comments to improve our app",
+  "weightcloud": {
+    "login": {
+      "login": "Log in to WeightCloud",
+      "username": "Username",
+      "password": "Password",
+      "do_login": "Log in",
+      "wrong_credentials": "Wrong credentials",
+      "logged_in": "You are now logged into WeightCloud as {{user}}",
+      "logout": "Log out",
+      "logged_out": "You've sucessfully logged out from WeightCloud",
+      "syncing": "Syncing with WeightCloud...",
+      "synced": "You are in sync with WeightCloud"
+    },
+    "alpha": "WeightCloud is under testing and it's only available for selected users. If you want to participate in our tests, please reach out to us."
+  }
 }

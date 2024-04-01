@@ -25,7 +25,7 @@ import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import {CloudUpload} from "@mui/icons-material";
 import Selector from "../../components/selector";
 import {DBContext} from "../../context/dbContext";
-import {BackupObject, backupToJSON, importFromJSON} from "../../db/backup";
+import {BackupObject, backupToJSON, generateBackup, importFromJSON} from "../../db/backup";
 import Typography from "@mui/material/Typography";
 import Loader from "../../components/Loader";
 import {UserContext} from "../../context/userContext";
@@ -33,10 +33,12 @@ import {SettingsContext} from "../../context/settingsContext";
 import {Exercise} from "../../models/exercise";
 import getId from "../../utils/id";
 import {ExerciseSet, Plan, Workout, WorkoutExercise} from "../../models/workout";
+import {ApiContext} from "../../context/apiContext";
 
 export const Backup = () => {
     const {db, masterDb} = useContext(DBContext);
     const {focusedExercise} = useContext(WorkoutContext);
+    const {apiFetch, logged_in} = useContext(ApiContext);
     const {t} = useTranslation();
     const [mode, setMode] = useState("");
     const [target, setTarget] = useState("");
@@ -63,6 +65,17 @@ export const Backup = () => {
 
     }
 
+    const backupWeightCloud = (level: string) => {
+        if (!db || !user) return;
+        setIsWorking(true);
+        generateBackup(db, level, user, settings).then((backup) => {
+            apiFetch!<{result: string}>("/backup", "PUT", backup).then((result) => {
+                setMode("");
+                setIsWorking(false);
+            });
+        });
+    }
+
     const importJson = (level: string) => {
         if (!db || !payload || !masterDb || !userName) return;
         setIsWorking(true);
@@ -80,6 +93,19 @@ export const Backup = () => {
             reader.onload = () => resolve(reader.result?.toString());
             reader.onerror = (e) => reject(e);
             reader.readAsText(file);
+        })
+    }
+
+    const readFromCloud = () => {
+        apiFetch!<{timestamp: string, payload: BackupObject}>("/backup").then((response) => {
+            const backup = response.payload?.payload;
+            if (response.code === 200 && backup && backup.date && backup.exercises) {
+                setPayload(backup as unknown as BackupObject);
+                setMode("restore");
+                setTarget("json");
+            } else {
+                return Promise.reject();
+            }
         })
     }
 
@@ -268,6 +294,17 @@ export const Backup = () => {
             </ListItemAvatar>
             <ListItemText primary={t("backup.toGoogleDrive")} secondary={t("comingSoon")}/>
         </ListItemButton>
+        {logged_in && <ListItemButton component="a" onClick={() => {
+            setMode("backup");
+            setTarget("weightcloud");
+        }}>
+            <ListItemAvatar>
+                <Avatar>
+                    <BackupIcon/>
+                </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary={t("backup.toWeightCloud")}/>
+        </ListItemButton>}
         <ListSubheader>{t("backup.importData")}</ListSubheader>
         <ListItemButton component="a" onClick={() => {
             readPayload();
@@ -301,14 +338,26 @@ export const Backup = () => {
                     <CloudUpload/>
                 </Avatar>
             </ListItemAvatar>
-            <ListItemText primary={t("backup.toGoogleDrive")} secondary={t("comingSoon")}/>
+            <ListItemText primary={t("backup.fromGoogleDrive")} secondary={t("comingSoon")}/>
         </ListItemButton>
+        {logged_in && <ListItemButton component="a" onClick={() => {
+            readFromCloud();
+        }}>
+            <ListItemAvatar>
+                <Avatar>
+                    <CloudUpload/>
+                </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary={t("backup.fromWeightCloud")} />
+        </ListItemButton>}
         <Selector
             defaultValue="cancel"
             open={mode !== "" && !isWorking}
             onClose={(val: string) => {
                 if (val !== "cancel" && mode === "backup" && target === "json" && db) {
                     backupJson(val);
+                } else if (val !== "cancel" && mode === "backup" && target === "weightcloud" && db) {
+                    backupWeightCloud(val);
                 } else if (val !== "cancel" && mode === "restore" && target === "json" && db && payload) {
                     if (val === "restoreBackup" && !window.confirm(t("importWillReplaceEverything"))) return;
                     importJson(val);

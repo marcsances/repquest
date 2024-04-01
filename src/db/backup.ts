@@ -36,7 +36,7 @@ export interface BackupObject {
     settings?: Record<string, string | undefined>;
 }
 
-async function generateBackup(db: DexieDB, level: string, user: User, settings: ISettingsContext) {
+export async function generateBackup(db: DexieDB, level: string, user: User, settings: ISettingsContext) {
     const backupObject: BackupObject = {
         date: new Date().toJSON(),
         exercises: await db.exercise.toArray()
