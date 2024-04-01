@@ -45,7 +45,7 @@ export const WhatsNew = () => {
             <Typography variant="subtitle2">Copyright Marc Sances 2024. All rights reserved.</Typography>
             <Typography variant="h5">Features</Typography>
             <ul>
-                <li>Added WeightCloud login for users with access to this service.</li>
+                <li>WeightCloud: Added WeightCloud login for users with access to this service.</li>
                 <li>Added support to backup to WeightCloud.</li>
             </ul>
             <Typography variant="h4">WeightLog Version 0.1.63</Typography>
