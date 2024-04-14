@@ -98,7 +98,7 @@ export const ExerciseList = (props: ExerciseListProps) => {
         setEditorOpen(true);
     };
 
-    return <Layout title={onSelectExercise ? t("selectExercise") : t("exercises")}
+    return <Layout showAccountMenu title={onSelectExercise ? t("selectExercise") : t("exercises")}
                    toolItems={<IconButton color={searchBox !== undefined ? "primary" : "inherit"}
                                           onClick={() => setSearchBox((prevBox) => {
                                               return prevBox === undefined ? "" : undefined;

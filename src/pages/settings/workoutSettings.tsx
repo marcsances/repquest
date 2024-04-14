@@ -38,7 +38,7 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import Selector from "../../components/selector";
 import {OneRm} from "../../utils/oneRm";
 import {useNavigate} from "react-router-dom";
-import {EmojiEmotions} from "@mui/icons-material";
+import {EmojiEmotions, VolumeOff, VolumeUp} from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
 import EmojiPicker, {EmojiStyle, Theme} from "emoji-picker-react";
 
@@ -46,7 +46,7 @@ declare let window: any;
 export const WorkoutSettingsPage = () => {
     const {t} = useTranslation();
 
-    const { showRpe, showRir, useLbs, oneRm, emojis, saveEmojis, saveLbs, saveRir, saveRpe, saveOneRm, autostop, saveAutostop } = useContext(SettingsContext);
+    const { showRpe, showRir, sound, saveSound, useLbs, oneRm, emojis, saveEmojis, saveLbs, saveRir, saveRpe, saveOneRm, autostop, saveAutostop } = useContext(SettingsContext);
     const navigate = useNavigate();
     const [openOneRm, setOpenOneRm] = useState(false);
     const [emojiPickerOpen, setEmojiPickerOpen] = useState(false);
@@ -79,6 +79,14 @@ export const WorkoutSettingsPage = () => {
                 </ListItemAvatar>
                 <ListItemText primary={t("showRPE")} secondary={t("rpeIs")} />
             </ListItemButton>
+            <ListItemButton component="a" onClick={() => { if (saveSound) saveSound(!sound) }}>
+                <ListItemAvatar>
+                    <Avatar>
+                        {sound ? <VolumeUp /> : <VolumeOff />}
+                    </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary={t("sound")} />
+            </ListItemButton>
             <ListItemButton component="a" onClick={() => { if (saveRir) saveRir(!showRir) }}>
                 <ListItemAvatar>
                     <Avatar>
@@ -93,7 +101,7 @@ export const WorkoutSettingsPage = () => {
                         <FunctionsIcon/>
                     </Avatar>
                 </ListItemAvatar>
-                <ListItemText primary={t("oneRmFormula")} secondary={oneRm === OneRm.EPLEY ? "Epley" : "Brzycki"} />
+                <ListItemText primary={t("oneRmFormula")} secondary={["Epley", "Brzycki", t("average")][oneRm]} />
             </ListItemButton>
 
             <ListItemButton component="a" onClick={() => { if (saveAutostop) saveAutostop(!autostop) }}>
@@ -113,7 +121,7 @@ export const WorkoutSettingsPage = () => {
                 setOpenOneRm(false);
             }}
             title={t("oneRmFormula")}
-            entries={[{key: OneRm.EPLEY.toString(10), value: "Epley"}, {key: OneRm.BRZYCKI.toString(10), value: "Brzycki"}]}
+            entries={[{key: OneRm.EPLEY.toString(10), value: "Epley"}, {key: OneRm.BRZYCKI.toString(10), value: "Brzycki"}, {key: OneRm.AVERAGE.toString(10), value: t("average")}]}
         />
         <Dialog open={emojiPickerOpen}>
             <DialogTitle>

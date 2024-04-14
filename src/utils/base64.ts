@@ -14,13 +14,22 @@
     You should have received a copy of the GNU General Public License
     along with WeightLog.  If not, see <https://www.gnu.org/licenses/>.
  */
+
+import Resizer from "react-image-file-resizer";
+
 const getBase64 = (file: File) => {
-    return new Promise<string | undefined>((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result?.toString());
-        reader.onerror = error => reject(error);
-        reader.readAsDataURL(file);
-    });
+   return new Promise<string>((r) => Resizer.imageFileResizer(
+            file,
+            640,
+            640,
+            'PNG',
+            100,
+            0,
+            (resizedImage) => {
+                r(resizedImage.toString());
+            },
+            'base64'
+        ));
 }
 
 export default getBase64;

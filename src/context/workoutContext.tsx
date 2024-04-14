@@ -123,7 +123,7 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
     const [postWorkout, setPostWorkout] = useState<PostWorkout | undefined>(undefined);
     const [init, setInit] = useState(false);
     const {db} = useContext(DBContext);
-    const {time} = useContext(TimerContext);
+    const {slowTime} = useContext(TimerContext);
     const {oneRm, autostop} = useContext(SettingsContext);
     const {t} = useTranslation();
     const [isFetching, setIsFetching] = useState(false);
@@ -494,7 +494,7 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
         if (autostop && new Date().getTime() - timeUpdated.getTime() > 3600000) {
             stopWorkout();
         }
-    }, [autostop, currentWorkout, timeUpdated, time]);
+    }, [autostop, currentWorkout, timeUpdated, slowTime]);
 
     const refetchHistory = () => {
         setRefetchHistoryToken(new Date());

@@ -61,6 +61,8 @@ import StatsPage from "./pages/stats/stats";
 import MetricsPage from './pages/profile/metrics';
 import {ApiContextProvider} from "./context/apiContext";
 import {LoginPage} from "./pages/weightcloud/login";
+import {AppsMenu} from "./pages/apps/appsMenu";
+import {Timer} from "./pages/apps/timer";
 
 registerSW({immediate: true})
 const darkTheme = createTheme({
@@ -132,6 +134,8 @@ function App() {
                                                         <Routes>
                                                             <Route path="/login" element={<Login/>}/>
                                                             <Route path="/" element={<WorkoutList/>}/>
+                                                            <Route path="/apps" element={<AppsMenu/>}/>
+                                                            <Route path="/apps/timer" element={<Timer/>}/>
                                                             <Route path="/history" element={<HistoryPage/>}/>
                                                             <Route path="/account/stats" element={<StatsPage/>}/>
                                                             <Route path="/account/measures" element={<MetricsPage/>}/>

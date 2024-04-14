@@ -75,7 +75,6 @@ import {
 import getId from "../../utils/id";
 import {WorkoutFinished} from "./workoutFinished";
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
-import {TimerContext} from "../../context/timerContext";
 import PbsDialog from "../../components/pbsDialog";
 import OneRmPicker from "./oneRm_picker";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
@@ -88,7 +87,6 @@ import NotesParameter from "../../components/notesparameter";
 
 export const WorkoutPage = () => {
     const {
-        timeStarted,
         followingWorkout,
         focusedExercise,
         currentWorkout,
@@ -115,7 +113,6 @@ export const WorkoutPage = () => {
         superset,
         setSuperset
     } = useContext(WorkoutContext);
-    const {time} = useContext(TimerContext);
     const {showRpe, showRir, useLbs, oneRm, wakeLock,
         toggleWakeLock, saveRpe,
         saveRir, errorWakeLock } = useContext(SettingsContext);
@@ -280,7 +277,7 @@ export const WorkoutPage = () => {
             {!!restTime && !showRest && <RestInProgress onClick={() => setShowRest(true)} />}
             <SupersetViewer/>
             <Paper variant="outlined">
-                        <TableContainer component={Paper} sx={{flexGrow: 1, maxHeight: "30vh"}}>
+                        <TableContainer component={Paper} sx={{flexGrow: 1, maxHeight: "30vh", width: "auto"}}>
                             <Table size="small" aria-label="simple table">
                                 <TableHead>
                                     <TableRow>

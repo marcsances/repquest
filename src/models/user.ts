@@ -24,6 +24,7 @@ export interface User {
     showRir?: boolean;
     autostop?: boolean;
     useLbs?: boolean;
+    sound?: boolean;
     oneRm?: OneRm;
     lang?: string;
     wakeLock?: boolean;

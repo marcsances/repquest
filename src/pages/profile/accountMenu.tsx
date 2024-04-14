@@ -18,17 +18,7 @@ import React, {useContext, useState} from "react";
 import Layout from "../../components/layout";
 import {useTranslation} from "react-i18next";
 import {Avatar, List, ListItemAvatar, ListItemButton, ListItemText, Snackbar} from "@mui/material";
-import {
-    AccountCircle,
-    CameraRoll,
-    DeleteForever,
-    History,
-    Link,
-    Login,
-    QueryStats,
-    Straighten,
-    SwapHoriz
-} from "@mui/icons-material";
+import {AccountCircle, DeleteForever, Link, Login, SwapHoriz} from "@mui/icons-material";
 import {useNavigate} from "react-router-dom";
 import {DBContext} from "../../context/dbContext";
 import {UserContext} from "../../context/userContext";
@@ -37,6 +27,42 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import CloseIcon from "@mui/icons-material/Close";
 import Selector from "../../components/selector";
 import getBase64 from "../../utils/base64";
+
+export const AccountMenuList = () => {
+    const {t} = useTranslation();
+    const navigate = useNavigate();
+    const {userName, user, setUser} = useContext(UserContext);
+
+    return <List>
+        <ListItemButton component="a" onClick={() => navigate("/account")}>
+            <ListItemAvatar>
+                <Avatar sx={{width: "32px", height: "32px", bgcolor: (theme) => theme.palette.primary.main}}>
+                    {(!user || !user.picture) && <Avatar sx={{bgcolor: (theme) => theme.palette.primary.main}}>
+                        <AccountCircle/>
+                    </Avatar>}
+                    {user?.picture && <Avatar src={user!.picture} />}
+                </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary={userName || t("account.title")}/>
+        </ListItemButton>
+        <ListItemButton component="a" onClick={() => navigate("/login")}>
+            <ListItemAvatar>
+                <Avatar sx={{width: "32px", height: "32px", bgcolor: (theme) => theme.palette.warning.main}}>
+                    <SwapHoriz/>
+                </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary={t("account.switchAccounts")} />
+        </ListItemButton>
+        <ListItemButton component="a" onClick={() => navigate("/account/login")}>
+            <ListItemAvatar>
+                <Avatar sx={{width: "32px", height: "32px", bgcolor: (theme) => theme.palette.primary.main}}>
+                    <Login/>
+                </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary={t("weightcloud.login.login")} />
+        </ListItemButton>
+    </List>
+}
 
 export const AccountMenu = () => {
 
@@ -60,7 +86,7 @@ export const AccountMenu = () => {
         }
     }
 
-    return <Layout hideBack title={userName === "Default User" ? t("account.title") : userName}>
+    return <Layout title={userName === "Default User" ? t("account.title") : userName}>
         <List sx={{width: '100%', height: 'calc(100% - 78px)', overflow: "auto"}}>
             <ListItemButton component="a" onClick={() => setPictureSelectorOpen(true)}>
                 <ListItemAvatar>
@@ -72,38 +98,6 @@ export const AccountMenu = () => {
                     </Avatar>
                 </ListItemAvatar>
                 <ListItemText primary={t("account.profilePicture")}/>
-            </ListItemButton>
-            <ListItemButton component="a" onClick={() => navigate("/history")}>
-                <ListItemAvatar>
-                    <Avatar sx={{bgcolor: (theme) => theme.palette.primary.main}}>
-                        <History/>
-                    </Avatar>
-                </ListItemAvatar>
-                <ListItemText primary={t("history")} />
-            </ListItemButton>
-            <ListItemButton component="a" onClick={() => navigate("/account/stats")}>
-                <ListItemAvatar>
-                    <Avatar sx={{bgcolor: (theme) => theme.palette.primary.main}}>
-                        <QueryStats />
-                    </Avatar>
-                </ListItemAvatar>
-                <ListItemText primary={t("statsApp.title")} />
-            </ListItemButton>
-            <ListItemButton component="a" onClick={() => navigate("/account/measures")}>
-                <ListItemAvatar>
-                    <Avatar sx={{bgcolor: (theme) => theme.palette.primary.main}}>
-                        <Straighten />
-                    </Avatar>
-                </ListItemAvatar>
-                <ListItemText primary={t("account.bodyMeasures")}/>
-            </ListItemButton>
-            <ListItemButton disabled component="a" onClick={() => navigate("/account/photobook")}>
-                <ListItemAvatar>
-                    <Avatar sx={{bgcolor: (theme) => theme.palette.primary.main}}>
-                        <CameraRoll />
-                    </Avatar>
-                </ListItemAvatar>
-                <ListItemText primary={t("account.photobook")} secondary={t("comingSoon")}/>
             </ListItemButton>
             <ListItemButton component="a" onClick={() => navigate("/login")}>
                 <ListItemAvatar>

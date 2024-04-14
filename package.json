@@ -1,6 +1,6 @@
 {
   "name": "weightlog",
-  "version": "0.1.64",
+  "version": "0.1.65",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.11.1",
@@ -29,6 +29,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-i18next": "^13.0.1",
+    "react-image-file-resizer": "^0.4.8",
     "react-router-dom": "^6.14.1",
     "typescript": "^4.9.5",
     "uuid": "^9.0.0",
@@ -82,6 +83,7 @@
   "devDependencies": {
     "@types/node": "^17.0.45",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "react-geiger": "^1.2.0",
     "vite-plugin-pwa": "^0.17.4"
   }
 }

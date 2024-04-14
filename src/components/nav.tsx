@@ -22,17 +22,18 @@ import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import SettingsIcon from '@mui/icons-material/Settings';
 import {useTranslation} from "react-i18next";
 import {Link as RouterLink, useLocation} from "react-router-dom";
-import {Avatar, Paper} from "@mui/material";
+import {Paper} from "@mui/material";
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import {DBContext} from "../context/dbContext";
 import {UserContext} from "../context/userContext";
+import {Apps} from "@mui/icons-material";
 
 export const WLNav = () => {
     const {t} = useTranslation();
     const {db, masterDb} = useContext(DBContext);
     const {userName, user} = useContext(UserContext);
     const location = useLocation();
-    const paths = ["/", "/exercises", "/account", "/settings"];
+    const paths = ["/", "/exercises", "/apps", "/settings"];
     const value = paths.indexOf(location.pathname);
     return (
         <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
@@ -42,7 +43,7 @@ export const WLNav = () => {
             >
                 <BottomNavigationAction component={RouterLink} to="/" label={t("workouts")} icon={<CalendarMonthIcon/>}/>
                 <BottomNavigationAction component={RouterLink} to="/exercises" label={t("exercises")} icon={<FitnessCenterIcon/>}/>
-                <BottomNavigationAction component={RouterLink} to="/account" label={userName === "Default User" ? t("account.title") : userName} icon={<Avatar sx={{width: 24, height: 24}} src={user?.picture} />}/>
+                <BottomNavigationAction component={RouterLink} to="/apps" label={t("appsMenu.title")} icon={<Apps/>}/>
                 <BottomNavigationAction component={RouterLink} to="/settings" label={t("settings")} icon={<SettingsIcon/>}/>
             </BottomNavigation>
         </Paper>

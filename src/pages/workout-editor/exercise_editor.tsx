@@ -200,7 +200,7 @@ export const ExerciseEditor = (props: ExerciseEditorProps) => {
         {!!exercise && !showHistory && <Card variant="outlined" sx={{padding: "20px"}}>
                 <CardContent>
                     {exercise.picture && <CardMedia
-                        sx={{height: "30" + (portrait ? "vh" : "vw")}}
+                        sx={{height: "30" + (portrait ? "vh" : "vw"), backgroundSize: "contain"}}
                         image={exercise.picture}
                         title={exercise.name}
                         onClick={() => setPictureSelectorOpen(true)}
@@ -260,7 +260,7 @@ export const ExerciseEditor = (props: ExerciseEditorProps) => {
                     input.setAttribute('type', 'file');
                     document.body.appendChild(input);
                     input.onchange = () => {
-                        if (input.files && input.files[0]) getBase64(input.files[0]).then((url: string | undefined) => {
+                        if (input.files && input.files[0]) getBase64(input.files[0]).then((url: string) => {
                             if (url) {
                                 setExercise({...exercise, picture: url})
                                 setUnsavedChanges(true);

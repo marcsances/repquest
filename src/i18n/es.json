@@ -334,5 +334,13 @@
       "synced": "Se ha sincronizado con WeightCloud"
     },
     "alpha": "WeightCloud es una funcionalidad en pruebas y solo está disponible para usuarios seleccionados. Si desea participar en las pruebas cerradas, contacte con nosotros."
-  }
+  },
+  "average": "Promedio (Puede ser menos preciso)",
+  "appsMenu": {
+    "title": "Utilidades",
+    "timer": "Cronómetro"
+  },
+  "stopTimer": "Reiniciar cronómetro",
+  "lap": "Vuelta",
+  "sound": "Sonido"
 }

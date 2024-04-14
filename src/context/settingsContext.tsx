@@ -26,6 +26,7 @@ export interface ISettingsContext {
     showRir: boolean;
     autostop: boolean;
     useLbs: boolean;
+    sound: boolean;
     oneRm: OneRm;
     emojis: string[];
     refreshToken: string;
@@ -33,6 +34,7 @@ export interface ISettingsContext {
     saveRpe?: (value: boolean) => void;
     saveRir?: (value: boolean) => void;
     saveLbs?: (value: boolean) => void;
+    saveSound?: (value: boolean) => void;
     saveAutostop?: (value: boolean) => void;
     saveOneRm?: (value: OneRm) => void;
     wakeLock?: boolean;
@@ -49,6 +51,7 @@ export const SettingsContext = React.createContext({
     showRpe: false,
     showRir: false,
     useLbs: false,
+    sound: false,
     autostop: true,
     oneRm: OneRm.EPLEY,
     wakeLock: false
@@ -66,6 +69,7 @@ export const SettingsContextProvider = (props: { children: ReactElement }) => {
     const [rpe, setRpe] = useState(localStorage.getItem("showRpe") === "true");
     const [rir, setRir] = useState(localStorage.getItem("showRir") === "true");
     const [lbs, setLbs] = useState(localStorage.getItem("useLbs") === "true");
+    const [sound, setSound] = useState(localStorage.getItem("sound") === "true");
     const [autostop, setAutostop] = useState(localStorage.getItem("autostopDisabled") !== "true");
     const [wakeLock, setWakeLock] = useState(localStorage.getItem("wakeLock") === "true");
     const [errorWakeLock, setErrorWakeLock] = useState(false);
@@ -96,6 +100,7 @@ export const SettingsContextProvider = (props: { children: ReactElement }) => {
         if (user?.showRir !== undefined) setRir(user.showRir);
         if (user?.showRpe !== undefined) setRpe(user.showRpe);
         if (user?.useLbs !== undefined) setLbs(user.useLbs);
+        if (user?.sound !== undefined) setSound(user.sound);
         if (user?.oneRm !== undefined) setOneRm(user.oneRm);
         if (user?.lang !== undefined) setLang(user.lang);
         if (user?.wakeLock !== undefined) setWakeLock(user.wakeLock);
@@ -160,6 +165,11 @@ export const SettingsContextProvider = (props: { children: ReactElement }) => {
         else masterDb?.user.update(userName, {oneRm: value});
         setOneRm(value);
     }, []);
+    const saveSound = useCallback((value: boolean) => {
+        if (userName === "Default User") localStorage.setItem("sound", value ? "true" : "false");
+        else masterDb?.user.update(userName, {sound: value});
+        setSound(value);
+    }, []);
     const saveLang = useCallback((value: string) => {
         if (userName === "Default User") localStorage.setItem("lang", value);
         else masterDb?.user.update(userName, {lang: value});
@@ -191,7 +201,8 @@ export const SettingsContextProvider = (props: { children: ReactElement }) => {
         errorWakeLock,
         saveEmojis,
         saveRefreshToken,
-        saveFullname
+        saveFullname,
+        sound, saveSound
     };
     return <SettingsContext.Provider value={settings}>
         {children}

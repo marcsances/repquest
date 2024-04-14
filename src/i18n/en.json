@@ -334,5 +334,13 @@
       "synced": "You are in sync with WeightCloud"
     },
     "alpha": "WeightCloud is under testing and it's only available for selected users. If you want to participate in our tests, please reach out to us."
-  }
+  },
+  "average": "Average (Could be less precise)",
+  "appsMenu": {
+    "title": "Tools",
+    "timer": "Stopwatch"
+  },
+  "stopTimer": "Reset stopwatch",
+  "lap": "Lap",
+  "sound": "Sound"
 }

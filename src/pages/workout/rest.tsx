@@ -16,7 +16,7 @@
  */
 import React, {useCallback, useContext, useEffect, useState} from "react";
 import Layout from "../../components/layout";
-import {Box, Button, CircularProgress, Dialog, DialogActions, DialogTitle, Fab, Stack} from "@mui/material";
+import {Box, Button, CircularProgress, Dialog, DialogActions, DialogTitle, Fab, IconButton, Stack} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import {useTranslation} from "react-i18next";
 import {WorkoutContext} from "../../context/workoutContext";
@@ -25,6 +25,7 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import {SettingsContext} from "../../context/settingsContext";
 import {TimerContext} from "../../context/timerContext";
+import {VolumeMute, VolumeUp} from "@mui/icons-material";
 
 export const Rest = (props: { onBack: () => void }) => {
     const {onBack} = props;
@@ -38,7 +39,7 @@ export const Rest = (props: { onBack: () => void }) => {
         currentSet
     } = useContext(WorkoutContext);
     const {time} = useContext(TimerContext);
-    const {useLbs} = useContext(SettingsContext);
+    const {useLbs, sound, saveSound} = useContext(SettingsContext);
     const moreTime = useCallback(() => {
         if (!restTime || !setRestTime) {
             return;
@@ -53,22 +54,43 @@ export const Rest = (props: { onBack: () => void }) => {
     }, [restTime, setRestTime]);
 
     const currentRestTime = restStarted ? Math.max(restTime - (Date.now() - restStarted?.getTime()) / 1000, 0) : 0;
-
+    const curSecs = Math.floor(currentRestTime);
     const [stopDialogOpen, setStopDialogOpen] = useState(false);
+
+    const playBeep = (frequency: number, time: number) => {
+        try {
+            const context = new AudioContext();
+            const oscillator = context.createOscillator();
+            oscillator.type = "triangle";
+            oscillator.frequency.value = frequency;
+            oscillator.connect(context.destination);
+            oscillator.start();
+            setTimeout(function () {
+                oscillator.stop();
+            }, time);
+        } finally {}
+    }
+
+    useEffect(() => {
+        if (curSecs <= 5 && sound) {
+            playBeep(500, 250);
+        }
+    }, [curSecs]);
 
     useEffect(() => {
         if (currentRestTime <= 0 && stopRest) {
             stopRest();
+            if (sound) playBeep(1000, 1000);
         }
     }, [currentRestTime, time, stopRest]);
 
-    return <Layout title={t("rest")} hideNav onBack={onBack}>
+    return <Layout title={t("rest")} hideNav onBack={onBack} toolItems={<IconButton onClick={() => { if (saveSound) saveSound(!sound) }}>{sound ? <VolumeUp /> : <VolumeMute />}</IconButton>}>
         <Box sx={{height: "100%", display: "flex", flexDirection: "column"}}>
             <Box sx={{flexGrow: 1}}/>
             <CircularProgress variant="determinate" value={currentRestTime * 100 / restTime}
                               sx={{alignSelf: "center", margin: "12px"}} size="8rem"/>
             <Typography variant="h1" sx={{alignSelf: "center"}}>
-                {Math.floor(currentRestTime)} s
+                {curSecs} s
             </Typography>
             <Typography variant="h5" sx={{alignSelf: "center", textAlign: "center", color: "rgb(192, 192, 192)"}}>
                 {focusedExercise?.name}

@@ -47,4 +47,5 @@ export interface Exercise {
     yt_video?: string;
     tags: ExerciseTag[];
     deleted?: boolean;
+    synced?: Date;
 }

@@ -40,6 +40,24 @@ export const WhatsNew = () => {
                 along with this program.  If not, see <a href="Https://www.gnu.org/licenses" style={{ color: "white" }}>https://www.gnu.org/licenses/</a>.
             </Typography>
             <br/>
+            <Typography variant="h4">WeightLog Version 0.1.65</Typography>
+            <Typography variant="subtitle1">Released on 14/04/2024</Typography>
+            <Typography variant="subtitle2">Copyright Marc Sances 2024. All rights reserved.</Typography>
+            <Typography variant="h5">Features</Typography>
+            <ul>
+                <li>Added average formula of Epley + Brzycki for 1RM</li>
+                <li>Account menu is now in Settings page. In the top bar there is a shortcut to change accounts or log
+                    in to WeightCloud.
+                </li>
+                <li>Added apps menu. The 1RM calculator, history, body metrics and stats are now here.</li>
+                <li>Added stopwatch app.</li>
+                <li>Added beeps when rest timer is about to finish (must be enabled through settings and only works when rest timer is focused).</li>
+                <li>Pictures are now compressed to save disk space and prevent crashes when large pictures are attached.</li>
+            </ul>
+            <Typography variant="h5">Bugfixes</Typography>
+            <ul>
+                <li>Fixed body fat metrics in calculator not updating properly in certain situations.</li>
+            </ul>
             <Typography variant="h4">WeightLog Version 0.1.64</Typography>
             <Typography variant="subtitle1">Released on 01/04/2024</Typography>
             <Typography variant="subtitle2">Copyright Marc Sances 2024. All rights reserved.</Typography>

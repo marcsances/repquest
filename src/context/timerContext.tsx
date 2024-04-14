@@ -16,23 +16,30 @@
  */
 import React, {ReactElement, useEffect, useState} from "react";
 
+export interface ChronoContext {
+    started?: Date,
+    paused?: number,
+    laps?: number[]
+}
+
 export const TimerContext = React.createContext({
     time: new Date()
-} as { time: Date });
+} as { time: Date, slowTime?: number, chrono?: ChronoContext, setChrono?: (chrono: ChronoContext) => void });
 
 
 export const TimerContextProvider = (props: { children: ReactElement }) => {
     const {children} = props;
     const [time, setTime] = useState<Date>(new Date());
+    const [chrono, setChrono] = useState<ChronoContext | undefined>(undefined);
 
     useEffect(() => {
         const interval = setInterval(() => {
             setTime(new Date());
-        }, 200);
+        }, chrono?.started ? 33 : 200);
 
         return () => clearInterval(interval);
-    }, [setTime]);
-    return <TimerContext.Provider value={{time}}>
+    }, [setTime, chrono?.started]);
+    return <TimerContext.Provider value={{time, slowTime: time.getTime() / 1000, chrono, setChrono}}>
         {children}
     </TimerContext.Provider>
 }

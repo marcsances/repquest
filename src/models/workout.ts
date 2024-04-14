@@ -23,6 +23,7 @@ export interface Workout {
     workoutExerciseIds: number[];
     deleted?: boolean;
     color?: string;
+    synced?: Date;
 }
 
 export interface WorkoutHistory {
@@ -39,6 +40,7 @@ export interface WorkoutExercise {
     setIds: number[];
     initial: boolean;
     superset?: boolean;
+    synced?: Date;
 }
 
 export enum SetType {
@@ -73,6 +75,7 @@ export interface ExerciseSet {
     side?: SetSide;
     notes?: string;
     emoji?: string;
+    synced?: Date;
 }
 
 export interface Plan {
@@ -80,5 +83,6 @@ export interface Plan {
     name: string;
     workoutIds: number[];
     deleted?: boolean;
+    synced?: boolean;
 }
 

@@ -83,11 +83,12 @@ const MetricsPage = () => {
         setNewVal(metricHistory.length > 0 ? metricHistory[0].value : 0);
     }, [metricHistory, setCurrentSlice]);
 
-    const save = () => {
+    const save = (override?: number) => {
+        if (override) setNewVal(override);
         db?.userMetric.put({
             id: getId(),
             metric,
-            value: newVal,
+            value: override || newVal,
             date: new Date()
         }).then(() => {
             setRefetch(new Date());
@@ -126,7 +127,8 @@ const MetricsPage = () => {
     }
 
     useEffect(() => {
-        if (metric == "body_fat" && bodyFatMethod === "usnavy" && newWaist && newNeck && newWeight && newHeight && (gender === "male" || newHip)) {
+        debugger;
+        if (metric == "body_fat" && bodyFatMethod === "usnavy" && newWaist && newNeck && newHeight && (gender === "male" || newHip)) {
             setResult(UsNavy(useLbs, gender, newHeight, newNeck, newWaist, newHip));
         } else if (metric === "body_fat" && bodyFatMethod === "bmi" && newWeight && newHeight && age) {
             setResult(BMIBodyFat(useLbs, gender, age, newHeight, newWeight));
@@ -223,7 +225,7 @@ const MetricsPage = () => {
                     date: new Date()
                 });
             }
-            defer(() => { save() });
+            defer(() => { save(result) });
         }
     }
 
@@ -308,7 +310,7 @@ const MetricsPage = () => {
 
             <Stack direction="row" spacing={{xs: 1, sm: 2, md: 4}} sx={{alignSelf: "center", marginTop: "10px"}}>
 
-            <Fab color="success" size="large" aria-label="add" onClick={save}>
+            <Fab color="success" size="large" aria-label="add" onClick={() => save()}>
                 <Save/>
             </Fab>
                 {["body_fat", "bmi"].includes(metric) && <Fab color="primary" size="large" aria-label="add" onClick={() => { setCalculatorOpen(true)}}>

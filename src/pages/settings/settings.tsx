@@ -28,6 +28,7 @@ import BackupIcon from "@mui/icons-material/Backup";
 import {DBContext} from "../../context/dbContext";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import {SettingsContext} from "../../context/settingsContext";
+import {UserContext} from "../../context/userContext";
 
 declare let window: any;
 export const SettingsPage = () => {
@@ -46,9 +47,16 @@ export const SettingsPage = () => {
 
     const navigate = useNavigate();
     const [openLanguage, setOpenLanguage] = useState(false);
+    const {userName, user} = useContext(UserContext);
 
-    return <Layout title={t("settings")}>
+    return <Layout showAccountMenu title={t("settings")}>
         <List dense sx={{width: '100%', height: 'calc(100% - 78px)', overflow: "auto"}}>
+            <ListItemButton component="a" onClick={() => navigate("/account")}>
+                <ListItemAvatar>
+                    <Avatar src={user?.picture} />
+                </ListItemAvatar>
+                <ListItemText primary={userName || t("account.title")} secondary={userName ? t("account.title") : ""}/>
+            </ListItemButton>
             <ListItemButton component="a" onClick={() => setOpenLanguage(true)}>
                 <ListItemAvatar>
                     <Avatar sx={{bgcolor: (theme) => theme.palette.primary.main}}>
