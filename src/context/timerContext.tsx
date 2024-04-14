@@ -15,22 +15,24 @@
     along with WeightLog.  If not, see <https://www.gnu.org/licenses/>.
  */
 import React, {ReactElement, useEffect, useState} from "react";
+import {AudioContext} from "standardized-audio-context";
 
 export interface ChronoContext {
     started?: Date,
     paused?: number,
-    laps?: number[]
+    laps?: number[],
 }
 
 export const TimerContext = React.createContext({
     time: new Date()
-} as { time: Date, slowTime?: number, chrono?: ChronoContext, setChrono?: (chrono: ChronoContext) => void });
+} as { time: Date, slowTime?: number, chrono?: ChronoContext, setChrono?: (chrono: ChronoContext) => void, audioContext?: AudioContext, setAudioContext?: (context: AudioContext) => void });
 
 
 export const TimerContextProvider = (props: { children: ReactElement }) => {
     const {children} = props;
     const [time, setTime] = useState<Date>(new Date());
     const [chrono, setChrono] = useState<ChronoContext | undefined>(undefined);
+    const [audioContext, setAudioContext] = useState<AudioContext | undefined>(undefined);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -39,7 +41,7 @@ export const TimerContextProvider = (props: { children: ReactElement }) => {
 
         return () => clearInterval(interval);
     }, [setTime, chrono?.started]);
-    return <TimerContext.Provider value={{time, slowTime: time.getTime() / 1000, chrono, setChrono}}>
+    return <TimerContext.Provider value={{time, slowTime: time.getTime() / 1000, chrono, setChrono, audioContext, setAudioContext}}>
         {children}
     </TimerContext.Provider>
 }

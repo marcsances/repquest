@@ -84,6 +84,8 @@ import SetEditor from "../workout-editor/set_editor";
 import {SupersetViewer} from "../../components/supersetViewer";
 import {compareWithDate} from "../../utils/comparators";
 import NotesParameter from "../../components/notesparameter";
+import {AudioContext} from "standardized-audio-context";
+import {TimerContext} from "../../context/timerContext";
 
 export const WorkoutPage = () => {
     const {
@@ -117,6 +119,7 @@ export const WorkoutPage = () => {
         toggleWakeLock, saveRpe,
         saveRir, errorWakeLock } = useContext(SettingsContext);
     const {db} = useContext(DBContext);
+    const {audioContext, setAudioContext} = useContext(TimerContext);
     const {t} = useTranslation();
     const navigate = useNavigate();
     const [ showRest, setShowRest ] = useState(true);
@@ -138,6 +141,7 @@ export const WorkoutPage = () => {
     }, [db]);
     const save = async () => {
         if (!currentSet || !saveSet) return;
+        if (setAudioContext) setAudioContext(new AudioContext({latencyHint: "interactive"}));
         setShowRest(true);
         return saveSet({
             ...currentSet,
@@ -244,6 +248,7 @@ export const WorkoutPage = () => {
                 <ListItemText>{t("addExercise")}</ListItemText>
             </MenuItem>
             <MenuItem onClick={() => {
+                if (setAudioContext) setAudioContext(new AudioContext({latencyHint: "interactive"}));
                 if (startRest && currentSet && currentSet.rest) startRest(currentSet.rest);
                 closeMenu()
             }}>

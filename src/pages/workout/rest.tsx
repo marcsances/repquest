@@ -38,7 +38,7 @@ export const Rest = (props: { onBack: () => void }) => {
         focusedExercise,
         currentSet
     } = useContext(WorkoutContext);
-    const {time} = useContext(TimerContext);
+    const {time, audioContext} = useContext(TimerContext);
     const {useLbs, sound, saveSound} = useContext(SettingsContext);
     const moreTime = useCallback(() => {
         if (!restTime || !setRestTime) {
@@ -59,11 +59,11 @@ export const Rest = (props: { onBack: () => void }) => {
 
     const playBeep = (frequency: number, time: number) => {
         try {
-            const context = new AudioContext();
-            const oscillator = context.createOscillator();
+            if (!audioContext) return;
+            const oscillator = audioContext.createOscillator();
             oscillator.type = "triangle";
             oscillator.frequency.value = frequency;
-            oscillator.connect(context.destination);
+            oscillator.connect(audioContext.destination);
             oscillator.start();
             setTimeout(function () {
                 oscillator.stop();
