@@ -40,6 +40,18 @@ export const WhatsNew = () => {
                 along with this program.  If not, see <a href="Https://www.gnu.org/licenses" style={{ color: "white" }}>https://www.gnu.org/licenses/</a>.
             </Typography>
             <br/>
+            <Typography variant="h4">WeightLog Version 0.1.66</Typography>
+            <Typography variant="subtitle1">Released on 08/05/2024</Typography>
+            <Typography variant="subtitle2">Copyright Marc Sances 2024. All rights reserved.</Typography>
+            <Typography variant="h5">Features</Typography>
+            <ul>
+                <li>Cues for the sets are back below the exercise name (except for small layouts)</li>
+                <li>Added a helper text in the screens with dropdowns to allow identify the controlled parameter</li>
+            </ul>
+            <Typography variant="h5">Bugfixes</Typography>
+            <ul>
+                <li>Metrics screen now properly obtains the last values instead of the first ones</li>
+            </ul>
             <Typography variant="h4">WeightLog Version 0.1.65</Typography>
             <Typography variant="subtitle1">Released on 14/04/2024</Typography>
             <Typography variant="subtitle2">Copyright Marc Sances 2024. All rights reserved.</Typography>

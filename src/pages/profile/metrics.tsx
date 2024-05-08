@@ -11,6 +11,7 @@ import {
     DialogTitle,
     Fab,
     FormControlLabel,
+    InputLabel,
     NativeSelect,
     Paper,
     Snackbar,
@@ -127,7 +128,6 @@ const MetricsPage = () => {
     }
 
     useEffect(() => {
-        debugger;
         if (metric == "body_fat" && bodyFatMethod === "usnavy" && newWaist && newNeck && newHeight && (gender === "male" || newHip)) {
             setResult(UsNavy(useLbs, gender, newHeight, newNeck, newWaist, newHip));
         } else if (metric === "body_fat" && bodyFatMethod === "bmi" && newWeight && newHeight && age) {
@@ -231,19 +231,31 @@ const MetricsPage = () => {
 
     return <Layout hideNav title={t('metrics.title')} sx={{padding: "20px", width: "calc(100vw - 30px)", height: "calc(100vh - 30px)"}}>
         <Box sx={{height: "calc(100% - 16px)", display: "flex", flexDirection: "column"}}>
+        <InputLabel variant="standard" sx={{ height: "32px", fontSize: "12px"}} htmlFor="metricselect">
+            {t("metrics.title")}
+        </InputLabel>
         <NativeSelect
             value={metric}
             onChange={(e) => setMetric(e.target.value as unknown as Metric)}
             sx={{ width: "calc(100vw - 40px)", marginBottom: "20px" }}
+            inputProps={{
+                id: 'metricselect',
+            }}
         >
             {Object.values(Metric).map((k, idx) => <option key={k} value={k}>
                 {t(`metrics.${k}`)}
             </option>)}
         </NativeSelect>
+            <InputLabel variant="standard" sx={{ height: "32px", fontSize: "12px" }} htmlFor="periodselect">
+                {t("period.period")}
+            </InputLabel>
         <NativeSelect
             value={period}
             onChange={(e) => onSelectPeriod(e.target.value)}
             sx={{  width: "calc(100vw - 40px)", marginBottom: "20px" }}
+            inputProps={{
+                id: 'periodselect',
+            }}
         >
             <option value="allTime">{startDate && endDate && period === "allTime" ? `${t("period.from")} ${dayjs(startDate).format("DD/MM/YY")} ${t("period.to")} ${dayjs(endDate).format("DD/MM/YY")}` : t("period.allTime")}</option>
             <option value="lastWeek">{startDate && endDate && period === "lastWeek"  ? `${t("period.from")} ${dayjs(startDate).format("DD/MM/YY")} ${t("period.to")} ${dayjs(endDate).format("DD/MM/YY")}` : t("period.lastWeek")}</option>

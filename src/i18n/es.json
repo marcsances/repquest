@@ -297,6 +297,7 @@
     "waistSmaller": "¡Cintura < cuello!"
   },
   "period": {
+    "period": "Periodo",
     "allTime": "Desde siempre",
     "lastWeek": "Últimos 7 días",
     "lastMonth": "Últimos 30 días",
@@ -342,5 +343,6 @@
   },
   "stopTimer": "Reiniciar cronómetro",
   "lap": "Vuelta",
-  "sound": "Sonido"
+  "sound": "Sonido",
+  "parameter": "Parámetro"
 }

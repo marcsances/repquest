@@ -20,7 +20,7 @@ import {Exercise} from "../models/exercise";
 export const compareWithDate = <T extends {date: Date}>(v1: T, v2: T) => {
     const day1 = Math.floor(v1.date.getTime() / (1000 * 3600 * 24));
     const day2 = Math.floor(v2.date.getTime() / (1000 * 3600 * 24));
-    return Math.sign(day2 - day1);
+    return Math.sign(day1 - day2);
 }
 
 export const compareSetHistoryEntries = (set1: ExerciseSet, set2: ExerciseSet) => {

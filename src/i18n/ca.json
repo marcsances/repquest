@@ -297,6 +297,7 @@
     "waistSmaller": "Cintura < coll!"
   },
   "period": {
+    "period": "Període",
     "allTime": "Des de sempre",
     "lastWeek": "Darrers 7 dies",
     "lastMonth": "Darrers 30 dies",
@@ -342,5 +343,6 @@
   },
   "stopTimer": "Reiniciar cronómetre",
   "lap": "Volta",
-  "sound": "So"
+  "sound": "So",
+  "parameter": "Paràmetre"
 }

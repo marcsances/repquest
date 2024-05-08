@@ -79,14 +79,6 @@ export const WorkoutSettingsPage = () => {
                 </ListItemAvatar>
                 <ListItemText primary={t("showRPE")} secondary={t("rpeIs")} />
             </ListItemButton>
-            <ListItemButton component="a" onClick={() => { if (saveSound) saveSound(!sound) }}>
-                <ListItemAvatar>
-                    <Avatar>
-                        {sound ? <VolumeUp /> : <VolumeOff />}
-                    </Avatar>
-                </ListItemAvatar>
-                <ListItemText primary={t("sound")} />
-            </ListItemButton>
             <ListItemButton component="a" onClick={() => { if (saveRir) saveRir(!showRir) }}>
                 <ListItemAvatar>
                     <Avatar>
@@ -94,6 +86,14 @@ export const WorkoutSettingsPage = () => {
                     </Avatar>
                 </ListItemAvatar>
                 <ListItemText primary={t("showRIR")} secondary={t("rirIs")} />
+            </ListItemButton>
+            <ListItemButton component="a" onClick={() => { if (saveSound) saveSound(!sound) }}>
+                <ListItemAvatar>
+                    <Avatar>
+                        {sound ? <VolumeUp /> : <VolumeOff />}
+                    </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary={t("sound")} />
             </ListItemButton>
             <ListItemButton component="a" onClick={() => setOpenOneRm(true)}>
                 <ListItemAvatar>

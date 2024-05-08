@@ -275,7 +275,7 @@ export const WorkoutPage = () => {
         <Box sx={{height: "calc(100% - 16px)", display: "flex", flexDirection: "column"}}>
             <ListItem>
                 {!isMini && <ListItemIcon>{focusedExercise?.picture && <Avatar variant="rounded" onClick={() => navigate("/picture")} src={focusedExercise?.picture} sx={{display: "inline-block"}} />}</ListItemIcon>}
-                <ListItemText primary={focusedExercise?.name} secondary={!isMini ? focusedExercise?.tags.map((tag) => (t("tags." + ExerciseTag[tag].toLowerCase()))).join(", ") : undefined}
+                <ListItemText primary={focusedExercise?.name} secondary={!isMini ? `${currentSet?.cues ? currentSet?.cues + " - " : ""}${focusedExercise?.tags.map((tag) => (t("tags." + ExerciseTag[tag].toLowerCase()))).join(", ")}` : undefined}
                               primaryTypographyProps={{sx: {fontWeight: 600}, fontSize: isMini ? "small" : "medium"}} secondaryTypographyProps={{fontSize: "x-small"}}/>
                 <IconButton aria-label="menu" color="inherit" onClick={() => setSwapExerciseOpen(true)}><SwapHoriz/></IconButton>
         </ListItem>

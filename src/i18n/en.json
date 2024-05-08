@@ -297,6 +297,7 @@
     "waistSmaller": "Waist < neck!"
   },
   "period": {
+    "period": "Period",
     "allTime": "All records",
     "lastWeek": "Last 7 days",
     "lastMonth": "Last 30 days",
@@ -342,5 +343,6 @@
   },
   "stopTimer": "Reset stopwatch",
   "lap": "Lap",
-  "sound": "Sound"
+  "sound": "Sound",
+  "parameter": "Parameter"
 }

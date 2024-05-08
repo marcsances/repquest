@@ -13,7 +13,7 @@ import {compareSetHistoryEntries} from "../../utils/comparators";
 import {getOneRm} from "../../utils/oneRm";
 import {SettingsContext} from "../../context/settingsContext";
 import {ExerciseSet} from "../../models/workout";
-import {Box, Button, Dialog, DialogActions, DialogTitle, NativeSelect} from "@mui/material";
+import {Box, Button, Dialog, DialogActions, DialogTitle, InputLabel, NativeSelect} from "@mui/material";
 import {DateCalendar} from "@mui/x-date-pickers";
 import Typography from "@mui/material/Typography";
 
@@ -103,19 +103,31 @@ const StatsPage = () => {
     })()}, [exercise, db, parameter, period, startDate, endDate])
 
     return <Layout hideNav title={`${exercise?.name}`} sx={{padding: "20px"}} toolItems={<><IconButton onClick={() => setExercise(undefined)}><SwapHoriz /></IconButton></>}>
+        <InputLabel variant="standard" sx={{ fontSize: "12px" }} htmlFor="paramselect">
+            {t("parameter")}
+        </InputLabel>
         <NativeSelect
             value={parameter}
             onChange={(e) => setParameter(e.target.value)}
             sx={{ overflowX: "scroll", width: "calc(100vw - 40px)", marginBottom: "20px" }}
+            inputProps={{
+                id: 'paramselect',
+            }}
         >
             <option value="weight">{t("weight")}</option>
             <option value="oneRm">{t("oneRm")}</option>
             <option value="volume">{t("volume")}</option>
         </NativeSelect>
+        <InputLabel variant="standard" sx={{ fontSize: "12px" }} htmlFor="periodselect">
+            {t("period.period")}
+        </InputLabel>
         <NativeSelect
             value={period}
             onChange={(e) => onSelectPeriod(e.target.value)}
             sx={{ overflowX: "scroll", width: "calc(100vw - 40px)", marginBottom: "20px" }}
+            inputProps={{
+                id: 'periodselect',
+            }}
         >
             <option value="allTime">{startDate && endDate && period === "allTime" ? `${t("period.from")} ${dayjs(startDate).format("DD/MM/YY")} ${t("period.to")} ${dayjs(endDate).format("DD/MM/YY")}` : t("period.allTime")}</option>
             <option value="lastWeek">{startDate && endDate && period === "lastWeek"  ? `${t("period.from")} ${dayjs(startDate).format("DD/MM/YY")} ${t("period.to")} ${dayjs(endDate).format("DD/MM/YY")}` : t("period.lastWeek")}</option>
@@ -128,7 +140,7 @@ const StatsPage = () => {
         </NativeSelect>
         <Typography>{t("period.maximum")}: {maxVal}{getUnit()}</Typography>
         {!exercise && <ExercisePicker open onBack={() => { navigate(-1)}} onSelectExercise={(ex) => setExercise(ex)} />}
-        {dataset.filter((it) => !!it.y).length > 0 ? <Box sx={{width: "100vw", height: "calc(100vh - 180px)"}}><LineChart
+        {dataset.filter((it) => !!it.y).length > 0 ? <Box sx={{width: "100vw", height: "calc(100vh - 240px)"}}><LineChart
             xAxis={[{dataKey: 'x', scaleType: 'band', valueFormatter: (v) => dayjs(v).format("DD/MM/YY")}]}
             series={[{dataKey: 'y', curve: 'stepAfter', valueFormatter: (v) => `${v}${getUnit()}`, showMark: false, label: t(parameter)}]}
             axisHighlight={{x: 'line', y: 'line'}}
