@@ -20,6 +20,8 @@ import {TimerContext} from "./timerContext";
 import {UserContext} from "./userContext";
 import {DBContext} from "./dbContext";
 import i18n from "i18next";
+import {FeatureSet} from "../models/user";
+
 
 export interface ISettingsContext {
     showRpe: boolean;
@@ -31,12 +33,14 @@ export interface ISettingsContext {
     emojis: string[];
     refreshToken: string;
     fullname: string;
+    featureSet: FeatureSet;
     saveRpe?: (value: boolean) => void;
     saveRir?: (value: boolean) => void;
     saveLbs?: (value: boolean) => void;
     saveSound?: (value: boolean) => void;
     saveAutostop?: (value: boolean) => void;
     saveOneRm?: (value: OneRm) => void;
+    saveFeatureSet?: (featureSet: FeatureSet) => void;
     wakeLock?: boolean;
     toggleWakeLock?: () => void;
     errorWakeLock ?: boolean;
@@ -78,6 +82,7 @@ export const SettingsContextProvider = (props: { children: ReactElement }) => {
     const [oneRm, setOneRm] = useState(parseInt(localStorage.getItem("oneRm") || "0"));
     const [emojis, setEmojis] = useState<string[]>(localStorage.getItem("emojis")?.split(";") || DEFAULT_EMOJIS);
     const [wakeLockSentinel, setWakeLockSentinel] = useState<WakeLockSentinel | null>(null);
+    const [featureSet, setFeatureSet] = useState<FeatureSet>(parseInt(localStorage.getItem("featureSet") || FeatureSet.SIMPLE.toString(10)));
     const {time} = useContext(TimerContext);
     const { user, userName} = useContext(UserContext);
     const [lang, setLang] = useState<string | undefined>(user?.lang || localStorage.getItem("lang") || "");
@@ -180,6 +185,11 @@ export const SettingsContextProvider = (props: { children: ReactElement }) => {
         else masterDb?.user.update(userName, {emojis: value});
         setEmojis(value);
     }, [])
+    const saveFeatureSet = useCallback((value: FeatureSet) => {
+        if (userName === "Default User") localStorage.setItem("featureSet", value.toString(10));
+        else masterDb?.user.update(userName, {featureSet: value});
+        setFeatureSet(value);
+    }, [])
     const settings = {
         showRpe: rpe,
         showRir: rir,
@@ -202,7 +212,7 @@ export const SettingsContextProvider = (props: { children: ReactElement }) => {
         saveEmojis,
         saveRefreshToken,
         saveFullname,
-        sound, saveSound
+        sound, saveSound, featureSet, saveFeatureSet
     };
     return <SettingsContext.Provider value={settings}>
         {children}

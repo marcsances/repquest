@@ -342,5 +342,14 @@
   },
   "stopTimer": "Reiniciar cronómetre",
   "lap": "Volta",
-  "sound": "So"
+  "sound": "So",
+  "featureSet": {
+    "header": "Distribució de la interfície",
+    "simple": "Mode simple",
+    "advanced": "Mode avançat",
+    "pickerTitle": "Seleccioneu la distribució de la interfície",
+    "pickerDescription": "WeightLog pot ser utilitzada tant per a usuaris de gimnàs casuals com usuaris més avançats. En el mode simple, amaguem algunes funcions avançades que no solen utilitzar principiants, i fem la interfície més amigable i llegible.",
+    "simpleDescription": "Controls més grans i simples, només registra pes, reps i descans, imatges més grans i visibles.",
+    "advancedDescription": "Controls avançats, més pes a l'historial. Funcions avançades: RPE, RIR, supersèries, drop sets, notes."
+  }
 }

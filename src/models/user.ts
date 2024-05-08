@@ -16,6 +16,11 @@
  */
 import {OneRm} from "../utils/oneRm";
 
+export enum FeatureSet {
+    SIMPLE,
+    ADVANCED
+}
+
 export interface User {
     name: string;
     picture?: string;
@@ -31,6 +36,7 @@ export interface User {
     emojis?: string[];
     refreshToken?: string;
     fullname?: string;
+    featureSet: FeatureSet;
 }
 
 export enum Metric {

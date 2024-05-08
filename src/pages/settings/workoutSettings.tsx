@@ -41,12 +41,13 @@ import {useNavigate} from "react-router-dom";
 import {EmojiEmotions, VolumeOff, VolumeUp} from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
 import EmojiPicker, {EmojiStyle, Theme} from "emoji-picker-react";
+import {FeatureSet} from "../../models/user";
 
 declare let window: any;
 export const WorkoutSettingsPage = () => {
     const {t} = useTranslation();
 
-    const { showRpe, showRir, sound, saveSound, useLbs, oneRm, emojis, saveEmojis, saveLbs, saveRir, saveRpe, saveOneRm, autostop, saveAutostop } = useContext(SettingsContext);
+    const { featureSet, saveFeatureSet, sound, saveSound, useLbs, oneRm, emojis, saveEmojis, saveLbs, saveRir, saveRpe, saveOneRm, autostop, saveAutostop } = useContext(SettingsContext);
     const navigate = useNavigate();
     const [openOneRm, setOpenOneRm] = useState(false);
     const [emojiPickerOpen, setEmojiPickerOpen] = useState(false);
@@ -55,6 +56,14 @@ export const WorkoutSettingsPage = () => {
     const [snackbar, setSnackbar] = useState<string>("");
     return <Layout title={t("workoutSettings")} hideNav>
         <List dense sx={{width: '100%', height: 'calc(100% - 78px)', overflow: "auto"}}>
+            <ListItemButton component="a" onClick={() => { if (saveLbs) saveLbs(!useLbs) }}>
+                <ListItemAvatar>
+                    <Avatar>
+
+                    </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary={t("featureSet.header")} secondary={featureSet === FeatureSet.SIMPLE ? t("featureSet.simple") : t("featureSet.advanced")} />
+            </ListItemButton>
             <ListItemButton component="a" onClick={() => { if (saveLbs) saveLbs(!useLbs) }}>
                 <ListItemAvatar>
                     <Avatar>
@@ -71,14 +80,6 @@ export const WorkoutSettingsPage = () => {
                 </ListItemAvatar>
                 <ListItemText primary={t("reactionEmojis")} secondary={t("reactionEmojisDescription")} />
             </ListItemButton>
-            <ListItemButton component="a" onClick={() => { if (saveRpe) saveRpe(!showRpe) }}>
-                <ListItemAvatar>
-                    <Avatar>
-                        {showRpe ? <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />}
-                    </Avatar>
-                </ListItemAvatar>
-                <ListItemText primary={t("showRPE")} secondary={t("rpeIs")} />
-            </ListItemButton>
             <ListItemButton component="a" onClick={() => { if (saveSound) saveSound(!sound) }}>
                 <ListItemAvatar>
                     <Avatar>
@@ -86,14 +87,6 @@ export const WorkoutSettingsPage = () => {
                     </Avatar>
                 </ListItemAvatar>
                 <ListItemText primary={t("sound")} />
-            </ListItemButton>
-            <ListItemButton component="a" onClick={() => { if (saveRir) saveRir(!showRir) }}>
-                <ListItemAvatar>
-                    <Avatar>
-                        {showRir ? <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />}
-                    </Avatar>
-                </ListItemAvatar>
-                <ListItemText primary={t("showRIR")} secondary={t("rirIs")} />
             </ListItemButton>
             <ListItemButton component="a" onClick={() => setOpenOneRm(true)}>
                 <ListItemAvatar>
@@ -103,7 +96,6 @@ export const WorkoutSettingsPage = () => {
                 </ListItemAvatar>
                 <ListItemText primary={t("oneRmFormula")} secondary={["Epley", "Brzycki", t("average")][oneRm]} />
             </ListItemButton>
-
             <ListItemButton component="a" onClick={() => { if (saveAutostop) saveAutostop(!autostop) }}>
                 <ListItemAvatar>
                     <Avatar>
