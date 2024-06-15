@@ -21,10 +21,12 @@ import {DBContext} from "../../context/dbContext";
 import {User} from "../../models/user";
 import {Avatar, List, ListItemAvatar, ListItemButton, ListItemText} from "@mui/material";
 import {AccountCircle, PersonAdd} from "@mui/icons-material";
+import {DialogContext} from "../../context/dialogContext";
 
 export const Login = () => {
     const {t} = useTranslation();
     const {masterDb} = useContext(DBContext);
+    const {showPrompt} = useContext(DialogContext);
     const [users, setUsers] = useState<User[]>([]);
     useEffect(() => { if(!masterDb) return; masterDb.user.toArray().then((user) => setUsers(user))}, [masterDb]);
     const setUser = (username?: string) => {
@@ -36,11 +38,12 @@ export const Login = () => {
     }
 
     const newUser = () => {
-        const username = prompt(t("login.enterNewUsername"));
-        if (!username || username === "Default User") return;
-        masterDb?.user.put({name: username}).then(() => {
-            setUser(username);
-        });
+        showPrompt(t("login.enterNewUsername"), "", (result) => {
+            if (!result || result === "Default User") return;
+            masterDb?.user.put({name: result}).then(() => {
+                setUser(result);
+            });
+        })
     }
 
     const maybePicture = localStorage.getItem("picture");

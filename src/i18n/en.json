@@ -344,5 +344,8 @@
   "stopTimer": "Reset stopwatch",
   "lap": "Lap",
   "sound": "Sound",
-  "parameter": "Parameter"
+  "parameter": "Parameter",
+  "exerciseCompleted": "Exercise completed",
+  "warning": "Warning",
+  "error": "Error"
 }

@@ -46,3 +46,9 @@ export const compareSetHistoryEntries = (set1: ExerciseSet, set2: ExerciseSet) =
 export const compareExercises = (exercise1: Exercise, exercise2: Exercise) => {
     return exercise1.name.localeCompare(exercise2.name);
 }
+
+export const isSameDay = (date1: Date, date2: Date) => {
+    const day1 = Math.floor(date1.getTime() / (1000 * 3600 * 24));
+    const day2 = Math.floor(date2.getTime() / (1000 * 3600 * 24));
+    return day1 === day2;
+}

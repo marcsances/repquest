@@ -82,7 +82,7 @@ import AddExercisePicker from "./addExercisePicker";
 import Loader from "../../components/Loader";
 import SetEditor from "../workout-editor/set_editor";
 import {SupersetViewer} from "../../components/supersetViewer";
-import {compareWithDate} from "../../utils/comparators";
+import {compareWithDate, isSameDay} from "../../utils/comparators";
 import NotesParameter from "../../components/notesparameter";
 import {AudioContext} from "standardized-audio-context";
 import {TimerContext} from "../../context/timerContext";
@@ -201,10 +201,12 @@ export const WorkoutPage = () => {
         });
     }
 
+    const isCurrentExerciseComplete = currentExerciseHistory && currentWorkoutExercise?.setIds && currentExerciseHistory.filter((set) => set.date && isSameDay(set.date, new Date())).length >= currentWorkoutExercise.setIds.length;
+
     if (!!restTime && showRest) return <Rest onBack={() => setShowRest(false)}/>;
     return <Layout title={followingWorkout?.name || t("freeTraining")} hideNav
                    toolItems={toolbar}>
-        {isFetching && <Loader/>}
+        {isFetching && <Loader />}
         {(showWorkoutFinishedPage || stopDialogOpen) && <WorkoutFinished addExercise={() => { setStopDialogOpen(false); setAddExerciseOpen(true)}} stopWorkoutCancel={stopDialogOpen ? () => {
             setStopDialogOpen(false);
         } : undefined}/>}
@@ -326,7 +328,11 @@ export const WorkoutPage = () => {
                         </TableContainer>
 
             </Paper>
-            {<Box sx={{overflow: "auto", flexShrink: 1}}>
+            {<Box sx={{overflow: isCurrentExerciseComplete ? "hidden" : "auto", position: "relative", flexShrink: 1}}>
+                {isCurrentExerciseComplete && <Box sx={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", backgroundColor: "rgba(30, 30, 30, 0.9)", zIndex: 10, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", gap: "16px" }} onClick={(e) => e.stopPropagation()}>
+                    <Typography sx={{fontWeight: 600}}>{t("exerciseCompleted")}</Typography>
+                    <Button variant="contained" color="primary" onClick={addSet}>{t("actions.addSet")}</Button>
+                </Box>}
                 {!!currentSet?.side && <Typography sx={{marginTop: "8px", textAlign: "center"}} variant="h4"
                                                  component="p">{currentSet.side === 1 ? t("leftSide") : t("rightSide")}</Typography>}
                 {!!currentSet && currentSet?.weight !== undefined &&

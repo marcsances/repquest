@@ -14,9 +14,9 @@
     You should have received a copy of the GNU General Public License
     along with WeightLog.  If not, see <https://www.gnu.org/licenses/>.
  */
-import React, {useCallback, useContext, useEffect, useState} from "react";
+import React, {useCallback, useContext, useEffect} from "react";
 import Layout from "../../components/layout";
-import {Box, Button, CircularProgress, Dialog, DialogActions, DialogTitle, Fab, IconButton, Stack} from "@mui/material";
+import {Box, CircularProgress, Fab, IconButton, Stack} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import {useTranslation} from "react-i18next";
 import {WorkoutContext} from "../../context/workoutContext";
@@ -26,6 +26,8 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import {SettingsContext} from "../../context/settingsContext";
 import {TimerContext} from "../../context/timerContext";
 import {VolumeMute, VolumeUp} from "@mui/icons-material";
+import playBeep from "../../utils/beep";
+import {DialogContext} from "../../context/dialogContext";
 
 export const Rest = (props: { onBack: () => void }) => {
     const {onBack} = props;
@@ -38,6 +40,7 @@ export const Rest = (props: { onBack: () => void }) => {
         focusedExercise,
         currentSet
     } = useContext(WorkoutContext);
+    const {showAlert} = useContext(DialogContext);
     const {time, audioContext} = useContext(TimerContext);
     const {useLbs, sound, saveSound} = useContext(SettingsContext);
     const moreTime = useCallback(() => {
@@ -55,34 +58,19 @@ export const Rest = (props: { onBack: () => void }) => {
 
     const currentRestTime = restStarted ? Math.max(restTime - (Date.now() - restStarted?.getTime()) / 1000, 0) : 0;
     const curSecs = Math.floor(currentRestTime);
-    const [stopDialogOpen, setStopDialogOpen] = useState(false);
-
-    const playBeep = (frequency: number, time: number) => {
-        try {
-            if (!audioContext) return;
-            const oscillator = audioContext.createOscillator();
-            oscillator.type = "triangle";
-            oscillator.frequency.value = frequency;
-            oscillator.connect(audioContext.destination);
-            oscillator.start();
-            setTimeout(function () {
-                oscillator.stop();
-            }, time);
-        } finally {}
-    }
 
     useEffect(() => {
-        if (curSecs <= 5 && sound) {
-            playBeep(500, 250);
+        if (curSecs <= 5 && curSecs > 0 && sound && audioContext) {
+            playBeep(audioContext, 500, 250);
         }
-    }, [curSecs]);
+    }, [curSecs, sound, audioContext]);
 
     useEffect(() => {
         if (currentRestTime <= 0 && stopRest) {
             stopRest();
-            if (sound) playBeep(1000, 1000);
+            if (sound && audioContext) playBeep(audioContext, 1000, 1000);
         }
-    }, [currentRestTime, time, stopRest]);
+    }, [currentRestTime, sound, audioContext, time, stopRest]);
 
     return <Layout title={t("rest")} hideNav onBack={onBack} toolItems={<IconButton onClick={() => { if (saveSound) saveSound(!sound) }}>{sound ? <VolumeUp /> : <VolumeMute />}</IconButton>}>
         <Box sx={{height: "100%", display: "flex", flexDirection: "column"}}>
@@ -104,32 +92,16 @@ export const Rest = (props: { onBack: () => void }) => {
                 <Fab color="primary" aria-label="add" onClick={lessTime}>
                     <RemoveIcon/>
                 </Fab>
-                <Fab color="error" aria-label="stop" onClick={() => setStopDialogOpen(true)}>
+                <Fab color="error" aria-label="stop" onClick={() => {
+                    showAlert(t("stopRest") + "?", "",
+                    (result: boolean) => { if (stopRest && result) stopRest() }, "yesNo")
+                }}>
                     <StopIcon/>
                 </Fab>
                 <Fab color="primary" aria-label="add" onClick={moreTime}>
                     <AddIcon/>
                 </Fab>
             </Stack>
-            <Dialog
-                open={stopDialogOpen}
-                onClose={() => setStopDialogOpen(false)}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-            >
-                <DialogTitle id="alert-dialog-title">
-                    {t("stopRest")}?
-                </DialogTitle>
-                <DialogActions>
-                    <Button onClick={() => setStopDialogOpen(false)} autoFocus>
-                        {t("no")}
-                    </Button>
-                    <Button onClick={() => {
-                        if (stopRest) stopRest();
-                        setStopDialogOpen(false)
-                    }}>{t("yes")}</Button>
-                </DialogActions>
-            </Dialog>
 
         </Box>
     </Layout>

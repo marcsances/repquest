@@ -16,8 +16,12 @@
  */
 import React from "react";
 import * as Sentry from "@sentry/react";
-import {Button, Container, createTheme, CssBaseline, Stack} from "@mui/material";
+import {Button, createTheme, CssBaseline, Stack} from "@mui/material";
 import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import AppBar from "@mui/material/AppBar";
+import {Report} from "@mui/icons-material";
 
 const darkTheme = createTheme({
     palette: {
@@ -46,12 +50,21 @@ class ErrorBoundary extends React.Component {
 
     render() {
         if (this.state.hasError) {
-            return <CssBaseline><Stack direction="column"><Container><Typography variant="h5" component="h5"
-                                                                                 sx={{color: "white"}}>Something went
-                wrong.</Typography><br/><Typography
-                sx={{color: "white"}}>{this.state.error ? this.state.error.toString() : ""}</Typography>
-                {localStorage.getItem("disable_telemetry") !== "true" ? <Typography sx={{color: "white"}}>This error has been logged. If you are offline it will be sent to us when you go back online.</Typography> : <Typography>You have telemetry disabled and this error will not be reported. We encourage you to enable telemetry if this error keeps happening to you so we are reported. You can enable telemetry in the app settings.</Typography>} <Button
-                onClick={() => window.location.href = window.location.origin} type="button">Reload</Button></Container></Stack></CssBaseline>;
+            return <CssBaseline>
+                <AppBar position="fixed" style={{zIndex:1}}>
+                <Toolbar sx={{paddingRight: "8px", backgroundColor: (theme) => theme.palette.error.main}}>
+                    <Typography variant="h6" component="div" sx={{flexGrow: 1, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
+                        Something went wrong
+                    </Typography>
+                </Toolbar>
+                </AppBar>
+                <Stack direction="column" sx={{ padding: "24px", height: "calc(100vh - 82px)", justifyContent: "center"}}>
+                    <Box sx={{display: "inline-block", width: "100%", height: "auto", textAlign: "center"}}><Report sx={{ color: "red", width: "96px", height: "96px"}} /></Box>
+                    <Typography
+                sx={{color: "white", marginBottom: "24px", fontWeight: 600, textAlign: "center"}}>{this.state.error ? this.state.error.toString() : ""}</Typography>
+                {localStorage.getItem("disable_telemetry") !== "true" ? <Typography sx={{color: "white", textAlign: "center"}}>This error has been logged. If you are offline it will be sent to us when you go back online.</Typography> : <Typography sx={{color: "white", textAlign: "center"}}>You have telemetry disabled and this error will not be reported. We encourage you to enable telemetry if this error keeps happening to you so we are reported. You can enable telemetry in the app settings.</Typography>}
+                </Stack><Button sx={{ margin: "24px", width: "calc(100% - 48px)" }} color="error" variant="contained"
+                                onClick={() => window.location.href = window.location.origin} type="button">Reload</Button></CssBaseline>;
         }
 
         return this.props.children;

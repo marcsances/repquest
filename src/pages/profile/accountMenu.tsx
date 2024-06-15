@@ -27,6 +27,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import CloseIcon from "@mui/icons-material/Close";
 import Selector from "../../components/selector";
 import getBase64 from "../../utils/base64";
+import {DialogContext} from "../../context/dialogContext";
+import defer from "../../utils/defer";
 
 export const AccountMenuList = () => {
     const {t} = useTranslation();
@@ -72,19 +74,23 @@ export const AccountMenu = () => {
     const {userName, user, setUser} = useContext(UserContext);
     const [ pictureSelectorOpen, setPictureSelectorOpen ] = useState(false);
     const [ snackbar, setSnackbar ] = useState<string | null>(null);
+    const { showAlert, showPrompt } = useContext(DialogContext);
 
 
     const deleteAccount = () => {
-        if (confirm(t("deleteAllWarning")) && confirm(t("deleteAllWarning2"))) {
-            db?.delete().then(() => {
-                masterDb?.user.delete(userName).then(() => {
-                    localStorage.removeItem("workoutContext");
-                    sessionStorage.clear();
-                    location.href = window.location.origin + "/login";
-                });
-            });
-        }
-    }
+        showAlert(t("account.deleteAccount"), t("deleteAllWarning"), (result) => {
+                if (result) defer(() => showAlert(t("account.deleteAccount"), t("deleteAllWarning2"), (result) => {
+                    if (result) db?.delete().then(() => {
+                        masterDb?.user.delete(userName).then(() => {
+                            localStorage.removeItem("workoutContext");
+                            sessionStorage.clear();
+                            location.href = window.location.origin + "/login";
+                        });
+                    });
+                }))
+            }
+        )
+    };
 
     return <Layout title={userName === "Default User" ? t("account.title") : userName}>
         <List sx={{width: '100%', height: 'calc(100% - 78px)', overflow: "auto"}}>
@@ -126,18 +132,19 @@ export const AccountMenu = () => {
         </List>
         <Selector open={pictureSelectorOpen} defaultValue="cancel" onClose={(key: string) => {
             if (key === "enterPictureUrl") {
-                const httpRegex = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/;
-                const url = prompt(t("workoutEditor.enterPictureUrl"));
-                if (url && user && setUser && httpRegex.test(url)) {
-                    if (userName !== "Default User") {
-                        masterDb?.user.update(userName, {picture: url}).then(() => {
+                showPrompt(t("workoutEditor.enterPictureUrl"), "", (url) => {
+                    const httpRegex = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/;
+                    if (url && user && setUser && httpRegex.test(url)) {
+                        if (userName !== "Default User") {
+                            masterDb?.user.update(userName, {picture: url}).then(() => {
+                                setUser({...user, picture: url});
+                            });
+                        } else {
+                            localStorage.setItem("picture", url);
                             setUser({...user, picture: url});
-                        });
-                    } else {
-                        localStorage.setItem("picture", url);
-                        setUser({...user, picture: url});
-                    }
-                } else setSnackbar(t("errors.invalidUrl"));
+                        }
+                    } else setSnackbar(t("errors.pleaseValidUrl"));
+                });
             } else if (key === "clearImage" && user && setUser) {
                 if (userName !== "Default User") masterDb?.user.update(userName, {picture: undefined}).then(() => setUser({...user, picture: undefined}));
                 else {

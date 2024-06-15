@@ -344,5 +344,8 @@
   "stopTimer": "Reiniciar cronómetre",
   "lap": "Volta",
   "sound": "So",
-  "parameter": "Paràmetre"
+  "parameter": "Paràmetre",
+  "exerciseCompleted": "Exercici completat",
+  "warning": "Atenció",
+  "error": "Error"
 }

@@ -67,7 +67,7 @@ export const ExerciseList = (props: ExerciseListProps) => {
     const [filterTags, setFilterTags] = useState<ExerciseTag[]>(tags ? tags : []);
     let overHeight = 68;
     if (searchBox !== undefined) {
-        overHeight += 32;
+        overHeight += 48;
     }
     if (onSelectExercise) {
         overHeight -= 68;
@@ -98,7 +98,7 @@ export const ExerciseList = (props: ExerciseListProps) => {
         setEditorOpen(true);
     };
 
-    return <Layout showAccountMenu title={onSelectExercise ? t("selectExercise") : t("exercises")}
+    return <Layout showAccountMenu={!onBack} title={onSelectExercise ? t("selectExercise") : t("exercises")}
                    toolItems={<IconButton color={searchBox !== undefined ? "primary" : "inherit"}
                                           onClick={() => setSearchBox((prevBox) => {
                                               return prevBox === undefined ? "" : undefined;
@@ -112,7 +112,7 @@ export const ExerciseList = (props: ExerciseListProps) => {
             ref: boxRef,
             endAdornment: <InputAdornment position="end"><IconButton
                 onClick={() => setSearchBox("")}><Clear/></IconButton></InputAdornment>
-        }} size="small" variant="standard" sx={{width: "100%", height: "24px", marginBottom: "8px"}}
+        }} size="small" variant="standard" sx={{width: "calc(100% - 24px)", height: "24px", margin: "12px"}}
                                                placeholder={t("searchExercises")}
                                                onChange={(ev) => setSearchBox(ev.target.value)}/>}
         {exercises !== undefined &&

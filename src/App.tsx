@@ -63,6 +63,7 @@ import {ApiContextProvider} from "./context/apiContext";
 import {LoginPage} from "./pages/weightcloud/login";
 import {AppsMenu} from "./pages/apps/appsMenu";
 import {Timer} from "./pages/apps/timer";
+import {DialogContextProvider} from './context/dialogContext';
 
 registerSW({immediate: true})
 const darkTheme = createTheme({
@@ -121,65 +122,69 @@ function App() {
     return (
         <ErrorBoundary>
             <ThemeProvider theme={darkTheme}>
-                <DBContext.Provider value={{db: new DexieDB(), masterDb: new MasterDB()}}>
-                    <BrowserRouter>
-                        <DBGuard>
-                            <TimerContextProvider>
-                                <UserContextProvider>
-                                    <SettingsContextProvider>
-                                        <ApiContextProvider>
-                                            <CalendarProvider>
-                                                <WorkoutContextProvider>
-                                                    <Paper>
-                                                        <Routes>
-                                                            <Route path="/login" element={<Login/>}/>
-                                                            <Route path="/" element={<WorkoutList/>}/>
-                                                            <Route path="/apps" element={<AppsMenu/>}/>
-                                                            <Route path="/apps/timer" element={<Timer/>}/>
-                                                            <Route path="/history" element={<HistoryPage/>}/>
-                                                            <Route path="/account/stats" element={<StatsPage/>}/>
-                                                            <Route path="/account/measures" element={<MetricsPage/>}/>
-                                                            <Route path="/settings/backup"
-                                                                   element={<Backup/>}/>
-                                                            <Route path="/settings" element={<SettingsPage/>}/>
-                                                            <Route path="/settings/telemetry" element={<Telemetry/>}/>
-                                                            <Route path="/settings/workout"
-                                                                   element={<WorkoutSettingsPage/>}/>
-                                                            <Route path="/settings/system"
-                                                                   element={<SystemSettingsPage/>}/>
-                                                            <Route path="/workout" element={<WorkoutPage/>}/>
-                                                            <Route path="/workout/postworkout"
-                                                                   element={<PostWorkout/>}/>
-                                                            <Route path="/workout/:workoutId"
-                                                                   element={<WorkoutEditor/>}/>
-                                                            <Route path="/workoutExercise/:workoutExerciseId"
-                                                                   element={<WorkoutExerciseEditor/>}/>
-                                                            <Route path="/exercises" element={<ExerciseList/>}/>
-                                                            <Route path="/exercises/:exerciseId"
-                                                                   element={<ExerciseEditor/>}/>
-                                                            <Route path="/youtube"
-                                                                   element={<YoutubePlayer/>}/>
-                                                            <Route path="/picture"
-                                                                   element={<PictureViewer/>}/>
-                                                            <Route path="/whats-new"
-                                                                   element={<WhatsNew/>}/>
-                                                            <Route path="/license"
-                                                                   element={<License/>}/>
-                                                            <Route path="/onerm" element={<OneRmCalculator/>}/>
-                                                            <Route path="/account" element={<AccountMenu/>}/>
-                                                            <Route path="/account/login" element={<LoginPage/>}/>
-                                                            <Route path="*" element={<NotImplemented/>}/>
-                                                        </Routes>
-                                                    </Paper>
-                                                </WorkoutContextProvider>
-                                            </CalendarProvider>
-                                        </ApiContextProvider>
-                                    </SettingsContextProvider>
-                                </UserContextProvider>
-                            </TimerContextProvider>
-                        </DBGuard>
-                    </BrowserRouter>
-                </DBContext.Provider>
+                <DialogContextProvider>
+                    <DBContext.Provider value={{db: new DexieDB(), masterDb: new MasterDB()}}>
+                        <BrowserRouter>
+                            <DBGuard>
+                                <TimerContextProvider>
+                                    <UserContextProvider>
+                                        <SettingsContextProvider>
+                                            <ApiContextProvider>
+                                                <CalendarProvider>
+                                                    <WorkoutContextProvider>
+                                                        <Paper>
+                                                            <Routes>
+                                                                <Route path="/login" element={<Login/>}/>
+                                                                <Route path="/" element={<WorkoutList/>}/>
+                                                                <Route path="/apps" element={<AppsMenu/>}/>
+                                                                <Route path="/apps/timer" element={<Timer/>}/>
+                                                                <Route path="/history" element={<HistoryPage/>}/>
+                                                                <Route path="/account/stats" element={<StatsPage/>}/>
+                                                                <Route path="/account/measures"
+                                                                       element={<MetricsPage/>}/>
+                                                                <Route path="/settings/backup"
+                                                                       element={<Backup/>}/>
+                                                                <Route path="/settings" element={<SettingsPage/>}/>
+                                                                <Route path="/settings/telemetry"
+                                                                       element={<Telemetry/>}/>
+                                                                <Route path="/settings/workout"
+                                                                       element={<WorkoutSettingsPage/>}/>
+                                                                <Route path="/settings/system"
+                                                                       element={<SystemSettingsPage/>}/>
+                                                                <Route path="/workout" element={<WorkoutPage/>}/>
+                                                                <Route path="/workout/postworkout"
+                                                                       element={<PostWorkout/>}/>
+                                                                <Route path="/workout/:workoutId"
+                                                                       element={<WorkoutEditor/>}/>
+                                                                <Route path="/workoutExercise/:workoutExerciseId"
+                                                                       element={<WorkoutExerciseEditor/>}/>
+                                                                <Route path="/exercises" element={<ExerciseList/>}/>
+                                                                <Route path="/exercises/:exerciseId"
+                                                                       element={<ExerciseEditor/>}/>
+                                                                <Route path="/youtube"
+                                                                       element={<YoutubePlayer/>}/>
+                                                                <Route path="/picture"
+                                                                       element={<PictureViewer/>}/>
+                                                                <Route path="/whats-new"
+                                                                       element={<WhatsNew/>}/>
+                                                                <Route path="/license"
+                                                                       element={<License/>}/>
+                                                                <Route path="/onerm" element={<OneRmCalculator/>}/>
+                                                                <Route path="/account" element={<AccountMenu/>}/>
+                                                                <Route path="/account/login" element={<LoginPage/>}/>
+                                                                <Route path="*" element={<NotImplemented/>}/>
+                                                            </Routes>
+                                                        </Paper>
+                                                    </WorkoutContextProvider>
+                                                </CalendarProvider>
+                                            </ApiContextProvider>
+                                        </SettingsContextProvider>
+                                    </UserContextProvider>
+                                </TimerContextProvider>
+                            </DBGuard>
+                        </BrowserRouter>
+                    </DBContext.Provider>
+                </DialogContextProvider>
             </ThemeProvider>
         </ErrorBoundary>
     );

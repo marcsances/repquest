@@ -96,7 +96,7 @@ const SetEditor = (props: SetEditorProps) => {
                 <Parameter name={t("rest")} unit="s" value={exerciseSet.rest} min={0} increments={[10, 15, 30, 1, 5]}
                            onToggle={(enabled) => setExerciseSet((prevState) => ({...prevState, rest: enabled ? set.rest || 0 : undefined}))}
                            onChange={(rest) => setExerciseSet((prevSet) => ({...prevSet, rest}))} />
-                <NotesParameter name={"Notes"} value={exerciseSet?.notes} onChange={(notes, emoji) => setExerciseSet((prevState) => ({...prevState, notes, emoji}))} />
+                {isEditingHistoryEntry && <NotesParameter name={"Notes"} value={exerciseSet?.notes} onChange={(notes, emoji) => setExerciseSet((prevState) => ({...prevState, notes, emoji}))} />}
             </Box>
             {!isEditingHistoryEntry && <TextField sx={{width: "100%"}} label={t("cues")} value={exerciseSet.cues} onChange={(ev) => setExerciseSet((prevState) => ({...prevState, cues: ev.target.value}))} />}
         </DialogContent>

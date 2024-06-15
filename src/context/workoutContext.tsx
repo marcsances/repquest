@@ -21,7 +21,7 @@ import {DBContext} from "./dbContext";
 import {useTranslation} from "react-i18next";
 import getId from "../utils/id";
 import {PB} from "../models/pb";
-import {compareSetHistoryEntries} from "../utils/comparators";
+import {compareSetHistoryEntries, isSameDay} from "../utils/comparators";
 import {getOneRm} from "../utils/oneRm";
 import {SettingsContext} from "./settingsContext";
 import {TimerContext} from "./timerContext";
@@ -161,11 +161,16 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
             setPbs(context.pbs || []);
             setTimeout(() => {
                 setCurrentSetNumber(context.currentSetNumber);
-                defer(() => { setInit(true); setRefetchHistoryToken(new Date()) }); // defer set init until all collateral effects have been triggered
+                defer(() => {
+                    setInit(true);
+                    setRefetchHistoryToken(new Date())
+                }); // defer set init until all collateral effects have been triggered
             }, 300);
             setPostWorkout(context.postWorkout);
             setSuperset(context.superset);
-        } else { setInit(true); }
+        } else {
+            setInit(true);
+        }
     }, []);
 
     const startWorkout = useCallback(async (followingWorkout?: Workout) => {
@@ -182,7 +187,7 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
         setStoredExercises([]);
         setPbs([]);
         setSuperset(undefined);
-    }, [t, setCurrentWorkoutHistory, setWorkoutExercises, setCurrentSetNumber, setCurrentWorkoutExerciseNumber, setFollowingWorkout, setFocusedExercise, setStoredExercises]);
+    }, [setCurrentWorkoutHistory, setWorkoutExercises, setCurrentWorkoutExerciseNumber, setFollowingWorkout, setFocusedExercise, setStoredExercises]);
 
     useEffect(() => {
         if (!setCurrentWorkout || !init) return;
@@ -235,7 +240,7 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
             set = await db.exerciseSet.get(currentWorkoutExercise.setIds[currentSetNumber - 1]);
         }
         return set;
-    }, [currentSet, currentWorkoutExercise, currentSetNumber, db, storedExercises]);
+    }, [currentWorkoutExercise, currentSetNumber, db, storedExercises, init, currentSet?.id]);
 
     useEffect(() => {
         if (!init) return;
@@ -297,7 +302,7 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
             // Laps PR
             setPbs((pbs) => ([...pbs, {exercise, recordType: "laps", value: set.laps!}]));
         }
-    }, [focusedExercise, currentExerciseHistory]);
+    }, [focusedExercise, currentExerciseHistory, init, oneRm]);
 
     const saveSet = useCallback(async (set: ExerciseSet) => {
         if (!init || !currentWorkoutExercise || !db || !currentWorkout || !currentWorkoutExercise.setIds) return;
@@ -317,19 +322,19 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
                 return ret;
             });
             if (superset) {
-              if (currentSetNumber >= currentWorkoutExercise.setIds.length && superset.current === superset.size) {
-                  // superset done
-                  setSuperset(undefined);
-                  setCurrentWorkoutExerciseNumber((prevNumber) => prevNumber + 1);
-                  setCurrentSetNumber(1);
-              } else if (superset.current === superset.size) {
-                  setCurrentSetNumber((prevNumber) => prevNumber + 1);
-                  setCurrentWorkoutExerciseNumber((prevNumber) => prevNumber - superset.size + 1);
-                  setSuperset((superset) => ({ size: superset?.size || 1, current: 1}));
-              } else {
-                  setCurrentWorkoutExerciseNumber((prevNumber) => prevNumber + 1);
-                  setSuperset((superset) => ({ size: superset?.size || 1, current: (superset?.current || 1) + 1 }));
-              }
+                if (currentSetNumber >= currentWorkoutExercise.setIds.length && superset.current === superset.size) {
+                    // superset done
+                    setSuperset(undefined);
+                    setCurrentWorkoutExerciseNumber((prevNumber) => prevNumber + 1);
+                    setCurrentSetNumber(1);
+                } else if (superset.current === superset.size) {
+                    setCurrentSetNumber((prevNumber) => prevNumber + 1);
+                    setCurrentWorkoutExerciseNumber((prevNumber) => prevNumber - superset.size + 1);
+                    setSuperset((superset) => ({size: superset?.size || 1, current: 1}));
+                } else {
+                    setCurrentWorkoutExerciseNumber((prevNumber) => prevNumber + 1);
+                    setSuperset((superset) => ({size: superset?.size || 1, current: (superset?.current || 1) + 1}));
+                }
             } else if (currentSetNumber >= currentWorkoutExercise.setIds.length) {
                 setCurrentWorkoutExerciseNumber((prevNumber) => prevNumber + 1);
                 setCurrentSetNumber(1);
@@ -341,10 +346,13 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
                 startRest(set.rest);
             }
         })
-    }, [superset, db, checkPb, currentWorkoutExercise, currentSetNumber, currentWorkoutHistory, storedExercises, setCurrentWorkoutHistory, setCurrentWorkoutExerciseNumber, setCurrentSetNumber, setStoredExercises, startRest]);
+    }, [superset, db, checkPb, currentSetNumber, setCurrentSetNumber, startRest, init, currentWorkout]);
 
     useEffect(() => {
-        setCurrentWorkoutHistory((prevState) => prevState ? ({...prevState, workoutExerciseIds: currentWorkoutExerciseIds}) : prevState);
+        setCurrentWorkoutHistory((prevState) => prevState ? ({
+            ...prevState,
+            workoutExerciseIds: currentWorkoutExerciseIds
+        }) : prevState);
     }, [currentWorkoutExerciseIds]);
 
     const stopRest = useCallback(() => {
@@ -385,13 +393,11 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
         setPbs([]);
         setSuperset(undefined);
         setCurrentWorkout(undefined);
-    }, [db, currentWorkoutHistory, currentWorkoutExerciseIds, setWorkoutExercises, setCurrentSetNumber,
-        setCurrentWorkoutExerciseNumber, setCurrentWorkoutHistory, setFollowingWorkout, setFocusedExercise, setStoredExercises,
-        setCurrentSet, setRestStarted, setRestTime]);
+    }, [currentWorkoutHistory, currentWorkoutExerciseIds, setWorkoutExercises, setCurrentWorkoutHistory, setFollowingWorkout, setFocusedExercise, setStoredExercises, setCurrentSet, setRestStarted, setRestTime, pbs, db?.workoutHistory]);
 
     const addSet = useCallback(async () => {
         if (!init || !db || !currentSet || !currentWorkoutExercise) return;
-        const newSet = {...currentSet, id: getId()};
+        const newSet = {...currentSet, id: getId(), initial: true, setNumber: currentWorkoutExercise.setIds.length + 1};
         await db.exerciseSet.put(newSet);
         const oldId = currentWorkoutExercise.id;
         const newId = getId();
@@ -406,7 +412,7 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
         setCurrentSetNumber(currentWorkoutExercise.setIds.length + 1);
         setTimeUpdated(new Date());
         setSuperset(undefined);
-    }, [db, currentWorkoutExercise, currentSet, currentSetNumber]);
+    }, [db, currentWorkoutExercise, currentSet, init]);
 
     const removeSet = useCallback(async () => {
         if (!init || !db || !currentSet || !currentWorkoutExercise) return;
@@ -424,7 +430,7 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
         setCurrentSetNumber((curNumber) => curNumber === 1 ? 1 : curNumber - 1);
         setTimeUpdated(new Date());
         setSuperset(undefined);
-    }, [db, currentWorkoutExercise, currentSet, currentSetNumber]);
+    }, [db, currentWorkoutExercise, currentSet, init]);
 
     useEffect(() => {
         if (!init) return;
@@ -443,6 +449,22 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
         }
         getData().then((result) => {
             setCurrentExerciseHistory(result || []);
+            if (result && result.length > 0 && result.filter((set) => set.date && set.setNumber === currentSetNumber && isSameDay(set.date, new Date())).length === 0) {
+                // no set stored for today. safe to load last history entry
+                const sameSetNumber = result.filter((set) => set.setNumber === currentSetNumber);
+                const lastEntry = sameSetNumber.length > 0 ? sameSetNumber[0] : result[0];
+                setCurrentSet((prevSet) => (prevSet ? {
+                    ...prevSet,
+                    weight: lastEntry.weight,
+                    reps: lastEntry.reps,
+                    laps: lastEntry.laps,
+                    distance: lastEntry.distance,
+                    rpe: lastEntry.rpe,
+                    rir: lastEntry.rir
+                } : lastEntry));
+            } else {
+                setIsFetching(false);
+            }
         });
     }, [db, currentWorkoutHistory, focusedExercise, currentSetNumber, currentWorkoutExercise, refetchHistoryToken]);
 
@@ -467,15 +489,17 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
                 daysOfWeek: []
             });
             setSuperset(undefined);
-        }
-        else setCurrentWorkout((prevState) => ({...prevState!, workoutExerciseIds: weids, name: t("freeTraining")}));
-        setCurrentWorkoutHistory((prevState) => ({...prevState ? prevState : getBlankWorkout(), workoutName: t("freeTraining")}));
+        } else setCurrentWorkout((prevState) => ({...prevState!, workoutExerciseIds: weids, name: t("freeTraining")}));
+        setCurrentWorkoutHistory((prevState) => ({
+            ...prevState ? prevState : getBlankWorkout(),
+            workoutName: t("freeTraining")
+        }));
         setCurrentWorkoutExerciseIds(weids);
         setCurrentWorkoutExerciseNumber((currentWorkoutExerciseIds.length));
         setCurrentWorkoutExercise(workoutExercise);
         setCurrentSetNumber(1);
         setTimeUpdated(new Date());
-    }, [currentWorkout, currentWorkoutExerciseIds, setCurrentWorkoutHistory, setCurrentWorkoutExerciseNumber, setCurrentWorkoutExerciseIds, setCurrentWorkoutExercise, setCurrentSetNumber]);
+    }, [currentWorkout, setCurrentWorkoutHistory, t]);
 
     const replaceExercise = useCallback((workoutExercise: WorkoutExercise) => {
         setCurrentWorkoutExerciseIds((prevIds) => {
@@ -487,7 +511,8 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
         setCurrentSetNumber(1);
         setTimeUpdated(new Date());
         setSuperset(undefined);
-    }, [currentWorkout, currentWorkoutExercise, currentWorkoutExerciseIds, setCurrentWorkoutHistory, setCurrentWorkoutExerciseNumber, setCurrentWorkoutExerciseIds, setCurrentWorkoutExercise, setCurrentSetNumber]);;
+    }, [currentWorkoutExercise, setCurrentWorkoutExercise, setCurrentSetNumber]);
+    ;
 
     useEffect(() => {
         if (!currentWorkout) return;

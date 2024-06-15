@@ -34,6 +34,7 @@ import {Exercise} from "../../models/exercise";
 import getId from "../../utils/id";
 import {ExerciseSet, Plan, Workout, WorkoutExercise} from "../../models/workout";
 import {ApiContext} from "../../context/apiContext";
+import {DialogContext} from "../../context/dialogContext";
 
 export const Backup = () => {
     const {db, masterDb} = useContext(DBContext);
@@ -44,6 +45,7 @@ export const Backup = () => {
     const [target, setTarget] = useState("");
     const [isWorking, setIsWorking] = useState(false);
     const [payload, setPayload] = useState<BackupObject | undefined>();
+    const {showAlert} = useContext(DialogContext);
 
     const {user, userName} = useContext(UserContext);
     const settings = useContext(SettingsContext);
@@ -82,8 +84,7 @@ export const Backup = () => {
         importFromJSON(db, masterDb, userName, level, payload).then(() => {
             setMode("");
             setIsWorking(false);
-            alert(t("backup.importSuccess"));
-            window.location.href = window.location.origin;
+            showAlert(t("backup.title"), t("backup.importSuccess"), () => { window.location.href = window.location.origin});
         });
     }
 
@@ -239,15 +240,16 @@ export const Backup = () => {
                         workoutExercises: Object.values(workoutExercises),
                         plans: plans
                     };
-                    alert(t("csvImportDisclaimer"));
-                    setPayload(backup);
-                    setMode("restore");
-                    setTarget("json");
+                    showAlert(t("warning"), t("csvImportDisclaimer"), () => {
+                        setPayload(backup);
+                        setMode("restore");
+                        setTarget("json");
+                    });
                 } else {
                     return Promise.reject();
                 }
             }).catch((e) => {
-                alert(t("errors.invalidJSON"));
+                showAlert(t("error"), t("errors.invalidJSON"), () => {});
             }).finally(() => {
                 input.parentNode?.removeChild(input);
             })
@@ -359,8 +361,11 @@ export const Backup = () => {
                 } else if (val !== "cancel" && mode === "backup" && target === "weightcloud" && db) {
                     backupWeightCloud(val);
                 } else if (val !== "cancel" && mode === "restore" && target === "json" && db && payload) {
-                    if (val === "restoreBackup" && !window.confirm(t("importWillReplaceEverything"))) return;
-                    importJson(val);
+                    if (val === "restoreBackup") {
+                        showAlert(t("warning"), t("importWillReplaceEverything"), (result) => {
+                            if (result) importJson(val);
+                        }, "yesNo")
+                    }
                 } else if (val === "cancel") {
                     setMode("")
                     setIsWorking(false);

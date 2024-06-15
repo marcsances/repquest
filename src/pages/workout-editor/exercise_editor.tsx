@@ -57,6 +57,7 @@ import getBase64 from "../../utils/base64";
 import {ExerciseSet} from "../../models/workout";
 import {compareSetHistoryEntries} from "../../utils/comparators";
 import {SettingsContext} from "../../context/settingsContext";
+import {DialogContext} from "../../context/dialogContext";
 
 export interface ExerciseEditorProps {
     onSaved?: (exercise: Exercise) => void;
@@ -84,6 +85,7 @@ export const ExerciseEditor = (props: ExerciseEditorProps) => {
     const {setShowWorkoutFinishedPage} = useContext(WorkoutContext);
     const [currentExerciseHistory, setCurrentExerciseHistory] = useState<ExerciseSet[]>([]);
     const [showHistory, setShowHistory] = useState(false);
+    const {showPrompt} = useContext(DialogContext);
 
     const fetch = () => {
         if (!db) return;
@@ -244,13 +246,14 @@ export const ExerciseEditor = (props: ExerciseEditorProps) => {
 
             <Selector open={pictureSelectorOpen} defaultValue="cancel" onClose={(key: string) => {
                 if (key === "enterPictureUrl") {
-                    const httpRegex = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/;
-                    const url = prompt(t("workoutEditor.enterPictureUrl"));
-                    if (url && httpRegex.test(url)) {
-                        setExercise({...exercise, picture: url});
-                        setUnsavedChanges(true);
-                    }
-                    else setSnackbar(t("errors.invalidUrl"));
+                    showPrompt(t("workoutEditor.enterPictureUrl"), "", (url) => {
+                        const httpRegex = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/;
+                        if (url && httpRegex.test(url)) {
+                            setExercise({...exercise, picture: url});
+                            setUnsavedChanges(true);
+                        }
+                        else setSnackbar(t("errors.pleaseValidUrl"));
+                    });
                 } else if (key === "clearImage") {
                     setExercise({...exercise, picture: undefined});
                     setUnsavedChanges(true);

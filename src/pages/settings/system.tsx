@@ -14,7 +14,7 @@
     You should have received a copy of the GNU General Public License
     along with WeightLog.  If not, see <https://www.gnu.org/licenses/>.
  */
-import React, {useContext, useState} from "react";
+import React, {useContext} from "react";
 import Layout from "../../components/layout";
 import {useTranslation} from "react-i18next";
 import {Avatar, List, ListItemAvatar, ListItemButton, ListItemText} from "@mui/material";
@@ -23,6 +23,8 @@ import {Mail, MonitorHeart, PhonelinkErase, Policy} from "@mui/icons-material";
 import {useNavigate} from "react-router-dom";
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import {DBContext} from "../../context/dbContext";
+import {DialogContext} from "../../context/dialogContext";
+import defer from "../../utils/defer";
 
 declare let window: any;
 export const SystemSettingsPage = () => {
@@ -39,7 +41,7 @@ export const SystemSettingsPage = () => {
     }
 
     const navigate = useNavigate();
-    const [openLanguage, setOpenLanguage] = useState(false);
+    const { showAlert} = useContext(DialogContext);
 
     return <Layout title={t("system")} hideNav>
         <List dense sx={{width: '100%', height: 'calc(100% - 78px)', overflow: "auto"}}>
@@ -68,13 +70,15 @@ export const SystemSettingsPage = () => {
                 <ListItemText primary={t("reloadTitle")} secondary={t("reloadDescription")} />
             </ListItemButton>
             <ListItemButton component="a" onClick={() => {
-                if (confirm(t("resetAllWarning")) && confirm(t("resetAllWarning2"))) {
-                    db?.delete().then(() => {
-                        localStorage.clear();
-                        sessionStorage.clear();
-                        location.href = window.location.origin;
-                    });
-                }
+                showAlert(t("resetAll"), t("resetAllWarning"), (result) => {
+                    if (result) defer(() => showAlert(t("resetAll"), t("resetAllWarning2"), (result) => {
+                        if (result) db?.delete().then(() => {
+                            localStorage.clear();
+                            sessionStorage.clear();
+                            location.href = window.location.origin;
+                        });
+                    }, "yesNo"));
+                }, "yesNo");
             }}>
                 <ListItemAvatar>
                     <Avatar sx={{bgcolor: (theme) => theme.palette.error.main}}>

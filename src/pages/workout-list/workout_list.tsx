@@ -56,6 +56,7 @@ import AddExercisePicker from "../workout/addExercisePicker";
 import defer from "../../utils/defer";
 import {backupPlan, backupWorkout, entityToJson, shareBlob} from "../../db/backup";
 import contrastColor from "../../utils/contrastColor";
+import {DialogContext} from "../../context/dialogContext";
 
 const daysOfWeek = ["mondays", "tuesdays", "wednesdays", "thursdays", "fridays", "saturdays", "sundays"];
 
@@ -80,6 +81,7 @@ export const WorkoutList = () => {
     const [ confirmDeletePlan, setConfirmDeletePlan ] = useState<Plan | undefined>(undefined);
     const [mustSelectPlan, setMustSelectPlan] = useState(false);
     const [addExerciseOpen, setAddExerciseOpen] = useState(false);
+    const {showPrompt} = useContext(DialogContext);
     useEffect(() => {
         db?.plan.toArray().then((plans) => {
             setPlans(plans.filter((it) => !it.deleted));
@@ -141,10 +143,11 @@ export const WorkoutList = () => {
     }
 
     return <Layout showAccountMenu title={plan?.name ? t("workoutPlan") + " - " + plan.name : t("workouts")} toolItems={<><IconButton color="inherit" onClick={exportPlan}><Share /></IconButton><IconButton onClick={() => {
-        const name = prompt(t("enterPlanNewName"), plan?.name || "");
-        if (db && !!name && !!plan && name !== plan.name && name.length > 0) {
-            db.plan.put({...plan, name}).then(() => setRefetch(new Date()));
-        }
+        showPrompt(t("enterPlanNewName"), "", (name) => {
+            if (db && !!name && !!plan && name !== plan.name && name.length > 0) {
+                db.plan.put({...plan, name}).then(() => setRefetch(new Date()));
+            }
+        }, plan?.name || "");
     }}><EditIcon/></IconButton></>}><List sx={{width: '100%', height: 'calc(100% - 78px)', overflow: "auto"}}>
         {timeStarted && currentWorkout && <>            {!!restTime &&
             <RestInProgress onClick={() => navigate("/workout")}/>}
@@ -228,19 +231,20 @@ export const WorkoutList = () => {
             open={openPlanSelector}
             onClose={(val: string) => {
                 if (val === "++new" && db) {
-                    const name = prompt(t("enterNewPlanName"))
-                    if (name && name.length > 0) {
-                        const newPlan = {
-                            id: getId(),
-                            name,
-                            workoutIds: []
-                        };
-                        db.plan.put(newPlan).then(() => {
-                            localStorage.setItem("currentPlan", newPlan.id.toString());
-                            setCurrentPlan(newPlan.id);
-                            setRefetch(new Date());
-                        });
-                    }
+                    showPrompt(t("enterNewPlanName"), "", (name) => {
+                        if (name && name.length > 0) {
+                            const newPlan = {
+                                id: getId(),
+                                name,
+                                workoutIds: []
+                            };
+                            db.plan.put(newPlan).then(() => {
+                                localStorage.setItem("currentPlan", newPlan.id.toString());
+                                setCurrentPlan(newPlan.id);
+                                setRefetch(new Date());
+                            });
+                        }
+                    })
                 } else if (val === currentPlan.toString() && mustSelectPlan) {
                     return;
                 } else {

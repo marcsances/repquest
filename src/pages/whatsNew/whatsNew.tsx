@@ -40,6 +40,23 @@ export const WhatsNew = () => {
                 along with this program.  If not, see <a href="Https://www.gnu.org/licenses" style={{ color: "white" }}>https://www.gnu.org/licenses/</a>.
             </Typography>
             <br/>
+            <Typography variant="h4">WeightLog Version 0.1.67</Typography>
+            <Typography variant="subtitle1">Released on 15/06/2024</Typography>
+            <Typography variant="subtitle2">Copyright Marc Sances 2024. All rights reserved.</Typography>
+            <Typography variant="h5">Features</Typography>
+            <ul>
+                <li>Rest timer beep now available also in workout and workout list screens.</li>
+                <li>Information from last set of history (if available) is now automatically copied into the current set.</li>
+                <li>The workout screen now lets you know when you completed an exercise so you don't overwrite your existing data.</li>
+                <li>Improved system error screen.</li>
+                <li>All the browser prompts have been replaced with our own prompts</li>
+            </ul>
+            <Typography variant="h5">Bugfixes</Typography>
+            <ul>
+                <li>Edit set screen no longer has the notes field.</li>
+                <li>Fixed search box layout and padding in exercise list</li>
+                <li>Removed account menu from exercise picker, now only visible in exercise list</li>
+            </ul>
             <Typography variant="h4">WeightLog Version 0.1.66</Typography>
             <Typography variant="subtitle1">Released on 08/05/2024</Typography>
             <Typography variant="subtitle2">Copyright Marc Sances 2024. All rights reserved.</Typography>

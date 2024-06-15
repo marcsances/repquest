@@ -14,25 +14,26 @@
     You should have received a copy of the GNU General Public License
     along with WeightLog.  If not, see <https://www.gnu.org/licenses/>.
  */
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import Layout from "../../components/layout";
 import {useTranslation} from "react-i18next";
 import {Box, FormControlLabel, Switch, Typography} from "@mui/material";
+import {DialogContext} from "../../context/dialogContext";
 
 export const Telemetry = () => {
     const {t} = useTranslation();
 
+    const {showAlert} = useContext(DialogContext);
+
     const [ telemetry, setTelemetry ] = useState(localStorage.getItem("disable_telemetry") !== "true");
 
     const toggleTelemetry = () => {
-        setTelemetry((prevState) => {
-            if (confirm(t("weightlogWillRestart"))) {
-                localStorage.setItem("disable_telemetry", prevState ? "true" : "false");
-                window.location.reload();
-                return !prevState;
-            }
-            return prevState;
-        })
+        showAlert(t("telemetry"), t("weightlogWillRestart"), (result) => {
+            if (!result) return;
+            localStorage.setItem("disable_telemetry", telemetry ? "true" : "false");
+            window.location.reload();
+            setTelemetry((prevState) => !prevState);
+        }, "okCancel");
     }
 
     return <Layout title={t("telemetry")} hideNav scroll>

@@ -18,17 +18,22 @@ import * as React from "react";
 import {useContext, useEffect} from "react";
 import {useTranslation} from "react-i18next";
 import {WorkoutContext} from "../context/workoutContext";
-import {Avatar, Box, CircularProgress, ListItemAvatar, ListItemButton, ListItemText} from "@mui/material";
+import {Avatar, Box, CircularProgress, IconButton, ListItemAvatar, ListItemButton, ListItemText} from "@mui/material";
 import HourglassBottomIcon from '@mui/icons-material/HourglassBottom';
 import Typography from "@mui/material/Typography";
 import {TimerContext} from "../context/timerContext";
+import playBeep from "../utils/beep";
+import {SettingsContext} from "../context/settingsContext";
+import {VolumeMute, VolumeUp} from "@mui/icons-material";
 
 export const RestInProgress = (props: {onClick: () => void}) => {
     const {onClick} = props;
     const { t } = useTranslation();
-    const {restStarted, restTime} = useContext(WorkoutContext);
-    const {time} = useContext(TimerContext);
+    const {restStarted, restTime, stopRest} = useContext(WorkoutContext);
+    const {time, audioContext} = useContext(TimerContext);
+    const {sound, saveSound} = useContext(SettingsContext);
     const currentRestTime = restStarted ? restTime - (Date.now() - restStarted?.getTime()) / 1000 : 0;
+    const curSecs = Math.floor(currentRestTime);
     const restLabel = Math.floor(currentRestTime).toString() + " s " + t("remaining");
     useEffect(() => {
         if (currentRestTime === 0 && "vibrate" in navigator && navigator.userAgent.includes("Android")) {
@@ -37,7 +42,21 @@ export const RestInProgress = (props: {onClick: () => void}) => {
             } catch {}
         }
     }, [currentRestTime]);
-    return currentRestTime >= 0 ? <Box sx={{position: "relative", height: "96px"}}><ListItemButton component="a" onClick={onClick} sx={{height: "96px"}}>
+
+    useEffect(() => {
+        if (curSecs <= 5 && curSecs >= 0 && sound && audioContext) {
+            playBeep(audioContext, 500, 250);
+        }
+    }, [curSecs, sound, audioContext]);
+
+    useEffect(() => {
+        if (currentRestTime <= 0 && stopRest) {
+            stopRest();
+            if (sound && audioContext) playBeep(audioContext, 1000, 1000);
+        }
+    }, [currentRestTime, sound, audioContext, time, stopRest]);
+
+    return currentRestTime >= 0 ? <ListItemButton component="a" onClick={onClick}>
         <ListItemAvatar>
             <Avatar>
                 <Box position="relative" display="inline-flex">
@@ -60,5 +79,6 @@ export const RestInProgress = (props: {onClick: () => void}) => {
             </Avatar>
         </ListItemAvatar>
         <ListItemText primary={t("restInProgress")} secondary={restLabel}/>
-    </ListItemButton></Box> : <></>;
+        <IconButton onClick={(e) => { e.stopPropagation(); if (saveSound) saveSound(!sound) }}>{sound ? <VolumeUp /> : <VolumeMute />}</IconButton>
+    </ListItemButton> : <></>;
 }
