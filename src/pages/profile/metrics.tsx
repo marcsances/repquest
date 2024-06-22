@@ -81,7 +81,7 @@ const MetricsPage = () => {
 
     useEffect(() => {
         setCurrentSlice(20);
-        setNewVal(metricHistory.length > 0 ? metricHistory[0].value : 0);
+        setNewVal(metricHistory.length > 0 ? metricHistory[metricHistory.length - 1].value : 0);
     }, [metricHistory, setCurrentSlice]);
 
     const save = (override?: number) => {
@@ -277,7 +277,7 @@ const MetricsPage = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {metricHistory.slice(0, currentSlice).map((metric: UserMetric) =>
+                        {metricHistory.reverse().slice(0, currentSlice).map((metric: UserMetric) =>
                             <TableRow
                                 key={metric.id}
                                 sx={{'&:last-child td, &:last-child th': {border: 0}}}
