@@ -21,22 +21,25 @@ import {UserContext} from "./userContext";
 import {DBContext} from "./dbContext";
 import i18n from "i18next";
 
+export type FeatureLevel = "easy" | "advanced";
+export type AppTheme = "light" | "dark";
+
 export interface ISettingsContext {
-    showRpe: boolean;
-    showRir: boolean;
     autostop: boolean;
     useLbs: boolean;
     sound: boolean;
     oneRm: OneRm;
+    theme: AppTheme;
+    featureLevel: FeatureLevel;
     emojis: string[];
     refreshToken: string;
     fullname: string;
-    saveRpe?: (value: boolean) => void;
-    saveRir?: (value: boolean) => void;
     saveLbs?: (value: boolean) => void;
     saveSound?: (value: boolean) => void;
     saveAutostop?: (value: boolean) => void;
     saveOneRm?: (value: OneRm) => void;
+    saveTheme?: (value: AppTheme) => void;
+    saveFeatureLevel?: (level: FeatureLevel) => void;
     wakeLock?: boolean;
     toggleWakeLock?: () => void;
     errorWakeLock ?: boolean;
@@ -48,8 +51,6 @@ export interface ISettingsContext {
 }
 
 export const SettingsContext = React.createContext({
-    showRpe: false,
-    showRir: false,
     useLbs: false,
     sound: false,
     autostop: true,
@@ -64,10 +65,8 @@ interface WakeLockSentinel {
 
 export const DEFAULT_EMOJIS = ["1f44d", "1f44e", "1f4aa", "1f615", "1f915", "1f4a9"];
 
-export const SettingsContextProvider = (props: { children: ReactElement }) => {
-    const {children} = props;
-    const [rpe, setRpe] = useState(localStorage.getItem("showRpe") === "true");
-    const [rir, setRir] = useState(localStorage.getItem("showRir") === "true");
+export const SettingsContextProvider = (props: { children: ReactElement, theme: AppTheme, setTheme: (theme: AppTheme) => void }) => {
+    const {children, theme, setTheme} = props;
     const [lbs, setLbs] = useState(localStorage.getItem("useLbs") === "true");
     const [sound, setSound] = useState(localStorage.getItem("sound") === "true");
     const [autostop, setAutostop] = useState(localStorage.getItem("autostopDisabled") !== "true");
@@ -75,6 +74,7 @@ export const SettingsContextProvider = (props: { children: ReactElement }) => {
     const [errorWakeLock, setErrorWakeLock] = useState(false);
     const [refreshToken, setRefreshToken] = useState(localStorage.getItem("refreshToken") || "");
     const [fullname, setFullname] = useState(localStorage.getItem("fullname") || "");
+    const [featureLevel, setFeatureLevel] = useState<FeatureLevel>(localStorage.getItem("featureLevel") as FeatureLevel || (localStorage.getItem("showRpe") === "true" ? "advanced" : "easy"));
     const [oneRm, setOneRm] = useState(parseInt(localStorage.getItem("oneRm") || "0"));
     const [emojis, setEmojis] = useState<string[]>(localStorage.getItem("emojis")?.split(";") || DEFAULT_EMOJIS);
     const [wakeLockSentinel, setWakeLockSentinel] = useState<WakeLockSentinel | null>(null);
@@ -97,8 +97,6 @@ export const SettingsContextProvider = (props: { children: ReactElement }) => {
 
     useEffect(() => {
         if (user?.autostop !== undefined) setAutostop(user.autostop);
-        if (user?.showRir !== undefined) setRir(user.showRir);
-        if (user?.showRpe !== undefined) setRpe(user.showRpe);
         if (user?.useLbs !== undefined) setLbs(user.useLbs);
         if (user?.sound !== undefined) setSound(user.sound);
         if (user?.oneRm !== undefined) setOneRm(user.oneRm);
@@ -107,6 +105,9 @@ export const SettingsContextProvider = (props: { children: ReactElement }) => {
         if (user?.emojis !== undefined) setEmojis(user.emojis);
         if (user?.refreshToken !== undefined) setRefreshToken(user.refreshToken);
         if (user?.fullname !== undefined) setFullname(user.fullname);
+        if (user?.featureLevel !== undefined) setFeatureLevel(user.featureLevel)
+        else if (!!(user?.showRpe)) setFeatureLevel("advanced");
+        if (user?.theme !== undefined) setTheme(user.theme);
     }, [user]);
 
     const requestWakeLock = useCallback(async () => {
@@ -130,16 +131,6 @@ export const SettingsContextProvider = (props: { children: ReactElement }) => {
     useEffect(() => {
         requestWakeLock()
     }, [requestWakeLock, errorWakeLock, time, wakeLock, wakeLockSentinel, setWakeLock, setWakeLockSentinel]);
-    const saveRpe = useCallback((value: boolean) => {
-        if (userName === "Default User") localStorage.setItem("showRpe", value ? "true" : "false");
-        else masterDb?.user.update(userName, { showRpe: value })
-        setRpe(value);
-    }, []);
-    const saveRir = useCallback((value: boolean) => {
-        if (userName === "Default User") localStorage.setItem("showRir", value ? "true" : "false");
-        else masterDb?.user.update(userName, { showRir: value });
-        setRir(value);
-    }, []);
     const saveAutostop = useCallback((value: boolean) => {
         if (userName === "Default User") localStorage.setItem("autostopDisabled", value ? "false" : "true");
         else masterDb?.user.update(userName, {autostop: value});
@@ -180,9 +171,17 @@ export const SettingsContextProvider = (props: { children: ReactElement }) => {
         else masterDb?.user.update(userName, {emojis: value});
         setEmojis(value);
     }, [])
+    const saveFeatureLevel = useCallback((value: FeatureLevel) => {
+        if (userName === "Default User") localStorage.setItem("featureLevel", value);
+        else masterDb?.user.update(userName, {featureLevel: value});
+        setFeatureLevel(value);
+    }, [])
+    const saveTheme = useCallback((value: AppTheme) => {
+        if (userName === "Default User") localStorage.setItem("theme", value);
+        else masterDb?.user.update(userName, {theme: value});
+        setTheme(value);
+    }, [])
     const settings = {
-        showRpe: rpe,
-        showRir: rir,
         useLbs: lbs,
         oneRm: oneRm,
         emojis,
@@ -190,8 +189,8 @@ export const SettingsContextProvider = (props: { children: ReactElement }) => {
         autostop,
         refreshToken,
         fullname,
-        saveRpe,
-        saveRir,
+        theme,
+        featureLevel,
         saveLbs,
         saveOneRm,
         saveLang,
@@ -202,6 +201,8 @@ export const SettingsContextProvider = (props: { children: ReactElement }) => {
         saveEmojis,
         saveRefreshToken,
         saveFullname,
+        saveFeatureLevel,
+        saveTheme,
         sound, saveSound
     };
     return <SettingsContext.Provider value={settings}>

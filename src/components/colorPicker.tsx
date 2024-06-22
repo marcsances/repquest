@@ -43,7 +43,7 @@ const ColorPicker = (props: ColorPickerProps) => {
     return <>{slices.map((colors) => <Stack direction="row" key={colors[0]}>
                 {colors.map((color) => (<ListItem sx={{display: "flex", flexDirection: "row"}} dense disableGutters key={color}
                                                 onClick={() => handleListItemClick(color)}>
-                    <IconButton sx={{ flexGrow: 1 }}
+                    <IconButton color="inherit" sx={{ flexGrow: 1 }}
                                     autoFocus
                     >
                         <Avatar

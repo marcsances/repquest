@@ -22,7 +22,7 @@ import TranslateIcon from '@mui/icons-material/Translate';
 import pjson from "../../../package.json";
 import i18n from "i18next";
 import Selector from "../../components/selector";
-import {Build, Cake, Campaign} from "@mui/icons-material";
+import {Build, Cake, Campaign, FormatPaint} from "@mui/icons-material";
 import {useNavigate} from "react-router-dom";
 import BackupIcon from "@mui/icons-material/Backup";
 import {DBContext} from "../../context/dbContext";
@@ -50,7 +50,7 @@ export const SettingsPage = () => {
     const {userName, user} = useContext(UserContext);
 
     return <Layout showAccountMenu title={t("settings")}>
-        <List dense sx={{width: '100%', height: 'calc(100% - 78px)', overflow: "auto"}}>
+        <List dense sx={{width: '100%', height: 'calc(100% - 74px)', overflow: "auto"}}>
             <ListItemButton component="a" onClick={() => navigate("/account")}>
                 <ListItemAvatar>
                     <Avatar src={user?.picture} />
@@ -64,6 +64,14 @@ export const SettingsPage = () => {
                     </Avatar>
                 </ListItemAvatar>
                 <ListItemText primary={t("language")}/>
+            </ListItemButton>
+            <ListItemButton component="a" onClick={() => navigate("/settings/appearance")}>
+                <ListItemAvatar>
+                    <Avatar sx={{bgcolor: (theme) => theme.palette.primary.main}}>
+                        <FormatPaint sx={{color: (theme) => theme.palette.primary.contrastText}}/>
+                    </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary={t("appearanceSettings")} secondary={t("appearanceSettingsDescription")} />
             </ListItemButton>
             <ListItemButton component="a" onClick={() => navigate("/settings/workout")}>
                 <ListItemAvatar>

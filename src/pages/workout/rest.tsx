@@ -72,7 +72,7 @@ export const Rest = (props: { onBack: () => void }) => {
         }
     }, [currentRestTime, sound, audioContext, time, stopRest]);
 
-    return <Layout title={t("rest")} hideNav onBack={onBack} toolItems={<IconButton onClick={() => { if (saveSound) saveSound(!sound) }}>{sound ? <VolumeUp /> : <VolumeMute />}</IconButton>}>
+    return <Layout title={t("rest")} hideNav onBack={onBack} toolItems={<IconButton color="inherit" onClick={() => { if (saveSound) saveSound(!sound) }}>{sound ? <VolumeUp /> : <VolumeMute />}</IconButton>}>
         <Box sx={{height: "100%", display: "flex", flexDirection: "column"}}>
             <Box sx={{flexGrow: 1}}/>
             <CircularProgress variant="determinate" value={currentRestTime * 100 / restTime}

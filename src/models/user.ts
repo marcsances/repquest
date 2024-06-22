@@ -15,6 +15,7 @@
     along with WeightLog.  If not, see <https://www.gnu.org/licenses/>.
  */
 import {OneRm} from "../utils/oneRm";
+import {AppTheme, FeatureLevel} from "../context/settingsContext";
 
 export interface User {
     name: string;
@@ -31,6 +32,8 @@ export interface User {
     emojis?: string[];
     refreshToken?: string;
     fullname?: string;
+    theme: AppTheme;
+    featureLevel: FeatureLevel;
 }
 
 export enum Metric {

@@ -44,6 +44,7 @@ import {includesAll} from "../../utils/sets";
 import TagPicker from "./tag_picker";
 import {ExerciseEditor} from "./exercise_editor";
 import BackIcon from "@mui/icons-material/ArrowBack";
+import {SettingsContext} from "../../context/settingsContext";
 
 export interface ExerciseListProps {
     onSelectExercise?: (exercise: Exercise) => void;
@@ -57,6 +58,7 @@ export const ExerciseList = (props: ExerciseListProps) => {
     const {onSelectExercise, onBack, onCancel, tags, options} = props;
     const {t} = useTranslation();
     const {db} = useContext(DBContext);
+    const {theme: appTheme} = useContext(SettingsContext);
     const [exercises, setExercises] = useState<Exercise[] | undefined>(options);
     const theme = useTheme();
     const speedDialActionSx = SpeedDialActionSx(theme);
@@ -65,7 +67,7 @@ export const ExerciseList = (props: ExerciseListProps) => {
     const [filterPicker, setFilterPicker] = useState(false);
     const [editorOpen, setEditorOpen] = useState(false);
     const [filterTags, setFilterTags] = useState<ExerciseTag[]>(tags ? tags : []);
-    let overHeight = 68;
+    let overHeight = 58;
     if (searchBox !== undefined) {
         overHeight += 48;
     }
@@ -99,7 +101,10 @@ export const ExerciseList = (props: ExerciseListProps) => {
     };
 
     return <Layout showAccountMenu={!onBack} title={onSelectExercise ? t("selectExercise") : t("exercises")}
-                   toolItems={<IconButton color={searchBox !== undefined ? "primary" : "inherit"}
+                   toolItems={<IconButton sx={{
+                       color: searchBox !== undefined ? theme.palette.primary.main : "inherit",
+                       backgroundColor: searchBox !== undefined ? { dark: "inherit", light: theme.palette.primary.contrastText }[appTheme] : "inherit",
+                   }} disableFocusRipple disableRipple
                                           onClick={() => setSearchBox((prevBox) => {
                                               return prevBox === undefined ? "" : undefined;
                                           })}>
@@ -116,7 +121,7 @@ export const ExerciseList = (props: ExerciseListProps) => {
                                                placeholder={t("searchExercises")}
                                                onChange={(ev) => setSearchBox(ev.target.value)}/>}
         {exercises !== undefined &&
-            <List sx={{width: '100%', height: 'calc(100% - ' + overHeight.toString() + 'px)', overflow: "auto", padding: tags ? 0 : "5px"}}>
+            <List sx={{width: '100%', height: 'calc(100% - ' + overHeight.toString() + 'px)', overflow: "auto", padding: 0}}>
                 <ListItemButton sx={filterTags.length > 0 ? {backgroundColor: (theme) => theme.palette.primary.main} : {}} component="a"
                                                           onClick={() => setFilterPicker(true)}>
                     <ListItemAvatar>

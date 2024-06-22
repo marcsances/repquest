@@ -54,15 +54,15 @@ export async function generateBackup(db: DexieDB, level: string, user: User, set
         backupObject.workoutHistory = await db.workoutHistory.toArray();
         backupObject.userMetric = await db.userMetric.toArray();
         backupObject.settings = {
-            showRpe: settings.showRpe.toString(),
-            showRir: settings.showRir.toString(),
             weightUnit: settings.useLbs ? "lbs" : "kg",
             wakeLock: settings.wakeLock ? settings.wakeLock.toString() : undefined,
             oneRmFormula: OneRm[settings.oneRm || OneRm.BRZYCKI],
             autostop: settings.autostop.toString(),
             lang: settings.lang,
             sound: settings.sound.toString(),
-            emojis: settings.emojis.join(";")
+            emojis: settings.emojis.join(";"),
+            featureLevel: settings.featureLevel,
+            theme: settings.theme
         }
     }
     return backupObject;
@@ -193,6 +193,8 @@ export function importFromJSON(db: DexieDB, masterDb: MasterDB, userName: string
                     localStorage.setItem("sound", payload.settings.sound || "false")
                     if (payload.settings.emojis) localStorage.setItem("emojis", payload.settings.emojis)
                     if (payload.settings.lang) localStorage.setItem("lang", payload.settings.lang)
+                    if (payload.settings.theme) localStorage.setItem("theme", payload.settings.theme)
+                    if (payload.settings.featureLevel) localStorage.setItem("featureLevel", payload.settings.featureLevel)
                 } else {
                     masterDb?.user.update(userName, {
                         picture: payload.users?.filter((it) => it.name === userName)[0]?.picture,
@@ -202,7 +204,9 @@ export function importFromJSON(db: DexieDB, masterDb: MasterDB, userName: string
                         oneRm: payload.settings.oneRmFormula === "BRZYCKI" ? "1" : "0",
                         wakeLock: payload.settings.wakeLock === "true",
                         autostop: payload.settings.autostop === "true",
-                        lang: payload.settings.lang
+                        lang: payload.settings.lang,
+                        theme: payload.settings.theme,
+                        featureLevel: payload.settings.featureLevel
                     })
                 }
 

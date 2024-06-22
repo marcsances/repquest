@@ -19,7 +19,6 @@ import Layout from "../../components/layout";
 import {useTranslation} from "react-i18next";
 import {
     Box,
-    Card,
     CardActionArea,
     CardContent,
     CardMedia,
@@ -68,7 +67,7 @@ export const ExerciseEditor = (props: ExerciseEditorProps) => {
     const { onClose, onSaved } = props;
     const {t} = useTranslation();
     const { db } = useContext(DBContext);
-    const {showRpe, showRir} = useContext(SettingsContext);
+    const {featureLevel} = useContext(SettingsContext);
     const [currentSlice, setCurrentSlice] = useState(20);
     const [ exercise, setExercise ] = useState<Exercise | null>(null);
     const { exerciseId } = useParams();
@@ -82,7 +81,7 @@ export const ExerciseEditor = (props: ExerciseEditorProps) => {
     const [ tagPicker, setTagPicker ] = useState(false);
     const navigate = useNavigate();
     const [addExerciseOpen, setAddExerciseOpen] = useState(false);
-    const {setShowWorkoutFinishedPage} = useContext(WorkoutContext);
+    const {currentWorkout, setShowWorkoutFinishedPage} = useContext(WorkoutContext);
     const [currentExerciseHistory, setCurrentExerciseHistory] = useState<ExerciseSet[]>([]);
     const [showHistory, setShowHistory] = useState(false);
     const {showPrompt} = useContext(DialogContext);
@@ -158,22 +157,22 @@ export const ExerciseEditor = (props: ExerciseEditorProps) => {
 
     const portrait = (window.screen.orientation.angle % 180 === 0);
 
-    return <Layout leftToolItems={onClose ?
+    return <Layout sx={{height: "100%"}} leftToolItems={onClose ?
         <IconButton sx={{mr: 2}} size="large" edge="start" color="inherit"
                     onClick={onClose}><CloseIcon/></IconButton> : <></>} hideBack={!!onClose}
                    title={exercise?.name || t("addExercise")} hideNav scroll toolItems={!!exercise && exerciseId !== "new" ?
-        <><IconButton color="inherit" onClick={() => setAddExerciseOpen(true)}><PlayArrow/></IconButton><IconButton onClick={() => setShowHistory(p => !p)}><Timeline/></IconButton><IconButton color="inherit" onClick={exportExercise}><Share /></IconButton><IconButton color="inherit" onClick={() => setConfirmDeleteOpen(true)}><DeleteIcon /></IconButton></> : <></>}>
-        {!!exercise && showHistory && <Paper variant="outlined">
+        <>{(currentWorkout ? <></> : <IconButton color="inherit" onClick={() => setAddExerciseOpen(true)}><PlayArrow/></IconButton>)}<IconButton color="inherit" onClick={() => setShowHistory(p => !p)}><Timeline/></IconButton><IconButton color="inherit" onClick={exportExercise}><Share /></IconButton>{currentWorkout ? <></> : <IconButton color="inherit" onClick={() => setConfirmDeleteOpen(true)}><DeleteIcon /></IconButton>}</> : <></>}>
+        {!!exercise && showHistory && <Box>
                 <TableContainer component={Paper} sx={{flexGrow: 1, height: "calc(100vh - 70px)", width: "calc(100vw - 16px)", padding: "8px"}}>
                 <Table size="small" aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell sx={{width: "16px", padding: showRpe || showRir ? "1px" : "4px"}}>&nbsp;</TableCell>
-                            <TableCell  sx={{width: "16px", padding: showRpe || showRir ? "1px" : "4px"}} align="right">{t("set")}</TableCell>
-                            <TableCell  sx={{width: "16px", padding: showRpe || showRir ? "1px" : "4px"}} align="right">{t("weight")}</TableCell>
-                            <TableCell  sx={{width: "16px", padding: showRpe || showRir ? "1px" : "4px"}} align="right">{t("amount")}</TableCell>
-                            {showRpe && <TableCell align="right" sx={{width: "16px", padding: showRpe || showRir ? "1px" : "4px"}}>{t("rpe")}</TableCell>}
-                            {showRir && <TableCell align="right" sx={{width: "16px", padding: showRpe || showRir ? "1px" : "4px"}}>{t("rir")}</TableCell>}
+                            <TableCell sx={{width: "16px", padding: featureLevel === "advanced" ? "1px" : "4px"}}>&nbsp;</TableCell>
+                            <TableCell  sx={{width: "16px", padding: featureLevel === "advanced" ? "1px" : "4px"}} align="right">{t("set")}</TableCell>
+                            <TableCell  sx={{width: "16px", padding: featureLevel === "advanced" ? "1px" : "4px"}} align="right">{t("weight")}</TableCell>
+                            <TableCell  sx={{width: "16px", padding: featureLevel === "advanced" ? "1px" : "4px"}} align="right">{t("amount")}</TableCell>
+                            {featureLevel === "advanced" && <TableCell align="right" sx={{width: "16px", padding: featureLevel === "advanced" ? "1px" : "4px"}}>{t("rpe")}</TableCell>}
+                            {featureLevel === "advanced" && <TableCell align="right" sx={{width: "16px", padding: featureLevel === "advanced" ? "1px" : "4px"}}>{t("rir")}</TableCell>}
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -182,15 +181,15 @@ export const ExerciseEditor = (props: ExerciseEditorProps) => {
                                 key={set.id}
                                 sx={{'&:last-child td, &:last-child th': {border: 0}}}
                             >
-                                <TableCell sx={{padding: showRpe || showRir ? "1px" : "4px"}} component="th" scope="row">
+                                <TableCell sx={{padding: featureLevel === "advanced" ? "1px" : "4px"}} component="th" scope="row">
                                     {set.date ? set.date.getDate().toString(10).padStart(2, "0") + "/" + (set.date.getMonth() + 1).toString(10).padStart(2, "0") : ""}
                                 </TableCell>
                                 <TableCell
-                                    sx={{padding: showRpe || showRir ? "1px" : "4px"}} align="right">{set.setNumber}{set.type === 1 ? "W" : ""}{set.type === 2 ? "D" : ""}{set.type === 3 ? "F" : ""}{set.side === 1 ? "L" : ""}{set.side === 2 ? "R" : ""}</TableCell>
-                                <TableCell sx={{padding: showRpe || showRir ? "1px" : "4px"}} align="right">{set.weight}</TableCell>
-                                <TableCell sx={{padding: showRpe || showRir ? "1px" : "4px"}} align="right">{set.reps || set.time || set.laps || set.distance}</TableCell>
-                                {showRpe && <TableCell sx={{padding: showRpe || showRir ? "1px" : "4px"}} align="right">{set.rpe !== 0 ? set.rpe : "0"}</TableCell>}
-                                {showRir && <TableCell sx={{padding: showRpe || showRir ? "1px" : "4px"}}  align="right">{set.rir !== 0 ? set.rir : "0"}</TableCell>}
+                                    sx={{padding: featureLevel === "advanced" ? "1px" : "4px"}} align="right">{set.setNumber}{set.type === 1 ? "W" : ""}{set.type === 2 ? "D" : ""}{set.type === 3 ? "F" : ""}{set.side === 1 ? "L" : ""}{set.side === 2 ? "R" : ""}</TableCell>
+                                <TableCell sx={{padding: featureLevel === "advanced" ? "1px" : "4px"}} align="right">{set.weight}</TableCell>
+                                <TableCell sx={{padding: featureLevel === "advanced" ? "1px" : "4px"}} align="right">{set.reps || set.time || set.laps || set.distance}</TableCell>
+                                {featureLevel === "advanced" && <TableCell sx={{padding: featureLevel === "advanced" ? "1px" : "4px"}} align="right">{set.rpe !== 0 ? set.rpe : "0"}</TableCell>}
+                                {featureLevel === "advanced" && <TableCell sx={{padding: featureLevel === "advanced" ? "1px" : "4px"}}  align="right">{set.rir !== 0 ? set.rir : "0"}</TableCell>}
                             </TableRow>
                         )}
                         {currentExerciseHistory && currentExerciseHistory.length > currentSlice && <TableRow onClick={() => setCurrentSlice((prevSlice) => prevSlice + 20)}><TableCell  sx={{textAlign: "center"}} colSpan={7}>{t("loadMore")}</TableCell></TableRow>}
@@ -198,8 +197,8 @@ export const ExerciseEditor = (props: ExerciseEditorProps) => {
                 </Table>
             </TableContainer>
 
-        </Paper>}
-        {!!exercise && !showHistory && <Card variant="outlined" sx={{padding: "20px"}}>
+        </Box>}
+        {!!exercise && !showHistory && <Box sx={{padding: "20px"}}>
                 <CardContent>
                     {exercise.picture && <CardMedia
                         sx={{height: "30" + (portrait ? "vh" : "vw"), backgroundSize: "contain"}}
@@ -283,7 +282,7 @@ export const ExerciseEditor = (props: ExerciseEditorProps) => {
                 {key: "enterPictureUrl", value: t("workoutEditor.enterPictureUrl"), icon: <Link/>},
                 {key: "clearImage", value: t("workoutEditor.clearPicture"), icon: <DeleteIcon/>},
                 {key: "cancel", value: t("cancel"), icon: <CloseIcon/>}]}></Selector>
-        </Card>}
+        </Box>}
         {unsavedChanges && <>
             <Fab color="secondary" sx={{position: 'fixed', bottom: 96, right: 16, zIndex: 1}}
                  onClick={fetch}>

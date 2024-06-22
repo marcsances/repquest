@@ -40,6 +40,21 @@ export const WhatsNew = () => {
                 along with this program.  If not, see <a href="Https://www.gnu.org/licenses" style={{ color: "white" }}>https://www.gnu.org/licenses/</a>.
             </Typography>
             <br/>
+            <Typography variant="h4">WeightLog Version 0.2.0</Typography>
+            <Typography variant="subtitle1">Released on 22/06/2024</Typography>
+            <Typography variant="subtitle2">Copyright Marc Sances 2024. All rights reserved.</Typography>
+            <Typography variant="h5">Features</Typography>
+            <ul>
+                <li>New appearance settings page.</li>
+                <li>New feature level setting: simple layout for beginners and advanced layout for more advanced lifters</li>
+                <li>User RPE visibility setting is considered as having "advanced" mode enabled. If you want to change this go to settings</li>
+                <li>RPE and RIR no longer independently configurable, they are now bound to advanced mode</li>
+                <li>Simple mode hides 1RM and notes, as well as RPE and RIR fields. Supersets and set types are not available either.</li>
+                <li>New light theme in beta available in appearance settings.</li>
+                <li>Some settings moved from workout settings to appearance settings.</li>
+                <li>Some margins and layouts have been fixed.</li>
+                <li>More improvements to simple layout will come soon. Stay tuned!</li>
+            </ul>
             <Typography variant="h4">WeightLog Version 0.1.68</Typography>
             <Typography variant="subtitle1">Released on 22/06/2024</Typography>
             <Typography variant="subtitle2">Copyright Marc Sances 2024. All rights reserved.</Typography>

@@ -62,7 +62,7 @@ const TagPicker = (props: TagPickerProps) => {
     return <Dialog open={open} onClose={onClose}>
         <DialogTitle sx={{ display: "flex", flexLayout: "row"}}>
             <span style={{flexGrow: 1}}>{title}</span>
-            <IconButton onClick={() => setSelectedValues([])}><ClearAll/></IconButton>
+            <IconButton color="inherit" onClick={() => setSelectedValues([])}><ClearAll/></IconButton>
         </DialogTitle>
         <DialogContent sx={{overflow: "auto"}}>
             <Grid container spacing={3}>

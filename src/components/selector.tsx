@@ -67,7 +67,7 @@ const Selector = (props: SimpleDialogProps) => {
                             sx={it.extras?.buttonColor ? {bgcolor: it.extras.buttonColor} : {}}>{it.icon}</Avatar></ListItemAvatar>}
                         <ListItemText primary={it.value} />
                     </ListItemButton>
-                    {it.extras?.action && <IconButton sx={{ flexShrink: 1 }} onClick={(e) => { e.stopPropagation(); if (it.extras?.action) it.extras?.action()}}>{it.extras?.actionIcon}</IconButton>}
+                    {it.extras?.action && <IconButton color="inherit" sx={{ flexShrink: 1 }} onClick={(e) => { e.stopPropagation(); if (it.extras?.action) it.extras?.action()}}>{it.extras?.actionIcon}</IconButton>}
                 </ListItem>))}
             </List>
         </Dialog>

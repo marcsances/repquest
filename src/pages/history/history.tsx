@@ -128,7 +128,7 @@ export const HistoryPage = () => {
 
     const getLabelForEntry = useCallback((sets: ExerciseSet[]) => sets.map((set) => getLabelForSet(set, useLbs, t, false)).join(", "), []);
 
-    return <Layout hideNav title={t("history")} toolItems={<IconButton onClick={() => setDate(dayjs(new Date()))}><Today/></IconButton>}><Box sx={{width: '100%', height: 'calc(100% - 16px)', display: "flex", alignItems: "center", flexDirection: "column", overflowY: "auto", overflowX: "hidden", paddingTop: "8px"}}>
+    return <Layout hideNav title={t("history")} toolItems={<IconButton color="inherit" onClick={() => setDate(dayjs(new Date()))}><Today/></IconButton>}><Box sx={{width: '100%', height: 'calc(100% - 16px)', display: "flex", alignItems: "center", flexDirection: "column", overflowY: "auto", overflowX: "hidden", paddingTop: "8px"}}>
         <Slide direction="down" in={showCalendar} mountOnEnter unmountOnExit style={{flexGrow: 1}}>
             <DateCalendar views={["day"]} value={date} onChange={(d) => { setDate(d); setShowCalendar(false) }}
                           slots={{

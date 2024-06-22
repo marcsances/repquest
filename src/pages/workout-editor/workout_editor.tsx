@@ -134,7 +134,7 @@ export const WorkoutEditor = () => {
                     {entry.exercise.picture && <Avatar src={entry.exercise.picture} />}
                 </ListItemAvatar>
                 <ListItemText primary={entry.exercise.name} secondary={entry.sets.map((set) => getLabelForSet(set, useLbs, t)).join(", ")}/>
-                <IconButton onClick={(e) => {
+                <IconButton color="inherit" onClick={(e) => {
                     e.stopPropagation();
                     setMenuAnchor(e.currentTarget);
                     setEntryIdx(idx);

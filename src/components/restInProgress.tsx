@@ -79,6 +79,6 @@ export const RestInProgress = (props: {onClick: () => void}) => {
             </Avatar>
         </ListItemAvatar>
         <ListItemText primary={t("restInProgress")} secondary={restLabel}/>
-        <IconButton onClick={(e) => { e.stopPropagation(); if (saveSound) saveSound(!sound) }}>{sound ? <VolumeUp /> : <VolumeMute />}</IconButton>
+        <IconButton color="inherit" onClick={(e) => { e.stopPropagation(); if (saveSound) saveSound(!sound) }}>{sound ? <VolumeUp /> : <VolumeMute />}</IconButton>
     </ListItemButton> : <></>;
 }

@@ -115,9 +115,8 @@ export const WorkoutPage = () => {
         superset,
         setSuperset
     } = useContext(WorkoutContext);
-    const {showRpe, showRir, useLbs, oneRm, wakeLock,
-        toggleWakeLock, saveRpe,
-        saveRir, errorWakeLock } = useContext(SettingsContext);
+    const {featureLevel, useLbs, oneRm, wakeLock,
+        toggleWakeLock, errorWakeLock } = useContext(SettingsContext);
     const {db} = useContext(DBContext);
     const {audioContext, setAudioContext} = useContext(TimerContext);
     const {t} = useTranslation();
@@ -182,7 +181,7 @@ export const WorkoutPage = () => {
     const toolbar = <>
         {pbs && pbs.length > 0 && <IconButton color="inherit" onClick={() => setShowPbs(true)}><EmojiEventsIcon
             color="success"/>&nbsp;<Typography>{pbs.length}</Typography></IconButton>}
-        {!isMini && <><Button variant="text" color="inherit" onClick={() => setOneRmOpen(true)}>1RM</Button></>}
+        {!isMini && featureLevel === "advanced" && <><Button variant="text" color="inherit" onClick={() => setOneRmOpen(true)}>1RM</Button></>}
         <IconButton aria-label="menu" color="inherit" onClick={openMenu}><MoreVertIcon/></IconButton>
     </>;
     useEffect(() => {
@@ -257,7 +256,7 @@ export const WorkoutPage = () => {
                 <ListItemIcon><Timer/></ListItemIcon>
                 <ListItemText>{t("actions.startRest")}</ListItemText>
             </MenuItem>
-            {!superset && currentWorkout && currentWorkout.workoutExerciseIds && (currentWorkoutExerciseNumber < currentWorkout!.workoutExerciseIds!.length - 1) && <MenuItem onClick={() => {
+            {!superset && featureLevel === "advanced" && currentWorkout && currentWorkout.workoutExerciseIds && (currentWorkoutExerciseNumber < currentWorkout!.workoutExerciseIds!.length - 1) && <MenuItem onClick={() => {
                 if (setSuperset) setSuperset({ current: 1, size: 2 });
                 closeMenu()
             }}>
@@ -288,14 +287,14 @@ export const WorkoutPage = () => {
                             <Table size="small" aria-label="simple table">
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell sx={{width: "16px", padding: showRpe || showRir ? "1px" : "4px"}}>&nbsp;</TableCell>
-                                        <TableCell sx={{width: "16px", padding: showRpe || showRir ? "1px" : "4px"}}>&nbsp;</TableCell>
-                                        <TableCell  sx={{width: "16px", padding: showRpe || showRir ? "1px" : "4px"}} align="right">{t("set")}</TableCell>
-                                        <TableCell  sx={{width: "16px", padding: showRpe || showRir ? "1px" : "4px"}} align="right">{t("weight")}</TableCell>
-                                        <TableCell  sx={{width: "16px", padding: showRpe || showRir ? "1px" : "4px"}} align="right">{t("amount")}</TableCell>
-                                        {showRpe && <TableCell align="right" sx={{width: "16px", padding: showRpe || showRir ? "1px" : "4px"}}>{t("rpe")}</TableCell>}
-                                        {showRir && <TableCell align="right" sx={{width: "16px", padding: showRpe || showRir ? "1px" : "4px"}}>{t("rir")}</TableCell>}
-                                        <TableCell align="right" sx={{width: "16px", padding: showRpe || showRir ? "1px" : "4px"}}>&nbsp;</TableCell>
+                                        <TableCell sx={{width: "16px", padding: featureLevel === "advanced" ? "1px" : "4px"}}>&nbsp;</TableCell>
+                                        <TableCell sx={{width: "16px", padding: featureLevel === "advanced" ? "1px" : "4px"}}>&nbsp;</TableCell>
+                                        <TableCell  sx={{width: "16px", padding: featureLevel === "advanced" ? "1px" : "4px"}} align="right">{t("set")}</TableCell>
+                                        <TableCell  sx={{width: "16px", padding: featureLevel === "advanced" ? "1px" : "4px"}} align="right">{t("weight")}</TableCell>
+                                        <TableCell  sx={{width: "16px", padding: featureLevel === "advanced" ? "1px" : "4px"}} align="right">{t("amount")}</TableCell>
+                                        {featureLevel === "advanced" && <TableCell align="right" sx={{width: "16px", padding: featureLevel === "advanced" ? "1px" : "4px"}}>{t("rpe")}</TableCell>}
+                                        {featureLevel === "advanced" && <TableCell align="right" sx={{width: "16px", padding: featureLevel === "advanced" ? "1px" : "4px"}}>{t("rir")}</TableCell>}
+                                        <TableCell align="right" sx={{width: "16px", padding: featureLevel === "advanced" ? "1px" : "4px"}}>&nbsp;</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -304,21 +303,21 @@ export const WorkoutPage = () => {
                                             key={set.id}
                                             sx={{'&:last-child td, &:last-child th': {border: 0}}}
                                         >
-                                            <TableCell sx={{padding: showRpe || showRir ? "1px" : "4px"}} component="th" scope="row">
+                                            <TableCell sx={{padding: featureLevel === "advanced" ? "1px" : "4px"}} component="th" scope="row">
                                                 {set.notes || set.emoji ? <IconButton size="small" sx={{padding: "1px"}} onClick={(ev) => {if (set.notes && !notesAnchor) { setNotesEmoji(set.emoji); setNotes(set.notes); setNotesAnchor(ev.currentTarget)} else setNotesAnchor(undefined)}}>{set.emoji ? set.emoji : "📝"}</IconButton> : null}
                                             </TableCell>
-                                            <TableCell sx={{padding: showRpe || showRir ? "1px" : "4px"}} component="th" scope="row">
+                                            <TableCell sx={{padding: featureLevel === "advanced" ? "1px" : "4px"}} component="th" scope="row">
                                                 {set.date ? set.date.getDate().toString(10).padStart(2, "0") + "/" + (set.date.getMonth() + 1).toString(10).padStart(2, "0") : ""}
                                             </TableCell>
                                             <TableCell
-                                                sx={{padding: showRpe || showRir ? "1px" : "4px"}} align="right">{set.setNumber}{set.type === 1 ? "W" : ""}{set.type === 2 ? "D" : ""}{set.type === 3 ? "F" : ""}{set.side === 1 ? "L" : ""}{set.side === 2 ? "R" : ""}</TableCell>
-                                            <TableCell sx={{padding: showRpe || showRir ? "1px" : "4px"}} align="right">{set.weight}</TableCell>
-                                            <TableCell sx={{padding: showRpe || showRir ? "1px" : "4px"}} align="right">{set.reps || set.time || set.laps || set.distance}</TableCell>
-                                            {showRpe && <TableCell sx={{padding: showRpe || showRir ? "1px" : "4px"}} align="right">{set.rpe !== 0 ? set.rpe : "0"}</TableCell>}
-                                            {showRir && <TableCell sx={{padding: showRpe || showRir ? "1px" : "4px"}}  align="right">{set.rir !== 0 ? set.rir : "0"}</TableCell>}
-                                            <TableCell align="center"  sx={{whiteSpace: "nowrap",padding: showRpe || showRir ? "1px" : "4px"}} >
-                                                <IconButton size="small" sx={{padding: "1px"}} onClick={(e) => { e.stopPropagation(); if (currentSet && setCurrentSet) setCurrentSet({...currentSet, type: set.type, weight: set.weight, reps: set.reps, rpe: showRpe ? set.rpe || 0 : undefined, rir: showRir ? set.rir || 0 : undefined, laps: set.laps, rest: set.rest || 0 })}}><ContentCopy fontSize="small"/></IconButton>
-                                                <IconButton size="small" sx={{padding: "1px"}} onClick={(e) => { e.stopPropagation(); if (set) setEditingSet(set)}}><Edit fontSize="small"/></IconButton>
+                                                sx={{padding: featureLevel === "advanced" ? "1px" : "4px"}} align="right">{set.setNumber}{set.type === 1 ? "W" : ""}{set.type === 2 ? "D" : ""}{set.type === 3 ? "F" : ""}{set.side === 1 ? "L" : ""}{set.side === 2 ? "R" : ""}</TableCell>
+                                            <TableCell sx={{padding: featureLevel === "advanced" ? "1px" : "4px"}} align="right">{set.weight}</TableCell>
+                                            <TableCell sx={{padding: featureLevel === "advanced" ? "1px" : "4px"}} align="right">{set.reps || set.time || set.laps || set.distance}</TableCell>
+                                            {featureLevel === "advanced" && <TableCell sx={{padding: featureLevel === "advanced" ? "1px" : "4px"}} align="right">{set.rpe !== 0 ? set.rpe : "0"}</TableCell>}
+                                            {featureLevel === "advanced" && <TableCell sx={{padding: featureLevel === "advanced" ? "1px" : "4px"}}  align="right">{set.rir !== 0 ? set.rir : "0"}</TableCell>}
+                                            <TableCell align="center"  sx={{whiteSpace: "nowrap",padding: featureLevel === "advanced" ? "1px" : "4px"}} >
+                                                <IconButton color="inherit" size="small" sx={{padding: "1px"}} onClick={(e) => { e.stopPropagation(); if (currentSet && setCurrentSet) setCurrentSet({...currentSet, type: set.type, weight: set.weight, reps: set.reps, rpe: featureLevel === "advanced" ? set.rpe || 0 : undefined, rir: featureLevel === "advanced" ? set.rir || 0 : undefined, laps: set.laps, rest: set.rest || 0 })}}><ContentCopy fontSize="small"/></IconButton>
+                                                <IconButton color="inherit" size="small" sx={{padding: "1px"}} onClick={(e) => { e.stopPropagation(); if (set) setEditingSet(set)}}><Edit fontSize="small"/></IconButton>
                                             </TableCell>
                                         </TableRow>
                                     )}
@@ -335,7 +334,7 @@ export const WorkoutPage = () => {
                 </Box>}
                 {!!currentSet?.side && <Typography sx={{marginTop: "8px", textAlign: "center"}} variant="h4"
                                                  component="p">{currentSet.side === 1 ? t("leftSide") : t("rightSide")}</Typography>}
-                {!!currentSet && currentSet?.weight !== undefined &&
+                {!!currentSet && currentSet?.weight !== undefined && featureLevel === "advanced" &&
                     <ToggleParameter<SetType> options={setOptions} value={currentSet.type} onChange={(type: number) => {
                         if (currentSet && setCurrentSet) setCurrentSet({...currentSet, type})
                     }}/>}
@@ -343,7 +342,7 @@ export const WorkoutPage = () => {
                               max={currentWorkoutExercise?.setIds.length}
                           incrementBy={1} onChange={(setNumber) => { if (setCurrentSetNumber) setCurrentSetNumber(setNumber)}}/>
                 {currentSet?.weight !== undefined &&
-                    <Parameter paramButtons={focusedExercise?.tags.includes(ExerciseTag.BODY_WEIGHT) && setCurrentSet && !!lastUserWeight ? <IconButton onClick={() => {
+                    <Parameter paramButtons={focusedExercise?.tags.includes(ExerciseTag.BODY_WEIGHT) && setCurrentSet && !!lastUserWeight ? <IconButton color="inherit" onClick={() => {
                         setCurrentSet({...currentSet, weight: lastUserWeight});
                     }}><MonitorWeight /></IconButton> : undefined} name={t("weight")} unit={useLbs ? "lbs" : "kg"} value={currentSet?.weight || 0} min={0}
                                increments={[2.5, 1.25, 1, 0.5, 5]}
@@ -360,16 +359,16 @@ export const WorkoutPage = () => {
                 {currentSet?.laps !== undefined &&
                     <Parameter name={t("laps")} value={currentSet?.laps || 0} min={1}
                                allowDecimals onChange={(laps) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, laps})}}/>}
-                {showRpe && currentSet?.reps !== undefined &&
+                {featureLevel === "advanced" && currentSet?.reps !== undefined &&
                     <Parameter name={t("rpe")} value={currentSet?.rpe || 0} min={0} max={10}
                                            onChange={(rpe) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, rpe})}}/>}
-                {showRir && currentSet?.reps !== undefined &&
+                {featureLevel === "advanced" && currentSet?.reps !== undefined &&
                     <Parameter name={t("rir")} value={currentSet?.rir || 0} min={0}
                                            onChange={(rir) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, rir})}}/>}
                 {currentSet?.rest !== undefined &&
                     <Parameter name={t("rest")} unit="s" value={currentSet?.rest || 0} min={0} increments={[10, 15, 30, 1, 5]}
                            onChange={(rest) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, rest})}}/>}
-                <NotesParameter name={"Notes"} value={currentSet?.notes} onChange={(notes, emoji) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, notes, emoji})}} />
+                {featureLevel === "advanced" && <NotesParameter name={"Notes"} value={currentSet?.notes} onChange={(notes, emoji) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, notes, emoji})}} />}
             </Box>}
             <Box sx={{flexGrow: 1}}/>
             <Stack direction="row" spacing={{xs: 1, sm: 2, md: 4}} sx={{alignSelf: "center", marginTop: "10px"}}>

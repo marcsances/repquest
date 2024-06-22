@@ -291,7 +291,7 @@ const MetricsPage = () => {
                                 <TableCell
                                     sx={{padding: "4px"}} align="center">{metric.value}</TableCell>
                                 <TableCell align="center"  sx={{whiteSpace: "nowrap", padding: "4px"}} >
-                                    <IconButton size="small" sx={{padding: "1px"}} onClick={(e) => {
+                                    <IconButton color="inherit" size="small" sx={{padding: "1px"}} onClick={(e) => {
                                         e.stopPropagation();
                                         db?.userMetric.delete(metric.id).then(() => {
                                             setSnackbar("OK");

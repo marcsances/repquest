@@ -37,7 +37,7 @@ interface SetEditorProps {
 
 const SetEditor = (props: SetEditorProps) => {
     const {open, set, setNumber, onChange, onClose, onDelete, isEditingHistoryEntry} = props;
-    const {useLbs, showRpe, showRir} = useContext(SettingsContext);
+    const {useLbs, featureLevel} = useContext(SettingsContext);
     const {t} = useTranslation();
     const [exerciseSet, setExerciseSet] = useState(set);
     const [confirmDelete, setConfirmDelete] = useState(false);
@@ -87,10 +87,10 @@ const SetEditor = (props: SetEditorProps) => {
                 <Parameter name={t("laps")} value={exerciseSet.laps } min={0} allowDecimals
                            onToggle={(enabled) => setExerciseSet((prevState) => ({...prevState, laps: enabled ? set.laps || 0 : undefined}))}
                            onChange={(laps) => setExerciseSet((prevSet) => ({...prevSet, laps}))}/>
-                {showRpe && <Parameter name={t("rpe")} value={exerciseSet.rpe} min={0} max={10}
+                {featureLevel === "advanced" && <Parameter name={t("rpe")} value={exerciseSet.rpe} min={0} max={10}
                                        onToggle={(enabled) => setExerciseSet((prevState) => ({...prevState, rpe: enabled ? set.rpe || 0 : undefined}))}
                                        onChange={(rpe) => setExerciseSet((prevSet) => ({...prevSet, rpe}))}/>}
-                {showRir && <Parameter name={t("rir")} value={exerciseSet.rir} min={0} max={10}
+                {featureLevel === "advanced" && <Parameter name={t("rir")} value={exerciseSet.rir} min={0} max={10}
                                        onToggle={(enabled) => setExerciseSet((prevState) => ({...prevState, rir: enabled ? set.rir || 0 : undefined}))}
                                        onChange={(rir) => setExerciseSet((prevSet) => ({...prevSet, rir}))}/>}
                 <Parameter name={t("rest")} unit="s" value={exerciseSet.rest} min={0} increments={[10, 15, 30, 1, 5]}

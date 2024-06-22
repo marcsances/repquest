@@ -48,6 +48,6 @@ export const SupersetViewer = () => {
             </Avatar>
         </ListItemAvatar>
         <ListItemText sx={{color: (theme) => theme.palette.primary.contrastText}} secondaryTypographyProps={{sx: {color: (theme) => theme.palette.primary.contrastText}}} primary={t("supersetInProgress")} secondary={t("supersetDescription", { current: superset.current, total: superset.size, set: currentSetNumber })}/>
-        <IconButton onClick={() => { if(setSuperset) setSuperset(undefined)}}><Avatar sx={{backgroundColor: (theme) => theme.palette.primary.contrastText, color: (theme) => theme.palette.primary.main}}><Cancel /></Avatar></IconButton>
+        <IconButton color="inherit" onClick={() => { if(setSuperset) setSuperset(undefined)}}><Avatar sx={{backgroundColor: (theme) => theme.palette.primary.contrastText, color: (theme) => theme.palette.primary.main}}><Cancel /></Avatar></IconButton>
     </ListItem></Box> : <></>;
 }

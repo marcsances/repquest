@@ -45,10 +45,10 @@ const OneRmCalculator = (props: OneRmCalcProps) => {
         rms.push({reps: i, rm: getOneRm(curWeight, curReps, oneRm, i)});
     }
     return <Layout title={t("oneRmCalculator")} scroll leftToolItems={onCancel ?
-        <IconButton sx={{mr: 2}} size="large" edge="start" color="inherit"
+        <IconButton color="inherit" sx={{mr: 2}} size="large" edge="start" color="inherit"
                     onClick={onCancel}><CloseIcon/></IconButton> : <></>}
                    toolItems={onSelect ?
-                       <IconButton size="large" edge="start" color="inherit"
+                       <IconButton color="inherit" size="large" edge="start" color="inherit"
                                    onClick={() => onSelect(curWeight, curReps)}><Check/></IconButton> : <></>}
                    hideBack={onSelect !== undefined} hideNav>
         <Box sx={{height: "100%", width: "100%"}}>

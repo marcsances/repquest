@@ -61,11 +61,11 @@ const NotesParameter = (props: NotesParameterProps) => {
             placeholder={t("notes")}
             inputProps={{style: {textAlign: "left"}}}
             InputProps={{ startAdornment: <InputAdornment position="start">
-                    <IconButton onClick={(ev) => { ev.stopPropagation(); setAnchor(anchor ? undefined : ev.currentTarget) }}>
+                    <IconButton color="inherit" onClick={(ev) => { ev.stopPropagation(); setAnchor(anchor ? undefined : ev.currentTarget) }}>
                     {emote ? emote : "📝"}
                     </IconButton>
                 </InputAdornment>, endAdornment: !!emote || !!val ? <InputAdornment position="end">
-                    <IconButton onClick={(ev) => { ev.stopPropagation(); setVal(undefined); setEmote(undefined); if (onChange) onChange(undefined, undefined); }}>
+                    <IconButton color="inherit" onClick={(ev) => { ev.stopPropagation(); setVal(undefined); setEmote(undefined); if (onChange) onChange(undefined, undefined); }}>
                         <Clear/>
                     </IconButton>
                 </InputAdornment> : undefined}}

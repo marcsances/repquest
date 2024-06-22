@@ -142,7 +142,7 @@ export const WorkoutList = () => {
         entityToJson(db, backupPlan, plan!).then((blob) => shareBlob(blob, plan.name));
     }
 
-    return <Layout showAccountMenu title={plan?.name ? t("workoutPlan") + " - " + plan.name : t("workouts")} toolItems={<><IconButton color="inherit" onClick={exportPlan}><Share /></IconButton><IconButton onClick={() => {
+    return <Layout showAccountMenu title={plan?.name ? t("workoutPlan") + " - " + plan.name : t("workouts")} toolItems={<><IconButton color="inherit" onClick={exportPlan}><Share /></IconButton><IconButton color="inherit" onClick={() => {
         showPrompt(t("enterPlanNewName"), "", (name) => {
             if (db && !!name && !!plan && name !== plan.name && name.length > 0) {
                 db.plan.put({...plan, name}).then(() => setRefetch(new Date()));

@@ -114,14 +114,14 @@ const Parameter = (props: ParameterProps) => {
             InputProps={{ startAdornment: paramButtons ? <InputAdornment position="start">{paramButtons}</InputAdornment> : undefined}}
         />
         <Typography sx={{marginLeft: "8px", alignSelf: "center", width: "48px"}}>{unit}</Typography>
-        { !isMini && <IconButton disabled={!increments || isDisabled} onClick={shiftIncrements} color="primary" size="small" sx={{marginLeft: "8px", fontSize: "14px", width: "24px"}}>
+        { !isMini && <IconButton color="inherit" disabled={!increments || isDisabled} onClick={shiftIncrements} color="primary" size="small" sx={{marginLeft: "8px", fontSize: "14px", width: "24px"}}>
             { increments ? incrementBy : "" }
         </IconButton>}
-        <IconButton onClick={onRemove} color="primary" size="small" aria-label="add" sx={{marginLeft: "4px"}}
+        <IconButton color="inherit" onClick={onRemove} color="primary" size="small" aria-label="add" sx={{marginLeft: "4px"}}
                     disabled={min || isDisabled ? (min && val && val <= min) || isDisabled : false}>
             <RemoveIcon/>
         </IconButton>
-        <IconButton onClick={onAdd} color="primary" size="small" aria-label="add" sx={{marginLeft: "8px"}}
+        <IconButton color="inherit" onClick={onAdd} color="primary" size="small" aria-label="add" sx={{marginLeft: "8px"}}
                     disabled={min || isDisabled ? (min && val && val <= min) || isDisabled : false}>
             <AddIcon/>
         </IconButton>
