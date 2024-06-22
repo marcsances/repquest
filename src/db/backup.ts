@@ -176,7 +176,7 @@ export function importFromJSON(db: DexieDB, masterDb: MasterDB, userName: string
                     date: entry.date ? new Date(entry.date) : entry.date
                 })));
             }
-            if (["everything", "restoreBackup"].includes(level) && !!payload.userMetric) {
+            if (["everything", "restoreBackup"].includes(level) && payload.userMetric) {
                 await trans.db.table("userMetric").bulkPut(payload.userMetric.map((entry) => ({
                     ...entry,
                     date: entry.date ? new Date(entry.date) : entry.date

@@ -45,6 +45,7 @@ const MetricsPage = () => {
     const {db} = useContext(DBContext);
     const [ metric, setMetric ] = useState<Metric>(Metric.BODYWEIGHT);
     const [ metricHistory, setMetricHistory ] = useState<UserMetric[]>([]);
+    const [ reverseHistory, setReverseHistory ] = useState<UserMetric[]>([]);
     const [currentSlice, setCurrentSlice] = useState(20);
     const { useLbs } = useContext(SettingsContext);
     const [newVal, setNewVal] = useState(metricHistory.length > 0 ? metricHistory[0].value : 0);
@@ -67,9 +68,11 @@ const MetricsPage = () => {
     const [bodyFatMethod, setBodyFatMethod] = useState<"usnavy" | "bmi">("usnavy");
     useEffect(() => {(async () => {
         if (!db) return;
-        setMetricHistory((await db.userMetric
-            .where("metric").equals(metric).toArray()
-        ).filter((it) => !startDate || !endDate || it.date.getTime() >= startDate.getTime() && it.date.getTime() < endDate.getTime()).sort(compareWithDate));
+        const history = (await db.userMetric
+                .where("metric").equals(metric).toArray()
+        ).filter((it) => !startDate || !endDate || it.date.getTime() >= startDate.getTime() && it.date.getTime() < endDate.getTime()).sort(compareWithDate);
+        setMetricHistory(history);
+        setReverseHistory(new Array<UserMetric>(...history).reverse());
         if (metric === "body_fat" || metric === "bmi") {
             setNewHeight((await db.userMetric.where("metric").equals("height").toArray()).sort(compareWithDate).reverse()[0]?.value || 0);
             setNewWeight((await db.userMetric.where("metric").equals("body_weight").toArray()).sort(compareWithDate).reverse()[0]?.value || 0);
@@ -81,8 +84,8 @@ const MetricsPage = () => {
 
     useEffect(() => {
         setCurrentSlice(20);
-        setNewVal(metricHistory.length > 0 ? metricHistory[metricHistory.length - 1].value : 0);
-    }, [metricHistory, setCurrentSlice]);
+        setNewVal(reverseHistory.length > 0 ? reverseHistory[0].value : 0);
+    }, [reverseHistory, setCurrentSlice]);
 
     const save = (override?: number) => {
         if (override) setNewVal(override);
@@ -277,7 +280,7 @@ const MetricsPage = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {metricHistory.reverse().slice(0, currentSlice).map((metric: UserMetric) =>
+                        {reverseHistory.slice(0, currentSlice).map((metric: UserMetric) =>
                             <TableRow
                                 key={metric.id}
                                 sx={{'&:last-child td, &:last-child th': {border: 0}}}
