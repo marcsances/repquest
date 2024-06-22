@@ -20,6 +20,8 @@ import {
     Avatar,
     Box,
     Button,
+    CardContent,
+    CardMedia,
     Fab,
     Fade,
     ListItem,
@@ -66,6 +68,7 @@ import {
     ContentCopy,
     Edit,
     ErrorOutlineRounded,
+    History,
     MonitorWeight,
     MultipleStop,
     RemoveCircleOutlined,
@@ -132,6 +135,7 @@ export const WorkoutPage = () => {
     const [notes, setNotes] = useState<string | undefined>(undefined);
     const [notesEmoji, setNotesEmoji] = useState<string | undefined>(undefined);
     const [notesAnchor, setNotesAnchor] = useState<HTMLElement | undefined>(undefined);
+    const [viewHistory, setViewHistory] = useState<boolean>(false);
     const portrait = (window.screen.orientation.angle % 180 === 0);
     const isMini = portrait ?  useMediaQuery('(max-height:600px)') : useMediaQuery('(max-width:600px)');
     useEffect(() => {
@@ -274,16 +278,22 @@ export const WorkoutPage = () => {
                 </MenuItem>}
         </Menu>
         <Box sx={{height: "calc(100% - 16px)", display: "flex", flexDirection: "column"}}>
+            {!isMini && featureLevel === "easy" && !viewHistory && <CardContent>
+                <CardMedia sx={{height: "30" + (portrait ? "vh" : "vw"), backgroundSize: "contain"}}
+                           image={focusedExercise?.picture} title={focusedExercise?.name} onClick={() => navigate("/picture")}
+                />
+            </CardContent>}
             <ListItem>
-                {!isMini && <ListItemIcon>{focusedExercise?.picture && <Avatar variant="rounded" onClick={() => navigate("/picture")} src={focusedExercise?.picture} sx={{display: "inline-block"}} />}</ListItemIcon>}
+                {!isMini && (featureLevel === "advanced" || viewHistory) && <ListItemIcon>{focusedExercise?.picture && <Avatar variant="rounded" onClick={() => navigate("/picture")} src={focusedExercise?.picture} sx={{display: "inline-block"}} />}</ListItemIcon>}
                 <ListItemText primary={focusedExercise?.name} secondary={!isMini ? `${currentSet?.cues ? currentSet?.cues + " - " : ""}${focusedExercise?.tags.map((tag) => (t("tags." + ExerciseTag[tag].toLowerCase()))).join(", ")}` : undefined}
                               primaryTypographyProps={{sx: {fontWeight: 600}, fontSize: isMini ? "small" : "medium"}} secondaryTypographyProps={{fontSize: "x-small"}}/>
+                {featureLevel === "easy" && <IconButton color="inherit" onClick={() => setViewHistory((prev) => !prev)}>{viewHistory ? <CollectionsIcon/> : <History />}</IconButton>}
                 <IconButton aria-label="menu" color="inherit" onClick={() => setSwapExerciseOpen(true)}><SwapHoriz/></IconButton>
         </ListItem>
             {!!restTime && !showRest && <RestInProgress onClick={() => setShowRest(true)} />}
             <SupersetViewer/>
-            <Paper variant="outlined">
-                        <TableContainer component={Paper} sx={{flexGrow: 1, maxHeight: "30vh", width: "auto"}}>
+            {(featureLevel === "advanced" || viewHistory) && <Paper variant="outlined">
+                         <TableContainer component={Paper} sx={{flexGrow: 1, maxHeight: featureLevel === "easy" ? "38vh" : "30vh", width: "auto"}}>
                             <Table size="small" aria-label="simple table">
                                 <TableHead>
                                     <TableRow>
@@ -326,7 +336,7 @@ export const WorkoutPage = () => {
                             </Table>
                         </TableContainer>
 
-            </Paper>
+            </Paper>}
             {<Box sx={{overflow: isCurrentExerciseComplete ? "hidden" : "auto", position: "relative", flexShrink: 1}}>
                 {isCurrentExerciseComplete && <Box sx={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", backgroundColor: "rgba(30, 30, 30, 0.9)", zIndex: 10, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", gap: "16px" }} onClick={(e) => e.stopPropagation()}>
                     <Typography sx={{fontWeight: 600}}>{t("exerciseCompleted")}</Typography>
