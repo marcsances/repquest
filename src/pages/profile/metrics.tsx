@@ -69,7 +69,7 @@ const MetricsPage = () => {
         if (!db) return;
         setMetricHistory((await db.userMetric
             .where("metric").equals(metric).toArray()
-        ).filter((it) => !startDate || !endDate || it.date.getTime() >= startDate.getTime() && it.date.getTime() < endDate.getTime()).sort(compareWithDate).reverse());
+        ).filter((it) => !startDate || !endDate || it.date.getTime() >= startDate.getTime() && it.date.getTime() < endDate.getTime()).sort(compareWithDate));
         if (metric === "body_fat" || metric === "bmi") {
             setNewHeight((await db.userMetric.where("metric").equals("height").toArray()).sort(compareWithDate).reverse()[0]?.value || 0);
             setNewWeight((await db.userMetric.where("metric").equals("body_weight").toArray()).sort(compareWithDate).reverse()[0]?.value || 0);

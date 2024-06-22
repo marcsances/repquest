@@ -49,19 +49,19 @@ export const DialogContextProvider = (props: { children: ReactElement }) => {
     const [type, setType] = useState<AlertType | "prompt">("ok");
     const [val, setVal] = useState<string>("");
     const showAlert = (title: string, message: string, onResolve: (result: boolean) => void, type: AlertType = "ok") => {
-        setOpen(true);
         setTitle(title);
         setMessage(message);
         setType(type);
         setResolve(() => onResolve);
+        setOpen(true);
     };
     const showPrompt = (title: string, message: string, onResolve: (result: string | null) => void, defaultValue = "") => {
-        setOpen(true);
         setTitle(title);
         setMessage(message);
         setVal(defaultValue);
         setType("prompt");
         setResolveString(() => onResolve);
+        setOpen(true);
     };
 
     const boxRef = useRef<HTMLInputElement>();
@@ -84,7 +84,7 @@ export const DialogContextProvider = (props: { children: ReactElement }) => {
             <DialogTitle id="alert-dialog-title">
                 {title}
             </DialogTitle>
-            { !!message?.length || type === "prompt" && <DialogContent>
+            { (!!message?.length || type === "prompt") && <DialogContent>
                 {message && message.length > 0 && <Typography>{message}</Typography>}
                 {type === "prompt" && open && <TextField InputProps={{ref: boxRef}} sx={{width: "100%"}} onChange={(ev) => setVal(ev.target.value)} value={val} />}
             </DialogContent>}

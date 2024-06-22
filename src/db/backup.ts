@@ -60,7 +60,9 @@ export async function generateBackup(db: DexieDB, level: string, user: User, set
             wakeLock: settings.wakeLock ? settings.wakeLock.toString() : undefined,
             oneRmFormula: OneRm[settings.oneRm || OneRm.BRZYCKI],
             autostop: settings.autostop.toString(),
-            lang: settings.lang
+            lang: settings.lang,
+            sound: settings.sound.toString(),
+            emojis: settings.emojis.join(";")
         }
     }
     return backupObject;
@@ -174,8 +176,11 @@ export function importFromJSON(db: DexieDB, masterDb: MasterDB, userName: string
                     date: entry.date ? new Date(entry.date) : entry.date
                 })));
             }
-            if (["everything, restoreBackup"].includes(level) && payload.userMetric) {
-                await trans.db.table("userMetric").bulkPut(payload.userMetric);
+            if (["everything", "restoreBackup"].includes(level) && !!payload.userMetric) {
+                await trans.db.table("userMetric").bulkPut(payload.userMetric.map((entry) => ({
+                    ...entry,
+                    date: entry.date ? new Date(entry.date) : entry.date
+                })));
             }
             if (["everything", "restoreBackup"].includes(level) && payload.settings) {
                 if (userName === "Default User") {
@@ -185,6 +190,8 @@ export function importFromJSON(db: DexieDB, masterDb: MasterDB, userName: string
                     localStorage.setItem("wakeLock", payload.settings.wakeLock || "true");
                     localStorage.setItem("oneRmFormula", payload.settings.oneRmFormula === "BRZYCKI" ? "1" : "0")
                     localStorage.setItem("autostop", payload.settings.autostop || "true")
+                    localStorage.setItem("sound", payload.settings.sound || "false")
+                    if (payload.settings.emojis) localStorage.setItem("emojis", payload.settings.emojis)
                     if (payload.settings.lang) localStorage.setItem("lang", payload.settings.lang)
                 } else {
                     masterDb?.user.update(userName, {

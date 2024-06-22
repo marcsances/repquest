@@ -40,6 +40,16 @@ export const WhatsNew = () => {
                 along with this program.  If not, see <a href="Https://www.gnu.org/licenses" style={{ color: "white" }}>https://www.gnu.org/licenses/</a>.
             </Typography>
             <br/>
+            <Typography variant="h4">WeightLog Version 0.1.68</Typography>
+            <Typography variant="subtitle1">Released on 22/06/2024</Typography>
+            <Typography variant="subtitle2">Copyright Marc Sances 2024. All rights reserved.</Typography>
+            <Typography variant="h5">Bugfixes</Typography>
+            <ul>
+                <li>Metrics chart no longer displayed in reverse order.</li>
+                <li>Fixed an error causing new alert dialogs to not show any content.</li>
+                <li>Fixed an error causing user metrics to not be restored from backups.</li>
+                <li>Added some missing user preferences in backup objects.</li>
+            </ul>
             <Typography variant="h4">WeightLog Version 0.1.67</Typography>
             <Typography variant="subtitle1">Released on 15/06/2024</Typography>
             <Typography variant="subtitle2">Copyright Marc Sances 2024. All rights reserved.</Typography>
