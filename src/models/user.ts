@@ -32,8 +32,8 @@ export interface User {
     emojis?: string[];
     refreshToken?: string;
     fullname?: string;
-    theme: AppTheme;
-    featureLevel: FeatureLevel;
+    theme?: AppTheme;
+    featureLevel?: FeatureLevel;
 }
 
 export enum Metric {
