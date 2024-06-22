@@ -65,35 +65,34 @@ const SetEditor = (props: SetEditorProps) => {
             {exerciseSet.weight !== undefined && <ToggleParameter<SetType> options={setOptions} value={exerciseSet.type} onChange={(type: number) => setExerciseSet((prevState) => ({ ...prevState, type }))}/>}
             {exerciseSet.reps !== undefined && <ToggleParameter<SetSide> options={sideOptions} value={exerciseSet.side || SetSide.BOTH}
                                                                          onChange={(side: SetSide) => setExerciseSet((prevState) => ({ ...prevState, side }))}/>}
-            <SetParameter name={t("set")} value={setNumber} min={setNumber}
-                          max={setNumber} disabled />
+            <SetParameter size="small" name={t("set")} value={setNumber} totalSets={setNumber} disabled />
 
             <Box sx={{overflow: "auto", flexShrink: 1, marginTop: "8px", marginBottom: "8px"}}>
                 
 
-                <Parameter name={t("weight")} unit={useLbs ? "lbs" : "kg"} value={exerciseSet.weight} min={0}
+                <Parameter size="small" name={t("weight")} unit={useLbs ? "lbs" : "kg"} value={exerciseSet.weight} min={0}
                            increments={[2.5, 1.25, 1, 0.5, 5]}
                                onToggle={(enabled) => setExerciseSet((prevState) => ({...prevState, weight: enabled ? set.weight || 0 : undefined}))}
                                allowDecimals onChange={(weight) => setExerciseSet((prevSet) => ({...prevSet, weight}))}/>
-                <Parameter name={t("reps")} value={exerciseSet.reps} min={1}
+                <Parameter size="small" name={t("reps")} value={exerciseSet.reps} min={1}
                            onToggle={(enabled) => setExerciseSet((prevState) => ({...prevState, reps: enabled ? set.reps || 0 : undefined}))}
                            onChange={(reps) => setExerciseSet((prevSet) => ({...prevSet, reps}))}/>
-                <Parameter name={t("time")} unit="min" value={exerciseSet.time} min={0} increments={[1, 5, 10, 15]} allowDecimals
+                <Parameter size="small" name={t("time")} unit="min" value={exerciseSet.time} min={0} increments={[1, 5, 10, 15]} allowDecimals
                            onToggle={(enabled) => setExerciseSet((prevState) => ({...prevState, time: enabled ? set.time || 0 : undefined}))}
                            onChange={(time) => setExerciseSet((prevSet) => ({...prevSet, time}))}/>
-                <Parameter name={t("distance")} unit="m" value={exerciseSet.distance} min={0} increments={[2.5, 1.25, 1, 0.5, 5]} allowDecimals
+                <Parameter size="small" name={t("distance")} unit="m" value={exerciseSet.distance} min={0} increments={[2.5, 1.25, 1, 0.5, 5]} allowDecimals
                            onToggle={(enabled) => setExerciseSet((prevState) => ({...prevState, distance: enabled ? set.distance || 0 : undefined}))}
                            onChange={(distance) => setExerciseSet((prevSet) => ({...prevSet, distance}))}/>
-                <Parameter name={t("laps")} value={exerciseSet.laps } min={0} allowDecimals
+                <Parameter size="small" name={t("laps")} value={exerciseSet.laps } min={0} allowDecimals
                            onToggle={(enabled) => setExerciseSet((prevState) => ({...prevState, laps: enabled ? set.laps || 0 : undefined}))}
                            onChange={(laps) => setExerciseSet((prevSet) => ({...prevSet, laps}))}/>
-                {featureLevel === "advanced" && <Parameter name={t("rpe")} value={exerciseSet.rpe} min={0} max={10}
+                {featureLevel === "advanced" && <Parameter size="small" name={t("rpe")} value={exerciseSet.rpe} min={0} max={10}
                                        onToggle={(enabled) => setExerciseSet((prevState) => ({...prevState, rpe: enabled ? set.rpe || 0 : undefined}))}
                                        onChange={(rpe) => setExerciseSet((prevSet) => ({...prevSet, rpe}))}/>}
-                {featureLevel === "advanced" && <Parameter name={t("rir")} value={exerciseSet.rir} min={0} max={10}
+                {featureLevel === "advanced" && <Parameter size="small" name={t("rir")} value={exerciseSet.rir} min={0} max={10}
                                        onToggle={(enabled) => setExerciseSet((prevState) => ({...prevState, rir: enabled ? set.rir || 0 : undefined}))}
                                        onChange={(rir) => setExerciseSet((prevSet) => ({...prevSet, rir}))}/>}
-                <Parameter name={t("rest")} unit="s" value={exerciseSet.rest} min={0} increments={[10, 15, 30, 1, 5]}
+                <Parameter size="small" name={t("rest")} unit="s" value={exerciseSet.rest} min={0} increments={[10, 15, 30, 1, 5]}
                            onToggle={(enabled) => setExerciseSet((prevState) => ({...prevState, rest: enabled ? set.rest || 0 : undefined}))}
                            onChange={(rest) => setExerciseSet((prevSet) => ({...prevSet, rest}))} />
                 {isEditingHistoryEntry && <NotesParameter name={"Notes"} value={exerciseSet?.notes} onChange={(notes, emoji) => setExerciseSet((prevState) => ({...prevState, notes, emoji}))} />}

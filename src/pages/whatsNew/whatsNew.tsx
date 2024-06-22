@@ -40,6 +40,15 @@ export const WhatsNew = () => {
                 along with this program.  If not, see <a href="Https://www.gnu.org/licenses" style={{ color: "white" }}>https://www.gnu.org/licenses/</a>.
             </Typography>
             <br/>
+            <Typography variant="h4">WeightLog Version 0.2.1</Typography>
+            <Typography variant="subtitle1">Released on 22/06/2024</Typography>
+            <Typography variant="subtitle2">Copyright Marc Sances 2024. All rights reserved.</Typography>
+            <Typography variant="h5">Features</Typography>
+            <ul>
+                <li>Simple layout now shows only the exercise image by default (user can tap to see the history)</li>
+                <li>Bigger controls in simple layout and using better the screen space.</li>
+                <li>Bigger font size in all layouts for the parameters.</li>
+            </ul>
             <Typography variant="h4">WeightLog Version 0.2.0</Typography>
             <Typography variant="subtitle1">Released on 22/06/2024</Typography>
             <Typography variant="subtitle2">Copyright Marc Sances 2024. All rights reserved.</Typography>

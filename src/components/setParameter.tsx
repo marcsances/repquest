@@ -15,41 +15,29 @@
     along with WeightLog.  If not, see <https://www.gnu.org/licenses/>.
  */
 import Typography from "@mui/material/Typography";
-import {TextField} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import Box from "@mui/material/Box";
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
+import {SettingsContext} from "../context/settingsContext";
 
 export interface SetParameterProps {
     name: string;
     value: number;
     onChange?: (value: number) => void;
-    incrementBy?: number;
-    min?: number;
-    max?: number;
-    allowDecimals?: boolean;
+    totalSets?: number;
     disabled?: boolean;
+    size?: "small" | "standard";
 }
 
 const SetParameter = (props: SetParameterProps) => {
-    const {name, value, onChange, incrementBy, min, max, allowDecimals, disabled} = props;
+    const {name, value, size, onChange, totalSets, disabled} = props;
     const [val, setVal] = useState(value);
-
-    const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const num = parseFloat(e.target.value);
-        if ((min && num < min) || (max && num > max) || !e.target.value) {
-            return;
-        }
-        const newVal = allowDecimals ? num : Math.floor(num);
-        setVal(newVal);
-        if (onChange) onChange(newVal);
-    }
-
+    const {theme: appTheme} = useContext(SettingsContext);
     const onPrev = () => {
-        const newVal = val - (incrementBy || 1);
-        if ((min && newVal < min) || (max && newVal > max)) {
+        const newVal = val - 1;
+        if (newVal < 1) {
             return;
         }
         setVal(newVal);
@@ -57,8 +45,8 @@ const SetParameter = (props: SetParameterProps) => {
     }
 
     const onNext = () => {
-        const newVal = val + (incrementBy || 1);
-        if ((min && newVal < min) || (max && newVal > max)) {
+        const newVal = val + 1;
+        if (totalSets && newVal > totalSets) {
             return;
         }
         setVal(newVal);
@@ -67,23 +55,34 @@ const SetParameter = (props: SetParameterProps) => {
 
     return <Box sx={{display: "flex", flexDirection: "row", margin: "8px"}}>
         <Typography sx={{marginRight: "8px", alignSelf: "center", width: "200px"}}>{name}</Typography>
-        <TextField
-            id="outlined-number"
-            type="number"
-            value={val}
-            variant="standard"
-            sx={{flexGrow: 1}}
-            disabled
-            onChange={onChangeInput}
-            inputProps={{style: {textAlign: "right"}}}
-        />
-        <Box sx={{marginLeft: "8px", alignSelf: "center", width: "48px"}}/>
-        {!disabled && <><IconButton onClick={onPrev} color="primary" size="small" aria-label="add" sx={{marginLeft: "8px"}} disabled={min || disabled ? (min && val <= min) || disabled : false}>
+        <Typography sx={{
+            flexGrow: 1,
+            minWidth: "50px",
+            whiteSpace: "nowrap",
+            display: "inline-block",
+            fontSize: size === "small" ? "16px" : "24px",
+            textAlign: "right",
+            borderBottom: "1px solid " + (appTheme === "light" ? "rgba(0, 0, 0, 0.3)" : "rgba(255, 255, 255, 0.6)")
+        }}>{val}</Typography>
+        <Typography sx={{
+            width: "30px",
+            whiteSpace: "nowrap",
+            display: "inline-block",
+            fontSize: size === "small" ? "16px" : "24px",
+            textAlign: "right",
+            paddingLeft: "12px",
+            color: "grey"
+        }}>/ {totalSets}</Typography>
+        <Box sx={{marginLeft: "8px", alignSelf: "center", width: "24px"}}/>
+        {!disabled && <><IconButton onClick={onPrev} color="primary" size="small" aria-label="add"
+                                    sx={{marginLeft: "8px"}}
+                                    disabled={disabled || val <= 1}>
             <ArrowLeftIcon/>
         </IconButton>
-        <IconButton onClick={onNext} color="primary" size="small" aria-label="add" sx={{marginLeft: "4px"}} disabled={max || disabled ? (max && val >= max) || disabled : false}>
-            <ArrowRightIcon/>
-        </IconButton></>}
+            <IconButton onClick={onNext} color="primary" size="small" aria-label="add" sx={{marginLeft: "4px"}}
+                        disabled={totalSets || disabled ? (totalSets && val >= totalSets) || disabled : false}>
+                <ArrowRightIcon/>
+            </IconButton></>}
     </Box>
 }
 

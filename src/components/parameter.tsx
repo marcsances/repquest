@@ -35,10 +35,11 @@ export interface ParameterProps {
     disabled?: boolean;
     error?: string;
     paramButtons?: ReactElement;
+    size?: "standard" | "small";
 }
 
 const Parameter = (props: ParameterProps) => {
-    const {name, paramButtons, value, unit, error, onChange, onToggle, increments, min, max, allowDecimals, disabled} = props;
+    const {name, size, paramButtons, value, unit, error, onChange, onToggle, increments, min, max, allowDecimals, disabled} = props;
     const [displayVal, setDisplayVal] = useState<string>(value?.toString() || "");
     const [val, setVal] = useState(value);
     const [paramDisabled, setParamDisabled] = useState(value === undefined);
@@ -111,9 +112,9 @@ const Parameter = (props: ParameterProps) => {
             inputProps={{style: {textAlign: "right"}}}
             error={!!error}
             helperText={error}
-            InputProps={{ startAdornment: paramButtons ? <InputAdornment position="start">{paramButtons}</InputAdornment> : undefined}}
+            InputProps={{ style: size === "small" ? {} : {fontSize: "24px"}, startAdornment: paramButtons ? <InputAdornment position="start">{paramButtons}</InputAdornment> : undefined}}
         />
-        <Typography sx={{marginLeft: "8px", alignSelf: "center", width: "48px"}}>{unit}</Typography>
+        <Typography sx={{marginLeft: "8px", alignSelf: "center", width: "48px", fontSize: size === "small" ? "14px" : "18px"}}>{unit}</Typography>
         { !isMini && <IconButton disabled={!increments || isDisabled} onClick={shiftIncrements} color="primary" size="small" sx={{marginLeft: "8px", fontSize: "14px", width: "24px"}}>
             { increments ? incrementBy : "" }
         </IconButton>}

@@ -278,7 +278,7 @@ export const WorkoutPage = () => {
                 </MenuItem>}
         </Menu>
         <Box sx={{height: "calc(100% - 16px)", display: "flex", flexDirection: "column"}}>
-            {!isMini && featureLevel === "easy" && !viewHistory && <CardContent>
+            {!isMini && featureLevel === "easy" && !viewHistory && <CardContent sx={{paddingTop: 0,paddingBottom: 0}}>
                 <CardMedia sx={{height: "30" + (portrait ? "vh" : "vw"), backgroundSize: "contain"}}
                            image={focusedExercise?.picture} title={focusedExercise?.name} onClick={() => navigate("/picture")}
                 />
@@ -348,9 +348,9 @@ export const WorkoutPage = () => {
                     <ToggleParameter<SetType> options={setOptions} value={currentSet.type} onChange={(type: number) => {
                         if (currentSet && setCurrentSet) setCurrentSet({...currentSet, type})
                     }}/>}
-                <SetParameter disabled={!!superset} key={currentSetNumber} name={t("set")} value={currentSetNumber} min={1}
-                              max={currentWorkoutExercise?.setIds.length}
-                          incrementBy={1} onChange={(setNumber) => { if (setCurrentSetNumber) setCurrentSetNumber(setNumber)}}/>
+                <SetParameter disabled={!!superset} key={currentSetNumber} name={t("set")} value={currentSetNumber}
+                              totalSets={currentWorkoutExercise?.setIds.length}
+                          onChange={(setNumber) => { if (setCurrentSetNumber) setCurrentSetNumber(setNumber)}}/>
                 {currentSet?.weight !== undefined &&
                     <Parameter paramButtons={focusedExercise?.tags.includes(ExerciseTag.BODY_WEIGHT) && setCurrentSet && !!lastUserWeight ? <IconButton color="inherit" onClick={() => {
                         setCurrentSet({...currentSet, weight: lastUserWeight});
