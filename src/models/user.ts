@@ -34,6 +34,7 @@ export interface User {
     fullname?: string;
     theme?: AppTheme;
     featureLevel?: FeatureLevel;
+    onboardingCompleted?: boolean;
 }
 
 export enum Metric {

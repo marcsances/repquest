@@ -29,6 +29,7 @@ import {DBContext} from "../../context/dbContext";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import {SettingsContext} from "../../context/settingsContext";
 import {UserContext} from "../../context/userContext";
+import languages from "../../i18n/languages";
 
 declare let window: any;
 export const SettingsPage = () => {
@@ -123,7 +124,7 @@ export const SettingsPage = () => {
                 setOpenLanguage(false);
             }}
             title={t("language")}
-            entries={[{key: "ca", value: "Català"}, {key: "en", value: "English"}, {key: "es", value: "Español"}]}
+            entries={languages}
         />
     </Layout>;
 }

@@ -62,7 +62,8 @@ export async function generateBackup(db: DexieDB, level: string, user: User, set
             sound: settings.sound.toString(),
             emojis: settings.emojis.join(";"),
             featureLevel: settings.featureLevel,
-            theme: settings.theme
+            theme: settings.theme,
+            onboardingCompleted: settings.onboardingCompleted.toString()
         }
     }
     return backupObject;
@@ -195,6 +196,7 @@ export function importFromJSON(db: DexieDB, masterDb: MasterDB, userName: string
                     if (payload.settings.lang) localStorage.setItem("lang", payload.settings.lang)
                     if (payload.settings.theme) localStorage.setItem("theme", payload.settings.theme)
                     if (payload.settings.featureLevel) localStorage.setItem("featureLevel", payload.settings.featureLevel)
+                    if (payload.settings.onboardingCompleted) localStorage.setItem("onboardingCompleted", payload.settings.onboardingCompleted || "true")
                 } else {
                     masterDb?.user.update(userName, {
                         picture: payload.users?.filter((it) => it.name === userName)[0]?.picture,
@@ -206,7 +208,8 @@ export function importFromJSON(db: DexieDB, masterDb: MasterDB, userName: string
                         autostop: payload.settings.autostop === "true",
                         lang: payload.settings.lang,
                         theme: payload.settings.theme,
-                        featureLevel: payload.settings.featureLevel
+                        featureLevel: payload.settings.featureLevel,
+                        onboardingCompleted: payload.settings.onboardingCompleted === "true"
                     })
                 }
 

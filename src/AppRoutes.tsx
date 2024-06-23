@@ -26,10 +26,12 @@ import OneRmCalculator from "./components/onermcalc";
 import {AccountMenu} from "./pages/profile/accountMenu";
 import {LoginPage} from "./pages/weightcloud/login";
 import NotImplemented from "./pages/notImplemented";
+import Onboarding from "./pages/onboarding/onboarding";
 import React from "react";
 
 const AppRoutes = () => {
     return <Routes>
+        <Route path="/onboarding" element={<Onboarding/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route path="/" element={<WorkoutList/>}/>
         <Route path="/apps" element={<AppsMenu/>}/>

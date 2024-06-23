@@ -359,5 +359,53 @@
   "parameter": "Paràmetre",
   "exerciseCompleted": "Exercici completat",
   "warning": "Atenció",
-  "error": "Error"
+  "error": "Error",
+  "back": "Endarrere",
+  "next": "Endavant",
+  "finish": "Acabar",
+  "onboarding": {
+    "title": "Benvinguts a WeightLog",
+    "menu": "Assistent de benvinguda",
+    "menuDescription": "Torneu a configurar WeightLog amb l'assistent de benvinguda",
+    "language": {
+      "title": "Idioma"
+    },
+    "welcome": {
+      "title": "Benvinguda",
+      "subtitle": "Us donem la benvinguda a WeightLog!",
+      "message": "Aquesta aplicació pretèn ser el vostre company d'entrenament, amb el qual podeu registrar les vostres rutines, fer un seguiment del vostre progrés i molt més!",
+      "disclaimer1": "Aquesta aplicació, a diferència d'altres del mercat, no té cap mena de contingut propi. Això significa que haureu d'introduïr els exercicis i rutines a mà.",
+      "disclaimer2": "WeightLog no dona consells de fitness. Si necessiteu assessorament utilitzant aquesta aplicació, acudiu a un professional qualificat. Les activitats físiques que realitzeu amb l'ajuda d'aquesta aplicació corren sota el vostre risc i responsabilitat.",
+      "disclaimer3": "Aquesta aplicació no compta amb cap mena de garantia. Recordeu que WeightLog encara està en desenvolupament i pot presentar errors, si us plau informeu-nos en cas de què identifiqueu algun problema utilitzant l'aplicació."
+    },
+    "license": {
+      "title": "Llicència",
+      "pleaseRead": "Si us plau llegiu els termes d'aquesta llicència abans de continuar.",
+      "accept": "He llegit i accepto els termes de la llicència",
+      "readOnline": "Llegir en línia"
+    },
+    "preferences": {
+      "title": "Preferències",
+      "mode": "Mode d'ús",
+      "simpleMode": "Simple",
+      "advancedMode": "Avançat",
+      "units": "Unitats"
+    },
+    "metrics": {
+      "title": "Antropomètrics"
+    },
+    "workout": {
+      "title": "Rutina"
+    },
+    "backups": {
+      "title": "Còpies de seguretat",
+      "message1": "WeightLog desa les dades al vostre navegador. Això significa que podeu perdre tota la vostra informació si netegeu les galetes del navegador.",
+      "message2": "És important que feu còpies de seguretat. En acabar l'entrenament, WeightLog us dona una opció de desar una còpia de seguretat, que es descarrega en un fitxer al vostre dispositiu i que podeu restaurar més endavant des del menú de configuració.",
+      "message3": "Us recomanem que feu còpies de seguretat de forma periódica. En un futur habilitarem còpia de seguretat al núvol amb Google Drive i el nostre servei WeightCloud."
+    },
+    "completed": {
+      "title": "Completat",
+      "message": "Ja hem acabat de configurar tot. Premeu Acabar per a començar a fer servir WeightLog!"
+    }
+  }
 }

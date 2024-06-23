@@ -19,7 +19,7 @@ import Layout from "../../components/layout";
 import {useTranslation} from "react-i18next";
 import {Avatar, List, ListItemAvatar, ListItemButton, ListItemText} from "@mui/material";
 import InstallMobileIcon from '@mui/icons-material/InstallMobile';
-import {Mail, MonitorHeart, PhonelinkErase, Policy} from "@mui/icons-material";
+import {AutoFixHigh, Mail, MonitorHeart, PhonelinkErase, Policy} from "@mui/icons-material";
 import {useNavigate} from "react-router-dom";
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import {DBContext} from "../../context/dbContext";
@@ -53,6 +53,14 @@ export const SystemSettingsPage = () => {
                 </ListItemAvatar>
                 <ListItemText primary={t("install")} secondary={t("installDescription")}/>
             </ListItemButton>}
+            <ListItemButton component="a" onClick={() => navigate("/onboarding")}>
+                <ListItemAvatar>
+                    <Avatar sx={{bgcolor: (theme) => theme.palette.primary.main}}>
+                        <AutoFixHigh/>
+                    </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary={t("onboarding.menu")} secondary={t("onboarding.menuDescription")} />
+            </ListItemButton>
             <ListItemButton component="a" onClick={() => navigate("/settings/telemetry")}>
                 <ListItemAvatar>
                     <Avatar>
