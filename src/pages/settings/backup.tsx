@@ -22,7 +22,7 @@ import {Avatar, Box, ListItemAvatar, ListItemButton, ListItemText, ListSubheader
 import BackupIcon from '@mui/icons-material/Backup';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
-import {CloudUpload} from "@mui/icons-material";
+import {CloudUpload, DoNotDisturb} from "@mui/icons-material";
 import Selector from "../../components/selector";
 import {DBContext} from "../../context/dbContext";
 import {BackupObject, backupToJSON, generateBackup, importFromJSON} from "../../db/backup";
@@ -35,8 +35,9 @@ import getId from "../../utils/id";
 import {ExerciseSet, Plan, Workout, WorkoutExercise} from "../../models/workout";
 import {ApiContext} from "../../context/apiContext";
 import {DialogContext} from "../../context/dialogContext";
+import {useNavigate} from "react-router-dom";
 
-export const Backup = () => {
+export const Backup = ({onboarding}: {onboarding?: boolean}) => {
     const {db, masterDb} = useContext(DBContext);
     const {focusedExercise} = useContext(WorkoutContext);
     const {apiFetch, logged_in} = useContext(ApiContext);
@@ -46,6 +47,7 @@ export const Backup = () => {
     const [isWorking, setIsWorking] = useState(false);
     const [payload, setPayload] = useState<BackupObject | undefined>();
     const {showAlert} = useContext(DialogContext);
+    const navigate = useNavigate();
 
     const {user, userName} = useContext(UserContext);
     const settings = useContext(SettingsContext);
@@ -258,14 +260,14 @@ export const Backup = () => {
         input.click();
     }
 
-    return <Layout title={t("backup.title")} hideNav hideBack={isWorking}>
-        <ListSubheader>{t("backup.doBackup")}</ListSubheader>
+    return <Layout title={t("backup.title")} hideNav hideBack={isWorking || onboarding}>
+        {!onboarding && <><ListSubheader>{t("backup.doBackup")}</ListSubheader>
         <ListItemButton component="a" onClick={() => {
             setMode("backup");
             setTarget("json");
         }} disabled={isWorking}>
             <ListItemAvatar>
-                <Avatar>
+                <Avatar sx={{bgcolor: (theme) => theme.palette.primary.main}}>
                     <Box position="relative" display="inline-flex">
                         {isWorking && mode === "backup" && target === "json" && <Loader/>}
                         <Box
@@ -306,12 +308,12 @@ export const Backup = () => {
                 </Avatar>
             </ListItemAvatar>
             <ListItemText primary={t("backup.toWeightCloud")}/>
-        </ListItemButton>}
+        </ListItemButton>}</>}
         <ListSubheader>{t("backup.importData")}</ListSubheader>
         <ListItemButton component="a" onClick={() => {
             readPayload();
         }} disabled={isWorking}>
-            <ListItemAvatar><Avatar>
+            <ListItemAvatar><Avatar sx={{bgcolor: (theme) => theme.palette.primary.main}}>
                 <Box position="relative" display="inline-flex">
                     {isWorking && mode === "restore" && <Loader/>}
                     <Box
@@ -351,6 +353,14 @@ export const Backup = () => {
                 </Avatar>
             </ListItemAvatar>
             <ListItemText primary={t("backup.fromWeightCloud")} />
+        </ListItemButton>}
+        {onboarding && <ListItemButton component="a" onClick={() => navigate("/")}>
+            <ListItemAvatar>
+                <Avatar sx={{bgcolor: (theme) => theme.palette.error.main}}>
+                    <DoNotDisturb/>
+                </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary={t("backup.nothing")} secondary={t("backup.startWeightlog")}/>
         </ListItemButton>}
         <Selector
             defaultValue="cancel"

@@ -43,6 +43,8 @@ const AppRoutes = () => {
         <Route path="/settings/appearance" element={<AppearanceSettingsPage />} />
         <Route path="/settings/backup"
                element={<Backup/>}/>
+        <Route path="/onboarding/backup"
+               element={<Backup onboarding/>}/>
         <Route path="/settings" element={<SettingsPage/>}/>
         <Route path="/settings/telemetry"
                element={<Telemetry/>}/>

@@ -161,7 +161,9 @@
     },
     "backingUp": "Còpia en curs...",
     "importing": "S'està important, si us plau no marxeu...",
-    "importSuccess": "S'ha completat la importació. WeightLog es reiniciarà."
+    "importSuccess": "S'ha completat la importació. WeightLog es reiniciarà.",
+    "nothing": "No vull importar res",
+    "startWeightlog": "Continuar amb l'inici de WeightLog"
   },
   "workoutEditor": {
     "title": "Editor de rutines",
@@ -391,21 +393,22 @@
       "advancedMode": "Avançat",
       "units": "Unitats"
     },
-    "metrics": {
-      "title": "Antropomètrics"
-    },
-    "workout": {
-      "title": "Rutina"
+    "importData": {
+      "title": "Importació de dades",
+      "message": "WeightLog no proporciona cap rutina de fàbrica. Teniu algun fitxer de dades amb rutines o una còpia de seguretat que volgueu importar, o heu de començar de zero?",
+      "importFile": "Vull importar un fitxer de dades",
+      "willRedirect": "Se us redigirà a la pàgina de Còpia de seguretat i restauració en acabar aquest assistent.",
+      "noThanks": "No, crearé la rutina manualment"
     },
     "backups": {
       "title": "Còpies de seguretat",
       "message1": "WeightLog desa les dades al vostre navegador. Això significa que podeu perdre tota la vostra informació si netegeu les galetes del navegador.",
-      "message2": "És important que feu còpies de seguretat. En acabar l'entrenament, WeightLog us dona una opció de desar una còpia de seguretat, que es descarrega en un fitxer al vostre dispositiu i que podeu restaurar més endavant des del menú de configuració.",
+      "message2": "En acabar l'entrenament, WeightLog us dona una opció de desar una còpia de seguretat, que es descarrega en un fitxer al vostre dispositiu, i que podeu restaurar més endavant des del menú de configuració.",
       "message3": "Us recomanem que feu còpies de seguretat de forma periódica. En un futur habilitarem còpia de seguretat al núvol amb Google Drive i el nostre servei WeightCloud."
     },
     "completed": {
       "title": "Completat",
-      "message": "Ja hem acabat de configurar tot. Premeu Acabar per a començar a fer servir WeightLog!"
+      "message": "És tot per ara. Premeu Acabar per a començar a fer servir WeightLog."
     }
   }
 }

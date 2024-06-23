@@ -5,28 +5,28 @@ import React, {ReactElement, useContext, useState} from "react";
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import WelcomeStep from "./steps/welcome";
-import MetricsStep from "./steps/metrics";
 import LicenseStep from "./steps/license";
 import PreferencesStep from "./steps/preferences";
-import WorkoutStep from "./steps/workout";
 import CompletedStep from "./steps/completed";
 import LanguageStep from "./steps/language";
 import BackupsStep from "./steps/backups";
 import defer from "../../utils/defer";
 import {SettingsContext} from "../../context/settingsContext";
 import {useNavigate} from "react-router-dom";
+import ImportStep from "./steps/import";
 
 const Onboarding = () => {
     const {t} = useTranslation();
     const steps = [t("onboarding.language.title"), t("onboarding.welcome.title"), t("onboarding.license.title"),
-        t("onboarding.preferences.title"), t("onboarding.metrics.title"), t("onboarding.workout.title"),
+        t("onboarding.preferences.title"), t("onboarding.importData.title"),
         t("onboarding.backups.title"), t("onboarding.completed.title")];
     const [activeStep, setActiveStep] = useState(0);
     const [completable, setCompletable] = useState(false);
+    const [importData, setImportData ] = useState(false);
     const stepContent: ReactElement[] = [<LanguageStep setCompletable={setCompletable} />, <WelcomeStep setCompletable={setCompletable}/>,
         <LicenseStep setCompletable={setCompletable}/>,
-        <PreferencesStep setCompletable={setCompletable}/>, <MetricsStep setCompletable={setCompletable}/>,
-        <WorkoutStep setCompletable={setCompletable}/>, <BackupsStep setCompletable={setCompletable}/>, <CompletedStep setCompletable={setCompletable}/>];
+        <PreferencesStep setCompletable={setCompletable}/>,
+        <ImportStep importData={importData} setImportData={setImportData} setCompletable={setCompletable}/>, <BackupsStep setCompletable={setCompletable}/>, <CompletedStep setCompletable={setCompletable}/>];
     const { saveOnboardingCompleted } = useContext(SettingsContext);
     const navigate = useNavigate();
 
@@ -41,7 +41,7 @@ const Onboarding = () => {
             const nextStep = activeStep + 1;
             if (nextStep === steps.length) {
                 if (saveOnboardingCompleted) saveOnboardingCompleted(true);
-                navigate("/");
+                navigate(importData ? "/onboarding/backup" : "/");
                 return;
             }
             setActiveStep(nextStep);
