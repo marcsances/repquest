@@ -38,7 +38,15 @@ import {SettingsContext} from "../../context/settingsContext";
 import {getLabelForSet} from "../../utils/setUtils";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
-import {CheckBox, CheckBoxOutlineBlank, Edit, KeyboardArrowDown, KeyboardArrowUp, Share} from "@mui/icons-material";
+import {
+    CheckBox,
+    CheckBoxOutlineBlank,
+    Edit,
+    KeyboardArrowDown,
+    KeyboardArrowUp,
+    PlaylistAdd,
+    Share
+} from "@mui/icons-material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ExercisePicker from "./exercise_picker";
 import ConfirmDialog from "../../components/confirmDialog";
@@ -46,6 +54,7 @@ import WorkoutDetailsEditor from "./workoutDetails_editor";
 import Loader from "../../components/Loader";
 import getId from "../../utils/id";
 import {backupWorkout, entityToJson, shareBlob} from "../../db/backup";
+import TutorialAlert from "../../components/tutorialAlert";
 
 interface Entry {
     workoutExercise: WorkoutExercise;
@@ -148,8 +157,17 @@ export const WorkoutEditor = () => {
                 </ListItemAvatar>
                 <ListItemText primary={t("addExercise")} />
             </ListItemButton>
+            <ListItemButton component="a" onClick={() => navigate("/bulkEditor/" + workoutId!.toString())}>
+                <ListItemAvatar>
+                    <Avatar sx={{bgcolor: (theme) => theme.palette.primary.main}}>
+                        <PlaylistAdd sx={{color: (theme) => theme.palette.primary.contrastText}}/>
+                    </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary={t("bulkAddExercise")} />
+            </ListItemButton>
         </List>}
         {entries === undefined && <Loader/>}
+        {entries && entries.length === 0 && <TutorialAlert title={t("welcomeToWorkoutEditor")} message={t("thisIsTheWorkoutEditor")} action={t("addExercise")} onAction={() => setPickerOpen(true)} sx={{left: 0, position: "fixed", bottom: "8px"}} />}
         <Snackbar
             open={snackbar !== ""}
             autoHideDuration={2000}

@@ -20,7 +20,7 @@ import {useTranslation} from "react-i18next";
 import Typography from "@mui/material/Typography";
 import {Box} from "@mui/material";
 
-const gpl = `
+export const gpl = `
                     GNU GENERAL PUBLIC LICENSE
                        Version 3, 29 June 2007
 

@@ -40,6 +40,21 @@ export const WhatsNew = () => {
                 along with this program.  If not, see <a href="Https://www.gnu.org/licenses" style={{ color: "white" }}>https://www.gnu.org/licenses/</a>.
             </Typography>
             <br/>
+            <Typography variant="h4">WeightLog Version 0.2.2</Typography>
+            <Typography variant="subtitle1">Released on 23/06/2024</Typography>
+            <Typography variant="subtitle2">Copyright Marc Sances 2024. All rights reserved.</Typography>
+            <Typography variant="h5">Features</Typography>
+            <ul>
+                <li>New onboarding wizard will show for new users.</li>
+                <li>Added new help screens to guide the user through the app.</li>
+                <li>Added bulk editor for workouts.</li>
+            </ul>
+            <Typography variant="h5">Improvements</Typography>
+            <ul>
+                <li>The next set will be focused when changing exercises instead of the first set.</li>
+                <li>Removed the arrow buttons to change sets to improve the functionality of the app. You can edit the sets in the history.</li>
+                <li>Making history page visible by default in simple mode.</li>
+            </ul>
             <Typography variant="h4">WeightLog Version 0.2.1</Typography>
             <Typography variant="subtitle1">Released on 22/06/2024</Typography>
             <Typography variant="subtitle2">Copyright Marc Sances 2024. All rights reserved.</Typography>

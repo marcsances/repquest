@@ -161,7 +161,9 @@
     },
     "backingUp": "Realizando copia...",
     "importing": "Importación en curso, por favor no salga de la página",
-    "importSuccess": "Se ha completado la importación. WeightLog se va a reiniciar."
+    "importSuccess": "Se ha completado la importación. WeightLog se va a reiniciar.",
+    "nothing": "No quiero importar nada",
+    "startWeightlog": "Continuar con el inicio de WeightLog"
   },
   "workoutEditor": {
     "title": "Editor de rutinas",
@@ -181,6 +183,7 @@
   },
   "exercises": "Ejercicios",
   "addExercise": "Añadir ejercicio",
+  "bulkAddExercise": "Añadir ejercicios masivamente (solo series lineales)",
   "filter": "Filtrar",
   "saved": "Guardado",
   "somethingWentWrong": "Algo falló...",
@@ -223,7 +226,14 @@
   "workoutPlan": "Plan de entrenamiento",
   "newExercise": "Nuevo ejercicio",
   "welcomeToWeightLog": "Bienvenido a WeightLog! Ten en cuenta que esta app está en fase de pruebas y puede presentar errores. Esperamos tus comentarios!",
-  "startAddingAWorkout": "Crea una rutina para empezar.",
+  "startAddingAWorkout": "Cree una rutina para empezar.",
+  "thisIsTheWorkoutList": "Esto es la lista de rutinas. Desde aquí puede ver las rutinas que ha creado, iniciar un entrenamiento y crear nuevas rutinas y planes de entrenamiento.",
+  "startAddingAnExercise": "Cree un ejercicio para empezar.",
+  "thisIsTheExerciseList": "Esto es la lista de ejercicios. Aquí puede buscar los distintos ejercicios que haya creado. Debe crear un ejercicio para poderlo añadir a la rutina.",
+  "welcomeToWorkoutEditor": "Esto es el editor de rutinas",
+  "thisIsTheWorkoutEditor": "Aquí verá los ejercicios que haya añadido a la rutina actual. Empiece añadiendo un ejercicio a esta rutina.",
+  "setList": "Añada una serie al ejercicio",
+  "thisIsTheSetList": "Esto es la lista de series. Contiene el total de series para el ejercicio que está editando. Debe añadir una serie para continuar.",
   "importWillReplaceEverything": "TODOS los datos de la aplicación serán ELIMINADOS y luego se importará la copia de seguridad reemplazando TODO. Esta operación no se puede revertir. ¿Desea continuar?",
   "resetAll": "Reinicio de fábrica",
   "resetAllTip": "Borrar todos los datos de WeightLog",
@@ -359,5 +369,67 @@
   "parameter": "Parámetro",
   "exerciseCompleted": "Ejercicio completado",
   "warning": "Atención",
-  "error": "Error"
+  "error": "Error",
+  "back": "Atrás",
+  "next": "Siguiente",
+  "finish": "Finalizar",
+  "onboarding": {
+    "title": "Bienvenido a WeightLog",
+    "menu": "Asistente de bienvenida",
+    "menuDescription": "Volver a configurar WeightLog con el asistente de bienvenida",
+    "language": {
+      "title": "Idioma"
+    },
+    "welcome": {
+      "title": "Bienvenido",
+      "subtitle": "¡Bienvenido a WeightLog!",
+      "message": "Esta aplicación pretende ser su compañero de entrenamiento, con el cual podrá registrar sus rutinas, hacer seguimiento de su progreso, ¡y mucho más!",
+      "disclaimer1": "Esta aplicación, a diferencia de otras del mercado, no tiene ningún tipo de contenido propio. Esto significa que deberá introducir los ejercicios y rutinas a mano.",
+      "disclaimer2": "WeightLog no da consejos de fitness. Si necesita asesoramiento utilizando esta aplicación, acuda a un profesional cualificado. Las actividades físicas que realiza con la ayuda de esta aplicación corren bajo su riesgo y responsabilidad.",
+      "disclaimer3": "Esta aplicación no cuenta con ningún tipo de garantía. Recuerde que WeightLog todavía está en desarrollo y puede presentar errores. Por favor infórmenos en caso de que encuentre algún problema utilizando la aplicación."
+    },
+    "license": {
+      "title": "Licencia",
+      "pleaseRead": "Por favor, lea los términos de la siguiente licencia antes de continuar.",
+      "accept": "He leído y acepto los términos de la licencia",
+      "readOnline": "Leer en línea"
+    },
+    "preferences": {
+      "title": "Preferencias",
+      "mode": "Modo de uso",
+      "simpleMode": "Simple",
+      "advancedMode": "Avanzado",
+      "units": "Unidades",
+      "yourName": "Su nombre"
+    },
+    "importData": {
+      "title": "Importación de datos",
+      "message": "WeightLog no proporciona ninguna rutina de fábrica. ¿Tiene algún fichero de datos con rutinas o una copia de seguridad que importar, o empezará de cero?",
+      "importFile": "Quiero importar un fichero de datos",
+      "willRedirect": "Se le redirigirá a la página de Copia de seguridad y restauración al terminar este asistente.",
+      "noThanks": "No, crearé la rutina manualmente"
+    },
+    "backups": {
+      "title": "Copias de seguridad",
+      "message1": "WeightLog guarda los datos en su navegador. Esto significa que puede perder toda su información si borra las cookies del navegador.",
+      "message2": "Al terminar el entrenamiento, WeightLog le dara una opción de guardar una copia de seguridad, que se descarga en un archivo en su dispositivo y que puede restaurar más adelante desde el menú de configuración.",
+      "message3": "Le recomendamos hacer copias de seguridad de forma periódica. En un futuro habilitaremos copia de seguridad en la nube con Google Drive y nuestro servicio WeightCloud."
+    },
+    "completed": {
+      "title": "Terminado",
+      "message": "Es todo por ahora. Pulse Finalizar para empezar a usar WeightLog."
+    }
+  },
+  "bulkEditor": {
+    "title": "Editor masivo",
+    "exercise": "Ejercicio",
+    "sets": "Series",
+    "weight": "Peso",
+    "reps": "Reps",
+    "rest": "Descanso",
+    "cues": "Indicaciones",
+    "saveAll": "Guardar todo",
+    "checkErrors": "Faltan algunos datos obligatorios"
+  },
+  "saving": "Guardando..."
 }

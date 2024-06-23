@@ -161,10 +161,13 @@
     },
     "backingUp": "Backing up...",
     "importing": "Importing. Please do not leave the page",
-    "importSuccess": "Import has been completed. WeightLog will restart now."
+    "importSuccess": "Import has been completed. WeightLog will restart now.",
+    "nothing": "Don't import anything",
+    "startWeightlog": "Continue starting WeightLog"
   },
   "exercises": "Exercises",
   "addExercise": "Add exercise",
+  "bulkAddExercise": "Add exercises in bulk (only linear sets)",
   "newExercise": "New exercise",
   "filter": "Filter",
   "workoutEditor": {
@@ -224,6 +227,13 @@
   "workoutPlan": "Workout plan",
   "welcomeToWeightLog": "Welcome to WeightLog! Be aware this app is in testing and may present errors. We await your feedback!",
   "startAddingAWorkout": "Create a workout to begin.",
+  "thisIsTheWorkoutList": "This is the workout list. It contains all the workouts you have created for this workout plan. From here you can also start a workout and manage your training plans.",
+  "startAddingAnExercise": "Create an exercise to begin.",
+  "thisIsTheExerciseList": "This is the exercise list. From here you can look for exercises to add to your workouts. You have to create an exercise to add it to the workout.",
+  "welcomeToWorkoutEditor": "This is the workout editor",
+  "thisIsTheWorkoutEditor": "Here you will see the exercises you have added to the current workout. Start by adding an exercise to the workout.",
+  "setList": "Add a set for this exercise",
+  "thisIsTheSetList": "This is the list of sets. It contains the total of sets for the exercise you are editing currently. You must add a set to continue.",
   "importWillReplaceEverything": "ALL the application data will be DELETED and then the backup will be imported replacing EVERYTHING. This operation cannot be rolled back. Continue?",
   "resetAll": "Factory reset",
   "resetAllTip": "Delete all application data",
@@ -359,5 +369,67 @@
   "parameter": "Parameter",
   "exerciseCompleted": "Exercise completed",
   "warning": "Warning",
-  "error": "Error"
+  "error": "Error",
+  "back": "Back",
+  "next": "Next",
+  "finish": "Finish",
+  "onboarding": {
+    "title": "Welcome to WeightLog",
+    "menu": "Welcome Asistant",
+    "menuDescription": "Configure WeightLog again with the Welcome Assistant",
+    "language": {
+      "title": "Language"
+    },
+    "welcome": {
+      "title": "Welcome",
+      "subtitle": "Welcome to WeightLog!",
+      "message": "This app will be your training companion, with which you will be able to log your workouts, track your progress and much more!",
+      "disclaimer1": "Unlike other similar apps in the market, this app does not provide any own content. This means that you will have to provide your own workouts.",
+      "disclaimer2": "WeightLog does not provide fitness advice. If you need advice using this app, refer to a qualified professional. The physical activities that your perform with this app are under your own risk and responsiblity.",
+      "disclaimer3": "This app does not have any kind of warranty. Remember that WeightLog is still under active development and may present errors. Please report to us if you identify any problem using this app."
+    },
+    "license": {
+      "title": "License",
+      "pleaseRead": "Please, read the terms and conditions of the following license before proceeding.",
+      "accept": "I have read and accept the terms of the license",
+      "readOnline": "Read online"
+    },
+    "preferences": {
+      "title": "Preferences",
+      "mode": "Feature level",
+      "simpleMode": "Simple",
+      "advancedMode": "Advanced",
+      "units": "Units",
+      "yourName": "Su nombre"
+    },
+    "importData": {
+      "title": "Import data",
+      "message": "WeightLog does not provide any workouts by default. Do you have any data file or backup that you want to restore, or are you starting from scratch?",
+      "importFile": "I want to import a data file",
+      "willRedirect": "You will be redirected to the Backups & Import page when finishing this assistant.",
+      "noThanks": "No, I will create a workout from scratch"
+    },
+    "backups": {
+      "title": "Backups",
+      "message1": "WeightLog saves the workout logs in your browser. This means you may lose all your data if you clear your browser cookies.",
+      "message2": "When you finish your workout, WeightLog will provide you with an option to save a backup file, that will be downloaded as a file to your device, and that you can restore later from the settings menu.",
+      "message3": "We recommend that you perform backups periodically. In a future we will offer automatic cloud backups with Google Drive and our WeightCloud service."
+    },
+    "completed": {
+      "title": "All ready!",
+      "message": "That's it for now. Click on Finish to start using WeightLog."
+    }
+  },
+  "bulkEditor": {
+    "title": "Bulk editor",
+    "exercise": "Exercise",
+    "sets": "Sets",
+    "weight": "Weight",
+    "reps": "Reps",
+    "rest": "Rest",
+    "cues": "Cues",
+    "saveAll": "Save all",
+    "checkErrors": "Some required data is missing"
+  },
+  "saving": "Saving..."
 }

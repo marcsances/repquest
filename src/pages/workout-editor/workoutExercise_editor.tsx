@@ -31,6 +31,8 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import BackIcon from "@mui/icons-material/ArrowBack";
 import {Check, Edit} from "@mui/icons-material";
+import TutorialAlert from "../../components/tutorialAlert";
+import defer from "../../utils/defer";
 
 interface WorkoutExerciseEditorProps {
     workoutExerciseId?: number;
@@ -83,6 +85,34 @@ export const WorkoutExerciseEditor = (props: WorkoutExerciseEditorProps) => {
 
     useEffect(() => { setSets(undefined); fetch().then() }, [ workoutExerciseId, override, fetch ]);
 
+    const newSet = () => {
+        if (!db || !exercise || !workoutExercise || !sets) return;
+        const firstSet = sets.length === 0;
+        const set: ExerciseSet = !firstSet ? {
+            ...sets[sets.length - 1],
+            id: Math.floor(new Date().getTime() * 100 + (Math.random() % 100)),
+        } : {
+            id: Math.floor(new Date().getTime() * 100 + (Math.random() % 100)),
+            exerciseId: exercise.id,
+            type: 0,
+            initial: true,
+            setNumber: 0,
+            weight: 10,
+            reps: 12,
+            rest: 90
+        };
+        db.exerciseSet.put(set).then(() => {
+            const newWorkoutExercise = {...workoutExercise, setIds: workoutExercise.setIds.concat([set.id])};
+            db.workoutExercise.put(newWorkoutExercise).then(() => {
+                setRefetch(new Date());
+                if (firstSet) defer(() => {
+                    setEditingSet(set);
+                    setSetNumber(1);
+                });
+            });
+        })
+    };
+
     const deleteSet = (set: ExerciseSet) => {
         if (!workoutExercise || !db) return;
         const newWorkoutExercise = {...workoutExercise, setIds: workoutExercise.setIds.filter((it) => it !== set.id)};
@@ -95,9 +125,10 @@ export const WorkoutExerciseEditor = (props: WorkoutExerciseEditorProps) => {
         <IconButton sx={{mr: 2}} size="large" edge="start" color="inherit"
                     onClick={onBack}><BackIcon/></IconButton> : <></>} hideBack={!!onBack}
                    toolItems={onDismiss ?
-                       <IconButton size="large" edge="start" color="inherit"
-                                   onClick={() => { if (onDismiss) onDismiss(workoutExercise!) }}><Check/></IconButton> : <IconButton sx={{mr: 2}} size="large" edge="start" color="inherit"
-                                                                                                                                      onClick={() => navigate("/exercises/" + exercise?.id.toString())}><Edit/></IconButton>}
+                       <IconButton color="inherit"
+                                   onClick={() => { if (onDismiss) onDismiss(workoutExercise!) }}><Check/></IconButton> : <><IconButton color="inherit"
+                                                                                                                                      onClick={() => navigate("/exercises/" + exercise?.id.toString())}><Edit/></IconButton><IconButton color="inherit"
+                                                                                                                                                                                                                                        onClick={() => { navigate(-1) }}><Check/></IconButton></>}
                    hideNav>
         {sets !== undefined && <List sx={{width: '100%', height: 'calc(100% - 78px)', overflow: "auto"}}>
             {sets.map((set, idx) =>  <ListItemButton key={idx + set.id.toString()} component="a" onClick={() => {
@@ -116,26 +147,7 @@ export const WorkoutExerciseEditor = (props: WorkoutExerciseEditorProps) => {
                    deleteSet(set);
                 }}><DeleteIcon /></IconButton>
             </ListItemButton>)}
-            <ListItemButton component="a" onClick={() => {
-                if (!db || !exercise || !workoutExercise) return;
-                const set: ExerciseSet = sets.length > 0 ? {
-                    ...sets[sets.length - 1],
-                    id: Math.floor(new Date().getTime() * 100 + (Math.random() % 100)),
-                } : {
-                    id: Math.floor(new Date().getTime() * 100 + (Math.random() % 100)),
-                    exerciseId: exercise.id,
-                    type: 0,
-                    initial: true,
-                    setNumber: 0,
-                    weight: 10,
-                    reps: 12,
-                    rest: 90
-                };
-                db.exerciseSet.put(set).then(() => {
-                    const newWorkoutExercise = {...workoutExercise, setIds: workoutExercise.setIds.concat([set.id])};
-                    db.workoutExercise.put(newWorkoutExercise).then(() => setRefetch(new Date()));
-                })
-            }}>
+            <ListItemButton component="a" onClick={newSet}>
                 <ListItemAvatar>
                     <Avatar sx={{bgcolor: (theme) => theme.palette.primary.main}}>
                         <AddIcon sx={{color: (theme) => theme.palette.primary.contrastText}}/>
@@ -144,6 +156,7 @@ export const WorkoutExerciseEditor = (props: WorkoutExerciseEditorProps) => {
                 <ListItemText primary={t("actions.addSet")} />
             </ListItemButton>
         </List>}
+        {sets && sets.length === 0 && <TutorialAlert title={t("setList")} message={t("thisIsTheSetList")} action={t("actions.addSet")} onAction={newSet} sx={{left: 0, position: "fixed", bottom: "8px"}} />}
         <Snackbar
             open={snackbar !== ""}
             autoHideDuration={2000}

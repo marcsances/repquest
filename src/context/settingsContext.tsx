@@ -34,9 +34,11 @@ export interface ISettingsContext {
     emojis: string[];
     refreshToken: string;
     fullname: string;
+    onboardingCompleted: boolean;
     saveLbs?: (value: boolean) => void;
     saveSound?: (value: boolean) => void;
     saveAutostop?: (value: boolean) => void;
+    saveOnboardingCompleted?: (value: boolean) => void;
     saveOneRm?: (value: OneRm) => void;
     saveTheme?: (value: AppTheme) => void;
     saveFeatureLevel?: (level: FeatureLevel) => void;
@@ -68,6 +70,7 @@ export const DEFAULT_EMOJIS = ["1f44d", "1f44e", "1f4aa", "1f615", "1f915", "1f4
 export const SettingsContextProvider = (props: { children: ReactElement, theme: AppTheme, setTheme: (theme: AppTheme) => void }) => {
     const {children, theme, setTheme} = props;
     const [lbs, setLbs] = useState(localStorage.getItem("useLbs") === "true");
+    const [onboardingCompleted, setOnboardingCompleted] = useState(localStorage.getItem("onboardingCompleted") === "true");
     const [sound, setSound] = useState(localStorage.getItem("sound") === "true");
     const [autostop, setAutostop] = useState(localStorage.getItem("autostopDisabled") !== "true");
     const [wakeLock, setWakeLock] = useState(localStorage.getItem("wakeLock") === "true");
@@ -108,6 +111,7 @@ export const SettingsContextProvider = (props: { children: ReactElement, theme: 
         if (user?.featureLevel !== undefined) setFeatureLevel(user.featureLevel)
         else if (!!(user?.showRpe)) setFeatureLevel("advanced");
         if (user?.theme !== undefined) setTheme(user.theme);
+        if (user?.onboardingCompleted !== undefined) setOnboardingCompleted(user.onboardingCompleted);
     }, [user]);
 
     const requestWakeLock = useCallback(async () => {
@@ -181,6 +185,11 @@ export const SettingsContextProvider = (props: { children: ReactElement, theme: 
         else masterDb?.user.update(userName, {theme: value});
         setTheme(value);
     }, [])
+    const saveOnboardingCompleted = useCallback((value: boolean) => {
+        if (userName === "Default User") localStorage.setItem("onboardingCompleted", value ? "true" : "false");
+        else masterDb?.user.update(userName, {onboardingCompleted: value});
+        setOnboardingCompleted(value);
+    }, []);
     const settings = {
         useLbs: lbs,
         oneRm: oneRm,
@@ -191,6 +200,7 @@ export const SettingsContextProvider = (props: { children: ReactElement, theme: 
         fullname,
         theme,
         featureLevel,
+        onboardingCompleted,
         saveLbs,
         saveOneRm,
         saveLang,
@@ -203,7 +213,7 @@ export const SettingsContextProvider = (props: { children: ReactElement, theme: 
         saveFullname,
         saveFeatureLevel,
         saveTheme,
-        sound, saveSound
+        sound, saveSound, saveOnboardingCompleted
     };
     return <SettingsContext.Provider value={settings}>
         {children}

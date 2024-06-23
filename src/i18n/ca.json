@@ -161,7 +161,9 @@
     },
     "backingUp": "Còpia en curs...",
     "importing": "S'està important, si us plau no marxeu...",
-    "importSuccess": "S'ha completat la importació. WeightLog es reiniciarà."
+    "importSuccess": "S'ha completat la importació. WeightLog es reiniciarà.",
+    "nothing": "No vull importar res",
+    "startWeightlog": "Continuar amb l'inici de WeightLog"
   },
   "workoutEditor": {
     "title": "Editor de rutines",
@@ -181,6 +183,7 @@
   },
   "exercises": "Exercicis",
   "addExercise": "Afegir exercici",
+  "bulkAddExercise": "Afegir exercicis massivament (només sèries lineals)",
   "filter": "Filtrar",
   "saved": "S'ha desat",
   "somethingWentWrong": "Quelcom no ha funcionat...",
@@ -224,6 +227,13 @@
   "newExercise": "Nou exercici",
   "welcomeToWeightLog": "Benvinguts a WeightLog! Teniu en compte que aquesta aplicació està en fase de proves i pot presentar errades. Esperem el vostre feedback!",
   "startAddingAWorkout": "Creeu una rutina per a començar.",
+  "thisIsTheWorkoutList": "Aquesta és la llista de rutines. Des d'aquí podeu veure les rutines que heu creat, iniciar un entrenament i crear noves rutines i plans d'entrenament.",
+  "startAddingAnExercise": "Creeu un exercici per a començar.",
+  "thisIsTheExerciseList": "Aquesta és la llista d'exercicis. Aquí podreu cercar els diferents exercicis que creeu. Heu de crear un exercici per a poder afegir-lo a la rutina.",
+  "welcomeToWorkoutEditor": "Això és l'editor de rutines",
+  "thisIsTheWorkoutEditor": "Aquí apareixeran els exercicis que afegiu a la vostra rutina. Comenceu afegint un exercici a la rutina.",
+  "setList": "Afegiu una sèrie per a l'exercici",
+  "thisIsTheSetList": "Aquesta és la llista de sèries. Conté el total de sèries de l'exercici que esteu editant. Heu d'afegir una sèrie per a continuar.",
   "importWillReplaceEverything": "TOTES les dades de la aplicació seran ELIMINADES i després s'importarà la còpia de seguretat substituint TOT. Aquesta operació és irreversible. Voleu continuar?",
   "resetAll": "Reinici de fàbrica",
   "resetAllTip": "Esborrar totes les dades de WeightLog",
@@ -359,5 +369,67 @@
   "parameter": "Paràmetre",
   "exerciseCompleted": "Exercici completat",
   "warning": "Atenció",
-  "error": "Error"
+  "error": "Error",
+  "back": "Endarrere",
+  "next": "Endavant",
+  "finish": "Acabar",
+  "onboarding": {
+    "title": "Benvinguts a WeightLog",
+    "menu": "Assistent de benvinguda",
+    "menuDescription": "Torneu a configurar WeightLog amb l'assistent de benvinguda",
+    "language": {
+      "title": "Idioma"
+    },
+    "welcome": {
+      "title": "Benvinguda",
+      "subtitle": "Us donem la benvinguda a WeightLog!",
+      "message": "Aquesta aplicació pretèn ser el vostre company d'entrenament, amb el qual podeu registrar les vostres rutines, fer un seguiment del vostre progrés i molt més!",
+      "disclaimer1": "Aquesta aplicació, a diferència d'altres del mercat, no té cap mena de contingut propi. Això significa que haureu d'introduïr els exercicis i rutines a mà.",
+      "disclaimer2": "WeightLog no dona consells de fitness. Si necessiteu assessorament utilitzant aquesta aplicació, acudiu a un professional qualificat. Les activitats físiques que realitzeu amb l'ajuda d'aquesta aplicació corren sota el vostre risc i responsabilitat.",
+      "disclaimer3": "Aquesta aplicació no compta amb cap mena de garantia. Recordeu que WeightLog encara està en desenvolupament i pot presentar errors, si us plau informeu-nos en cas de què identifiqueu algun problema utilitzant l'aplicació."
+    },
+    "license": {
+      "title": "Llicència",
+      "pleaseRead": "Si us plau llegiu els termes d'aquesta llicència abans de continuar.",
+      "accept": "He llegit i accepto els termes de la llicència",
+      "readOnline": "Llegir en línia"
+    },
+    "preferences": {
+      "title": "Preferències",
+      "mode": "Mode d'ús",
+      "simpleMode": "Simple",
+      "advancedMode": "Avançat",
+      "units": "Unitats",
+      "yourName": "Su nombre"
+    },
+    "importData": {
+      "title": "Importació de dades",
+      "message": "WeightLog no proporciona cap rutina de fàbrica. Teniu algun fitxer de dades amb rutines o una còpia de seguretat que volgueu importar, o heu de començar de zero?",
+      "importFile": "Vull importar un fitxer de dades",
+      "willRedirect": "Se us redigirà a la pàgina de Còpia de seguretat i restauració en acabar aquest assistent.",
+      "noThanks": "No, crearé la rutina manualment"
+    },
+    "backups": {
+      "title": "Còpies de seguretat",
+      "message1": "WeightLog desa les dades al vostre navegador. Això significa que podeu perdre tota la vostra informació si netegeu les galetes del navegador.",
+      "message2": "En acabar l'entrenament, WeightLog us dona una opció de desar una còpia de seguretat, que es descarrega en un fitxer al vostre dispositiu, i que podeu restaurar més endavant des del menú de configuració.",
+      "message3": "Us recomanem que feu còpies de seguretat de forma periódica. En un futur habilitarem còpia de seguretat al núvol amb Google Drive i el nostre servei WeightCloud."
+    },
+    "completed": {
+      "title": "Completat",
+      "message": "És tot per ara. Premeu Acabar per a començar a fer servir WeightLog."
+    }
+  },
+  "bulkEditor": {
+    "title": "Editor massiu",
+    "exercise": "Exercici",
+    "sets": "Sèries",
+    "weight": "Pes",
+    "reps": "Reps",
+    "rest": "Descans",
+    "cues": "Indicacions",
+    "saveAll": "Desar tot",
+    "checkErrors": "Falten alguns camps obligatoris"
+  },
+  "saving": "S'està desant..."
 }

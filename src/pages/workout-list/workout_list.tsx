@@ -50,13 +50,14 @@ import ConfirmDialog from "../../components/confirmDialog";
 import Loader from "../../components/Loader";
 import WorkoutDetailsEditor from "../workout-editor/workoutDetails_editor";
 import getId from "../../utils/id";
-import {Cake, Share} from "@mui/icons-material";
+import {Share} from "@mui/icons-material";
 import {TimerContext} from "../../context/timerContext";
 import AddExercisePicker from "../workout/addExercisePicker";
 import defer from "../../utils/defer";
 import {backupPlan, backupWorkout, entityToJson, shareBlob} from "../../db/backup";
 import contrastColor from "../../utils/contrastColor";
 import {DialogContext} from "../../context/dialogContext";
+import TutorialAlert from "../../components/tutorialAlert";
 
 const daysOfWeek = ["mondays", "tuesdays", "wednesdays", "thursdays", "fridays", "saturdays", "sundays"];
 
@@ -68,7 +69,14 @@ export const WorkoutList = () => {
     const [plans, setPlans] = useState<Plan[]>([]);
     const [plan, setPlan] = useState<Plan | undefined>(undefined);
     const {time} = useContext(TimerContext);
-    const {startWorkout, stopWorkout, timeStarted, currentWorkout, restTime, setShowWorkoutFinishedPage} = useContext(WorkoutContext);
+    const {
+        startWorkout,
+        stopWorkout,
+        timeStarted,
+        currentWorkout,
+        restTime,
+        setShowWorkoutFinishedPage
+    } = useContext(WorkoutContext);
     const navigate = useNavigate();
     const theme = useTheme();
     const [snackbar, setSnackbar] = useState("");
@@ -78,7 +86,7 @@ export const WorkoutList = () => {
     const [confirmDelete, setConfirmDelete] = useState(false);
     const [newWorkoutTarget, setNewWorkoutTarget] = useState<Workout | null>(null);
     const [refetch, setRefetch] = useState(new Date());
-    const [ confirmDeletePlan, setConfirmDeletePlan ] = useState<Plan | undefined>(undefined);
+    const [confirmDeletePlan, setConfirmDeletePlan] = useState<Plan | undefined>(undefined);
     const [mustSelectPlan, setMustSelectPlan] = useState(false);
     const [addExerciseOpen, setAddExerciseOpen] = useState(false);
     const {showPrompt} = useContext(DialogContext);
@@ -90,8 +98,23 @@ export const WorkoutList = () => {
     useEffect(() => {
         db?.plan.get(currentPlan).then((plan) => {
             if (!plan) {
-                setMustSelectPlan(true);
-                setOpenPlanSelector(true);
+                db?.plan.toArray().then((plans) => {
+                    const plansFiltered = plans.filter((it) => !it.deleted);
+                    if (plansFiltered.length === 1) {
+                        const newPlan = plansFiltered[0];
+                        localStorage.setItem("currentPlan", newPlan.id.toString());
+                        setCurrentPlan(newPlan.id);
+                        setPlan(newPlan);
+                        setMustSelectPlan(false);
+                        db?.workout.bulkGet(newPlan.workoutIds).then((workouts) => {
+                            setWorkouts(workouts.filter((it) => it !== undefined && !it.deleted).map((it) => it as Workout));
+                        })
+                    } else {
+                        setMustSelectPlan(true);
+                        setOpenPlanSelector(true);
+
+                    }
+                })
                 return;
             }
             setMustSelectPlan(false);
@@ -142,13 +165,16 @@ export const WorkoutList = () => {
         entityToJson(db, backupPlan, plan!).then((blob) => shareBlob(blob, plan.name));
     }
 
-    return <Layout showAccountMenu title={plan?.name ? t("workoutPlan") + " - " + plan.name : t("workouts")} toolItems={<><IconButton color="inherit" onClick={exportPlan}><Share /></IconButton><IconButton color="inherit" onClick={() => {
-        showPrompt(t("enterPlanNewName"), "", (name) => {
-            if (db && !!name && !!plan && name !== plan.name && name.length > 0) {
-                db.plan.put({...plan, name}).then(() => setRefetch(new Date()));
-            }
-        }, plan?.name || "");
-    }}><EditIcon/></IconButton></>}><List sx={{width: '100%', height: 'calc(100% - 78px)', overflow: "auto"}}>
+    return <Layout showAccountMenu title={plan?.name ? t("workoutPlan") + " - " + plan.name : t("workouts")}
+                   toolItems={<><IconButton color="inherit" onClick={exportPlan}><Share/></IconButton><IconButton
+                       color="inherit" onClick={() => {
+                       showPrompt(t("enterPlanNewName"), "", (name) => {
+                           if (db && !!name && !!plan && name !== plan.name && name.length > 0) {
+                               db.plan.put({...plan, name}).then(() => setRefetch(new Date()));
+                           }
+                       }, plan?.name || "");
+                   }}><EditIcon/></IconButton></>}><List
+        sx={{width: '100%', height: 'calc(100% - 78px)', overflow: "auto"}}>
         {timeStarted && currentWorkout && <>            {!!restTime &&
             <RestInProgress onClick={() => navigate("/workout")}/>}
             <ListItemButton component="a" onClick={() => navigate("/workout")}>
@@ -177,25 +203,23 @@ export const WorkoutList = () => {
             </ListItemAvatar>
             <ListItemText primary={t("freeTraining")}/>
         </ListItemButton>}
-        {!currentWorkout && workouts !== undefined && workouts.map((workout) => <ListItemButton key={workout.id} component="a"
-                                                                      onClick={() => onSelectWorkout(workout)}>
+        {!currentWorkout && workouts !== undefined && workouts.map((workout) => <ListItemButton key={workout.id}
+                                                                                                component="a"
+                                                                                                onClick={() => onSelectWorkout(workout)}>
                 <ListItemAvatar>
-                    <Avatar sx={{backgroundColor: workout.color, color: workout.color ? contrastColor(workout.color) : undefined}}>
-                        {workout.daysOfWeek.length === 1 ? t(["mon", "tue", "wed", "thu", "fri", "sat", "sun"][workout.daysOfWeek[0]]) : <FitnessCenterIcon/>}
+                    <Avatar sx={{
+                        backgroundColor: workout.color,
+                        color: workout.color ? contrastColor(workout.color) : undefined
+                    }}>
+                        {workout.daysOfWeek.length === 1 ? t(["mon", "tue", "wed", "thu", "fri", "sat", "sun"][workout.daysOfWeek[0]]) :
+                            <FitnessCenterIcon/>}
                     </Avatar>
                 </ListItemAvatar>
-                <ListItemText primary={workout.name} secondary={workout.daysOfWeek.map((d) => t(daysOfWeek[d])).join(", ")}/>
+                <ListItemText primary={workout.name}
+                              secondary={workout.daysOfWeek.map((d) => t(daysOfWeek[d])).join(", ")}/>
             </ListItemButton>
         )}
-        {!currentWorkout && workouts!== undefined && workouts.length === 0 && <ListItemButton component="a"
-                                                                                              onClick={newWorkout}>
-            <ListItemAvatar>
-                <Avatar sx={{bgcolor: (theme) => theme.palette.success.main}}>
-                    <Cake sx={{color: (theme) => theme.palette.success.contrastText}}/>
-                </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary={t("welcomeToWeightLog")} secondary={t("startAddingAWorkout")}/>
-        </ListItemButton>}
+        {!currentWorkout && workouts !== undefined && workouts.length === 0 && <TutorialAlert title={t("startAddingAWorkout")} message={t("thisIsTheWorkoutList")} action={t("addWorkout")} onAction={newWorkout} sx={{left: 0, position: "fixed", bottom: "64px"}} />}
         {!currentWorkout && <ListItemButton component="a"
                                             onClick={newWorkout}>
             <ListItemAvatar>
@@ -206,26 +230,27 @@ export const WorkoutList = () => {
             <ListItemText primary={t("addWorkout")}/>
         </ListItemButton>}
 
-        {!currentWorkout && workouts !== undefined && <SpeedDial sx={{position: 'fixed', bottom: 72, right: 16, zIndex: 1}} ariaLabel="Actions"
-                                       icon={<SpeedDialIcon icon={<MenuIcon/>} openIcon={<CloseIcon/>}/>}
-                                       open={showMenu} onOpen={() => setShowMenu(true)}
-                                       onClose={() => setShowMenu(false)}>
-            <SpeedDialAction tooltipOpen
-                             icon={<EventNoteIcon/>}
-                             tooltipTitle={t("selectPlan")}
-                             sx={speedDialActionSx}
-                             onClick={() => {
-                                 setOpenPlanSelector(true);
-                                 setShowMenu(false);
-                             }}
-            />
-            <SpeedDialAction tooltipOpen
-                             icon={<AddIcon/>}
-                             tooltipTitle={t("addWorkout")}
-                             sx={speedDialActionSx}
-                             onClick={newWorkout}
-            />
-        </SpeedDial>}
+        {!currentWorkout && workouts !== undefined &&
+            <SpeedDial sx={{position: 'fixed', bottom: 72, right: 16, zIndex: 1}} ariaLabel="Actions"
+                       icon={<SpeedDialIcon icon={<MenuIcon/>} openIcon={<CloseIcon/>}/>}
+                       open={showMenu} onOpen={() => setShowMenu(true)}
+                       onClose={() => setShowMenu(false)}>
+                <SpeedDialAction tooltipOpen
+                                 icon={<EventNoteIcon/>}
+                                 tooltipTitle={t("selectPlan")}
+                                 sx={speedDialActionSx}
+                                 onClick={() => {
+                                     setOpenPlanSelector(true);
+                                     setShowMenu(false);
+                                 }}
+                />
+                <SpeedDialAction tooltipOpen
+                                 icon={<AddIcon/>}
+                                 tooltipTitle={t("addWorkout")}
+                                 sx={speedDialActionSx}
+                                 onClick={newWorkout}
+                />
+            </SpeedDial>}
         <Selector
             defaultValue={currentPlan.toString()}
             open={openPlanSelector}
@@ -255,7 +280,17 @@ export const WorkoutList = () => {
                 setOpenPlanSelector(false);
             }}
             title={t("selectPlan")}
-            entries={[{key: "++new", value: t("newPlan"), icon: <Avatar><AddIcon/></Avatar>}, ...plans.map((p) => ({ key: p.id.toString(), value: p.name, extras: {action: () => {setConfirmDeletePlan(p)}, actionIcon: <DeleteIcon />} }))]}
+            entries={[{
+                key: "++new",
+                value: t("newPlan"),
+                icon: <Avatar><AddIcon/></Avatar>
+            }, ...plans.map((p) => ({
+                key: p.id.toString(), value: p.name, extras: {
+                    action: () => {
+                        setConfirmDeletePlan(p)
+                    }, actionIcon: <DeleteIcon/>
+                }
+            }))]}
         />
         {!!targetWorkout && <Selector dense open defaultValue="cancel" onClose={(key: string) => {
             if (key === "start" && targetWorkout && startWorkout) {
@@ -283,7 +318,8 @@ export const WorkoutList = () => {
             onClose={() => setSnackbar("")}
             message={snackbar}
         />
-        <ConfirmDialog title={t("confirmDeletePlan.title")} message={t("confirmDeletePlan.message")} open={confirmDeletePlan !== undefined} onDismiss={(r) => {
+        <ConfirmDialog title={t("confirmDeletePlan.title")} message={t("confirmDeletePlan.message")}
+                       open={confirmDeletePlan !== undefined} onDismiss={(r) => {
             if (r && confirmDeletePlan) {
                 db?.plan.put({...confirmDeletePlan, deleted: true}).then(() => {
                     setRefetch(new Date());
@@ -292,7 +328,8 @@ export const WorkoutList = () => {
             setConfirmDeletePlan(undefined);
             setTargetWorkout(undefined);
         }}/>
-        <ConfirmDialog title={t("confirmDeleteWorkout.title")} message={t("confirmDeleteWorkout.message")} open={confirmDelete} onDismiss={(r) => {
+        <ConfirmDialog title={t("confirmDeleteWorkout.title")} message={t("confirmDeleteWorkout.message")}
+                       open={confirmDelete} onDismiss={(r) => {
             if (r && targetWorkout) {
                 db?.workout.put({...targetWorkout, deleted: true}).then(() => {
                     setRefetch(new Date());
@@ -301,19 +338,20 @@ export const WorkoutList = () => {
             setConfirmDelete(false);
             setTargetWorkout(undefined);
         }}/>
-        {!!newWorkoutTarget && !currentWorkout && plan && <WorkoutDetailsEditor title={t("addWorkout")} workout={newWorkoutTarget} onChange={(newWorkout) => {
-            db?.workout.put(newWorkout).then(() => {
-                db?.plan.put({...plan, workoutIds: plan.workoutIds.concat([newWorkout.id])}).then(() => {
-                    navigate("/workout/" + newWorkout.id)
+        {!!newWorkoutTarget && !currentWorkout && plan &&
+            <WorkoutDetailsEditor title={t("addWorkout")} workout={newWorkoutTarget} onChange={(newWorkout) => {
+                db?.workout.put(newWorkout).then(() => {
+                    db?.plan.put({...plan, workoutIds: plan.workoutIds.concat([newWorkout.id])}).then(() => {
+                        navigate("/workout/" + newWorkout.id)
+                    }).catch((e) => {
+                        console.error(e);
+                        setSnackbar(t("somethingWentWrong"));
+                    });
                 }).catch((e) => {
                     console.error(e);
                     setSnackbar(t("somethingWentWrong"));
-                });
-            }).catch((e) => {
-                console.error(e);
-                setSnackbar(t("somethingWentWrong"));
-            })
-        }} onClose={() => setNewWorkoutTarget(null)} open />}
+                })
+            }} onClose={() => setNewWorkoutTarget(null)} open/>}
         {addExerciseOpen && <AddExercisePicker onClose={(completed) => {
             setAddExerciseOpen(false)
             if (completed) {

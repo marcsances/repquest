@@ -45,6 +45,7 @@ import TagPicker from "./tag_picker";
 import {ExerciseEditor} from "./exercise_editor";
 import BackIcon from "@mui/icons-material/ArrowBack";
 import {SettingsContext} from "../../context/settingsContext";
+import TutorialAlert from "../../components/tutorialAlert";
 
 export interface ExerciseListProps {
     onSelectExercise?: (exercise: Exercise) => void;
@@ -149,7 +150,7 @@ export const ExerciseList = (props: ExerciseListProps) => {
                     </ListItemButton>)}
             </List>}
         {exercises === undefined && <Loader/>}
-
+        {exercises && exercises.length === 0 && <TutorialAlert title={t("startAddingAnExercise")} message={t("thisIsTheExerciseList")} action={t("addExercise")} onAction={newExercise} sx={{left: 0, position: "fixed", bottom: "8px"}} />}
         {filterPicker && <TagPicker title={t("filter")} open value={filterTags} onChange={(tags) => setFilterTags(tags)}
                                     onClose={() => setFilterPicker(false)}/>}
         {editorOpen && <Dialog open={true} fullScreen onClose={()=> setEditorOpen(false)}><ExerciseEditor onSaved={(exercise) => onSelectExercise ? onSelectExercise(exercise) : navigate("/exercises/" + exercise.id.toString())} onClose={() => setEditorOpen(false)} /></Dialog>}

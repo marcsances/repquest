@@ -26,10 +26,13 @@ import OneRmCalculator from "./components/onermcalc";
 import {AccountMenu} from "./pages/profile/accountMenu";
 import {LoginPage} from "./pages/weightcloud/login";
 import NotImplemented from "./pages/notImplemented";
+import Onboarding from "./pages/onboarding/onboarding";
 import React from "react";
+import BulkEditor from "./pages/workout-editor/bulkEditor";
 
 const AppRoutes = () => {
     return <Routes>
+        <Route path="/onboarding" element={<Onboarding/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route path="/" element={<WorkoutList/>}/>
         <Route path="/apps" element={<AppsMenu/>}/>
@@ -41,6 +44,8 @@ const AppRoutes = () => {
         <Route path="/settings/appearance" element={<AppearanceSettingsPage />} />
         <Route path="/settings/backup"
                element={<Backup/>}/>
+        <Route path="/onboarding/backup"
+               element={<Backup onboarding/>}/>
         <Route path="/settings" element={<SettingsPage/>}/>
         <Route path="/settings/telemetry"
                element={<Telemetry/>}/>
@@ -53,8 +58,10 @@ const AppRoutes = () => {
                element={<PostWorkout/>}/>
         <Route path="/workout/:workoutId"
                element={<WorkoutEditor/>}/>
+        <Route path="/bulkEditor/:workoutId"
+               element={<BulkEditor/>}/>
         <Route path="/workoutExercise/:workoutExerciseId"
-               element={<WorkoutExerciseEditor/>}/>
+               element={<WorkoutExerciseEditor />}/>
         <Route path="/exercises" element={<ExerciseList/>}/>
         <Route path="/exercises/:exerciseId"
                element={<ExerciseEditor/>}/>

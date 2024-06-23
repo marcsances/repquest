@@ -214,10 +214,12 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
         db?.workoutExercise.get(currentWorkoutExerciseIds[currentWorkoutExerciseNumber]).then((workoutExercise) => {
             if (workoutExercise) {
                 if (!superset) {
-                    setCurrentSetNumber(1);
-                    if (workoutExercise.superset) {
-                        setSuperset({current: 1, size: 2});
-                    }
+                    db?.exerciseSet.where("id").anyOf(workoutExercise.setIds).filter((x) => !x.initial && !!x.date && isSameDay(x.date!, new Date())).count().then((savedSets) => {
+                        setCurrentSetNumber(Math.min(savedSets + 1, workoutExercise.setIds.length));
+                        if (workoutExercise.superset) {
+                            setSuperset({current: 1, size: 2});
+                        }
+                    })
                 }
                 setCurrentWorkoutExercise({...workoutExercise, initial: false});
             }
