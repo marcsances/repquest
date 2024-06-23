@@ -46,6 +46,7 @@ import WorkoutDetailsEditor from "./workoutDetails_editor";
 import Loader from "../../components/Loader";
 import getId from "../../utils/id";
 import {backupWorkout, entityToJson, shareBlob} from "../../db/backup";
+import TutorialAlert from "../../components/tutorialAlert";
 
 interface Entry {
     workoutExercise: WorkoutExercise;
@@ -150,6 +151,7 @@ export const WorkoutEditor = () => {
             </ListItemButton>
         </List>}
         {entries === undefined && <Loader/>}
+        {entries && entries.length === 0 && <TutorialAlert title={t("welcomeToWorkoutEditor")} message={t("thisIsTheWorkoutEditor")} action={t("addExercise")} onAction={() => setPickerOpen(true)} sx={{left: 0, position: "fixed", bottom: "8px"}} />}
         <Snackbar
             open={snackbar !== ""}
             autoHideDuration={2000}

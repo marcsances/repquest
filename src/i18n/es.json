@@ -225,7 +225,14 @@
   "workoutPlan": "Plan de entrenamiento",
   "newExercise": "Nuevo ejercicio",
   "welcomeToWeightLog": "Bienvenido a WeightLog! Ten en cuenta que esta app está en fase de pruebas y puede presentar errores. Esperamos tus comentarios!",
-  "startAddingAWorkout": "Crea una rutina para empezar.",
+  "startAddingAWorkout": "Cree una rutina para empezar.",
+  "thisIsTheWorkoutList": "Esto es la lista de rutinas. Desde aquí puede ver las rutinas que ha creado, iniciar un entrenamiento y crear nuevas rutinas y planes de entrenamiento.",
+  "startAddingAnExercise": "Cree un ejercicio para empezar.",
+  "thisIsTheExerciseList": "Esto es la lista de ejercicios. Aquí puede buscar los distintos ejercicios que haya creado. Debe crear un ejercicio para poderlo añadir a la rutina.",
+  "welcomeToWorkoutEditor": "Esto es el editor de rutinas",
+  "thisIsTheWorkoutEditor": "Aquí verá los ejercicios que haya añadido a la rutina actual. Empiece añadiendo un ejercicio a esta rutina.",
+  "setList": "Añada una serie al ejercicio",
+  "thisIsTheSetList": "Esto es la lista de series. Contiene el total de series para el ejercicio que está editando. Debe añadir una serie para continuar.",
   "importWillReplaceEverything": "TODOS los datos de la aplicación serán ELIMINADOS y luego se importará la copia de seguridad reemplazando TODO. Esta operación no se puede revertir. ¿Desea continuar?",
   "resetAll": "Reinicio de fábrica",
   "resetAllTip": "Borrar todos los datos de WeightLog",
@@ -391,7 +398,8 @@
       "mode": "Modo de uso",
       "simpleMode": "Simple",
       "advancedMode": "Avanzado",
-      "units": "Unidades"
+      "units": "Unidades",
+      "yourName": "Su nombre"
     },
     "importData": {
       "title": "Importación de datos",

@@ -77,8 +77,11 @@ const DBGuard = ({children}: { children: ReactElement }) => {
     const [masterDbReady, setMasterDbReady] = useState(false);
     const [dbReady, setDbReady] = useState(false);
     const navigate = useNavigate();
-    if (masterDb) db?.user.count().then((count) => {
-        if (count > 0 && !localStorage.getItem("userName") && location.pathname !== "/login") {
+    if (masterDb) masterDb?.user.count().then((count) => {
+        if (count === 0) {
+            localStorage.setItem("userName", "Default User");
+            setMasterDbReady(true);
+        } else if (count > 0 && !localStorage.getItem("userName") && location.pathname !== "/login") {
             navigate("/login");
         } else setMasterDbReady(true);
     });
@@ -89,7 +92,7 @@ const DBGuard = ({children}: { children: ReactElement }) => {
                 name: "WeightLog",
                 workoutIds: []
             }).then(() => {
-                window.location.reload();
+                window.location.pathname = "/onboarding";
             });
         } else {
             setDbReady(true);

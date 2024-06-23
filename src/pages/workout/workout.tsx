@@ -278,7 +278,7 @@ export const WorkoutPage = () => {
                 </MenuItem>}
         </Menu>
         <Box sx={{height: "calc(100% - 16px)", display: "flex", flexDirection: "column"}}>
-            {!isMini && featureLevel === "easy" && !viewHistory && <CardContent sx={{paddingTop: 0,paddingBottom: 0}}>
+            {!isMini && featureLevel === "easy" && !viewHistory && focusedExercise?.picture && <CardContent sx={{paddingTop: 0,paddingBottom: 0}}>
                 <CardMedia sx={{height: "30" + (portrait ? "vh" : "vw"), backgroundSize: "contain"}}
                            image={focusedExercise?.picture} title={focusedExercise?.name} onClick={() => navigate("/picture")}
                 />

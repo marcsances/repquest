@@ -226,6 +226,13 @@
   "newExercise": "Nou exercici",
   "welcomeToWeightLog": "Benvinguts a WeightLog! Teniu en compte que aquesta aplicació està en fase de proves i pot presentar errades. Esperem el vostre feedback!",
   "startAddingAWorkout": "Creeu una rutina per a començar.",
+  "thisIsTheWorkoutList": "Aquesta és la llista de rutines. Des d'aquí podeu veure les rutines que heu creat, iniciar un entrenament i crear noves rutines i plans d'entrenament.",
+  "startAddingAnExercise": "Creeu un exercici per a començar.",
+  "thisIsTheExerciseList": "Aquesta és la llista d'exercicis. Aquí podreu cercar els diferents exercicis que creeu. Heu de crear un exercici per a poder afegir-lo a la rutina.",
+  "welcomeToWorkoutEditor": "Això és l'editor de rutines",
+  "thisIsTheWorkoutEditor": "Aquí apareixeran els exercicis que afegiu a la vostra rutina. Comenceu afegint un exercici a la rutina.",
+  "setList": "Afegiu una sèrie per a l'exercici",
+  "thisIsTheSetList": "Aquesta és la llista de sèries. Conté el total de sèries de l'exercici que esteu editant. Heu d'afegir una sèrie per a continuar.",
   "importWillReplaceEverything": "TOTES les dades de la aplicació seran ELIMINADES i després s'importarà la còpia de seguretat substituint TOT. Aquesta operació és irreversible. Voleu continuar?",
   "resetAll": "Reinici de fàbrica",
   "resetAllTip": "Esborrar totes les dades de WeightLog",
@@ -391,7 +398,8 @@
       "mode": "Mode d'ús",
       "simpleMode": "Simple",
       "advancedMode": "Avançat",
-      "units": "Unitats"
+      "units": "Unitats",
+      "yourName": "Su nombre"
     },
     "importData": {
       "title": "Importació de dades",

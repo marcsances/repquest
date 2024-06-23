@@ -226,6 +226,13 @@
   "workoutPlan": "Workout plan",
   "welcomeToWeightLog": "Welcome to WeightLog! Be aware this app is in testing and may present errors. We await your feedback!",
   "startAddingAWorkout": "Create a workout to begin.",
+  "thisIsTheWorkoutList": "This is the workout list. It contains all the workouts you have created for this workout plan. From here you can also start a workout and manage your training plans.",
+  "startAddingAnExercise": "Create an exercise to begin.",
+  "thisIsTheExerciseList": "This is the exercise list. From here you can look for exercises to add to your workouts. You have to create an exercise to add it to the workout.",
+  "welcomeToWorkoutEditor": "This is the workout editor",
+  "thisIsTheWorkoutEditor": "Here you will see the exercises you have added to the current workout. Start by adding an exercise to the workout.",
+  "setList": "Add a set for this exercise",
+  "thisIsTheSetList": "This is the list of sets. It contains the total of sets for the exercise you are editing currently. You must add a set to continue.",
   "importWillReplaceEverything": "ALL the application data will be DELETED and then the backup will be imported replacing EVERYTHING. This operation cannot be rolled back. Continue?",
   "resetAll": "Factory reset",
   "resetAllTip": "Delete all application data",
@@ -391,7 +398,8 @@
       "mode": "Feature level",
       "simpleMode": "Simple",
       "advancedMode": "Advanced",
-      "units": "Units"
+      "units": "Units",
+      "yourName": "Su nombre"
     },
     "importData": {
       "title": "Import data",

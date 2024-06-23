@@ -58,7 +58,7 @@ const AppRoutes = () => {
         <Route path="/workout/:workoutId"
                element={<WorkoutEditor/>}/>
         <Route path="/workoutExercise/:workoutExerciseId"
-               element={<WorkoutExerciseEditor/>}/>
+               element={<WorkoutExerciseEditor />}/>
         <Route path="/exercises" element={<ExerciseList/>}/>
         <Route path="/exercises/:exerciseId"
                element={<ExerciseEditor/>}/>

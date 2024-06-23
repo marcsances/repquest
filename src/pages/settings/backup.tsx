@@ -375,6 +375,8 @@ export const Backup = ({onboarding}: {onboarding?: boolean}) => {
                         showAlert(t("warning"), t("importWillReplaceEverything"), (result) => {
                             if (result) importJson(val);
                         }, "yesNo")
+                    } else {
+                        importJson(val);
                     }
                 } else if (val === "cancel") {
                     setMode("")
