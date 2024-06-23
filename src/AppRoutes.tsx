@@ -28,6 +28,7 @@ import {LoginPage} from "./pages/weightcloud/login";
 import NotImplemented from "./pages/notImplemented";
 import Onboarding from "./pages/onboarding/onboarding";
 import React from "react";
+import BulkEditor from "./pages/workout-editor/bulkEditor";
 
 const AppRoutes = () => {
     return <Routes>
@@ -57,6 +58,8 @@ const AppRoutes = () => {
                element={<PostWorkout/>}/>
         <Route path="/workout/:workoutId"
                element={<WorkoutEditor/>}/>
+        <Route path="/bulkEditor/:workoutId"
+               element={<BulkEditor/>}/>
         <Route path="/workoutExercise/:workoutExerciseId"
                element={<WorkoutExerciseEditor />}/>
         <Route path="/exercises" element={<ExerciseList/>}/>

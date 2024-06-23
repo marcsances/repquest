@@ -15,9 +15,6 @@
     along with WeightLog.  If not, see <https://www.gnu.org/licenses/>.
  */
 import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
-import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
-import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import Box from "@mui/material/Box";
 import React, {useContext, useState} from "react";
 import {SettingsContext} from "../context/settingsContext";
@@ -73,16 +70,7 @@ const SetParameter = (props: SetParameterProps) => {
             paddingLeft: "12px",
             color: "grey"
         }}>/ {totalSets}</Typography>
-        <Box sx={{marginLeft: "8px", alignSelf: "center", width: "24px"}}/>
-        {!disabled && <><IconButton onClick={onPrev} color="primary" size="small" aria-label="add"
-                                    sx={{marginLeft: "8px"}}
-                                    disabled={disabled || val <= 1}>
-            <ArrowLeftIcon/>
-        </IconButton>
-            <IconButton onClick={onNext} color="primary" size="small" aria-label="add" sx={{marginLeft: "4px"}}
-                        disabled={totalSets || disabled ? (totalSets && val >= totalSets) || disabled : false}>
-                <ArrowRightIcon/>
-            </IconButton></>}
+        <Box sx={{marginLeft: "8px", alignSelf: "center", width: "120px"}}/>
     </Box>
 }
 

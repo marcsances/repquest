@@ -183,6 +183,7 @@
   },
   "exercises": "Ejercicios",
   "addExercise": "Añadir ejercicio",
+  "bulkAddExercise": "Añadir ejercicios masivamente (solo series lineales)",
   "filter": "Filtrar",
   "saved": "Guardado",
   "somethingWentWrong": "Algo falló...",
@@ -418,5 +419,17 @@
       "title": "Terminado",
       "message": "Es todo por ahora. Pulse Finalizar para empezar a usar WeightLog."
     }
-  }
+  },
+  "bulkEditor": {
+    "title": "Editor masivo",
+    "exercise": "Ejercicio",
+    "sets": "Series",
+    "weight": "Peso",
+    "reps": "Reps",
+    "rest": "Descanso",
+    "cues": "Indicaciones",
+    "saveAll": "Guardar todo",
+    "checkErrors": "Faltan algunos datos obligatorios"
+  },
+  "saving": "Guardando..."
 }

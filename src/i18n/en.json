@@ -167,6 +167,7 @@
   },
   "exercises": "Exercises",
   "addExercise": "Add exercise",
+  "bulkAddExercise": "Add exercises in bulk (only linear sets)",
   "newExercise": "New exercise",
   "filter": "Filter",
   "workoutEditor": {
@@ -418,5 +419,17 @@
       "title": "All ready!",
       "message": "That's it for now. Click on Finish to start using WeightLog."
     }
-  }
+  },
+  "bulkEditor": {
+    "title": "Bulk editor",
+    "exercise": "Exercise",
+    "sets": "Sets",
+    "weight": "Weight",
+    "reps": "Reps",
+    "rest": "Rest",
+    "cues": "Cues",
+    "saveAll": "Save all",
+    "checkErrors": "Some required data is missing"
+  },
+  "saving": "Saving..."
 }

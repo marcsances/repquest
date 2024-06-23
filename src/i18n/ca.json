@@ -183,6 +183,7 @@
   },
   "exercises": "Exercicis",
   "addExercise": "Afegir exercici",
+  "bulkAddExercise": "Afegir exercicis massivament (només sèries lineals)",
   "filter": "Filtrar",
   "saved": "S'ha desat",
   "somethingWentWrong": "Quelcom no ha funcionat...",
@@ -418,5 +419,17 @@
       "title": "Completat",
       "message": "És tot per ara. Premeu Acabar per a començar a fer servir WeightLog."
     }
-  }
+  },
+  "bulkEditor": {
+    "title": "Editor massiu",
+    "exercise": "Exercici",
+    "sets": "Sèries",
+    "weight": "Pes",
+    "reps": "Reps",
+    "rest": "Descans",
+    "cues": "Indicacions",
+    "saveAll": "Desar tot",
+    "checkErrors": "Falten alguns camps obligatoris"
+  },
+  "saving": "S'està desant..."
 }

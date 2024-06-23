@@ -135,7 +135,7 @@ export const WorkoutPage = () => {
     const [notes, setNotes] = useState<string | undefined>(undefined);
     const [notesEmoji, setNotesEmoji] = useState<string | undefined>(undefined);
     const [notesAnchor, setNotesAnchor] = useState<HTMLElement | undefined>(undefined);
-    const [viewHistory, setViewHistory] = useState<boolean>(false);
+    const [viewHistory, setViewHistory] = useState<boolean>(true);
     const portrait = (window.screen.orientation.angle % 180 === 0);
     const isMini = portrait ?  useMediaQuery('(max-height:600px)') : useMediaQuery('(max-width:600px)');
     useEffect(() => {
@@ -204,7 +204,7 @@ export const WorkoutPage = () => {
         });
     }
 
-    const isCurrentExerciseComplete = currentExerciseHistory && currentWorkoutExercise?.setIds && currentExerciseHistory.filter((set) => set.date && isSameDay(set.date, new Date())).length >= currentWorkoutExercise.setIds.length;
+    const isCurrentExerciseComplete = currentExerciseHistory && currentWorkoutExercise?.setIds && currentExerciseHistory.filter((set) => set.date && set.setNumber === currentWorkoutExercise?.setIds.length && isSameDay(set.date, new Date())).length > 0;
 
     if (!!restTime && showRest) return <Rest onBack={() => setShowRest(false)}/>;
     return <Layout title={followingWorkout?.name || t("freeTraining")} hideNav
