@@ -14,7 +14,7 @@
     You should have received a copy of the GNU General Public License
     along with WeightLog.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { sentryVitePlugin } from "@sentry/vite-plugin";
+import {sentryVitePlugin} from "@sentry/vite-plugin";
 import {defineConfig} from 'vite'
 import react from '@vitejs/plugin-react-swc'
 import {VitePWA} from "vite-plugin-pwa";
@@ -65,6 +65,7 @@ export default defineConfig({
         project: "javascript-react"
     })],
     server: {
-        port: 3000
+        port: 3000,
+        host: '0.0.0.0'
     }
 })

@@ -91,17 +91,17 @@ const PostWorkout = () => {
 
     return <Layout hideNav hideBack title={t("workoutFinished")} leftToolItems={<IconButton sx={{mr: 2}} size="large" edge="start" color="inherit"
                     onClick={() => navigate("/")}><CloseIcon/></IconButton>}>
-        {loading || !postWorkout ? <Loader/> : <Stack direction="column" sx={{height: "100%", overflowY: "scroll"}}>
+        {loading || !postWorkout ? <Loader/> : <Stack direction="column" sx={{height: "100%", overflowY: "auto"}}>
             <Typography sx={{width: "100%", textAlign: "center", marginTop: "12px", marginBottom: "12px"}} variant="h5">{postWorkout.workoutName}&nbsp;-&nbsp;<Timer sx={{color: (theme) => theme.palette.success.main, position: "relative", top: "4px"}}/>&nbsp;{getDuration()}</Typography>
             {Object.keys(bests).length > 0 && <><ListSubheader>{t("account.records")}</ListSubheader>
-            <List sx={{padding: "16px", flexShrink: 1, overflowY: "scroll"}}>
+            <List sx={{padding: "16px", flexShrink: 1, overflowY: "auto"}}>
                 {Object.keys(bests).map((key) =>
                     <ListItemText primary={bests[key][0].exercise}
                                   secondary={getLabel(bests[key])}/>)}
             </List>
             <ListSubheader>{t("exercises")}</ListSubheader></>}
 
-            <List sx={{ width: "100%", flexShrink: 1, overflowY: "scroll"}}>
+            <List sx={{ width: "100%", flexShrink: 1, overflowY: "auto"}}>
             {history.length > 0 ? history.map((entry) =>  <ListItemButton key={entry.id} component="a">
                 <ListItemAvatar>
                     {!entry.exercise?.picture && <Avatar>

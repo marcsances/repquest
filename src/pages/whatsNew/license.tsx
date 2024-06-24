@@ -702,7 +702,7 @@ export const License = () => {
     const {t} = useTranslation();
     return <Layout title={t("license")} hideNav scroll>
         <Typography variant="subtitle2" sx={{paddingLeft: "20px", paddingTop: "5px"}}>The source code for this program will be released to Github (github.com/marcsances/weightlog) soon. If you need the source code in the meantime, please contact me through email.</Typography>
-        <Box sx={{padding: "20px", width: "calc(100% - 40px)", height: "calc(100vh - 96px)", overflow: "scroll", whiteSpace: "nowrap"}}>
+        <Box sx={{padding: "20px", width: "calc(100% - 40px)", height: "calc(100vh - 96px)", overflow: "auto", whiteSpace: "nowrap"}}>
             {gpl.split("\n").map((line) => <Typography variant="subtitle2" sx={{fontFamily: "monospace"}}>{line}</Typography>)}
         </Box>
     </Layout>;

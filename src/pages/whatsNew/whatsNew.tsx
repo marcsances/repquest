@@ -23,7 +23,7 @@ import {Box} from "@mui/material";
 export const WhatsNew = () => {
     const {t} = useTranslation();
     return <Layout title={t("whatsNew")} hideNav scroll>
-        <Box sx={{padding: "20px", width: "calc(100% - 40px)", height: "calc(100vh - 96px)", overflow: "scroll"}}>
+        <Box sx={{padding: "20px", width: "calc(100% - 40px)", height: "calc(100vh - 96px)", overflow: "auto"}}>
             <Typography variant="h4">WeightLog</Typography>
             <Typography variant="subtitle2">Copyright Marc Sances 2024. All rights reserved.<br/>
                 This program is free software: you can redistribute it and/or modify

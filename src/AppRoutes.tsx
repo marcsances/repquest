@@ -29,6 +29,7 @@ import NotImplemented from "./pages/notImplemented";
 import Onboarding from "./pages/onboarding/onboarding";
 import React from "react";
 import BulkEditor from "./pages/workout-editor/bulkEditor";
+import NutritionHome from "./pages/nutrition/home";
 
 const AppRoutes = () => {
     return <Routes>
@@ -74,6 +75,7 @@ const AppRoutes = () => {
         <Route path="/license"
                element={<License/>}/>
         <Route path="/onerm" element={<OneRmCalculator/>}/>
+        <Route path="/nutrition" element={<NutritionHome/>}/>
         <Route path="/account" element={<AccountMenu/>}/>
         <Route path="/account/login" element={<LoginPage/>}/>
         <Route path="*" element={<NotImplemented/>}/>

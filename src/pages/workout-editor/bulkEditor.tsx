@@ -119,7 +119,7 @@ const BulkEditor = () => {
 
 
     return <><Layout hideBack={saving} title={t("bulkEditor.title")} hideNav toolItems={<Button onClick={save} disabled={saving || rows.length === 1}>{t("bulkEditor.saveAll")}</Button>}>
-        <TableContainer sx={{ minWidth: "100vw", maxHeight: "100%", overflowY: "scroll" }} component={Paper}>
+        <TableContainer sx={{ minWidth: "100vw", maxHeight: "100%", overflowY: "auto" }} component={Paper}>
             <Table stickyHeader size="small">
             <TableHead>
                 <TableRow>

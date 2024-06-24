@@ -145,7 +145,7 @@ export const HistoryPage = () => {
             <Button sx={{flexGrow: 1, height: "32px"}} variant={showCalendar ? "outlined" : "contained"} onClick={() => setShowCalendar((prev) => !prev)}>{date.format("L")}</Button>
             <Button sx={{flexShrink: 1, height: "32px"}} onClick={() => nextDay()}><ArrowForward/></Button>
         </ButtonGroup>
-        {loading ? <Loader/> : <List sx={{ width: "100%", flexShrink: 1, overflowY: "scroll"}}>
+        {loading ? <Loader/> : <List sx={{ width: "100%", flexShrink: 1, overflowY: "auto"}}>
             {history.length > 0 && (!showCalendar || !isMini) ? history.map((entry) =>  <ListItemButton key={entry.id} component="a">
                 <ListItemAvatar>
                     {!entry.exercise?.picture && <Avatar>

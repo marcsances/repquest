@@ -69,7 +69,7 @@ const Onboarding = () => {
         paddingLeft: "12px",
         paddingRight: "12px"
     }}>
-        <Box id="stepperBox" sx={{paddingTop: "8px",height: "calc(100% - 80px)", paddingBottom: "20px", overflowY: "scroll"}}><Stepper activeStep={activeStep} orientation="vertical">
+        <Box id="stepperBox" sx={{paddingTop: "8px",height: "calc(100% - 80px)", paddingBottom: "20px", overflowY: "auto"}}><Stepper activeStep={activeStep} orientation="vertical">
             {steps.map((label, index) => {
                 return (
                     <Step id={`step-${index.toString()}`} key={label}>

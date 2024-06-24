@@ -431,5 +431,18 @@
     "saveAll": "Desar tot",
     "checkErrors": "Falten alguns camps obligatoris"
   },
-  "saving": "S'està desant..."
+  "saving": "S'està desant...",
+  "nutrition": {
+    "title": "Nutrició",
+    "scanCode": "Acosteu un codi de barres al lector...",
+    "cameraError": "Hi ha hagut un error inicialitzant la càmera. Heu donat permisos?",
+    "times": {
+      "breakfast": "Esmorzar",
+      "morning": "Mig matí",
+      "lunch": "Dinar",
+      "afternoon": "Berenar",
+      "dinner": "Sopar",
+      "snack": "Snack"
+    }
+  }
 }

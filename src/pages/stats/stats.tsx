@@ -109,7 +109,7 @@ const StatsPage = () => {
         <NativeSelect
             value={parameter}
             onChange={(e) => setParameter(e.target.value)}
-            sx={{ overflowX: "scroll", width: "calc(100vw - 40px)", marginBottom: "20px" }}
+            sx={{ overflowX: "auto", width: "calc(100vw - 40px)", marginBottom: "20px" }}
             inputProps={{
                 id: 'paramselect',
             }}
@@ -124,7 +124,7 @@ const StatsPage = () => {
         <NativeSelect
             value={period}
             onChange={(e) => onSelectPeriod(e.target.value)}
-            sx={{ overflowX: "scroll", width: "calc(100vw - 40px)", marginBottom: "20px" }}
+            sx={{ overflowX: "auto", width: "calc(100vw - 40px)", marginBottom: "20px" }}
             inputProps={{
                 id: 'periodselect',
             }}

@@ -37,7 +37,7 @@ export const Telemetry = () => {
     }
 
     return <Layout title={t("telemetry")} hideNav scroll>
-        <Box sx={{padding: "20px", width: "calc(100% - 40px)", height: "calc(100vh - 96px)", overflow: "scroll"}}>
+        <Box sx={{padding: "20px", width: "calc(100% - 40px)", height: "calc(100vh - 96px)", overflow: "auto"}}>
             <Typography variant="h4">{t("telemetry1")}</Typography>
             <Typography sx={{marginTop: "12px"}}>{t("telemetry2")}</Typography>
             <Typography sx={{marginTop: "12px"}}>{t("telemetry3")}</Typography>
