@@ -13,6 +13,8 @@ import {
     DialogContent,
     DialogTitle,
     IconButton,
+    LinearProgress,
+    Paper,
     Slide,
     Snackbar,
     useMediaQuery
@@ -24,9 +26,8 @@ import {DBContext} from "../../context/dbContext";
 import {SettingsContext} from "../../context/settingsContext";
 import {HistoryEntry} from "../../models/history";
 import Typography from "@mui/material/Typography";
-// @ts-ignore
-import Quagga from 'quagga';
-import defer from "../../utils/defer";
+import {useNavigate} from "react-router-dom";
+import BarcodeScanner from "../../components/barcodeScanner";
 
 function ServerDay(props: PickersDayProps<Dayjs> & { daysWithEntries?: number[] }) {
     const { daysWithEntries = [], day, outsideCurrentMonth, ...other } = props;
@@ -41,7 +42,7 @@ function ServerDay(props: PickersDayProps<Dayjs> & { daysWithEntries?: number[] 
 
 const NutritionHome = () => {
     const { t } = useTranslation();
-
+    const navigate = useNavigate();
     const {db} = useContext(DBContext);
     const {useLbs} = useContext(SettingsContext);
     const [showCalendar, setShowCalendar] = useState(false);
@@ -49,8 +50,8 @@ const NutritionHome = () => {
     const [ history, setHistory ] = useState<HistoryEntry[]>([]);
     const [ daysWithEntries, setDaysWithEntries ] = useState<number[]>([]);
     const [ barcodeScannerOpen, setBarcodeScannerOpen ] = useState(false);
-    const [ barcodeDetections, setBarcodeDetections] = useState<Record<string, number>>({});
     const [ snackbar, setSnackbar] = useState<string>("");
+    const [ mealId, setMealId ] = useState("");
     const [loading, setLoading ] = useState(false);
     const portrait = (window.screen.orientation.angle % 180 === 0);
     const isMini = portrait ?  useMediaQuery('(max-height:600px)') : useMediaQuery('(max-width:600px)');
@@ -89,50 +90,15 @@ const NutritionHome = () => {
     }
 
     const scanCode = (mealId: string) => {
+        setMealId(mealId);
         setBarcodeScannerOpen(true);
-        defer(() => {
-            Quagga.init({
-                inputStream : {
-                    name : "Live",
-                    type : "LiveStream",
-                    target: '#stream'
-                } as any,
-                constraints: {
-                    width: 200,
-                    height: 200,
-                    facingMode: "environment"
-                },
-                decoder : {
-                    readers : ["ean_reader", "upc_reader"]
-                },
-            }, (err: Error) => {
-                if (err) {
-                    setSnackbar("nutrition.cameraError")
-                    return
-                }
-                setBarcodeDetections({});
-                Quagga.onDetected((data: any) => {
-                    const code = data.codeResult.code;
-                    setBarcodeDetections((prevDetections) => {
-                        if (code in prevDetections && prevDetections[code] >= 5) {
-                            setBarcodeScannerOpen(false);
-                            Quagga.stop();
-                            return {};
-                        }
-                        prevDetections[code] = code in prevDetections ? prevDetections[code] + 1 : 1;
-                        return prevDetections;
-                    })
-                });
-                Quagga.start();
-            });
-        })
     }
 
     return <Layout showAccountMenu title={t("nutrition.title")} hideBack
-                   sx={{paddingTop: "8px", paddingLeft: "8px", paddingRight: "8px"}}
                    toolItems={<IconButton color="inherit"
                                           onClick={() => setDate(dayjs(new Date()))}><Today/></IconButton>}>
-        <Slide direction="down" in={showCalendar} mountOnEnter unmountOnExit style={{flexGrow: 1}}>
+        <Box sx={{display: "flex", flexDirection: "column", paddingTop: "8px", paddingLeft: "8px", paddingRight: "8px", width: "100%", height: "calc(100% - 64px)"}}>
+        <Slide direction="down" in={showCalendar} mountOnEnter unmountOnExit style={{height: "100%", minHeight: "340px", overflowY: "auto"}}>
             <DateCalendar views={["day"]} value={date} onChange={(d) => {
                 setDate(d);
                 setShowCalendar(false)
@@ -146,7 +112,7 @@ const NutritionHome = () => {
                               } as any,
                           }}/>
         </Slide>
-        <ButtonGroup sx={{width: "calc(100% - 16px)", height: "32px", display: "flex", flexShrink: 1}}
+        <ButtonGroup sx={{width: "calc(100% - 16px)", height: "32px", display: "flex", flex: "0 1 auto"}}
                      variant="contained" aria-label="Basic button group">
             <Button sx={{flexShrink: 1, height: "32px"}} onClick={() => prevDay()}><ArrowBack/></Button>
             <Button sx={{flexGrow: 1, height: "32px"}} variant={showCalendar ? "outlined" : "contained"}
@@ -155,8 +121,8 @@ const NutritionHome = () => {
         </ButtonGroup>
 
         <Box sx={{
-            width: '100%',
-            height: 'calc(100% - 64px)',
+            width: 'calc(100% - 16px)',
+            flex: "1 1 auto",
             display: "flex",
             alignItems: "center",
             flexDirection: "column",
@@ -196,15 +162,17 @@ const NutritionHome = () => {
                 {t("nutrition.scanCode")}
             </DialogTitle>
             <DialogContent>
-                <div id="stream" style={{display: "block", overflow: "hidden"}}>
-                    <video src="" style={{height: "100%", width: "100%"}}></video>
-                    <canvas className="drawingBuffer" style={{ display: "none"}}></canvas>
-                </div>
+                <BarcodeScanner onScan={(code: string) => {
+                    navigate("/nutrition/add/ " + mealId + "/" + code);
+                    setBarcodeScannerOpen(false);
+                }} onError={() => {
+                    setSnackbar(t("nutrition.cameraError"));
+                    setBarcodeScannerOpen(false);
+                }} />
             </DialogContent>
             <DialogActions>
             <Button onClick={() => {
                     setBarcodeScannerOpen(false);
-                    Quagga.stop();
                 }}>{t("cancel")}</Button>
             </DialogActions>
         </Dialog>
@@ -214,6 +182,29 @@ const NutritionHome = () => {
             onClose={() => setSnackbar("")}
             message={snackbar}
         />
+            <Paper variant="outlined" sx={{ flex: "0 1 auto", width: "calc(100% - 24px)", gap: "8px", marginBottom: "8px", padding: "4px", display: "flex", overflowX: "auto", flexDirection: "row"}}>
+                <Box sx={{ display: "flex", flex: "1 1 0", flexDirection: "column", alignItems: "center", gap: "2px" }}>
+                    <Typography>{t("nutrition.macros.calories")}</Typography>
+                    <LinearProgress variant="determinate" color="info" value={40} sx={{ width: "100%"}}/>
+                    <Typography>400 / 2400</Typography>
+                </Box>
+                <Box sx={{ display: "flex", flex: "1 1 0", flexDirection: "column", alignItems: "center", gap: "2px" }}>
+                    <Typography>{t("nutrition.macros.fats")}</Typography>
+                    <LinearProgress variant="determinate" color="warning" value={40} sx={{ width: "100%"}}/>
+                    <Typography>40 / 80</Typography>
+                </Box>
+                <Box sx={{ display: "flex", flex: "1 1 0", flexDirection: "column", alignItems: "center", gap: "2px" }}>
+                    <Typography>{t("nutrition.macros.protein")}</Typography>
+                    <LinearProgress variant="determinate" color="error" value={40} sx={{ width: "100%"}}/>
+                    <Typography>40 / 120</Typography>
+                </Box>
+                <Box sx={{ display: "flex", flex: "1 1 0", flexDirection: "column", alignItems: "center", gap: "2px" }}>
+                    <Typography>{t("nutrition.macros.carbs")}</Typography>
+                    <LinearProgress variant="determinate" color="success" value={40} sx={{ width: "100%"}}/>
+                    <Typography>220 / 300</Typography>
+                </Box>
+            </Paper>
+        </Box>
     </Layout>
 }
 

@@ -443,6 +443,12 @@
       "afternoon": "Berenar",
       "dinner": "Sopar",
       "snack": "Snack"
+    },
+    "macros": {
+      "calories": "Calories",
+      "fats": "Greixos",
+      "protein": "Proteïna",
+      "carbs": "Carbohidrats"
     }
   }
 }

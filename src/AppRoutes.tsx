@@ -30,6 +30,7 @@ import Onboarding from "./pages/onboarding/onboarding";
 import React from "react";
 import BulkEditor from "./pages/workout-editor/bulkEditor";
 import NutritionHome from "./pages/nutrition/home";
+import ProductList from "./pages/nutrition/productList";
 
 const AppRoutes = () => {
     return <Routes>
@@ -76,6 +77,7 @@ const AppRoutes = () => {
                element={<License/>}/>
         <Route path="/onerm" element={<OneRmCalculator/>}/>
         <Route path="/nutrition" element={<NutritionHome/>}/>
+        <Route path="/nutrition/add/:mealId/:search" element={<ProductList/>}/>
         <Route path="/account" element={<AccountMenu/>}/>
         <Route path="/account/login" element={<LoginPage/>}/>
         <Route path="*" element={<NotImplemented/>}/>
