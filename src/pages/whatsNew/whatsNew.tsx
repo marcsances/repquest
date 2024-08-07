@@ -40,6 +40,14 @@ export const WhatsNew = () => {
                 along with this program.  If not, see <a href="Https://www.gnu.org/licenses" style={{ color: "white" }}>https://www.gnu.org/licenses/</a>.
             </Typography>
             <br/>
+            <Typography variant="h4">WeightLog Version 0.2.3</Typography>
+            <Typography variant="subtitle1">Released on 07/08/2024</Typography>
+            <Typography variant="subtitle2">Copyright Marc Sances 2024. All rights reserved.</Typography>
+            <Typography variant="h5">Bugfixes</Typography>
+            <ul>
+                <li>Bulk editor now allows to enter decimal numbers</li>
+                <li>Fixed an issue with light mode causing the save button in bulk editor to not be visible</li>
+            </ul>
             <Typography variant="h4">WeightLog Version 0.2.2</Typography>
             <Typography variant="subtitle1">Released on 23/06/2024</Typography>
             <Typography variant="subtitle2">Copyright Marc Sances 2024. All rights reserved.</Typography>

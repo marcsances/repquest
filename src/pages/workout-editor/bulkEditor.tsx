@@ -116,9 +116,9 @@ const BulkEditor = () => {
     }
 
     const filter = createFilterOptions<string>();
+    const {theme: appTheme} = useContext(SettingsContext);
 
-
-    return <><Layout hideBack={saving} title={t("bulkEditor.title")} hideNav toolItems={<Button onClick={save} disabled={saving || rows.length === 1}>{t("bulkEditor.saveAll")}</Button>}>
+    return <><Layout hideBack={saving} title={t("bulkEditor.title")} hideNav toolItems={<Button onClick={save} disabled={saving || rows.length === 1} sx={appTheme === "light" ? {color: "white"} : {}}>{t("bulkEditor.saveAll")}</Button>}>
         <TableContainer sx={{ minWidth: "100vw", maxHeight: "100%", overflowY: "scroll" }} component={Paper}>
             <Table stickyHeader size="small">
             <TableHead>
@@ -157,29 +157,37 @@ const BulkEditor = () => {
                     </TableRow><TableRow>
                     <TableCell>
                         <TextField disabled={saving} size="small" error={idx < rows.length - 1 && !row.sets} value={row.sets} onChange={(ev) => {
+                            setRows((rs) => rs.map((v, i) => i === idx ? ({ ...v, sets: ev.target.value as unknown as number }) : v));
+                        }} onBlur={(ev) => {
                             const val = parseInt(ev.target.value);
-                            setRows((rs) => rs.map((v, i) => i === idx ? ({ ...v, sets: isNaN(val) || val <= 0 ? undefined : val }) : v));
+                            setRows((rs) => rs.map((v, i) => i === idx ? ({ ...v, sets: isNaN(val) || val <= 0 ? "" as unknown as number : val }) : v));
                             defer(checkEmptyRow)
                         }} />
                     </TableCell>
                     <TableCell>
                         <TextField disabled={saving} size="small" error={idx < rows.length - 1 && !row.reps} value={row.reps} onChange={(ev) => {
+                            setRows((rs) => rs.map((v, i) => i === idx ? ({ ...v, reps: ev.target.value as unknown as number }) : v));
+                        }} onBlur={(ev) => {
                             const val = parseInt(ev.target.value);
-                            setRows((rs) => rs.map((v, i) => i === idx ? ({ ...v, reps: isNaN(val) || val <= 0 ? undefined : val }) : v));
+                            setRows((rs) => rs.map((v, i) => i === idx ? ({ ...v, reps: isNaN(val) || val <= 0 ? "" as unknown as number : val }) : v));
                             defer(checkEmptyRow)
                         }} />
                     </TableCell>
                     <TableCell>
                         <TextField disabled={saving} size="small" value={row.weight} onChange={(ev) => {
+                            setRows((rs) => rs.map((v, i) => i === idx ? ({ ...v, weight: ev.target.value as unknown as number }) : v));
+                        }} onBlur={(ev) => {
                             const val = parseFloat(ev.target.value);
-                            setRows((rs) => rs.map((v, i) => i === idx ? ({ ...v, weight: isNaN(val) || val <= 0 ? undefined : val }) : v));
+                            setRows((rs) => rs.map((v, i) => i === idx ? ({ ...v, weight: isNaN(val) || val <= 0 ? "" as unknown as number : val }) : v));
                             defer(checkEmptyRow)
                         }} />
                     </TableCell>
                     <TableCell>
                         <TextField disabled={saving} size="small" value={row.rest} onChange={(ev) => {
+                            setRows((rs) => rs.map((v, i) => i === idx ? ({ ...v, rest: ev.target.value as unknown as number }) : v));
+                        }} onBlur={(ev) => {
                             const val = parseInt(ev.target.value);
-                            setRows((rs) => rs.map((v, i) => i === idx ? ({ ...v, rest: isNaN(val) || val <= 0 ? undefined : val }) : v));
+                            setRows((rs) => rs.map((v, i) => i === idx ? ({ ...v, rest: isNaN(val) || val <= 0 ? "" as unknown as number : val }) : v));
                             defer(checkEmptyRow)
                         }} />
                     </TableCell>
