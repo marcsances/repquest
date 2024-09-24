@@ -83,7 +83,7 @@ export const Rest = (props: { onBack: () => void }) => {
             <Typography variant="h5" sx={{alignSelf: "center", textAlign: "center", color: "rgb(192, 192, 192)"}}>
                 {focusedExercise?.name}
             </Typography>
-            {currentSet && currentSet.weight &&
+            {currentSet && currentSet.weight !== undefined &&
                 <Typography variant="h5" sx={{alignSelf: "center", textAlign: "center", color: "rgb(192, 192, 192)"}}>
                     {t("weight")}: {currentSet?.weight} {useLbs ? "lbs" : "kg"}
                 </Typography>}

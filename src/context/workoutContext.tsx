@@ -421,7 +421,7 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
         if (currentWorkoutExercise.setIds.length === 1) return;
         const oldId = currentWorkoutExercise.id;
         const newId = getId();
-        const setIds = currentWorkoutExercise.setIds.filter((_, idx) => idx === currentSetNumber - 1);
+        const setIds = currentWorkoutExercise.setIds.slice(0, currentWorkoutExercise.setIds.length - 1);
         await db.workoutExercise.put({...currentWorkoutExercise, id: newId, setIds});
         setCurrentWorkoutExercise({...currentWorkoutExercise, id: newId, setIds});
         setCurrentWorkoutExerciseIds((prevIds) => {

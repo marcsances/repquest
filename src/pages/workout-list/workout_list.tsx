@@ -19,15 +19,13 @@ import Layout from "../../components/layout";
 import {useTranslation} from "react-i18next";
 import {
     Avatar,
+    Fab,
     IconButton,
     List,
     ListItemAvatar,
     ListItemButton,
     ListItemText,
     Snackbar,
-    SpeedDial,
-    SpeedDialAction,
-    SpeedDialIcon,
     useTheme
 } from "@mui/material";
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
@@ -38,14 +36,12 @@ import {useNavigate} from "react-router-dom";
 import StopIcon from '@mui/icons-material/Stop';
 import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
 import EventNoteIcon from '@mui/icons-material/EventNote';
-import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import Selector from "../../components/selector";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {RestInProgress} from "../../components/restInProgress";
-import {SpeedDialActionSx} from "../../utils/globalStyles";
 import ConfirmDialog from "../../components/confirmDialog";
 import Loader from "../../components/Loader";
 import WorkoutDetailsEditor from "../workout-editor/workoutDetails_editor";
@@ -80,7 +76,6 @@ export const WorkoutList = () => {
     const navigate = useNavigate();
     const theme = useTheme();
     const [snackbar, setSnackbar] = useState("");
-    const [showMenu, setShowMenu] = useState(false);
     const [openPlanSelector, setOpenPlanSelector] = useState(false);
     const [targetWorkout, setTargetWorkout] = useState<Workout | undefined>(undefined);
     const [confirmDelete, setConfirmDelete] = useState(false);
@@ -149,7 +144,6 @@ export const WorkoutList = () => {
     }, [currentWorkout, time, timeStarted]);
 
 
-    const speedDialActionSx = SpeedDialActionSx(theme);
     const newWorkout = () => {
         setNewWorkoutTarget({
             id: getId(),
@@ -157,7 +151,6 @@ export const WorkoutList = () => {
             daysOfWeek: [],
             workoutExerciseIds: []
         });
-        setShowMenu(false);
     };
 
     const exportPlan = () => {
@@ -230,27 +223,12 @@ export const WorkoutList = () => {
             <ListItemText primary={t("addWorkout")}/>
         </ListItemButton>}
 
-        {!currentWorkout && workouts !== undefined &&
-            <SpeedDial sx={{position: 'fixed', bottom: 72, right: 16, zIndex: 1}} ariaLabel="Actions"
-                       icon={<SpeedDialIcon icon={<MenuIcon/>} openIcon={<CloseIcon/>}/>}
-                       open={showMenu} onOpen={() => setShowMenu(true)}
-                       onClose={() => setShowMenu(false)}>
-                <SpeedDialAction tooltipOpen
-                                 icon={<EventNoteIcon/>}
-                                 tooltipTitle={t("selectPlan")}
-                                 sx={speedDialActionSx}
-                                 onClick={() => {
-                                     setOpenPlanSelector(true);
-                                     setShowMenu(false);
-                                 }}
-                />
-                <SpeedDialAction tooltipOpen
-                                 icon={<AddIcon/>}
-                                 tooltipTitle={t("addWorkout")}
-                                 sx={speedDialActionSx}
-                                 onClick={newWorkout}
-                />
-            </SpeedDial>}
+        <Fab color="primary" sx={{ position: "fixed", bottom: 72, right: 16, zIndex: 1}} onClick={() => {
+            setOpenPlanSelector(true);
+        }}>
+            <EventNoteIcon/>
+        </Fab>
+
         <Selector
             defaultValue={currentPlan.toString()}
             open={openPlanSelector}

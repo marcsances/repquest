@@ -40,6 +40,25 @@ export const WhatsNew = () => {
                 along with this program.  If not, see <a href="Https://www.gnu.org/licenses" style={{ color: "white" }}>https://www.gnu.org/licenses/</a>.
             </Typography>
             <br/>
+            <Typography variant="h4">WeightLog Version 0.2.4</Typography>
+            <Typography variant="subtitle1">Released on 24/09/2024</Typography>
+            <Typography variant="subtitle2">Copyright Marc Sances 2024. All rights reserved.</Typography>
+            <Typography variant="h5">Features</Typography>
+            <ul>
+                <li>Removed menu in workout list and switched by a simple button to change plans.</li>
+            </ul>
+            <Typography variant="h5">Bugfixes</Typography>
+            <ul>
+                <li>Solved a bug showing a wrongly aligned 0 in the rest screen when the next set weight is 0.</li>
+                <li>Disabled the possibility of adding or removing a set to the current exercise until the user is in the last set.</li>
+                <li>Fixed "Exercise completed" background color in light mode</li>
+                <li>Fixed 1RM calculator not scrolling when opened from the tools menu</li>
+                <li>Save button is now disabled in completed exercises</li>
+            </ul>
+            <Typography variant="h5">Maintenance</Typography>
+            <ul>
+                <li>Updated package dependencies to latest versions</li>
+            </ul>
             <Typography variant="h4">WeightLog Version 0.2.3</Typography>
             <Typography variant="subtitle1">Released on 07/08/2024</Typography>
             <Typography variant="subtitle2">Copyright Marc Sances 2024. All rights reserved.</Typography>

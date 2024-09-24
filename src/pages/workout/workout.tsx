@@ -119,7 +119,7 @@ export const WorkoutPage = () => {
         setSuperset
     } = useContext(WorkoutContext);
     const {featureLevel, useLbs, oneRm, wakeLock,
-        toggleWakeLock, errorWakeLock } = useContext(SettingsContext);
+        toggleWakeLock, errorWakeLock, theme } = useContext(SettingsContext);
     const {db} = useContext(DBContext);
     const {audioContext, setAudioContext} = useContext(TimerContext);
     const {t} = useTranslation();
@@ -231,20 +231,20 @@ export const WorkoutPage = () => {
                 <ListItemIcon><CollectionsIcon /></ListItemIcon>
                 <ListItemText>{t("actions.viewPicture")}</ListItemText>
             </MenuItem>
-            <MenuItem onClick={() => {
+            {currentSetNumber === (currentWorkoutExercise?.setIds?.length || 0) && <MenuItem onClick={() => {
                 if (addSet) addSet();
                 closeMenu()
             }}>
                 <ListItemIcon><AddCircleOutlined/></ListItemIcon>
                 <ListItemText>{t("actions.addSet")}</ListItemText>
-            </MenuItem>
-            <MenuItem onClick={() => {
+            </MenuItem>}
+            {currentSetNumber === (currentWorkoutExercise?.setIds?.length || 0) && <MenuItem onClick={() => {
                 if (removeSet) removeSet();
                 closeMenu()
             }}>
                 <ListItemIcon><RemoveCircleOutlined/></ListItemIcon>
                 <ListItemText>{t("actions.removeSet")}</ListItemText>
-            </MenuItem>
+            </MenuItem>}
             <MenuItem onClick={() => {
                 setAddExerciseOpen(true);
                 closeMenu()
@@ -338,7 +338,7 @@ export const WorkoutPage = () => {
 
             </Paper>}
             {<Box sx={{overflow: isCurrentExerciseComplete ? "hidden" : "auto", position: "relative", flexShrink: 1}}>
-                {isCurrentExerciseComplete && <Box sx={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", backgroundColor: "rgba(30, 30, 30, 0.9)", zIndex: 10, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", gap: "16px" }} onClick={(e) => e.stopPropagation()}>
+                {isCurrentExerciseComplete && <Box sx={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", backgroundColor: theme === "light" ? "rgba(255, 255, 255, 0.6)" : "rgba(18, 18, 18, 0.6)", zIndex: 10, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", gap: "16px" }} onClick={(e) => e.stopPropagation()}>
                     <Typography sx={{fontWeight: 600}}>{t("exerciseCompleted")}</Typography>
                     <Button variant="contained" color="primary" onClick={addSet}>{t("actions.addSet")}</Button>
                 </Box>}
@@ -388,7 +388,7 @@ export const WorkoutPage = () => {
                          onClick={() => setCurrentWorkoutExerciseNumber(currentWorkoutExerciseNumber - 1)}>
                         <ArrowLeftIcon/>
                     </Fab>}
-                {<Fab color="success" size={isMini ? "small" : "large"} aria-label="add" onClick={save}>
+                {<Fab color="success" size={isMini ? "small" : "large"} disabled={isCurrentExerciseComplete} aria-label="add" onClick={save}>
                     <DoneIcon/>
                 </Fab>}
                 <Fab aria-label="stop" size={isMini ? "small" : "large"} color="error"
