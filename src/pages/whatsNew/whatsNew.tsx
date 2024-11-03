@@ -40,6 +40,18 @@ export const WhatsNew = () => {
                 along with this program.  If not, see <a href="Https://www.gnu.org/licenses" style={{ color: "white" }}>https://www.gnu.org/licenses/</a>.
             </Typography>
             <br/>
+            <Typography variant="h4">WeightLog Version 0.2.5</Typography>
+            <Typography variant="subtitle1">Released on 03/11/2024</Typography>
+            <Typography variant="subtitle2">Copyright Marc Sances 2024. All rights reserved.</Typography>
+            <Typography variant="h5">Features</Typography>
+            <ul>
+                <li>Added the possibility to reorder workouts in workout plans.</li>
+            </ul>
+            <Typography variant="h5">Bugfixes</Typography>
+            <ul>
+                <li>If an exercise without rest is completed while a rest from a previous exercise was in progress, the rest will now be stopped.</li>
+                <li>The workout summary page will now show "Set" when an exercise with no parameters is completed.</li>
+            </ul>
             <Typography variant="h4">WeightLog Version 0.2.4</Typography>
             <Typography variant="subtitle1">Released on 24/09/2024</Typography>
             <Typography variant="subtitle2">Copyright Marc Sances 2024. All rights reserved.</Typography>

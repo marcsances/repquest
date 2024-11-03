@@ -24,6 +24,7 @@ export interface Workout {
     deleted?: boolean;
     color?: string;
     synced?: Date;
+    order?: number;
 }
 
 export interface WorkoutHistory {

@@ -53,5 +53,5 @@ export const getLabelForSet = (set: ExerciseSet, useLbs: boolean, t: (key: strin
     if (set.rest && showRest) {
         label = label + " (" + t("rest") + " " + set.rest + " s)"
     }
-    return label;
+    return label.trim().length > 0 ? label : t("set");
 }

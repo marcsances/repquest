@@ -116,7 +116,7 @@ export const WorkoutPage = () => {
         isFetching,
         refetchHistory,
         superset,
-        setSuperset
+        setSuperset, stopRest, restStarted
     } = useContext(WorkoutContext);
     const {featureLevel, useLbs, oneRm, wakeLock,
         toggleWakeLock, errorWakeLock, theme } = useContext(SettingsContext);
@@ -252,14 +252,14 @@ export const WorkoutPage = () => {
                 <ListItemIcon><FitnessCenterIcon/></ListItemIcon>
                 <ListItemText>{t("addExercise")}</ListItemText>
             </MenuItem>
-            <MenuItem onClick={() => {
+            {currentSet?.rest && <MenuItem onClick={() => {
                 if (setAudioContext) setAudioContext(new AudioContext({latencyHint: "interactive"}));
                 if (startRest && currentSet && currentSet.rest) startRest(currentSet.rest);
                 closeMenu()
             }}>
                 <ListItemIcon><Timer/></ListItemIcon>
                 <ListItemText>{t("actions.startRest")}</ListItemText>
-            </MenuItem>
+            </MenuItem>}
             {!superset && featureLevel === "advanced" && currentWorkout && currentWorkout.workoutExerciseIds && (currentWorkoutExerciseNumber < currentWorkout!.workoutExerciseIds!.length - 1) && <MenuItem onClick={() => {
                 if (setSuperset) setSuperset({ current: 1, size: 2 });
                 closeMenu()

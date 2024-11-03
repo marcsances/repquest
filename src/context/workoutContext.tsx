@@ -306,6 +306,12 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
         }
     }, [focusedExercise, currentExerciseHistory, init, oneRm]);
 
+    const stopRest = useCallback(() => {
+        setRestStarted(undefined);
+        setRestTime(0);
+        setTimeUpdated(new Date());
+    }, [setRestStarted]);
+    
     const saveSet = useCallback(async (set: ExerciseSet) => {
         if (!init || !currentWorkoutExercise || !db || !currentWorkout || !currentWorkoutExercise.setIds) return;
         setIsFetching(true);
@@ -346,9 +352,11 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
             setIsFetching(false);
             if (set.rest) {
                 startRest(set.rest);
+            } else if (restStarted) {
+                stopRest();
             }
         })
-    }, [superset, db, checkPb, currentSetNumber, setCurrentSetNumber, startRest, init, currentWorkout]);
+    }, [superset, db, checkPb, currentSetNumber, setCurrentSetNumber, startRest, restStarted, stopRest, init, currentWorkout]);
 
     useEffect(() => {
         setCurrentWorkoutHistory((prevState) => prevState ? ({
@@ -357,11 +365,6 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
         }) : prevState);
     }, [currentWorkoutExerciseIds]);
 
-    const stopRest = useCallback(() => {
-        setRestStarted(undefined);
-        setRestTime(0);
-        setTimeUpdated(new Date());
-    }, [setRestStarted]);
 
     const notEmptyHistory = async (exerciseIds: number[]) => {
         const exercises = await db?.workoutExercise.bulkGet(currentWorkoutExerciseIds);

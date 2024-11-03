@@ -46,7 +46,7 @@ import ConfirmDialog from "../../components/confirmDialog";
 import Loader from "../../components/Loader";
 import WorkoutDetailsEditor from "../workout-editor/workoutDetails_editor";
 import getId from "../../utils/id";
-import {Share} from "@mui/icons-material";
+import {ArrowDownward, ArrowUpward, MoveDown, MoveUp, Share} from "@mui/icons-material";
 import {TimerContext} from "../../context/timerContext";
 import AddExercisePicker from "../workout/addExercisePicker";
 import defer from "../../utils/defer";
@@ -102,7 +102,12 @@ export const WorkoutList = () => {
                         setPlan(newPlan);
                         setMustSelectPlan(false);
                         db?.workout.bulkGet(newPlan.workoutIds).then((workouts) => {
-                            setWorkouts(workouts.filter((it) => it !== undefined && !it.deleted).map((it) => it as Workout));
+                            setWorkouts(workouts.filter((it) => it !== undefined && !it.deleted).map((it) => it as Workout).sort((w1, w2) => {
+                                if (w1.order === undefined && w2.order === undefined) return w1.id - w2.id;
+                                if (w2.order === undefined) return -1;
+                                if (w1.order === undefined) return 1;
+                                return w1.order! - w2.order!;
+                            }));
                         })
                     } else {
                         setMustSelectPlan(true);
@@ -115,7 +120,12 @@ export const WorkoutList = () => {
             setMustSelectPlan(false);
             setPlan(plan);
             db?.workout.bulkGet(plan.workoutIds).then((workouts) => {
-                setWorkouts(workouts.filter((it) => it !== undefined && !it.deleted).map((it) => it as Workout));
+                setWorkouts(workouts.filter((it) => it !== undefined && !it.deleted).map((it) => it as Workout).sort((w1, w2) => {
+                    if (w1.order === undefined && w2.order === undefined) return w1.id - w2.id;
+                    if (w2.order === undefined) return -1;
+                    if (w1.order === undefined) return 1;
+                    return w1.order! - w2.order!;
+                }));
             })
         })
 
@@ -152,6 +162,36 @@ export const WorkoutList = () => {
             workoutExerciseIds: []
         });
     };
+
+    const moveUp = (workout: Workout) => {
+        if (!workouts || !db) return;
+        const idx = workouts.findIndex((x) => workout.id === x.id);
+        const newWorkouts = ([...[...workouts.slice(0, idx - 1), workouts[idx], workouts[idx - 1]], ...workouts.slice(idx + 1)]).map((w, idx) => ({...w, order: idx}));
+        db.transaction("rw", "workout", async (tx) => {
+            for (const workout of newWorkouts) {
+                await db.workout.update(workout.id, { order: workout.order });
+            }
+        }).then(() => {
+            setWorkouts(newWorkouts)
+        }).catch(() => {
+            setSnackbar(t("somethingWentWrong"))
+        })
+    }
+
+    const moveDown = (workout: Workout) => {
+        if (!workouts || !db) return;
+        const idx = workouts.findIndex((x) => workout.id === x.id);
+        const newWorkouts = ([...[...workouts.slice(0, idx), workouts[idx + 1], workouts[idx]], ...workouts.slice(idx + 2)]).map((w, idx) => ({...w, order: idx}));
+        db.transaction("rw", "workout", async (tx) => {
+            for (const workout of newWorkouts) {
+                await db.workout.update(workout.id, { order: workout.order });
+            }
+        }).then(() => {
+            setWorkouts(newWorkouts)
+        }).catch(() => {
+            setSnackbar(t("somethingWentWrong"))
+        })
+    }
 
     const exportPlan = () => {
         if (!plan || !db) return;
@@ -282,12 +322,18 @@ export const WorkoutList = () => {
             } else if (key === "delete") {
                 setConfirmDelete(true);
                 return;
+            } else if (key === "moveUp") {
+                moveUp(targetWorkout);
+            } else if (key === "moveDown") {
+                moveDown(targetWorkout);
             }
             setTargetWorkout(undefined)
         }} title={targetWorkout?.name || ""} entries={[
             {key: "start", value: t("startWorkout"), icon: <DirectionsRunIcon/>},
             {key: "edit", value: t("editWorkout"), icon: <EditIcon/>},
             {key: "share", value: t("shareWorkout"), icon: <Share/>},
+            ...(workouts && workouts.findIndex((workout) => workout.id === targetWorkout.id) !== 0 ? [{key: "moveUp", value: t("actions.moveUp"), icon: <ArrowUpward/>}] : []),
+            ...(workouts && workouts.findIndex((workout) => workout.id === targetWorkout.id) !== workouts.length - 1 ? [{key: "moveDown", value: t("actions.moveDown"), icon: <ArrowDownward/>}] : []),
             {key: "delete", value: t("deleteWorkout"), icon: <DeleteIcon/>},
             {key: "cancel", value: t("cancel"), icon: <CloseIcon/>}]}></Selector>}
         <Snackbar
