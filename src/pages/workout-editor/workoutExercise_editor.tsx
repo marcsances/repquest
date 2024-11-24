@@ -136,7 +136,7 @@ export const WorkoutExerciseEditor = (props: WorkoutExerciseEditorProps) => {
                 setSetNumber(idx + 1);
             }}>
                 <ListItemAvatar>
-               ç     {!exercise?.picture && <Avatar>
+                    {!exercise?.picture && <Avatar>
                         <FitnessCenterIcon/>
                     </Avatar>}
                     {exercise?.picture && <Avatar src={exercise.picture} />}
