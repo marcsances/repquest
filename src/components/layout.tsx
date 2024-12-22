@@ -30,12 +30,13 @@ const Layout = (props: {
     onBack?: () => void,
     sx?: CSSProperties,
     scroll?: boolean,
-    leftToolItems?: ReactNode
+    leftToolItems?: ReactNode,
+    nogrow?: boolean
 }) => {
-    const {children, title, showAccountMenu, hideAppBar, hideNav, toolItems, leftToolItems, hideBack, onBack, sx, scroll} = props;
+    const {children, title, nogrow, showAccountMenu, hideAppBar, hideNav, toolItems, leftToolItems, hideBack, onBack, sx, scroll} = props;
     return <Paper sx={{display: "flex", flexDirection: "column", position: "absolute", width: "100%", ...(scroll ? { overflow: "auto", height: "auto" } : { overflow: "hidden", height: "100%"}), ...sx}}>
         {!hideAppBar && <WLAppBar title={title} showAccountMenu={showAccountMenu} leftToolItems={leftToolItems} toolItems={toolItems} hideBack={hideBack} onBack={onBack}/>}
-        <Box sx={{flexGrow: 1, marginTop: "56px", maxHeight: "calc(100% - 56px)"}}>{children}</Box>
+        <Box sx={{flexGrow: nogrow ? undefined : 1, marginTop: "56px", maxHeight: "calc(100% - 56px)"}}>{children}</Box>
         {!hideNav && <WLNav/>}
     </Paper>;
 }

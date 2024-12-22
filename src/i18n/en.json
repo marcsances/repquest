@@ -431,5 +431,23 @@
     "saveAll": "Save all",
     "checkErrors": "Some required data is missing"
   },
-  "saving": "Saving..."
+  "saving": "Saving...",
+  "wrapped": {
+    "menuEntry": "Yearly Wrapped",
+    "menuEntryDescription": "Find out what you achieved this ",
+    "wrappedTitle": "%U's %Y Wrapped",
+    "wrappedTitleNoUserName": "%Y Wrapped",
+    "download": "Download",
+    "totalWorkouts": "Total sessions",
+    "totalWeight": "Weight lifted",
+    "totalSets": "Total sets",
+    "favoriteExercise": "Favorite exercise",
+    "heaviestExercise": "Heaviest exercise",
+    "favoriteMuscleGroup": "Favorite muscle group",
+    "generating": "Creating Yearly Wrapped...",
+    "noData": "No data",
+    "sets": "sets",
+    "workouts": "sessions",
+    "thanks": "Thank you for training with WeightLog this %Y!"
+  }
 }

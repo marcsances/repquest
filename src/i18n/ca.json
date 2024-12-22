@@ -431,5 +431,23 @@
     "saveAll": "Desar tot",
     "checkErrors": "Falten alguns camps obligatoris"
   },
-  "saving": "S'està desant..."
+  "saving": "S'està desant...",
+  "wrapped": {
+    "menuEntry": "Resum de l'any",
+    "menuEntryDescription": "Descobriu el que heu aconseguit aquest any ",
+    "wrappedTitle": "Resum de %Y de %U",
+    "wrappedTitleNoUserName": "Resum de %Y",
+    "download": "Descarregar",
+    "totalWorkouts": "Total de sessions",
+    "totalWeight": "Pes aixecat",
+    "totalSets": "Sèries totals",
+    "favoriteExercise": "Exercici preferit",
+    "heaviestExercise": "Exercici més pesat",
+    "favoriteMuscleGroup": "Grup muscular preferit",
+    "generating": "Generant resum de l'any...",
+    "noData": "Sense dades",
+    "sets": "sèries",
+    "workouts": "sessions",
+    "thanks": "Gràcies per entrenar amb WeightLog aquest %Y!"
+  }
 }

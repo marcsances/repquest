@@ -431,5 +431,23 @@
     "saveAll": "Guardar todo",
     "checkErrors": "Faltan algunos datos obligatorios"
   },
-  "saving": "Guardando..."
+  "saving": "Guardando...",
+  "wrapped": {
+    "menuEntry": "Resumen del año",
+    "menuEntryDescription": "Descubre lo que has conseguido este año ",
+    "wrappedTitle": "Resumen de %Y de %U",
+    "wrappedTitleNoUserName": "Resumen de %Y",
+    "download": "Descargar",
+    "totalWorkouts": "Total de sesiones",
+    "totalWeight": "Peso levantado",
+    "totalSets": "Series totales",
+    "favoriteExercise": "Ejercicio favorito",
+    "heaviestExercise": "Ejercicio más pesado",
+    "favoriteMuscleGroup": "Grupo muscular favorito",
+    "generating": "Generando resumen del año...",
+    "noData": "Sin datos",
+    "sets": "series",
+    "workouts": "sesiones",
+    "thanks": "¡Gracias por entrenar con WeightLog este %Y!"
+  }
 }

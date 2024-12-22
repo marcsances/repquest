@@ -46,7 +46,7 @@ import ConfirmDialog from "../../components/confirmDialog";
 import Loader from "../../components/Loader";
 import WorkoutDetailsEditor from "../workout-editor/workoutDetails_editor";
 import getId from "../../utils/id";
-import {ArrowDownward, ArrowUpward, MoveDown, MoveUp, Share} from "@mui/icons-material";
+import {ArrowDownward, ArrowUpward, Celebration, History, MoveDown, MoveUp, Share} from "@mui/icons-material";
 import {TimerContext} from "../../context/timerContext";
 import AddExercisePicker from "../workout/addExercisePicker";
 import defer from "../../utils/defer";
@@ -85,6 +85,9 @@ export const WorkoutList = () => {
     const [mustSelectPlan, setMustSelectPlan] = useState(false);
     const [addExerciseOpen, setAddExerciseOpen] = useState(false);
     const {showPrompt} = useContext(DialogContext);
+
+    const showWrapped = [11, 0].includes(new Date().getMonth());
+
     useEffect(() => {
         db?.plan.toArray().then((plans) => {
             setPlans(plans.filter((it) => !it.deleted));
@@ -208,6 +211,14 @@ export const WorkoutList = () => {
                        }, plan?.name || "");
                    }}><EditIcon/></IconButton></>}><List
         sx={{width: '100%', height: 'calc(100% - 78px)', overflow: "auto"}}>
+        {showWrapped && <ListItemButton component="a" sx={{marginTop: "4px", padding: "4px", marginLeft: "10px", marginRight: "10px", marginBottom: "5px", boxShadow: "0px 0px 5px 0px rgba(255,236,29,0.9)", background: "conic-gradient(rgba(255,237,29,1), rgba(255,205,30,1), rgba(255,237,29,1));", borderRadius: "20px"}} onClick={() => navigate("/wrapped")}>
+            <ListItemAvatar>
+                <Avatar sx={{marginLeft: "6px", bgcolor: "rgba(255,255,255,0)"}}>
+                    <Celebration sx={{color: "black"}}/>
+                </Avatar></ListItemAvatar>
+                <ListItemText sx={{".MuiListItemText-primary": {color: "black", fontWeight: 600}, ".MuiListItemText-secondary": {color: "black", fontSize: "12px"}}} primary={t("wrapped.menuEntry")} secondary={t("wrapped.menuEntryDescription") + (new Date().getFullYear() - (new Date().getMonth() === 0 ? -1 : 0))} />
+
+        </ListItemButton>}
         {timeStarted && currentWorkout && <>            {!!restTime &&
             <RestInProgress onClick={() => navigate("/workout")}/>}
             <ListItemButton component="a" onClick={() => navigate("/workout")}>
