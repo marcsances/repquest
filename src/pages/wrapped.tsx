@@ -90,7 +90,7 @@ const Wrapped = () => {
         }
         const setDates = new Set(sets.map((set) => set.date!.getDate().toString() + "-" + (set.date!.getMonth() + 1).toString() + "-" + set.date!.getFullYear().toString()));
         const totalWorkouts = setDates.size;
-        const totalWeight = sets.filter((set) => set.weight).map((set) => set.weight!).reduce((w1, w2) => w1 + w2, 0);
+        const totalWeight = sets.filter((set) => set.weight).map((set) => set.weight! * (set.reps || 1)).reduce((w1, w2) => w1 + w2, 0);
         const exerciseDict = Object.fromEntries(Object.entries(countInstances(sets.map((set) => set.exerciseId))).sort((a, b) => b[1] - a[1]));
         const favoriteExercise = (await db.exercise.get(parseInt(Object.entries(exerciseDict)[0][0])))
         const weightDict = Object.fromEntries(Object.entries(largestEntry(sets.filter((set) => set.weight).map((set) => ({exerciseId: set.exerciseId, oneRm: getOneRm(set.weight!, set.reps || 1, oneRm)})), "exerciseId", "oneRm")).sort((a, b) => b[1] - a[1]));
