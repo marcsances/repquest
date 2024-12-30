@@ -15,7 +15,6 @@ import {SettingsContext} from "../../context/settingsContext";
 import {useNavigate} from "react-router-dom";
 import ImportStep from "./steps/import";
 import {DBContext} from "../../context/dbContext";
-import exercises from "../../exerciseDb/exercises.json";
 import getId from "../../utils/id";
 import {ExerciseTag} from "../../models/exercise";
 
@@ -40,6 +39,7 @@ const Onboarding = () => {
     const { saveOnboardingCompleted } = useContext(SettingsContext);
     const navigate = useNavigate();
     const { db } = useContext(DBContext);
+    const {theme: appTheme} = useContext(SettingsContext);
 
     const scrollToStep = (stepNumber: number) => {
         const step = document.getElementById(`step-${stepNumber}`);
@@ -79,12 +79,14 @@ const Onboarding = () => {
             if (nextStep === steps.length) {
                 if (saveOnboardingCompleted) saveOnboardingCompleted(true);
                 if (importData === ImportMode.IMPORT_DATASET) {
-                    db.exercise.bulkPut(exercises.map((exercise) => ({
-                        id: getId(),
-                        name: exercise.name,
-                        picture: "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/" + exercise.images[0],
-                        tags: getTags(exercise)
-                    })))
+                    import("../../exerciseDb/exercises.json").then((exercises) => {
+                        db.exercise.bulkPut(exercises.default.map((exercise) => ({
+                            id: getId(),
+                            name: exercise.name,
+                            picture: "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/" + exercise.images[0],
+                            tags: getTags(exercise)
+                        })))
+                    })
                 }
                 navigate(importData === ImportMode.IMPORT_FILE ? "/onboarding/backup" : "/");
                 return;
@@ -112,7 +114,8 @@ const Onboarding = () => {
         height: "100%",
         width: "calc(100% - 24px)",
         paddingLeft: "12px",
-        paddingRight: "12px"
+        paddingRight: "12px",
+        backgroundImage: {dark: "url('/logofadenoback.png')", light: "url('/logofadelight.png')"}[appTheme], backgroundSize: "contain", backgroundPosition: "right bottom", backgroundRepeat: "no-repeat"
     }}>
         <Box id="stepperBox" sx={{paddingTop: "8px",height: "calc(100% - 80px)", paddingBottom: "20px", overflowY: "scroll"}}><Stepper activeStep={activeStep} orientation="vertical">
             {steps.map((label, index) => {
