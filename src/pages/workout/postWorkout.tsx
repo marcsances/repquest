@@ -26,7 +26,17 @@ import getId from "../../utils/id";
 import {compareSetHistoryEntries} from "../../utils/comparators";
 import {DBContext} from "../../context/dbContext";
 import Loader from "../../components/Loader";
-import {Avatar, List, ListItemAvatar, ListItemButton, ListItemText, ListSubheader, Stack} from "@mui/material";
+import {
+    Avatar, Box,
+    Card,
+    List,
+    ListItem,
+    ListItemAvatar,
+    ListItemButton,
+    ListItemText,
+    ListSubheader,
+    Stack
+} from "@mui/material";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import Typography from "@mui/material/Typography";
 import {ExerciseSet} from "../../models/workout";
@@ -34,7 +44,9 @@ import {getLabelForSet} from "../../utils/setUtils";
 import {SettingsContext} from "../../context/settingsContext";
 import {useTranslation} from "react-i18next";
 import {PB} from "../../models/pb";
-import {Timer} from "@mui/icons-material";
+import {Download, Timer} from "@mui/icons-material";
+import DomToImage from "dom-to-image";
+import i18n from "i18next";
 
 const PostWorkout = () => {
     const navigate = useNavigate();
@@ -89,20 +101,39 @@ const PostWorkout = () => {
         return `${hours.toString()}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
     }
 
-    return <Layout hideNav hideBack title={t("workoutFinished")} leftToolItems={<IconButton sx={{mr: 2}} size="large" edge="start" color="inherit"
-                    onClick={() => navigate("/")}><CloseIcon/></IconButton>}>
-        {loading || !postWorkout ? <Loader/> : <Stack direction="column" sx={{height: "100%", overflowY: "scroll"}}>
-            <Typography sx={{width: "100%", textAlign: "center", marginTop: "12px", marginBottom: "12px"}} variant="h5">{postWorkout.workoutName}&nbsp;-&nbsp;<Timer sx={{color: (theme) => theme.palette.success.main, position: "relative", top: "4px"}}/>&nbsp;{getDuration()}</Typography>
-            {Object.keys(bests).length > 0 && <><ListSubheader>{t("account.records")}</ListSubheader>
-            <List sx={{padding: "16px", flexShrink: 1, overflowY: "scroll"}}>
+    const daysOfWeek = ["mondays", "tuesdays", "wednesdays", "thursdays", "fridays", "saturdays", "sundays"];
+
+    return <Layout hideNav hideBack scroll nogrow title={t("workoutFinished")} leftToolItems={<IconButton sx={{mr: 2}} size="large" edge="start" color="inherit"
+                    onClick={() => navigate("/")}><CloseIcon/></IconButton>} toolItems={<IconButton title={t("wrapped.download")} onClick={() => {
+        const card = document.getElementById("wrappedCard");
+        if (!card) return;
+        DomToImage.toPng(card).then(function (dataUrl) {
+            const link = document.createElement('a');
+            link.download = 'postWorkout.png';
+            link.href = dataUrl;
+            link.click();
+        })
+    }}><Download /></IconButton>} sx={{padding: "5px", width: "calc(100vw - 10px)", display: "flex", alignItems: "center", placeItems: "center", justifyContent: "center",  height: "calc(100vh - 12px)"}}>
+        <Box sx={{padding: "10px"}}>{loading || !postWorkout ? <Loader/> : <Card id="wrappedCard" sx={{ placeSelf: "center", maxWidth: 345, padding: "16px", border: (theme) => "2px solid " + theme.palette.grey.A400, boxShadow: (theme) => "0px 0px 5px 0px " + theme.palette.grey.A400,
+            backgroundImage: "url('/logofadenoback.png')", backgroundSize: "contain", backgroundPosition: "right bottom", backgroundRepeat: "no-repeat"
+        }}>
+            <Box sx={{display: "flex", flexDirection: "row"}}>
+                <Typography sx={{fontSize: "12px", flex: "1 1 100%", width: "100%", textAlign: "left", textOverflow: "ellipsis"}}>{new Date().toLocaleDateString(i18n.language)}</Typography>
+                <Typography sx={{fontSize: "12px", flex: "1 1 0", width: "100%", textAlign: "right", whiteSpace: "nowrap"}}><Timer sx={{color: (theme) => theme.palette.success.main, fontSize: "12px", position: "relative", top: "2px"}}/>&nbsp;{getDuration()}</Typography>
+            </Box>
+            <Typography sx={{fontWeight: 600, width: "100%", textAlign: "left", textOverflow: "ellipsis"}}>{postWorkout.workoutName}</Typography>
+
+            {Object.keys(bests).length > 0 &&
+            <List dense sx={{flexShrink: 1, overflowY: "auto"}}>
+                <ListItemText sx={{borderBottom: "1px solid white"}}  primary={t("account.records")}/>
                 {Object.keys(bests).map((key) =>
                     <ListItemText primary={bests[key][0].exercise}
                                   secondary={getLabel(bests[key])}/>)}
-            </List>
-            <ListSubheader>{t("exercises")}</ListSubheader></>}
+            </List>}
 
-            <List sx={{ width: "100%", flexShrink: 1, overflowY: "scroll"}}>
-            {history.length > 0 ? history.map((entry) =>  <ListItemButton key={entry.id} component="a">
+            <List dense sx={{ width: "100%", flexShrink: 1, overflowY: "auto"}}>
+                {Object.keys(bests).length > 0 && <ListItemText sx={{borderBottom: "1px solid white"}} primary={t("exercises")}/>}
+                {history.length > 0 ? history.map((entry) =>  <ListItem key={entry.id} component="a">
                 <ListItemAvatar>
                     {!entry.exercise?.picture && <Avatar>
                         <FitnessCenterIcon/>
@@ -110,8 +141,8 @@ const PostWorkout = () => {
                     {entry.exercise?.picture && <Avatar src={entry.exercise.picture} />}
                 </ListItemAvatar>
                 <ListItemText primary={entry.exercise?.name} secondary={getLabelForEntry(entry.sets)}/>
-            </ListItemButton>) : <Typography sx={{textAlign: "center", margin: "10px" }}>{ history.length === 0 ? t("noHistoryEntries") : ""}</Typography>}
-        </List></Stack>}
+            </ListItem>) : <Typography sx={{textAlign: "center", margin: "10px" }}>{ history.length === 0 ? t("noHistoryEntries") : ""}</Typography>}
+            </List></Card>}</Box>
     </Layout>
 }
 

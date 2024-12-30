@@ -15,6 +15,7 @@
     along with WeightLog.  If not, see <https://www.gnu.org/licenses/>.
  */
 import {DayOfWeek} from "./base";
+import {Exercise} from "./exercise";
 
 export interface Workout {
     id: number;
@@ -42,6 +43,11 @@ export interface WorkoutExercise {
     initial: boolean;
     superset?: boolean;
     synced?: Date;
+}
+
+export interface WorkoutExerciseListEntry {
+    position: number;
+    exercise: Exercise;
 }
 
 export enum SetType {

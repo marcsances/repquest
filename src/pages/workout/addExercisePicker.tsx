@@ -41,9 +41,7 @@ interface AddExercisePickerProps {
 }
 
 const AddExercisePicker = ({onClose, replacingExercise, usingExercise}: AddExercisePickerProps) => {
-    const [step, setStep] = useState<PickerSteps>(replacingExercise ? PickerSteps.LOADING : PickerSteps.SELECT_WORKOUT);
-    const [workoutExercises, setWorkoutExercises] = useState<Record<number, WorkoutExercise>>();
-    const [exercisesFilter, setExercisesFilter] = useState<Exercise[] | undefined>(undefined);
+    const [step, setStep] = useState<PickerSteps>(replacingExercise ? PickerSteps.LOADING : PickerSteps.SELECT_WORKOUT);const [exercisesFilter, setExercisesFilter] = useState<Exercise[] | undefined>(undefined);
     const [exercisesTags, setExercisesTags] = useState<ExerciseTag[] | undefined>(undefined);
     const [workoutExercise, setWorkoutExercise] = useState<WorkoutExercise | undefined>(undefined);
     const {db} = useContext(DBContext);
@@ -65,9 +63,6 @@ const AddExercisePicker = ({onClose, replacingExercise, usingExercise}: AddExerc
         db.workout.get(workout.id).then((workout) => {
             if (!workout) return;
             db.workoutExercise.bulkGet(workout.workoutExerciseIds).then((wes) => {
-                const wexs: Record<number, WorkoutExercise> = {};
-                wes.filter((it) => !!it).forEach((it) => wexs[it!.exerciseId] = it!);
-                setWorkoutExercises(wexs);
                 db.exercise.bulkGet(wes.filter((it) => !!it).map((it) => it!.exerciseId)).then((exercises) => {
                     if (!exercises) return;
                     setExercisesFilter(exercises.filter((it) => !!it).map((it) => it!));
@@ -90,17 +85,6 @@ const AddExercisePicker = ({onClose, replacingExercise, usingExercise}: AddExerc
             setIds: [],
             initial: true
         };
-        if (workoutExercises && workoutExercises[exercise.id]) {
-            we = workoutExercises[exercise.id]!;
-            for (let i = 0; i < we.setIds.length; i++) {
-                // clone all sets to prevent overwriting the workout sets
-                const set = await db.exerciseSet.get(we.setIds[i]);
-                const id = getId();
-                if (set) await db.exerciseSet.put({...set, id, initial: true});
-                we.setIds[i] = id;
-            }
-            we.id = getId();
-        }
         if (we.setIds.length === 0) {
             // let's try to get the last sets from the history
             const sets = (await db.exerciseSet

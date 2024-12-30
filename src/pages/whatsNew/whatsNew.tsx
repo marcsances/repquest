@@ -40,6 +40,19 @@ export const WhatsNew = () => {
                 along with this program.  If not, see <a href="Https://www.gnu.org/licenses" style={{ color: "white" }}>https://www.gnu.org/licenses/</a>.
             </Typography>
             <br/>
+            <Typography variant="h4">WeightLog Version 0.2.7</Typography>
+            <Typography variant="subtitle1">Released on 30/12/2024</Typography>
+            <Typography variant="subtitle2">Copyright Marc Sances 2024. All rights reserved.</Typography>
+            <Typography variant="h5">Features</Typography>
+            <ul>
+                <li>It is now possible to switch to a different exercise from the workout by tapping on the exercise name, without going through all the other exercises. This also allows for quickly browsing the workout exercises.</li>
+                <li>New post workout screen with an enhanced design similar to the yearly wrapped.</li>
+            </ul>
+            <Typography variant="h5">Enhancements</Typography>
+            <ul>
+                <li>Rest time is now always shown (even if zero) to ensure you can add a rest if needed.</li>
+                <li>Multiple UI layout adjustments and improvements.</li>
+            </ul>
             <Typography variant="h4">WeightLog Version 0.2.6</Typography>
             <Typography variant="subtitle1">Released on 22/12/2024</Typography>
             <Typography variant="subtitle2">Copyright Marc Sances 2024. All rights reserved.</Typography>

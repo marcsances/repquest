@@ -68,13 +68,19 @@ export const ExerciseList = (props: ExerciseListProps) => {
     const [filterPicker, setFilterPicker] = useState(false);
     const [editorOpen, setEditorOpen] = useState(false);
     const [filterTags, setFilterTags] = useState<ExerciseTag[]>(tags ? tags : []);
-    let overHeight = 58;
-    if (searchBox !== undefined) {
-        overHeight += 48;
-    }
-    if (onSelectExercise) {
-        overHeight -= 68;
-    }
+    const [overHeight, setOverHeight] = useState(58);
+
+    useEffect(() => {
+        let oh = 58;
+        if (searchBox !== undefined) {
+            oh += 48;
+        }
+        if (onSelectExercise) {
+            oh -= 68;
+        }
+        setOverHeight(oh);
+    }, [searchBox, onSelectExercise]);
+
 
     useEffect(() => {
         if (options) return;

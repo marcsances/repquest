@@ -39,6 +39,7 @@ import CalendarProvider from './context/calendarProvider';
 import {ApiContextProvider} from "./context/apiContext";
 import {DialogContextProvider} from './context/dialogContext';
 import AppRoutes from "./AppRoutes";
+import {Geiger} from "react-geiger";
 
 registerSW({immediate: true})
 const darkTheme = createTheme({

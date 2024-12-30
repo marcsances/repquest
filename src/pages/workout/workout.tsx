@@ -23,8 +23,8 @@ import {
     CardContent,
     CardMedia,
     Fab,
-    Fade,
-    ListItem,
+    Fade, Icon,
+    ListItem, ListItemButton,
     ListItemIcon,
     ListItemText,
     Menu,
@@ -62,7 +62,7 @@ import ToggleParameter from "../../components/toggleParameter";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import CollectionsIcon from '@mui/icons-material/Collections';
 import {
-    AddCircleOutlined,
+    AddCircleOutlined, ArrowDropDown, Cancel,
     CheckBox,
     CheckBoxOutlineBlank,
     ContentCopy,
@@ -89,6 +89,7 @@ import {compareWithDate, isSameDay} from "../../utils/comparators";
 import NotesParameter from "../../components/notesparameter";
 import {AudioContext} from "standardized-audio-context";
 import {TimerContext} from "../../context/timerContext";
+import Selector from "../../components/selector";
 
 export const WorkoutPage = () => {
     const {
@@ -102,7 +103,6 @@ export const WorkoutPage = () => {
         setCurrentSet,
         setCurrentSetNumber,
         currentWorkoutHistory,
-        storedExercises,
         restTime,
         setCurrentWorkoutExerciseNumber,
         saveSet,
@@ -116,7 +116,7 @@ export const WorkoutPage = () => {
         isFetching,
         refetchHistory,
         superset,
-        setSuperset, stopRest, restStarted
+        setSuperset, stopRest, restStarted, currentWorkoutExerciseList
     } = useContext(WorkoutContext);
     const {featureLevel, useLbs, oneRm, wakeLock,
         toggleWakeLock, errorWakeLock, theme } = useContext(SettingsContext);
@@ -137,6 +137,7 @@ export const WorkoutPage = () => {
     const [notesAnchor, setNotesAnchor] = useState<HTMLElement | undefined>(undefined);
     const [viewHistory, setViewHistory] = useState<boolean>(true);
     const portrait = (window.screen.orientation.angle % 180 === 0);
+    const [showExerciseSelector, setShowExerciseSelector] = useState(false);
     const isMini = portrait ?  useMediaQuery('(max-height:600px)') : useMediaQuery('(max-width:600px)');
     useEffect(() => {
         if (!db) return;
@@ -154,6 +155,8 @@ export const WorkoutPage = () => {
             initial: false
         });
     }
+
+
 
     const [stopDialogOpen, setStopDialogOpen] = useState(false);
 
@@ -181,6 +184,10 @@ export const WorkoutPage = () => {
     };
     const closeMenu = () => {
         setMenuAnchor(null);
+    }
+    const onSelectExercise = (exerciseId: string) => {
+        if (setCurrentWorkoutExerciseNumber) setCurrentWorkoutExerciseNumber(parseInt(exerciseId));
+        setShowExerciseSelector(false);
     }
     const toolbar = <>
         {pbs && pbs.length > 0 && <IconButton color="inherit" onClick={() => setShowPbs(true)}><EmojiEventsIcon
@@ -283,13 +290,14 @@ export const WorkoutPage = () => {
                            image={focusedExercise?.picture} title={focusedExercise?.name} onClick={() => navigate("/picture")}
                 />
             </CardContent>}
-            <ListItem>
-                {!isMini && (featureLevel === "advanced" || viewHistory) && <ListItemIcon>{focusedExercise?.picture && <Avatar variant="rounded" onClick={() => navigate("/picture")} src={focusedExercise?.picture} sx={{display: "inline-block"}} />}</ListItemIcon>}
+            <ListItemButton onClick={() => setShowExerciseSelector(true)}>
+                {!isMini && (featureLevel === "advanced" || viewHistory) && <ListItemIcon>{focusedExercise?.picture && <Avatar variant="rounded" onClick={(e) => { e.stopPropagation(); navigate("/picture")}} src={focusedExercise?.picture} sx={{display: "inline-block"}} />}</ListItemIcon>}
                 <ListItemText primary={focusedExercise?.name} secondary={!isMini ? `${currentSet?.cues ? currentSet?.cues + " - " : ""}${focusedExercise?.tags.map((tag) => (t("tags." + ExerciseTag[tag].toLowerCase()))).join(", ")}` : undefined}
                               primaryTypographyProps={{sx: {fontWeight: 600}, fontSize: isMini ? "small" : "medium"}} secondaryTypographyProps={{fontSize: "x-small"}}/>
-                {featureLevel === "easy" && <IconButton color="inherit" onClick={() => setViewHistory((prev) => !prev)}>{viewHistory ? <CollectionsIcon/> : <History />}</IconButton>}
-                <IconButton aria-label="menu" color="inherit" onClick={() => setSwapExerciseOpen(true)}><SwapHoriz/></IconButton>
-        </ListItem>
+                {featureLevel === "easy" && <IconButton color="inherit" onClick={(e) => { e.stopPropagation(); setViewHistory((prev) => !prev)}}>{viewHistory ? <CollectionsIcon/> : <History />}</IconButton>}
+                <Icon><ArrowDropDown /></Icon>
+                <IconButton aria-label="menu" color="inherit" onClick={(e) => { e.stopPropagation(); setSwapExerciseOpen(true) }}><SwapHoriz/></IconButton>
+            </ListItemButton>
             {!!restTime && !showRest && <RestInProgress onClick={() => setShowRest(true)} />}
             <SupersetViewer/>
             {(featureLevel === "advanced" || viewHistory) && <Paper variant="outlined">
@@ -375,9 +383,8 @@ export const WorkoutPage = () => {
                 {featureLevel === "advanced" && currentSet?.reps !== undefined &&
                     <Parameter name={t("rir")} value={currentSet?.rir || 0} min={0}
                                            onChange={(rir) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, rir})}}/>}
-                {currentSet?.rest !== undefined &&
-                    <Parameter name={t("rest")} unit="s" value={currentSet?.rest || 0} min={0} increments={[10, 15, 30, 1, 5]}
-                           onChange={(rest) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, rest})}}/>}
+                <Parameter name={t("rest")} unit="s" value={currentSet?.rest || 0} min={0} increments={[10, 15, 30, 1, 5]}
+                       onChange={(rest) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, rest})}}/>
                 {featureLevel === "advanced" && <NotesParameter name={"Notes"} value={currentSet?.notes} onChange={(notes, emoji) => { if (currentSet && setCurrentSet) setCurrentSet({...currentSet, notes, emoji})}} />}
             </Box>}
             <Box sx={{flexGrow: 1}}/>
@@ -429,5 +436,7 @@ export const WorkoutPage = () => {
                 </Fade>
             )}
         </Popper>
+        <Selector open={showExerciseSelector} title={t("selectExercise")} defaultValue="cancel"
+                  entries={[...(currentWorkoutExerciseList ? currentWorkoutExerciseList.map((it) => ({key: it.position.toString(), value: it.exercise.name, icon: it.exercise.picture ? <Avatar sx={{background: (theme) => (it.position === currentWorkoutExerciseNumber ? theme.palette.primary.main : undefined) }} src={it.exercise.picture} /> : <Avatar sx={{background: (theme) => (it.position === currentWorkoutExerciseNumber ? theme.palette.primary.main : undefined) }}><FitnessCenterIcon /></Avatar>})) : []), {key: "cancel", value: t("cancel"), icon: <Avatar sx={{background: (theme) => theme.palette.error.main}}><Cancel sx={{color: (theme) => theme.palette.error.contrastText}}/></Avatar>}]} dense onClose={onSelectExercise}/>
     </Layout>;
 }
