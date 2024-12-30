@@ -18,10 +18,10 @@ import React, {useContext, useEffect, useRef, useState} from "react";
 import Layout from "../../components/layout";
 import {useTranslation} from "react-i18next";
 import {
-    Avatar,
+    Avatar, CircularProgress,
     Dialog,
     InputAdornment,
-    List,
+    List, ListItem,
     ListItemAvatar,
     ListItemButton,
     ListItemText,
@@ -69,7 +69,8 @@ export const ExerciseList = (props: ExerciseListProps) => {
     const [editorOpen, setEditorOpen] = useState(false);
     const [filterTags, setFilterTags] = useState<ExerciseTag[]>(tags ? tags : []);
     const [overHeight, setOverHeight] = useState(58);
-
+    const [currentSlice, setCurrentSlice] = useState(50);
+    const exerciseList = exercises ? exercises.filter((entry) => !entry.deleted && (filterTags.length === 0 || includesAll(entry.tags, filterTags)) && (!searchBox || normalize(entry.name).includes(normalize(searchBox)))) : [];
     useEffect(() => {
         let oh = 58;
         if (searchBox !== undefined) {
@@ -107,6 +108,36 @@ export const ExerciseList = (props: ExerciseListProps) => {
         setEditorOpen(true);
     };
 
+    const [reachedBottom, setReachedBottom] = useState(false);
+    const listRef = useRef<any>();
+
+    useEffect(() => {
+        if (!listRef.current) return;
+        const handleScroll = () => {
+            if (!listRef.current) return;
+            const scrollTop = listRef.current.scrollTop;
+            const scrollHeight = listRef.current.scrollHeight;
+            const clientHeight = listRef.current.clientHeight;
+
+            if (scrollTop + clientHeight >= scrollHeight - 10) {
+                setReachedBottom(true);
+            }
+        };
+
+        listRef.current.addEventListener('scroll', handleScroll);
+
+        return () => {
+            if (listRef.current) listRef.current.removeEventListener('scroll', handleScroll);
+        };
+    }, [listRef.current]);
+//
+    useEffect(() => {
+        if(reachedBottom){
+            setCurrentSlice((prevSlice) => prevSlice + 50);
+            setReachedBottom(false)
+        }
+    }, [reachedBottom]);
+
     return <Layout showAccountMenu={!onBack} title={onSelectExercise ? t("selectExercise") : t("exercises")}
                    toolItems={<IconButton sx={{
                        color: searchBox !== undefined ? theme.palette.primary.main : "inherit",
@@ -128,7 +159,7 @@ export const ExerciseList = (props: ExerciseListProps) => {
                                                placeholder={t("searchExercises")}
                                                onChange={(ev) => setSearchBox(ev.target.value)}/>}
         {exercises !== undefined &&
-            <List sx={{width: '100%', height: 'calc(100% - ' + overHeight.toString() + 'px)', overflow: "auto", padding: 0}}>
+            <List ref={listRef} sx={{backgroundImage: {dark: "url('/logofadenoback.png')", light: "url('/logofadelight.png')"}[appTheme], backgroundSize: "contain", backgroundPosition: "right bottom", backgroundRepeat: "no-repeat", width: '100%', height: 'calc(100% - ' + overHeight.toString() + 'px)', overflow: "auto", padding: 0}}>
                 <ListItemButton sx={filterTags.length > 0 ? {backgroundColor: (theme) => theme.palette.primary.main} : {}} component="a"
                                                           onClick={() => setFilterPicker(true)}>
                     <ListItemAvatar>
@@ -142,7 +173,7 @@ export const ExerciseList = (props: ExerciseListProps) => {
                 <ListItemButton component="a" onClick={newExercise}><ListItemAvatar><Avatar sx={{bgcolor: (theme) => theme.palette.success.main}}>
                     <AddIcon sx={{color: (theme) => theme.palette.success.contrastText}}/>
                 </Avatar></ListItemAvatar><ListItemText primary={t("newExercise")} /></ListItemButton>
-                {exercises.filter((entry) => !entry.deleted && (filterTags.length === 0 || includesAll(entry.tags, filterTags)) && (!searchBox || normalize(entry.name).includes(normalize(searchBox)))).map((entry) =>
+                {exerciseList.slice(0, currentSlice).map((entry) =>
                     <ListItemButton key={entry.id} component="a"
                                     onClick={() => onSelectExercise ? onSelectExercise(entry) : navigate("/exercises/" + entry.id.toString())}>
                         <ListItemAvatar>
@@ -154,6 +185,7 @@ export const ExerciseList = (props: ExerciseListProps) => {
                         <ListItemText primary={entry.name}
                                       secondary={entry.tags.map((tag) => (t("tags." + ExerciseTag[tag].toLowerCase()))).join(", ")}/>
                     </ListItemButton>)}
+                {currentSlice < exerciseList.length && <ListItem><ListItemAvatar><CircularProgress /></ListItemAvatar><ListItemText primary={t("loading")} /></ListItem>}
             </List>}
         {exercises === undefined && <Loader/>}
         {exercises && exercises.length === 0 && <TutorialAlert title={t("startAddingAnExercise")} message={t("thisIsTheExerciseList")} action={t("addExercise")} onAction={newExercise} sx={{left: 0, position: "fixed", bottom: "8px"}} />}

@@ -17,6 +17,7 @@
 import {Avatar, ListItem, Stack} from "@mui/material";
 import React from "react";
 import IconButton from "@mui/material/IconButton";
+import {Check, CheckBox} from "@mui/icons-material";
 
 export interface ColorPickerProps {
     value?: string;
@@ -47,7 +48,7 @@ const ColorPicker = (props: ColorPickerProps) => {
                                     autoFocus
                     >
                         <Avatar
-                            sx={{bgcolor: color, width: value === color ? 64 : 48, height: value === color ? 64 : 48, margin: 0}}>&nbsp;</Avatar>
+                            sx={{bgcolor: color, margin: 0}}>{value === color ? <Check /> : " " }</Avatar>
                     </IconButton>
                 </ListItem>))}
             </Stack>)}

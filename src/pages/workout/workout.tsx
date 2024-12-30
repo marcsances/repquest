@@ -186,7 +186,7 @@ export const WorkoutPage = () => {
         setMenuAnchor(null);
     }
     const onSelectExercise = (exerciseId: string) => {
-        if (setCurrentWorkoutExerciseNumber) setCurrentWorkoutExerciseNumber(parseInt(exerciseId));
+        if (setCurrentWorkoutExerciseNumber && exerciseId !== "cancel") setCurrentWorkoutExerciseNumber(parseInt(exerciseId));
         setShowExerciseSelector(false);
     }
     const toolbar = <>

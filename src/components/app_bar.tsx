@@ -24,7 +24,7 @@ import IconButton from '@mui/material/IconButton';
 import BackIcon from '@mui/icons-material/ArrowBack';
 import {useLocation, useNavigate} from "react-router-dom";
 import {UserContext} from "../context/userContext";
-import {Avatar, Popover} from "@mui/material";
+import {Avatar, Icon, Popover} from "@mui/material";
 import {AccountMenuList} from '../pages/profile/accountMenu';
 
 export interface WLAppBarProps {

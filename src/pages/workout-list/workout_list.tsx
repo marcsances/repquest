@@ -54,6 +54,7 @@ import {backupPlan, backupWorkout, entityToJson, shareBlob} from "../../db/backu
 import contrastColor from "../../utils/contrastColor";
 import {DialogContext} from "../../context/dialogContext";
 import TutorialAlert from "../../components/tutorialAlert";
+import {SettingsContext} from "../../context/settingsContext";
 
 const daysOfWeek = ["mondays", "tuesdays", "wednesdays", "thursdays", "fridays", "saturdays", "sundays"];
 
@@ -85,6 +86,7 @@ export const WorkoutList = () => {
     const [mustSelectPlan, setMustSelectPlan] = useState(false);
     const [addExerciseOpen, setAddExerciseOpen] = useState(false);
     const {showPrompt} = useContext(DialogContext);
+    const {theme: appTheme} = useContext(SettingsContext);
 
     const showWrapped = [11, 0].includes(new Date().getMonth());
 
@@ -201,7 +203,7 @@ export const WorkoutList = () => {
         entityToJson(db, backupPlan, plan!).then((blob) => shareBlob(blob, plan.name));
     }
 
-    return <Layout showAccountMenu title={plan?.name ? t("workoutPlan") + " - " + plan.name : t("workouts")}
+    return <Layout showAccountMenu title={plan?.name ? plan.name : t("workouts")}
                    toolItems={<><IconButton color="inherit" onClick={exportPlan}><Share/></IconButton><IconButton
                        color="inherit" onClick={() => {
                        showPrompt(t("enterPlanNewName"), "", (name) => {
@@ -210,8 +212,8 @@ export const WorkoutList = () => {
                            }
                        }, plan?.name || "");
                    }}><EditIcon/></IconButton></>}><List
-        sx={{width: '100%', height: 'calc(100% - 78px)', overflow: "auto"}}>
-        {showWrapped && <ListItemButton component="a" sx={{marginTop: "4px", padding: "4px", marginLeft: "10px", marginRight: "10px", marginBottom: "5px", boxShadow: "0px 0px 5px 0px rgba(255,236,29,0.9)", background: "conic-gradient(rgba(255,237,29,1), rgba(255,205,30,1), rgba(255,237,29,1));", borderRadius: "20px"}} onClick={() => navigate("/wrapped")}>
+        sx={{width: '100%', backgroundImage: {dark: "url('/logofadenoback.png')", light: "url('/logofadelight.png')"}[appTheme], backgroundSize: "contain", backgroundPosition: "right bottom", backgroundRepeat: "no-repeat", height: 'calc(100% - 78px)', overflow: "auto"}}>
+        {showWrapped && !currentWorkout && <ListItemButton component="a" sx={{padding: "4px", marginLeft: "10px", marginRight: "10px", marginBottom: "5px", boxShadow: "0px 0px 5px 0px rgba(255,236,29,0.9)", background: "conic-gradient(rgba(255,237,29,1), rgba(255,205,30,1), rgba(255,237,29,1));", borderRadius: "20px"}} onClick={() => navigate("/wrapped")}>
             <ListItemAvatar>
                 <Avatar sx={{marginLeft: "6px", bgcolor: "rgba(255,255,255,0)"}}>
                     <Celebration sx={{color: "black"}}/>

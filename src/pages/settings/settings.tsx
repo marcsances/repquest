@@ -49,9 +49,10 @@ export const SettingsPage = () => {
     const navigate = useNavigate();
     const [openLanguage, setOpenLanguage] = useState(false);
     const {userName, user} = useContext(UserContext);
+    const {theme: appTheme} = useContext(SettingsContext);
 
     return <Layout showAccountMenu title={t("settings")}>
-        <List dense sx={{width: '100%', height: 'calc(100% - 74px)', overflow: "auto"}}>
+        <List dense sx={{backgroundImage: {dark: "url('/logofadenoback.png')", light: "url('/logofadelight.png')"}[appTheme], backgroundSize: "contain", backgroundPosition: "right bottom", backgroundRepeat: "no-repeat", width: '100%', height: 'calc(100% - 74px)', overflow: "auto"}}>
             <ListItemButton component="a" onClick={() => navigate("/account")}>
                 <ListItemAvatar>
                     <Avatar src={user?.picture} />

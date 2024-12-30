@@ -38,8 +38,35 @@ export const WhatsNew = () => {
 
                 You should have received a copy of the GNU General Public License
                 along with this program.  If not, see <a href="Https://www.gnu.org/licenses" style={{ color: "white" }}>https://www.gnu.org/licenses/</a>.
+                <br/>
+                Acknowledgements to <a href="https://github.com/yuhonas">yuhonas</a> for providing the <a href="https://github.com/yuhonas/free-exercise-db">Free Exercise DB</a> used in WeightLog.
             </Typography>
             <br/>
+            <Typography variant="h4">WeightLog Version 0.2.8</Typography>
+            <Typography variant="subtitle1">Released on 30/12/2024</Typography>
+            <Typography variant="subtitle2">Copyright Marc Sances 2024. All rights reserved.</Typography>
+            <Typography variant="h5">Features</Typography>
+            <ul>
+                <li>New navigation bar.</li>
+                <li>Added the possibility to import a default exercise database from the onboarding wizard.                 Acknowledgements to <a href="https://github.com/yuhonas">yuhonas</a> for providing the <a href="https://github.com/yuhonas/free-exercise-db">Free Exercise DB</a>.</li>
+            </ul>
+            <Typography variant="h5">Enhancements</Typography>
+            <ul>
+                <li>Current exercise plan is shown in the workout list without the "Exercise plans" header, so it can be better seen.</li>
+                <li>Exercise list now has infinite scroll to save up resources.</li>
+                <li>Improved workout editor layout.</li>
+                <li>Added a branded wallpaper in workout list.</li>
+            </ul>
+            <Typography variant="h5">Bugfixes</Typography>
+            <ul>
+                <li>Yearly wrapped no longer shows during workouts.</li>
+                <li>Fixed cancelling in exercise selector breaking the previous and next exercise buttons.</li>
+                <li>Fixed workout history calendar not fitting some small screens.</li>
+            </ul>
+            <Typography variant="h5">Other</Typography>
+            <ul>
+                <li>Removed WeightCloud login until this service is officially launched.</li>
+            </ul>
             <Typography variant="h4">WeightLog Version 0.2.7</Typography>
             <Typography variant="subtitle1">Released on 30/12/2024</Typography>
             <Typography variant="subtitle2">Copyright Marc Sances 2024. All rights reserved.</Typography>

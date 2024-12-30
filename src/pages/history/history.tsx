@@ -145,8 +145,9 @@ export const HistoryPage = () => {
             <Button sx={{flexGrow: 1, height: "32px"}} variant={showCalendar ? "outlined" : "contained"} onClick={() => setShowCalendar((prev) => !prev)}>{date.format("L")}</Button>
             <Button sx={{flexShrink: 1, height: "32px"}} onClick={() => nextDay()}><ArrowForward/></Button>
         </ButtonGroup>
-        {loading ? <Loader/> : <List sx={{ width: "100%", flexShrink: 1, overflowY: "scroll"}}>
-            {history.length > 0 && (!showCalendar || !isMini) ? history.map((entry) =>  <ListItemButton key={entry.id} component="a">
+        <List sx={{ width: "100%", maxHeight: showCalendar ? "calc(100vh - 450px)"  : undefined, overflowY: "scroll"}}>
+            {loading && <Loader/>}
+            {!loading && <>{history.length > 0 && (!showCalendar || !isMini) ? history.map((entry) =>  <ListItemButton key={entry.id} component="a">
                 <ListItemAvatar>
                     {!entry.exercise?.picture && <Avatar>
                         <FitnessCenterIcon/>
@@ -154,8 +155,8 @@ export const HistoryPage = () => {
                     {entry.exercise?.picture && <Avatar src={entry.exercise.picture} />}
                 </ListItemAvatar>
                 <ListItemText primary={entry.exercise?.name} secondary={getLabelForEntry(entry.sets)}/>
-            </ListItemButton>) : <Typography sx={{textAlign: "center", margin: "10px" }}>{ history.length === 0 ? t("noHistoryEntries") : ""}</Typography>}
-        </List>}
+            </ListItemButton>) : <Typography sx={{textAlign: "center", margin: "10px" }}>{ history.length === 0 ? t("noHistoryEntries") : ""}</Typography>}</>}
+        </List>
     </Box>
     </Layout>;
 }

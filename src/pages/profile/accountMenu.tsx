@@ -55,14 +55,6 @@ export const AccountMenuList = () => {
             </ListItemAvatar>
             <ListItemText primary={t("account.switchAccounts")} />
         </ListItemButton>
-        <ListItemButton component="a" onClick={() => navigate("/account/login")}>
-            <ListItemAvatar>
-                <Avatar sx={{width: "32px", height: "32px", bgcolor: (theme) => theme.palette.primary.main}}>
-                    <Login/>
-                </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary={t("weightcloud.login.login")} />
-        </ListItemButton>
     </List>
 }
 

@@ -56,6 +56,7 @@ const PostWorkout = () => {
     const {useLbs} = useContext(SettingsContext);
     const {t} = useTranslation();
     const [ history, setHistory ] = useState<HistoryEntry[]>([]);
+    const {theme: appTheme} = useContext(SettingsContext);
 
     useEffect(() => {
         setLoading(true);
@@ -115,11 +116,11 @@ const PostWorkout = () => {
         })
     }}><Download /></IconButton>} sx={{padding: "5px", width: "calc(100vw - 10px)", display: "flex", alignItems: "center", placeItems: "center", justifyContent: "center",  height: "calc(100vh - 12px)"}}>
         <Box sx={{padding: "10px"}}>{loading || !postWorkout ? <Loader/> : <Card id="wrappedCard" sx={{ placeSelf: "center", maxWidth: 345, padding: "16px", border: (theme) => "2px solid " + theme.palette.grey.A400, boxShadow: (theme) => "0px 0px 5px 0px " + theme.palette.grey.A400,
-            backgroundImage: "url('/logofadenoback.png')", backgroundSize: "contain", backgroundPosition: "right bottom", backgroundRepeat: "no-repeat"
+            backgroundImage: {dark: "url('/logofadenoback.png')", light: "url('/logofadelight.png')"}[appTheme] , backgroundSize: "contain", backgroundPosition: "right bottom", backgroundRepeat: "no-repeat"
         }}>
             <Box sx={{display: "flex", flexDirection: "row"}}>
                 <Typography sx={{fontSize: "12px", flex: "1 1 100%", width: "100%", textAlign: "left", textOverflow: "ellipsis"}}>{new Date().toLocaleDateString(i18n.language)}</Typography>
-                <Typography sx={{fontSize: "12px", flex: "1 1 0", width: "100%", textAlign: "right", whiteSpace: "nowrap"}}><Timer sx={{color: (theme) => theme.palette.success.main, fontSize: "12px", position: "relative", top: "2px"}}/>&nbsp;{getDuration()}</Typography>
+                <Typography sx={{fontSize: "12px", flex: "1 1 0", width: "100%", textAlign: "right", whiteSpace: "nowrap"}}><Timer sx={{fontSize: "12px", position: "relative", top: "2px"}}/>&nbsp;{getDuration()}</Typography>
             </Box>
             <Typography sx={{fontWeight: 600, width: "100%", textAlign: "left", textOverflow: "ellipsis"}}>{postWorkout.workoutName}</Typography>
 

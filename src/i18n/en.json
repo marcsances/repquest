@@ -407,7 +407,8 @@
       "message": "WeightLog does not provide any workouts by default. Do you have any data file or backup that you want to restore, or are you starting from scratch?",
       "importFile": "I want to import a data file",
       "willRedirect": "You will be redirected to the Backups & Import page when finishing this assistant.",
-      "noThanks": "No, I will create a workout from scratch"
+      "noThanks": "No, I will create a workout from scratch",
+      "importDataset": "No, but add exercises from Free Exercise DB to the database"
     },
     "backups": {
       "title": "Backups",

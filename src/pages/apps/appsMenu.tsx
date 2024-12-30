@@ -14,20 +14,22 @@
     You should have received a copy of the GNU General Public License
     along with WeightLog.  If not, see <https://www.gnu.org/licenses/>.
  */
-import React from "react";
+import React, {useContext} from "react";
 import Layout from "../../components/layout";
 import {useTranslation} from "react-i18next";
 import {Avatar, List, ListItemAvatar, ListItemButton, ListItemText} from "@mui/material";
 import {Calculate, CameraRoll, History, QueryStats, Straighten, TimerRounded} from "@mui/icons-material";
 import {useNavigate} from "react-router-dom";
+import {SettingsContext} from "../../context/settingsContext";
 
 export const AppsMenu = () => {
 
     const {t} = useTranslation();
     const navigate = useNavigate();
+    const {theme: appTheme} = useContext(SettingsContext);
 
     return <Layout showAccountMenu hideBack title={t("appsMenu.title")}>
-        <List sx={{width: '100%', height: 'calc(100% - 78px)', overflow: "auto"}}>
+        <List sx={{backgroundImage: {dark: "url('/logofadenoback.png')", light: "url('/logofadelight.png')"}[appTheme], backgroundSize: "contain", backgroundPosition: "right bottom", backgroundRepeat: "no-repeat", width: '100%', height: 'calc(100% - 78px)', overflow: "auto"}}>
             <ListItemButton component="a" onClick={() => navigate("/history")}>
                 <ListItemAvatar>
                     <Avatar sx={{bgcolor: (theme) => theme.palette.primary.main}}>

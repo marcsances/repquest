@@ -407,7 +407,8 @@
       "message": "WeightLog no proporciona ninguna rutina de fábrica. ¿Tiene algún fichero de datos con rutinas o una copia de seguridad que importar, o empezará de cero?",
       "importFile": "Quiero importar un fichero de datos",
       "willRedirect": "Se le redirigirá a la página de Copia de seguridad y restauración al terminar este asistente.",
-      "noThanks": "No, crearé la rutina manualmente"
+      "noThanks": "No, crearé la rutina manualmente",
+      "importDataset": "No, pero añadir a la base de datos ejercicios de Free Exercise DB (en inglés)"
     },
     "backups": {
       "title": "Copias de seguridad",

@@ -17,7 +17,7 @@
 import * as React from "react";
 import {useEffect, useRef, useState} from "react";
 import {Workout} from "../../models/workout";
-import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} from "@mui/material";
+import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, useMediaQuery} from "@mui/material";
 import ToggleParameter from "../../components/toggleParameter";
 import {DayOfWeek} from "../../models/base";
 import {useTranslation} from "react-i18next";
@@ -57,6 +57,9 @@ const WorkoutDetailsEditor = (props: WorkoutDetailsEditorProps ) => {
     const [ currentWorkout, setCurrentWorkout ] = useState(workout);
     const { t } = useTranslation();
     const [ required, setRequired ] = useState(false);
+    const portrait = (window.screen.orientation.angle % 180 === 0);
+    const isMini = portrait ?  useMediaQuery('(max-height:600px)') : useMediaQuery('(max-width:600px)');
+
     const daysOfWeek = [{ key: DayOfWeek.monday , value: t("mon")},
         { key: DayOfWeek.tuesday , value: t("tue")},
         { key: DayOfWeek.wednesday , value: t("wed")},
@@ -79,7 +82,7 @@ const WorkoutDetailsEditor = (props: WorkoutDetailsEditorProps ) => {
     }, [boxRef]);
     return <Dialog open={open} onClose={onClose}>
         <DialogTitle>{title}</DialogTitle>
-        <DialogContent>
+        <DialogContent sx={{padding: "8px"}}>
             <TextField InputProps={{ref: boxRef}} error={required} helperText={required ? t("errors.requiredField") : ""} required sx={{width: "100%", marginTop: "16px", marginBottom: "8px"}} label={t("workoutEditor.name")} value={currentWorkout.name} onChange={(ev) => {
                 setRequired(false);
                 setCurrentWorkout({...currentWorkout, name: ev.target.value});
@@ -89,7 +92,7 @@ const WorkoutDetailsEditor = (props: WorkoutDetailsEditorProps ) => {
                 setCurrentWorkout({...currentWorkout, daysOfWeek: daysOfWeek.sort()});
             }}/>
             <Typography variant="button">{t("Color")}</Typography>
-            <ColorPicker maxCols={5} value={currentWorkout.color} onChange={(color: string) => {setCurrentWorkout((prevWorkout) => ({...prevWorkout, color: color === prevWorkout.color ? undefined : color}))}} colors={palette} />
+            <ColorPicker maxCols={isMini ? 3 : 4} value={currentWorkout.color} onChange={(color: string) => {setCurrentWorkout((prevWorkout) => ({...prevWorkout, color: color === prevWorkout.color ? undefined : color}))}} colors={palette} />
         </DialogContent>
         <DialogActions>
             <Button onClick={onClose} autoFocus>
