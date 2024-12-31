@@ -51,6 +51,10 @@ jobs:
           name: package
           path: build/package.tar.gz
   deploy:
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
