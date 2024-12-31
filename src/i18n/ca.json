@@ -6,7 +6,7 @@
   "workoutSettings": "Paràmetres d'entrenament",
   "workoutSettingsDescription": "Preferències relatives als entrenaments, com ara unitats o paràmetres.",
   "appearanceSettings": "Aparença",
-  "appearanceSettingsDescription": "Personalitzeu el disseny i aparença de WeightLog",
+  "appearanceSettingsDescription": "Personalitzeu el disseny i aparença de RepQuest",
   "theme": "Tema",
   "lightTheme": "Tema clar (beta)",
   "darkTheme": "Tema fosc",
@@ -20,7 +20,7 @@
   "system": "Sistema i suport",
   "systemDescription": "Instal·lar app, reiniciar tot, ajustos de telemetria i contacte.",
   "install": "Instal·lar",
-  "installDescription": "Instal·lar WeightLog com una aplicació de mòbil",
+  "installDescription": "Instal·lar RepQuest com una aplicació de mòbil",
   "daysOfWeek": "Dies de la setmana",
   "date": "Data",
   "set": "Sèrie",
@@ -161,9 +161,9 @@
     },
     "backingUp": "Còpia en curs...",
     "importing": "S'està important, si us plau no marxeu...",
-    "importSuccess": "S'ha completat la importació. WeightLog es reiniciarà.",
+    "importSuccess": "S'ha completat la importació. RepQuest es reiniciarà.",
     "nothing": "No vull importar res",
-    "startWeightlog": "Continuar amb l'inici de WeightLog"
+    "startWeightlog": "Continuar amb l'inici de RepQuest"
   },
   "workoutEditor": {
     "title": "Editor de rutines",
@@ -225,7 +225,7 @@
   "enterPlanNewName": "Introduïu un nou nom per aquest pla d'entrenament:",
   "workoutPlan": "Pla d'entrenament",
   "newExercise": "Nou exercici",
-  "welcomeToWeightLog": "Benvinguts a WeightLog! Teniu en compte que aquesta aplicació està en fase de proves i pot presentar errades. Esperem el vostre feedback!",
+  "welcomeToRepQuest": "Benvinguts a RepQuest! Teniu en compte que aquesta aplicació està en fase de proves i pot presentar errades. Esperem el vostre feedback!",
   "startAddingAWorkout": "Creeu una rutina per a començar.",
   "thisIsTheWorkoutList": "Aquesta és la llista de rutines. Des d'aquí podeu veure les rutines que heu creat, iniciar un entrenament i crear noves rutines i plans d'entrenament.",
   "startAddingAnExercise": "Creeu un exercici per a començar.",
@@ -236,7 +236,7 @@
   "thisIsTheSetList": "Aquesta és la llista de sèries. Conté el total de sèries de l'exercici que esteu editant. Heu d'afegir una sèrie per a continuar.",
   "importWillReplaceEverything": "TOTES les dades de la aplicació seran ELIMINADES i després s'importarà la còpia de seguretat substituint TOT. Aquesta operació és irreversible. Voleu continuar?",
   "resetAll": "Reinici de fàbrica",
-  "resetAllTip": "Esborrar totes les dades de WeightLog",
+  "resetAllTip": "Esborrar totes les dades de RepQuest",
   "resetAllWarning": "TOTES les dades de la aplicació seran ELIMINADES. Assegureu-vos que heu fet una còpia de seguretat primer. Altres comptes d'usuari no es veuran afectats. Voleu continuar?",
   "resetAllWarning2": "Darrer avís: TOTES les dades de la aplicació seran ELIMINADES! Segur que voleu continuar?",
   "deleteAllWarning": "TOTES les dades de la aplicació i el vostre compte seran ELIMINATS. Assegureu-vos que heu fet una còpia de seguretat primer. Altres comptes d'usuari no es veuran afectats. Voleu continuar?",
@@ -252,16 +252,16 @@
   "telemetry": "Telemetria",
   "telemetryDescription": "Controleu les vostres preferències d'informe d'errors",
   "telemetry1": "Què és la telemetria?",
-  "telemetry2": "Quan feu servir WeightLog, recollim algunes dades de rendiment de la vostra sessió (navegador, adreça IP, URL i algunes de les vostres accions). Quan l'aplicació falla, aquesta informació és recollida en un informe d'errors que podem utilitzar per a investigar problemes a l'app.",
+  "telemetry2": "Quan feu servir RepQuest, recollim algunes dades de rendiment de la vostra sessió (navegador, adreça IP, URL i algunes de les vostres accions). Quan l'aplicació falla, aquesta informació és recollida en un informe d'errors que podem utilitzar per a investigar problemes a l'app.",
   "telemetry3": "CAP de les vostres dades personals és recollida i les dades que desem no us poden identificar personalment. Aquesta informació és necessària per a nosaltres per a investigar errors proactivament per a donar-vos la millor experiència d'usuari.",
   "telemetry4": "La informació és processada per Sentry (sentry.io). NO estem fent cap seguiment en el nostre producte, no tenim publicitat i les dades que recollim es recullen exclusivament per a finalitats tècniques.",
   "telemetry5": "Animem als usuaris a mantindre la telemetria encesa, ja que així podem millorar el producte i resoldre els problemes que trobeu, però entenem que alguns usuaris poden no sentir-se còmodes amb aquesta compartició de dades i per això us oferim l'opció de desactivar la telemetria.",
   "enableTelemetry": "Activar telemetria (recomanat)",
-  "weightlogWillRestart": "Si canvieu aquesta preferència, WeightLog es reiniciarà",
+  "weightlogWillRestart": "Si canvieu aquesta preferència, RepQuest es reiniciarà",
   "contact": "Contacte",
   "developedBy": "Desenvolupat per Marc Sances (github.com/marcsances)",
-  "reloadTitle": "Reiniciar WeightLog",
-  "reloadDescription": "De vegades WeightLog es pot enganxar, i un reinici podria solucionar el vostre problema.",
+  "reloadTitle": "Reiniciar RepQuest",
+  "reloadDescription": "De vegades RepQuest es pot enganxar, i un reinici podria solucionar el vostre problema.",
   "autoStop": "Parada automàtica",
   "autoStopDescription": "Aturar i desar un entrenament automàticament si està inactiu més d'una hora",
   "account": {
@@ -374,19 +374,19 @@
   "next": "Endavant",
   "finish": "Acabar",
   "onboarding": {
-    "title": "Benvinguts a WeightLog",
+    "title": "Benvinguts a RepQuest",
     "menu": "Assistent de benvinguda",
-    "menuDescription": "Torneu a configurar WeightLog amb l'assistent de benvinguda",
+    "menuDescription": "Torneu a configurar RepQuest amb l'assistent de benvinguda",
     "language": {
       "title": "Idioma"
     },
     "welcome": {
       "title": "Benvinguda",
-      "subtitle": "Us donem la benvinguda a WeightLog!",
+      "subtitle": "Us donem la benvinguda a RepQuest!",
       "message": "Aquesta aplicació pretèn ser el vostre company d'entrenament, amb el qual podeu registrar les vostres rutines, fer un seguiment del vostre progrés i molt més!",
       "disclaimer1": "Aquesta aplicació, a diferència d'altres del mercat, no té cap mena de contingut propi. Això significa que haureu d'introduïr els exercicis i rutines a mà.",
-      "disclaimer2": "WeightLog no dona consells de fitness. Si necessiteu assessorament utilitzant aquesta aplicació, acudiu a un professional qualificat. Les activitats físiques que realitzeu amb l'ajuda d'aquesta aplicació corren sota el vostre risc i responsabilitat.",
-      "disclaimer3": "Aquesta aplicació no compta amb cap mena de garantia. Recordeu que WeightLog encara està en desenvolupament i pot presentar errors, si us plau informeu-nos en cas de què identifiqueu algun problema utilitzant l'aplicació."
+      "disclaimer2": "RepQuest no dona consells de fitness. Si necessiteu assessorament utilitzant aquesta aplicació, acudiu a un professional qualificat. Les activitats físiques que realitzeu amb l'ajuda d'aquesta aplicació corren sota el vostre risc i responsabilitat.",
+      "disclaimer3": "Aquesta aplicació no compta amb cap mena de garantia. Recordeu que RepQuest encara està en desenvolupament i pot presentar errors, si us plau informeu-nos en cas de què identifiqueu algun problema utilitzant l'aplicació."
     },
     "license": {
       "title": "Llicència",
@@ -404,7 +404,7 @@
     },
     "importData": {
       "title": "Importació de dades",
-      "message": "WeightLog no proporciona cap rutina de fàbrica. Teniu algun fitxer de dades amb rutines o una còpia de seguretat que volgueu importar, o heu de començar de zero?",
+      "message": "RepQuest no proporciona cap rutina de fàbrica. Teniu algun fitxer de dades amb rutines o una còpia de seguretat que volgueu importar, o heu de començar de zero?",
       "importFile": "Vull importar un fitxer de dades",
       "willRedirect": "Se us redigirà a la pàgina de Còpia de seguretat i restauració en acabar aquest assistent.",
       "noThanks": "No, crearé la rutina manualment",
@@ -412,13 +412,13 @@
     },
     "backups": {
       "title": "Còpies de seguretat",
-      "message1": "WeightLog desa les dades al vostre navegador. Això significa que podeu perdre tota la vostra informació si netegeu les galetes del navegador.",
-      "message2": "En acabar l'entrenament, WeightLog us dona una opció de desar una còpia de seguretat, que es descarrega en un fitxer al vostre dispositiu, i que podeu restaurar més endavant des del menú de configuració.",
+      "message1": "RepQuest desa les dades al vostre navegador. Això significa que podeu perdre tota la vostra informació si netegeu les galetes del navegador.",
+      "message2": "En acabar l'entrenament, RepQuest us dona una opció de desar una còpia de seguretat, que es descarrega en un fitxer al vostre dispositiu, i que podeu restaurar més endavant des del menú de configuració.",
       "message3": "Us recomanem que feu còpies de seguretat de forma periódica. En un futur habilitarem còpia de seguretat al núvol amb Google Drive i el nostre servei WeightCloud."
     },
     "completed": {
       "title": "Completat",
-      "message": "És tot per ara. Premeu Acabar per a començar a fer servir WeightLog."
+      "message": "És tot per ara. Premeu Acabar per a començar a fer servir RepQuest."
     }
   },
   "bulkEditor": {
@@ -449,6 +449,6 @@
     "noData": "Sense dades",
     "sets": "sèries",
     "workouts": "sessions",
-    "thanks": "Gràcies per entrenar amb WeightLog aquest %Y!"
+    "thanks": "Gràcies per entrenar amb RepQuest aquest %Y!"
   }
 }

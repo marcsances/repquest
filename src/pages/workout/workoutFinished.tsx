@@ -65,7 +65,7 @@ export const WorkoutFinished = (props: { stopWorkoutCancel?: () => void, addExer
                 backupToJSON(db, "everything", user, settings).then((blobUrl) => {
                     const link = document.createElement('a');
                     link.setAttribute('target', '_blank');
-                    link.setAttribute("download", "weightlog-backup-" + new Date().toJSON() + ".json");
+                    link.setAttribute("download", "repquest-backup-" + new Date().toJSON() + ".json");
                     link.href = blobUrl;
                     document.body.appendChild(link);
                     link.click();

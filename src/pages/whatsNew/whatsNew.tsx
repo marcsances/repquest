@@ -24,8 +24,8 @@ export const WhatsNew = () => {
     const {t} = useTranslation();
     return <Layout title={t("whatsNew")} hideNav scroll>
         <Box sx={{padding: "20px", width: "calc(100% - 40px)", height: "calc(100vh - 96px)", overflow: "scroll"}}>
-            <Typography variant="h4">WeightLog</Typography>
-            <Typography variant="subtitle2">Copyright Marc Sances 2024. All rights reserved.<br/>
+            <Typography variant="h4">RepQuest</Typography>
+            <Typography variant="subtitle2">Copyright Marc Sances 2025. All rights reserved.<br/>
                 This program is free software: you can redistribute it and/or modify
                 it under the terms of the GNU General Public License as published by
                 the Free Software Foundation, either version 3 of the License, or
@@ -42,6 +42,14 @@ export const WhatsNew = () => {
                 Acknowledgements to <a href="https://github.com/yuhonas">yuhonas</a> for providing the <a href="https://github.com/yuhonas/free-exercise-db">Free Exercise DB</a> used in WeightLog.
             </Typography>
             <br/>
+            <Typography variant="h4">RepQuest Version 0.3.0</Typography>
+            <Typography variant="subtitle1">Released on 31/12/2024</Typography>
+            <Typography variant="subtitle2">Copyright Marc Sances 2024. All rights reserved.</Typography>
+            <Typography variant="h5">Features</Typography>
+            <ul>
+                <li>Welcome to RepQuest! We are preparing for the official launch of our project. Coming soon</li>
+                <li>Several redesigns and new appearance.</li>
+            </ul>
             <Typography variant="h4">WeightLog Version 0.2.8</Typography>
             <Typography variant="subtitle1">Released on 30/12/2024</Typography>
             <Typography variant="subtitle2">Copyright Marc Sances 2024. All rights reserved.</Typography>

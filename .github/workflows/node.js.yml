@@ -40,6 +40,11 @@ jobs:
       run: |
         ssh -o StrictHostKeyChecking=no -i id_rsa -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.SSH_PATH }}; tar zxvf package.tar.gz; rm package.tar.gz"
         rm id_rsa
+    - name: Upload static files as artifact
+      id: deployment
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: build/
     - name: Archive production artifacts
       uses: actions/upload-artifact@v3
       with:

@@ -1,4 +1,4 @@
-# WeightLog Gym tracker
+# RepQuest (Codename WeightLog)
 
 ![Node JS CI](https://github.com/marcsances/weightlog/actions/workflows/node.js.yml/badge.svg)
 
@@ -27,7 +27,11 @@ Refer to the file [whatsNew.tsx](./src/pages/whatsNew/whatsNew.tsx) or [the buil
 
 ## Usage
 
-**You can access a live version of this app through [this link](https://weightlog.marcsances.net)**. The next steps are
+**You can access a live version of this app through [this link](https://weightlog.marcsances.net)**. 
+
+The app will soon be available from the new domain [repquest.app](https://repquest.app). Stay tuned!
+
+The next steps are
 necessary only if you want to run or modify this app locally.
 
 To install, run:
@@ -56,7 +60,7 @@ npm run build
 
 ## FAQ
 
-##### Why there are no workouts or exercises by default?
+##### Why there are no workouts by default?
 
 This app is intended to be a workout log for already instructed users.
 
@@ -64,9 +68,11 @@ It is being developed by a single developer with no fitness instruction, and pro
 information would be detrimental in the job of fitness professionals. Please refer to a qualified fitness professional
 if you require assistance using this app.
 
+We do offer the possibility to import exercises from [Free Exercise DB](https://github.com/yuhonas/free-exercise-db), but without any kind of assistance whatsoever.
+
 ##### Do I need to clone this project and host it to use this app?
 
-No, you can use my hosted version at [https://weightlog.marcsances.net](https://weightlog.marcsances.net).
+No, you can use my hosted version at [https://weightlog.marcsances.net](https://weightlog.marcsances.net) (soon will be repquest.app)
 
 ##### Can I host this project or modified versions of it?
 
@@ -95,7 +101,7 @@ Either use the [contact form at this link](https://docs.google.com/forms/d/e/1FA
 
 ## License
 
-Copyright Marc Sances 2024. All rights reserved.
+Copyright Marc Sances 2025. All rights reserved.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

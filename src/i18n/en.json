@@ -9,7 +9,7 @@
   "lightTheme": "Light theme (beta)",
   "darkTheme": "Dark theme",
   "appearanceSettings": "Appearance",
-  "appearanceSettingsDescription": "Customize the look and feel of Weightlog",
+  "appearanceSettingsDescription": "Customize the look and feel of RepQuest",
   "simpleMode": "Feature level: Simple mode",
   "simpleModeDescription": "Only basic parameters are shown and the UI components are larger. Recommended for newcomers.",
   "advancedMode": "Feature level: Advanced mode",
@@ -20,7 +20,7 @@
   "system": "System and Support",
   "systemDescription": "Install app, reset all, telemetry preferences and contact.",
   "install": "Install",
-  "installDescription": "Install WeightLog as a phone app",
+  "installDescription": "Install RepQuest as a phone app",
   "daysOfWeek": "Days of the week",
   "date": "Date",
   "set": "Set",
@@ -161,9 +161,9 @@
     },
     "backingUp": "Backing up...",
     "importing": "Importing. Please do not leave the page",
-    "importSuccess": "Import has been completed. WeightLog will restart now.",
+    "importSuccess": "Import has been completed. RepQuest will restart now.",
     "nothing": "Don't import anything",
-    "startWeightlog": "Continue starting WeightLog"
+    "startWeightlog": "Continue starting RepQuest"
   },
   "exercises": "Exercises",
   "addExercise": "Add exercise",
@@ -225,7 +225,7 @@
   "enterNewPlanName": "Enter the name for the new plan:",
   "enterPlanNewName": "Enter a new name for this plan:",
   "workoutPlan": "Workout plan",
-  "welcomeToWeightLog": "Welcome to WeightLog! Be aware this app is in testing and may present errors. We await your feedback!",
+  "welcomeToRepQuest": "Welcome to RepQuest! Be aware this app is in testing and may present errors. We await your feedback!",
   "startAddingAWorkout": "Create a workout to begin.",
   "thisIsTheWorkoutList": "This is the workout list. It contains all the workouts you have created for this workout plan. From here you can also start a workout and manage your training plans.",
   "startAddingAnExercise": "Create an exercise to begin.",
@@ -252,12 +252,12 @@
   "telemetry": "Telemetry",
   "telemetryDescription": "Control your preferences on error reporting",
   "telemetry1": "What is telemetry?",
-  "telemetry2": "When you use WeightLog, we collect some performance data around your session (browser, IP address, URL and some of your actions). When the app crashes, this information is collected into an error report we can use to investigate issues in the app.",
+  "telemetry2": "When you use RepQuest, we collect some performance data around your session (browser, IP address, URL and some of your actions). When the app crashes, this information is collected into an error report we can use to investigate issues in the app.",
   "telemetry3": "NONE of your personal data is collected and the data we keep cannot identify you. This information is needed for us to debug errors proactively to give you the best experience.",
   "telemetry4": "The information is processed by Sentry (sentry.io). NO tracking is performed in our product. We serve no ads and thus the data we collect is strictly for technical purposes only.",
   "telemetry5": "We encourage users to keep telemetry on, since this will allow us to improve the product and fix the issues you encounter, but we understand some users might not be keen to sharing this data with us and hence we offer you to disable telemetry through this option.",
   "enableTelemetry": "Enable telemetry (recommended)",
-  "weightlogWillRestart": "If you change this preference, WeightLog will restart",
+  "weightlogWillRestart": "If you change this preference, RepQuest will restart",
   "contact": "Contact me",
   "developedBy": "Developed by Marc Sances (github.com/marcsances)",
   "reloadTitle": "Reload Weightlog",
@@ -374,19 +374,19 @@
   "next": "Next",
   "finish": "Finish",
   "onboarding": {
-    "title": "Welcome to WeightLog",
+    "title": "Welcome to RepQuest",
     "menu": "Welcome Asistant",
-    "menuDescription": "Configure WeightLog again with the Welcome Assistant",
+    "menuDescription": "Configure RepQuest again with the Welcome Assistant",
     "language": {
       "title": "Language"
     },
     "welcome": {
       "title": "Welcome",
-      "subtitle": "Welcome to WeightLog!",
+      "subtitle": "Welcome to RepQuest!",
       "message": "This app will be your training companion, with which you will be able to log your workouts, track your progress and much more!",
       "disclaimer1": "Unlike other similar apps in the market, this app does not provide any own content. This means that you will have to provide your own workouts.",
-      "disclaimer2": "WeightLog does not provide fitness advice. If you need advice using this app, refer to a qualified professional. The physical activities that your perform with this app are under your own risk and responsiblity.",
-      "disclaimer3": "This app does not have any kind of warranty. Remember that WeightLog is still under active development and may present errors. Please report to us if you identify any problem using this app."
+      "disclaimer2": "RepQuest does not provide fitness advice. If you need advice using this app, refer to a qualified professional. The physical activities that your perform with this app are under your own risk and responsiblity.",
+      "disclaimer3": "This app does not have any kind of warranty. Remember that RepQuest is still under active development and may present errors. Please report to us if you identify any problem using this app."
     },
     "license": {
       "title": "License",
@@ -404,7 +404,7 @@
     },
     "importData": {
       "title": "Import data",
-      "message": "WeightLog does not provide any workouts by default. Do you have any data file or backup that you want to restore, or are you starting from scratch?",
+      "message": "RepQuest does not provide any workouts by default. Do you have any data file or backup that you want to restore, or are you starting from scratch?",
       "importFile": "I want to import a data file",
       "willRedirect": "You will be redirected to the Backups & Import page when finishing this assistant.",
       "noThanks": "No, I will create a workout from scratch",
@@ -412,13 +412,13 @@
     },
     "backups": {
       "title": "Backups",
-      "message1": "WeightLog saves the workout logs in your browser. This means you may lose all your data if you clear your browser cookies.",
-      "message2": "When you finish your workout, WeightLog will provide you with an option to save a backup file, that will be downloaded as a file to your device, and that you can restore later from the settings menu.",
+      "message1": "RepQuest saves the workout logs in your browser. This means you may lose all your data if you clear your browser cookies.",
+      "message2": "When you finish your workout, RepQuest will provide you with an option to save a backup file, that will be downloaded as a file to your device, and that you can restore later from the settings menu.",
       "message3": "We recommend that you perform backups periodically. In a future we will offer automatic cloud backups with Google Drive and our WeightCloud service."
     },
     "completed": {
       "title": "All ready!",
-      "message": "That's it for now. Click on Finish to start using WeightLog."
+      "message": "That's it for now. Click on Finish to start using RepQuest."
     }
   },
   "bulkEditor": {
@@ -449,6 +449,6 @@
     "noData": "No data",
     "sets": "sets",
     "workouts": "sessions",
-    "thanks": "Thank you for training with WeightLog this %Y!"
+    "thanks": "Thank you for training with RepQuest this %Y!"
   }
 }

@@ -6,7 +6,7 @@
   "workoutSettings": "Ajustes de entrenamiento",
   "workoutSettingsDescription": "Preferencias relacionadas con el entrenamiento, como paràmetros y ajustes.",
   "appearanceSettings": "Apariencia",
-  "appearanceSettingsDescription": "Personalizar el diseño y apariencia de WeightLog",
+  "appearanceSettingsDescription": "Personalizar el diseño y apariencia de RepQuest",
   "theme": "Tema",
   "lightTheme": "Tema claro (beta)",
   "darkTheme": "Tema oscuro",
@@ -20,7 +20,7 @@
   "system": "Sistema y soporte",
   "systemDescription": "Instalar app, reiniciar todo, ajustes de telemetría y contacto.",
   "install": "Instalar",
-  "installDescription": "Instalar WeightLog como una app móvil",
+  "installDescription": "Instalar RepQuest como una app móvil",
   "daysOfWeek": "Días de la semana",
   "date": "Fecha",
   "set": "Serie",
@@ -161,9 +161,9 @@
     },
     "backingUp": "Realizando copia...",
     "importing": "Importación en curso, por favor no salga de la página",
-    "importSuccess": "Se ha completado la importación. WeightLog se va a reiniciar.",
+    "importSuccess": "Se ha completado la importación. RepQuest se va a reiniciar.",
     "nothing": "No quiero importar nada",
-    "startWeightlog": "Continuar con el inicio de WeightLog"
+    "startWeightlog": "Continuar con el inicio de RepQuest"
   },
   "workoutEditor": {
     "title": "Editor de rutinas",
@@ -225,7 +225,7 @@
   "enterPlanNewName": "Introduzca el nuevo nombre para este plan:",
   "workoutPlan": "Plan de entrenamiento",
   "newExercise": "Nuevo ejercicio",
-  "welcomeToWeightLog": "Bienvenido a WeightLog! Ten en cuenta que esta app está en fase de pruebas y puede presentar errores. Esperamos tus comentarios!",
+  "welcomeToRepQuest": "Bienvenido a RepQuest! Ten en cuenta que esta app está en fase de pruebas y puede presentar errores. Esperamos tus comentarios!",
   "startAddingAWorkout": "Cree una rutina para empezar.",
   "thisIsTheWorkoutList": "Esto es la lista de rutinas. Desde aquí puede ver las rutinas que ha creado, iniciar un entrenamiento y crear nuevas rutinas y planes de entrenamiento.",
   "startAddingAnExercise": "Cree un ejercicio para empezar.",
@@ -236,11 +236,11 @@
   "thisIsTheSetList": "Esto es la lista de series. Contiene el total de series para el ejercicio que está editando. Debe añadir una serie para continuar.",
   "importWillReplaceEverything": "TODOS los datos de la aplicación serán ELIMINADOS y luego se importará la copia de seguridad reemplazando TODO. Esta operación no se puede revertir. ¿Desea continuar?",
   "resetAll": "Reinicio de fábrica",
-  "resetAllTip": "Borrar todos los datos de WeightLog",
-  "resetAllWarning": "TODOS los datos de WeightLog serán eliminados para siempre. ¡Asegúrate de haber hecho una copia de seguridad! Otras cuentas de usuario no se verán afectadas. ¿Deseas continuar?",
-  "resetAllWarning2": "Último aviso: ¡TODOS los datos de WeightLog serán eliminados para siempre! ¿Seguro que quieres continuar?",
-  "deleteAllWarning": "TODOS los datos de WeightLog y esta cuenta serán eliminados para siempre. ¡Asegúrate de haber hecho una copia de seguridad! Otras cuentas de usuario no se verán afectadas. ¿Deseas continuar?",
-  "deleteAllWarning2": "Último aviso: ¡TODOS los datos de WeightLog y esta cuenta serán eliminados para siempre! ¿Seguro que quieres continuar?",
+  "resetAllTip": "Borrar todos los datos de RepQuest",
+  "resetAllWarning": "TODOS los datos de RepQuest serán eliminados para siempre. ¡Asegúrate de haber hecho una copia de seguridad! Otras cuentas de usuario no se verán afectadas. ¿Deseas continuar?",
+  "resetAllWarning2": "Último aviso: ¡TODOS los datos de RepQuest serán eliminados para siempre! ¿Seguro que quieres continuar?",
+  "deleteAllWarning": "TODOS los datos de RepQuest y esta cuenta serán eliminados para siempre. ¡Asegúrate de haber hecho una copia de seguridad! Otras cuentas de usuario no se verán afectadas. ¿Deseas continuar?",
+  "deleteAllWarning2": "Último aviso: ¡TODOS los datos de RepQuest y esta cuenta serán eliminados para siempre! ¿Seguro que quieres continuar?",
   "workoutFinished": "Final de la rutina",
   "backToLastExercise": "Volver al último ejercicio",
   "backToFirstExercise": "Volver al primer ejercicio",
@@ -252,16 +252,16 @@
   "telemetry": "Telemetría",
   "telemetryDescription": "Controlar sus preferencias de informes de errores",
   "telemetry1": "¿Qué es la telemetría?",
-  "telemetry2": "Cuando usa WeightLog, recogemos algunos datos de rendimiento sobre su sesión (navegador, dirección IP, URL y algunas de sus acciones). Cuando la app falla, esta información es recogida en un informe de errores que podemos utilizar para investigar el problema.",
+  "telemetry2": "Cuando usa RepQuest, recogemos algunos datos de rendimiento sobre su sesión (navegador, dirección IP, URL y algunas de sus acciones). Cuando la app falla, esta información es recogida en un informe de errores que podemos utilizar para investigar el problema.",
   "telemetry3": "NINGUNO de sus datos personales es recogido y la información que guardamos no le puede identificar. Esta información es necesaria para que podamos investigar erores de forma proactica para darle la mejor experiencia.",
   "telemetry4": "La información es procesada por Sentry (sentry.io). NO hacemos seguimiento de usuario en nuestro producto. No tenemos publicidad y por ello los datos recogidos son exclusivamente con fines técnicos.",
   "telemetry5": "Animamos a los usuarios a mantener la telemetría encendida, ya que esto nos permite mejorar el producto y resolver los errores que encuentren los usuarios, pero entendemos que algunos usuarios sean más reacios a compartir esta información con nosotros y por ello les ofrecemos desactivar la telemetría a través de esta opción.",
   "enableTelemetry": "Activar telemetría (recomendado)",
-  "weightlogWillRestart": "Si cambias este ajuste, WeightLog se reiniciará",
+  "weightlogWillRestart": "Si cambias este ajuste, RepQuest se reiniciará",
   "contact": "Contacto",
   "developedBy": "Desarrollado por Marc Sances (github.com/marcsances)",
-  "reloadTitle": "Reiniciar WeightLog",
-  "reloadDescription": "A veces WeightLog se puede colgar, y un reinicio podría resolver tu problema.",
+  "reloadTitle": "Reiniciar RepQuest",
+  "reloadDescription": "A veces RepQuest se puede colgar, y un reinicio podría resolver tu problema.",
   "autoStop": "Parada automática",
   "autoStopDescription": "Parar y guardar un entrenamiento automáticamente si ha estado inactiva una hora",
   "account": {
@@ -374,19 +374,19 @@
   "next": "Siguiente",
   "finish": "Finalizar",
   "onboarding": {
-    "title": "Bienvenido a WeightLog",
+    "title": "Bienvenido a RepQuest",
     "menu": "Asistente de bienvenida",
-    "menuDescription": "Volver a configurar WeightLog con el asistente de bienvenida",
+    "menuDescription": "Volver a configurar RepQuest con el asistente de bienvenida",
     "language": {
       "title": "Idioma"
     },
     "welcome": {
       "title": "Bienvenido",
-      "subtitle": "¡Bienvenido a WeightLog!",
+      "subtitle": "¡Bienvenido a RepQuest!",
       "message": "Esta aplicación pretende ser su compañero de entrenamiento, con el cual podrá registrar sus rutinas, hacer seguimiento de su progreso, ¡y mucho más!",
       "disclaimer1": "Esta aplicación, a diferencia de otras del mercado, no tiene ningún tipo de contenido propio. Esto significa que deberá introducir los ejercicios y rutinas a mano.",
-      "disclaimer2": "WeightLog no da consejos de fitness. Si necesita asesoramiento utilizando esta aplicación, acuda a un profesional cualificado. Las actividades físicas que realiza con la ayuda de esta aplicación corren bajo su riesgo y responsabilidad.",
-      "disclaimer3": "Esta aplicación no cuenta con ningún tipo de garantía. Recuerde que WeightLog todavía está en desarrollo y puede presentar errores. Por favor infórmenos en caso de que encuentre algún problema utilizando la aplicación."
+      "disclaimer2": "RepQuest no da consejos de fitness. Si necesita asesoramiento utilizando esta aplicación, acuda a un profesional cualificado. Las actividades físicas que realiza con la ayuda de esta aplicación corren bajo su riesgo y responsabilidad.",
+      "disclaimer3": "Esta aplicación no cuenta con ningún tipo de garantía. Recuerde que RepQuest todavía está en desarrollo y puede presentar errores. Por favor infórmenos en caso de que encuentre algún problema utilizando la aplicación."
     },
     "license": {
       "title": "Licencia",
@@ -404,7 +404,7 @@
     },
     "importData": {
       "title": "Importación de datos",
-      "message": "WeightLog no proporciona ninguna rutina de fábrica. ¿Tiene algún fichero de datos con rutinas o una copia de seguridad que importar, o empezará de cero?",
+      "message": "RepQuest no proporciona ninguna rutina de fábrica. ¿Tiene algún fichero de datos con rutinas o una copia de seguridad que importar, o empezará de cero?",
       "importFile": "Quiero importar un fichero de datos",
       "willRedirect": "Se le redirigirá a la página de Copia de seguridad y restauración al terminar este asistente.",
       "noThanks": "No, crearé la rutina manualmente",
@@ -412,13 +412,13 @@
     },
     "backups": {
       "title": "Copias de seguridad",
-      "message1": "WeightLog guarda los datos en su navegador. Esto significa que puede perder toda su información si borra las cookies del navegador.",
-      "message2": "Al terminar el entrenamiento, WeightLog le dara una opción de guardar una copia de seguridad, que se descarga en un archivo en su dispositivo y que puede restaurar más adelante desde el menú de configuración.",
+      "message1": "RepQuest guarda los datos en su navegador. Esto significa que puede perder toda su información si borra las cookies del navegador.",
+      "message2": "Al terminar el entrenamiento, RepQuest le dara una opción de guardar una copia de seguridad, que se descarga en un archivo en su dispositivo y que puede restaurar más adelante desde el menú de configuración.",
       "message3": "Le recomendamos hacer copias de seguridad de forma periódica. En un futuro habilitaremos copia de seguridad en la nube con Google Drive y nuestro servicio WeightCloud."
     },
     "completed": {
       "title": "Terminado",
-      "message": "Es todo por ahora. Pulse Finalizar para empezar a usar WeightLog."
+      "message": "Es todo por ahora. Pulse Finalizar para empezar a usar RepQuest."
     }
   },
   "bulkEditor": {
@@ -449,6 +449,6 @@
     "noData": "Sin datos",
     "sets": "series",
     "workouts": "sesiones",
-    "thanks": "¡Gracias por entrenar con WeightLog este %Y!"
+    "thanks": "¡Gracias por entrenar con RepQuest este %Y!"
   }
 }

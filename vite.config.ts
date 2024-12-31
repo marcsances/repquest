@@ -34,9 +34,9 @@ export default defineConfig({
             "id": "net.marcsances.weightlog",
             "dir": "ltr",
             "orientation": "portrait",
-            "short_name": "WeightLog",
-            "name": "WeightLog",
-            "description": "WeightLog is a simple online fitness tracking app.",
+            "short_name": "RepQuest",
+            "name": "RepQuest",
+            "description": "RepQuest is an online fitness tracking app.",
             "lang": "en",
             "icons": [
                 {

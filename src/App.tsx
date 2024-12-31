@@ -90,7 +90,7 @@ const DBGuard = ({children}: { children: ReactElement }) => {
         if (count === 0) {
             db.plan.put({
                 id: 1,
-                name: "WeightLog",
+                name: "RepQuest",
                 workoutIds: []
             }).then(() => {
                 window.location.pathname = "/onboarding";
