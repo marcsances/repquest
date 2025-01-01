@@ -1,18 +1,18 @@
 /*
-    This file is part of WeightLog.
+    This file is part of RepQuest.
 
-    WeightLog is free software: you can redistribute it and/or modify
+    RepQuest is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    WeightLog is distributed in the hope that it will be useful,
+    RepQuest is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with WeightLog.  If not, see <https://www.gnu.org/licenses/>.
+    along with RepQuest.  If not, see <https://www.gnu.org/licenses/>.
  */
 import React from "react";
 import Layout from "../../components/layout";
@@ -42,6 +42,13 @@ export const WhatsNew = () => {
                 Acknowledgements to <a href="https://github.com/yuhonas">yuhonas</a> for providing the <a href="https://github.com/yuhonas/free-exercise-db">Free Exercise DB</a> used in WeightLog.
             </Typography>
             <br/>
+            <Typography variant="h4">RepQuest Version 0.3.3</Typography>
+            <Typography variant="subtitle1">Released on 01/01/2025</Typography>
+            <Typography variant="subtitle2">Copyright Marc Sances 2025. All rights reserved.</Typography>
+            <Typography variant="h5">Features</Typography>
+            <ul>
+                <li>Disabled access from WeightLog app and removed legacy WeightLog content. Added the ability to export a backup before leaving.</li>
+            </ul>
             <Typography variant="h4">RepQuest Version 0.3.2</Typography>
             <Typography variant="subtitle1">Released on 01/01/2025</Typography>
             <Typography variant="subtitle2">Copyright Marc Sances 2025. All rights reserved.</Typography>

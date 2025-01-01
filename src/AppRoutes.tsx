@@ -30,6 +30,7 @@ import Onboarding from "./pages/onboarding/onboarding";
 import React from "react";
 import BulkEditor from "./pages/workout-editor/bulkEditor";
 import Wrapped from "./pages/wrapped";
+import EOLPage from "./pages/eol";
 
 const AppRoutes = () => {
     return <Routes>
@@ -78,6 +79,7 @@ const AppRoutes = () => {
         <Route path="/account" element={<AccountMenu/>}/>
         <Route path="/account/login" element={<LoginPage/>}/>
         <Route path="/wrapped" element={<Wrapped/>}/>
+        <Route path="/eol" element={<EOLPage/>}/>
         <Route path="*" element={<NotImplemented/>}/>
     </Routes>
 }

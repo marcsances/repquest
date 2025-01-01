@@ -1,18 +1,18 @@
 /*
-    This file is part of WeightLog.
+    This file is part of RepQuest.
 
-    WeightLog is free software: you can redistribute it and/or modify
+    RepQuest is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    WeightLog is distributed in the hope that it will be useful,
+    RepQuest is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with WeightLog.  If not, see <https://www.gnu.org/licenses/>.
+    along with RepQuest.  If not, see <https://www.gnu.org/licenses/>.
  */
 import React, {useCallback, useContext, useEffect, useMemo, useState} from "react";
 import Layout from "../../components/layout";
@@ -59,6 +59,8 @@ import {SettingsContext} from "../../context/settingsContext";
 const daysOfWeek = ["mondays", "tuesdays", "wednesdays", "thursdays", "fridays", "saturdays", "sundays"];
 
 export const WorkoutList = () => {
+
+
     const {t} = useTranslation();
     const {db} = useContext(DBContext);
     const [workouts, setWorkouts] = useState<Workout[] | undefined>(undefined);
@@ -89,6 +91,9 @@ export const WorkoutList = () => {
     const {theme: appTheme} = useContext(SettingsContext);
     const [showWrapped, setShowWrapped] = useState(false);
     const wrappedYear = (new Date().getFullYear() + (new Date().getMonth() === 0 ? -1 : 0));
+    useEffect(() => {
+        if (location.hostname === "weightlog.marcsances.net") navigate("/eol");
+    }, []);
 
     useEffect(() => {
         if (!db) return;

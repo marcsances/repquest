@@ -1,6 +1,6 @@
 # RepQuest (Codename WeightLog)
 
-![Node JS CI](https://github.com/marcsances/weightlog/actions/workflows/node.js.yml/badge.svg)
+![Node JS CI](https://github.com/marcsances/repquest/actions/workflows/node.js.yml/badge.svg)
 
 This is a free workout and fitness tracker developed as a PWA.
 
@@ -86,7 +86,7 @@ distribute your app if they wish to do so.
 
 ##### Will this app always be free?
 
-The core app (WeightLog) will always be free for everyone. Plans for additional services on top of it are undergoing, we
+The core app (RepQuest) will always be free for everyone. Plans for additional services on top of it are undergoing, we
 will be excited to announce them when they are available.
 
 ##### Are pull requests accepted?

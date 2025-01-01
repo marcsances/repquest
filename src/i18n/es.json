@@ -450,5 +450,14 @@
     "sets": "series",
     "workouts": "sesiones",
     "thanks": "¡Gracias por entrenar con RepQuest este %Y!"
+  },
+  "eol": {
+    "title": "¡WeightLog ahora es RepQuest!",
+    "message": "Muchas gracias por ser de los primeros usuarios en colaborar con el desarrollo de WeightLog.",
+    "message2": "Es hora de cerrar un ciclo. WeightLog cierra y a partir de ahora seremos RepQuest.",
+    "message3": "Desafortunadamente, no podemos migrar tus datos automáticamente. Al estar en otra dirección web (a partir de ahora estaremos en client.repquest.app), debes migrar manualmente tu base de datos.",
+    "message4": "Pulsa el botón de abajo para descargar una copia de seguridad de tu perfil, que podrás importar a RepQuest en acceder por primera vez. Si necesitas ayuda para hacer la transición, estaremos en info@repquest.app.",
+    "message5": "Gracias por usar WeightLog. ¡Nos vemos en RepQuest!",
+    "openRepquest": "Abrir RepQuest"
   }
 }

@@ -1,18 +1,18 @@
 /*
-    This file is part of WeightLog.
+    This file is part of RepQuest.
 
-    WeightLog is free software: you can redistribute it and/or modify
+    RepQuest is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    WeightLog is distributed in the hope that it will be useful,
+    RepQuest is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with WeightLog.  If not, see <https://www.gnu.org/licenses/>.
+    along with RepQuest.  If not, see <https://www.gnu.org/licenses/>.
  */
 import React from "react";
 import Layout from "../../components/layout";
@@ -701,7 +701,7 @@ export const License = () => {
 
     const {t} = useTranslation();
     return <Layout title={t("license")} hideNav scroll>
-        <Typography variant="subtitle2" sx={{paddingLeft: "20px", paddingTop: "5px"}}>The source code for this program will be released to Github (github.com/marcsances/weightlog) soon. If you need the source code in the meantime, please contact me through email.</Typography>
+        <Typography variant="subtitle2" sx={{paddingLeft: "20px", paddingTop: "5px"}}>The source code for this program is available at Github (github.com/marcsances/repquest).</Typography>
         <Box sx={{padding: "20px", width: "calc(100% - 40px)", height: "calc(100vh - 96px)", overflow: "scroll", whiteSpace: "nowrap"}}>
             {gpl.split("\n").map((line) => <Typography variant="subtitle2" sx={{fontFamily: "monospace"}}>{line}</Typography>)}
         </Box>
