@@ -27,9 +27,7 @@ Refer to the file [whatsNew.tsx](./src/pages/whatsNew/whatsNew.tsx) or [the buil
 
 ## Usage
 
-**You can access a live version of this app through [this link](https://weightlog.marcsances.net)**. 
-
-The app will soon be available from the new domain [repquest.app](https://repquest.app). Stay tuned!
+**You can access a live version of this app through [this link](https://client.repquest.app)**. 
 
 The next steps are
 necessary only if you want to run or modify this app locally.
@@ -72,7 +70,7 @@ We do offer the possibility to import exercises from [Free Exercise DB](https://
 
 ##### Do I need to clone this project and host it to use this app?
 
-No, you can use my hosted version at [https://weightlog.marcsances.net](https://weightlog.marcsances.net) (soon will be repquest.app)
+No, you can use my hosted version at [https://client.repquest.app](https://client.repquest.app)
 
 ##### Can I host this project or modified versions of it?
 
