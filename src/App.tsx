@@ -93,7 +93,7 @@ const DBGuard = ({children}: { children: ReactElement }) => {
                 name: "RepQuest",
                 workoutIds: []
             }).then(() => {
-                window.location.pathname = "/onboarding";
+                navigate("/onboarding");
             });
         } else {
             setDbReady(true);

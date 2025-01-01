@@ -285,19 +285,19 @@ export const WorkoutPage = () => {
                 </MenuItem>}
         </Menu>
         <Box sx={{height: "calc(100% - 16px)", display: "flex", flexDirection: "column"}}>
-            {!isMini && featureLevel === "easy" && !viewHistory && focusedExercise?.picture && <CardContent sx={{paddingTop: 0,paddingBottom: 0}}>
-                <CardMedia sx={{height: "30" + (portrait ? "vh" : "vw"), backgroundSize: "contain"}}
+            {!isMini && ((featureLevel === "easy" && !viewHistory) || currentExerciseHistory?.length === 0) && focusedExercise?.picture && <CardContent sx={{paddingTop: 0,paddingBottom: 0}}>
+                <CardMedia sx={{marginTop: "24px", height: "30" + (portrait ? "vh" : "vw"), backgroundSize: "contain"}}
                            image={focusedExercise?.picture} title={focusedExercise?.name} onClick={() => navigate("/picture")}
                 />
             </CardContent>}
-            <ListItemButton onClick={() => setShowExerciseSelector(true)}>
-                {!isMini && (featureLevel === "advanced" || viewHistory) && <ListItemIcon>{focusedExercise?.picture && <Avatar variant="rounded" onClick={(e) => { e.stopPropagation(); navigate("/picture")}} src={focusedExercise?.picture} sx={{display: "inline-block"}} />}</ListItemIcon>}
+            <Box sx={{padding: "12px", display: "flex", flexDirection: "row", justifyContent: "center"}} onClick={() => setShowExerciseSelector(true)}>
+                {!isMini && (featureLevel === "advanced" && currentExerciseHistory && currentExerciseHistory.length > 0 || viewHistory) && <ListItemIcon>{focusedExercise?.picture && <Avatar variant="rounded" onClick={(e) => { e.stopPropagation(); navigate("/picture")}} src={focusedExercise?.picture} sx={{placeSelf: "center"}} />}</ListItemIcon>}
                 <ListItemText primary={focusedExercise?.name} secondary={!isMini ? `${currentSet?.cues ? currentSet?.cues + " - " : ""}${focusedExercise?.tags.map((tag) => (t("tags." + ExerciseTag[tag].toLowerCase()))).join(", ")}` : undefined}
                               primaryTypographyProps={{sx: {fontWeight: 600}, fontSize: isMini ? "small" : "medium"}} secondaryTypographyProps={{fontSize: "x-small"}}/>
-                {featureLevel === "easy" && <IconButton color="inherit" onClick={(e) => { e.stopPropagation(); setViewHistory((prev) => !prev)}}>{viewHistory ? <CollectionsIcon/> : <History />}</IconButton>}
-                <Icon><ArrowDropDown /></Icon>
+                {featureLevel === "easy" &&  currentExerciseHistory?.length != 0 && <IconButton color="inherit" onClick={(e) => { e.stopPropagation(); setViewHistory((prev) => !prev)}}>{viewHistory ? <CollectionsIcon/> : <History />}</IconButton>}
+                <ArrowDropDown sx={{placeSelf: "center"}} />
                 <IconButton aria-label="menu" color="inherit" onClick={(e) => { e.stopPropagation(); setSwapExerciseOpen(true) }}><SwapHoriz/></IconButton>
-            </ListItemButton>
+            </Box>
             {!!restTime && !showRest && <RestInProgress onClick={() => setShowRest(true)} />}
             <SupersetViewer/>
             {(featureLevel === "advanced" || viewHistory) && <Paper variant="outlined">
@@ -345,6 +345,7 @@ export const WorkoutPage = () => {
                         </TableContainer>
 
             </Paper>}
+            <Box sx={{flexGrow: 0.9}}/>
             {<Box sx={{overflow: isCurrentExerciseComplete ? "hidden" : "auto", position: "relative", flexShrink: 1}}>
                 {isCurrentExerciseComplete && <Box sx={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", backgroundColor: theme === "light" ? "rgba(255, 255, 255, 0.6)" : "rgba(18, 18, 18, 0.6)", zIndex: 10, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", gap: "16px" }} onClick={(e) => e.stopPropagation()}>
                     <Typography sx={{fontWeight: 600}}>{t("exerciseCompleted")}</Typography>

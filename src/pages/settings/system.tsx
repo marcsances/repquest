@@ -95,7 +95,7 @@ export const SystemSettingsPage = () => {
                 </ListItemAvatar>
                 <ListItemText primary={t("resetAll")} secondary={t("resetAllTip")}/>
             </ListItemButton>
-            <ListItemButton component="a" href={atob("bWFpbHRvOm1hcmMuc2FuY2VzQGNvZXRpYy5jYXQ=")}>
+            <ListItemButton component="a" href={atob("bWFpbHRvOmluZm9AcmVwcXVlc3QuYXBw")}>
                 <ListItemAvatar>
                     <Avatar>
                         <Mail/>

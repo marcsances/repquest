@@ -56,7 +56,7 @@ export const RestInProgress = (props: {onClick: () => void}) => {
         }
     }, [currentRestTime, sound, audioContext, time, stopRest]);
 
-    return currentRestTime >= 0 ? <ListItemButton component="a" onClick={onClick}>
+    return currentRestTime >= 0 ? <Box><ListItemButton component="a" onClick={onClick}>
         <ListItemAvatar>
             <Avatar>
                 <Box position="relative" display="inline-flex">
@@ -80,5 +80,5 @@ export const RestInProgress = (props: {onClick: () => void}) => {
         </ListItemAvatar>
         <ListItemText primary={t("restInProgress")} secondary={restLabel}/>
         <IconButton color="inherit" onClick={(e) => { e.stopPropagation(); if (saveSound) saveSound(!sound) }}>{sound ? <VolumeUp /> : <VolumeMute />}</IconButton>
-    </ListItemButton> : <></>;
+    </ListItemButton></Box> : <></>;
 }

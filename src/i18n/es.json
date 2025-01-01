@@ -259,7 +259,7 @@
   "enableTelemetry": "Activar telemetría (recomendado)",
   "weightlogWillRestart": "Si cambias este ajuste, RepQuest se reiniciará",
   "contact": "Contacto",
-  "developedBy": "Desarrollado por Marc Sances (github.com/marcsances)",
+  "developedBy": "Desarrollado por el equipo RepQuest (repquest.app)",
   "reloadTitle": "Reiniciar RepQuest",
   "reloadDescription": "A veces RepQuest se puede colgar, y un reinicio podría resolver tu problema.",
   "autoStop": "Parada automática",

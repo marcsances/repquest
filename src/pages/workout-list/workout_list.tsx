@@ -87,8 +87,17 @@ export const WorkoutList = () => {
     const [addExerciseOpen, setAddExerciseOpen] = useState(false);
     const {showPrompt} = useContext(DialogContext);
     const {theme: appTheme} = useContext(SettingsContext);
+    const [showWrapped, setShowWrapped] = useState(false);
+    const wrappedYear = (new Date().getFullYear() + (new Date().getMonth() === 0 ? -1 : 0));
 
-    const showWrapped = [11, 0].includes(new Date().getMonth());
+    useEffect(() => {
+        if (!db) return;
+        if ([11, 0].includes(new Date().getMonth())) {
+            db?.exerciseSet.toArray().then((sets) => {
+                setShowWrapped(sets.filter((set) => !set.initial && set.date && set.date?.getTime() >= new Date(wrappedYear, 0, 1).getTime() && set.date?.getTime() < new Date(wrappedYear + 1, 0, 1).getTime()).length > 0);
+            });
+        }
+    }, [db]);
 
     useEffect(() => {
         db?.plan.toArray().then((plans) => {
