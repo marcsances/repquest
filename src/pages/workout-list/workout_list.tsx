@@ -218,7 +218,7 @@ export const WorkoutList = () => {
                 <Avatar sx={{marginLeft: "6px", bgcolor: "rgba(255,255,255,0)"}}>
                     <Celebration sx={{color: "black"}}/>
                 </Avatar></ListItemAvatar>
-                <ListItemText sx={{".MuiListItemText-primary": {color: "black", fontWeight: 600}, ".MuiListItemText-secondary": {color: "black", fontSize: "12px"}}} primary={t("wrapped.menuEntry")} secondary={t("wrapped.menuEntryDescription") + (new Date().getFullYear() - (new Date().getMonth() === 0 ? -1 : 0))} />
+                <ListItemText sx={{".MuiListItemText-primary": {color: "black", fontWeight: 600}, ".MuiListItemText-secondary": {color: "black", fontSize: "12px"}}} primary={t("wrapped.menuEntry")} secondary={t("wrapped.menuEntryDescription") + (new Date().getFullYear() + (new Date().getMonth() === 0 ? -1 : 0))} />
 
         </ListItemButton>}
         {timeStarted && currentWorkout && <>            {!!restTime &&

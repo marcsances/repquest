@@ -141,7 +141,7 @@ const Wrapped = () => {
             />}
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div" sx={{ color: "white", width: "100%", textAlign: "center"}}>
-                    {(user?.name === "Default User" ? t("wrapped.wrappedTitleNoUserName") : t("wrapped.wrappedTitle")).replace("%U", user?.name || "").replace("%Y", (new Date().getFullYear() - (new Date().getMonth() === 0 ? -1 : 0)).toString()) }
+                    {(user?.name === "Default User" ? t("wrapped.wrappedTitleNoUserName") : t("wrapped.wrappedTitle")).replace("%U", user?.name || "").replace("%Y", (new Date().getFullYear() + (new Date().getMonth() === 0 ? -1 : 0)).toString()) }
                 </Typography>
             </CardContent>
             <Grid container spacing={1}>
