@@ -21,7 +21,7 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
-import {BrowserRouter, useNavigate} from "react-router-dom";
+import {BrowserRouter, HashRouter, useNavigate} from "react-router-dom";
 import {createTheme, Paper, ThemeProvider} from '@mui/material';
 import {DBContext} from "./context/dbContext";
 import {DexieDB} from "./db/db";
@@ -110,7 +110,7 @@ function App() {
             <ThemeProvider theme={appTheme === "light" ? lightTheme : darkTheme}>
                 <DialogContextProvider>
                     <DBContext.Provider value={{db: new DexieDB(), masterDb: new MasterDB()}}>
-                        <BrowserRouter>
+                        <HashRouter>
                             <DBGuard>
                                 <TimerContextProvider>
                                     <UserContextProvider>
@@ -128,7 +128,7 @@ function App() {
                                     </UserContextProvider>
                                 </TimerContextProvider>
                             </DBGuard>
-                        </BrowserRouter>
+                        </HashRouter>
                     </DBContext.Provider>
                 </DialogContextProvider>
             </ThemeProvider>

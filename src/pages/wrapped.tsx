@@ -76,7 +76,7 @@ const Wrapped = () => {
     const [loading, setLoading] = useState(true);
     const {db} = useContext(DBContext);
     const {useLbs, oneRm} = useContext(SettingsContext);
-    const wrappedYear = (new Date().getFullYear() - (new Date().getMonth() === 0 ? -1 : 0));
+    const wrappedYear = (new Date().getFullYear() + (new Date().getMonth() === 0 ? -1 : 0));
 
     const [entries, setEntries] = useState<{title: string, value: string}[]>([]);
 

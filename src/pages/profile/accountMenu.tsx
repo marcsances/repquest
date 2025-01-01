@@ -76,7 +76,7 @@ export const AccountMenu = () => {
                         masterDb?.user.delete(userName).then(() => {
                             localStorage.removeItem("workoutContext");
                             sessionStorage.clear();
-                            location.href = window.location.origin + "/login";
+                            location.href = window.location.origin + "/#/login";
                         });
                     });
                 }))

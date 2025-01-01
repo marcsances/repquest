@@ -213,7 +213,7 @@ export const WorkoutList = () => {
                        }, plan?.name || "");
                    }}><EditIcon/></IconButton></>}><List
         sx={{width: '100%', backgroundImage: {dark: "url('/logofadenoback.png')", light: "url('/logofadelight.png')"}[appTheme], backgroundSize: "contain", backgroundPosition: "right bottom", backgroundRepeat: "no-repeat", height: 'calc(100% - 78px)', overflow: "auto"}}>
-        {false && !currentWorkout && <ListItemButton component="a" sx={{padding: "4px", marginLeft: "10px", marginRight: "10px", marginBottom: "5px", boxShadow: "0px 0px 5px 0px rgba(255,236,29,0.9)", background: "conic-gradient(rgba(255,237,29,1), rgba(255,205,30,1), rgba(255,237,29,1));", borderRadius: "20px"}} onClick={() => navigate("/wrapped")}>
+        {showWrapped && !currentWorkout && <ListItemButton component="a" sx={{padding: "4px", marginLeft: "10px", marginRight: "10px", marginBottom: "5px", boxShadow: "0px 0px 5px 0px rgba(255,236,29,0.9)", background: "conic-gradient(rgba(255,237,29,1), rgba(255,205,30,1), rgba(255,237,29,1));", borderRadius: "20px"}} onClick={() => navigate("/wrapped")}>
             <ListItemAvatar>
                 <Avatar sx={{marginLeft: "6px", bgcolor: "rgba(255,255,255,0)"}}>
                     <Celebration sx={{color: "black"}}/>

@@ -42,6 +42,14 @@ export const WhatsNew = () => {
                 Acknowledgements to <a href="https://github.com/yuhonas">yuhonas</a> for providing the <a href="https://github.com/yuhonas/free-exercise-db">Free Exercise DB</a> used in WeightLog.
             </Typography>
             <br/>
+            <Typography variant="h4">RepQuest Version 0.3.1</Typography>
+            <Typography variant="subtitle1">Released on 01/01/2025</Typography>
+            <Typography variant="subtitle2">Copyright Marc Sances 2025. All rights reserved.</Typography>
+            <Typography variant="h5">Bugfixes</Typography>
+            <ul>
+                <li>Fixed Yearly Wrapped showing for 2026 instead of 2025 when the year changed.</li>
+                <li>Changed to hash routing to support Github Pages where we will host the app from now on.</li>
+            </ul>
             <Typography variant="h4">RepQuest Version 0.3.0</Typography>
             <Typography variant="subtitle1">Released on 31/12/2024</Typography>
             <Typography variant="subtitle2">Copyright Marc Sances 2024. All rights reserved.</Typography>
