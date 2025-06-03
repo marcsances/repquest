@@ -18,7 +18,7 @@ import React, {useContext, useState} from "react";
 import Layout from "../../components/layout";
 import {useTranslation} from "react-i18next";
 import {Avatar, List, ListItemAvatar, ListItemButton, ListItemText, Snackbar} from "@mui/material";
-import {AccountCircle, DeleteForever, Link, Login, SwapHoriz} from "@mui/icons-material";
+import {AccountCircle, DeleteForever, Link, SwapHoriz} from "@mui/icons-material";
 import {useNavigate} from "react-router-dom";
 import {DBContext} from "../../context/dbContext";
 import {UserContext} from "../../context/userContext";
@@ -104,14 +104,6 @@ export const AccountMenu = () => {
                     </Avatar>
                 </ListItemAvatar>
                 <ListItemText primary={t("account.switchAccounts")} />
-            </ListItemButton>
-            <ListItemButton component="a" onClick={() => navigate("/account/login")}>
-                <ListItemAvatar>
-                    <Avatar sx={{bgcolor: (theme) => theme.palette.primary.main}}>
-                        <Login/>
-                    </Avatar>
-                </ListItemAvatar>
-                <ListItemText primary={t("weightcloud.login.login")} />
             </ListItemButton>
             {userName !== "Default User" && <ListItemButton component="a" onClick={deleteAccount}>
                 <ListItemAvatar>

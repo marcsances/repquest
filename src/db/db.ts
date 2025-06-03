@@ -16,16 +16,14 @@
  */
 import Dexie, {Table} from 'dexie';
 import {Exercise} from "../models/exercise";
-import {ExerciseSet, Plan, Workout, WorkoutExercise, WorkoutHistory} from "../models/workout";
-import {User, UserMetric} from "../models/user";
+import {ExerciseSet, Plan, Workout, WorkoutExercise} from "../models/workout";
+import {UserMetric} from "../models/user";
 
 export class DexieDB extends Dexie {
     exercise!: Table<Exercise>;
     workout!: Table<Workout>;
-    workoutHistory!: Table<WorkoutHistory>;
     workoutExercise!: Table<WorkoutExercise>;
     exerciseSet!: Table<ExerciseSet>;
-    user!: Table<User>;
     userMetric!: Table<UserMetric>;
     plan!: Table<Plan>;
     constructor() {
@@ -50,7 +48,7 @@ export class DexieDB extends Dexie {
             user: "++name",
             userMetric: "++id, metric",
             plan: "++id, workoutId, name"
-        })
+        });
     }
 }
 

@@ -2,13 +2,12 @@ import Layout from "../components/layout";
 import {useTranslation} from "react-i18next";
 import Typography from "@mui/material/Typography";
 import {Box, Button, CircularProgress, useMediaQuery} from "@mui/material";
-import {ArrowForward, ArrowRight} from "@mui/icons-material";
+import {ArrowForward} from "@mui/icons-material";
 import {backupToJSON} from "../db/backup";
 import {useContext, useState} from "react";
 import {UserContext} from "../context/userContext";
 import {DBContext} from "../context/dbContext";
 import {SettingsContext} from "../context/settingsContext";
-import Loader from "../components/Loader";
 
 const EOLPage = () => {
     const portrait = (window.screen.orientation.angle % 180 === 0);

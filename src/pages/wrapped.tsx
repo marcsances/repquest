@@ -18,28 +18,15 @@ import {useTranslation} from "react-i18next";
 import Layout from "../components/layout";
 import Typography from "@mui/material/Typography";
 import {useNavigate} from "react-router-dom";
-import {
-    Avatar,
-    Box,
-    Button,
-    Card,
-    CardActions,
-    CardContent,
-    CardMedia,
-    CircularProgress,
-    Grid,
-    useMediaQuery
-} from "@mui/material";
+import {Avatar, Box, Card, CardContent, Grid, useMediaQuery} from "@mui/material";
 import {UserContext} from "../context/userContext";
 import React, {useContext, useEffect, useState} from "react";
 import DomToImage from "dom-to-image";
-import defer from "../utils/defer";
 import {DBContext} from "../context/dbContext";
 import Loader from "../components/Loader";
 import {SettingsContext} from "../context/settingsContext";
 import {getOneRm} from "../utils/oneRm";
 import {ExerciseTag} from "../models/exercise";
-import {t} from "i18next";
 import IconButton from "@mui/material/IconButton";
 import {Download} from "@mui/icons-material";
 

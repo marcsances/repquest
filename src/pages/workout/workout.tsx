@@ -23,8 +23,7 @@ import {
     CardContent,
     CardMedia,
     Fab,
-    Fade, Icon,
-    ListItem, ListItemButton,
+    Fade,
     ListItemIcon,
     ListItemText,
     Menu,
@@ -62,7 +61,9 @@ import ToggleParameter from "../../components/toggleParameter";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import CollectionsIcon from '@mui/icons-material/Collections';
 import {
-    AddCircleOutlined, ArrowDropDown, Cancel,
+    AddCircleOutlined,
+    ArrowDropDown,
+    Cancel,
     CheckBox,
     CheckBoxOutlineBlank,
     ContentCopy,
@@ -93,7 +94,6 @@ import Selector from "../../components/selector";
 
 export const WorkoutPage = () => {
     const {
-        followingWorkout,
         focusedExercise,
         currentWorkout,
         currentSet,
@@ -102,8 +102,8 @@ export const WorkoutPage = () => {
         currentWorkoutExerciseNumber,
         setCurrentSet,
         setCurrentSetNumber,
-        currentWorkoutHistory,
         restTime,
+        timeStarted,
         setCurrentWorkoutExerciseNumber,
         saveSet,
         stopWorkout,
@@ -200,8 +200,8 @@ export const WorkoutPage = () => {
     }, [currentExerciseHistory, setCurrentSlice]);
 
     useEffect(() => {
-        if (!currentWorkoutHistory) navigate("/");
-    }, [currentWorkoutHistory]);
+        if (!timeStarted) navigate("/");
+    }, [timeStarted]);
 
     const delSet = (set: ExerciseSet) => {
         if (!db || !set) return;
@@ -214,7 +214,7 @@ export const WorkoutPage = () => {
     const isCurrentExerciseComplete = currentExerciseHistory && currentWorkoutExercise?.setIds && currentExerciseHistory.filter((set) => set.date && set.setNumber === currentWorkoutExercise?.setIds.length && isSameDay(set.date, new Date())).length > 0;
 
     if (!!restTime && showRest) return <Rest onBack={() => setShowRest(false)}/>;
-    return <Layout title={followingWorkout?.name || t("freeTraining")} hideNav
+    return <Layout title={currentWorkout?.name || t("freeTraining")} hideNav
                    toolItems={toolbar}>
         {isFetching && <Loader />}
         {(showWorkoutFinishedPage || stopDialogOpen) && <WorkoutFinished addExercise={() => { setStopDialogOpen(false); setAddExerciseOpen(true)}} stopWorkoutCancel={stopDialogOpen ? () => {

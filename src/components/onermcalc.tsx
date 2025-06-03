@@ -51,7 +51,7 @@ const OneRmCalculator = (props: OneRmCalcProps) => {
                        <IconButton size="large" edge="start" color="inherit"
                                    onClick={() => onSelect(curWeight, curReps)}><Check/></IconButton> : <></>}
                    hideBack={onSelect !== undefined} hideNav>
-        <Box sx={{height: "100%", width: "100%"}}>
+        <Box sx={{height: "calc(100vh - 56px)", width: "100%", overflowY: "auto"}}>
             <Parameter name={t("weight")} unit={useLbs ? "lbs" : "kg"} value={curWeight || 0} min={0}
                        increments={[2.5, 1.25, 1, 0.5, 5]}
                        allowDecimals onChange={(weight) => {
@@ -61,7 +61,7 @@ const OneRmCalculator = (props: OneRmCalcProps) => {
                        onChange={(reps) => {
                            setCurReps(reps)
                        }}/>
-            <Grid container sx={{display: "flex", placeSelf: "center", alignContent: "center", width: "100%"}}
+            <Grid container sx={{marginTop: "8px", placeSelf: "center", justifyContent: "center", width: "100%"}}
                   spacing={2} columns={{xs: 4, sm: 8, md: 12}}>
                 {rms.map((it) => <Grid item key={it.reps} xs="auto" sx={{placeSelf: "center"}}>
                     <Card variant="outlined" sx={{width: "120px", height: "120px"}}>

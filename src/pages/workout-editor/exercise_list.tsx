@@ -18,10 +18,12 @@ import React, {useContext, useEffect, useRef, useState} from "react";
 import Layout from "../../components/layout";
 import {useTranslation} from "react-i18next";
 import {
-    Avatar, CircularProgress,
+    Avatar,
+    CircularProgress,
     Dialog,
     InputAdornment,
-    List, ListItem,
+    List,
+    ListItem,
     ListItemAvatar,
     ListItemButton,
     ListItemText,

@@ -17,7 +17,7 @@
 import {Avatar, ListItem, Stack} from "@mui/material";
 import React from "react";
 import IconButton from "@mui/material/IconButton";
-import {Check, CheckBox} from "@mui/icons-material";
+import {Check} from "@mui/icons-material";
 
 export interface ColorPickerProps {
     value?: string;

@@ -30,7 +30,6 @@ export interface User {
     lang?: string;
     wakeLock?: boolean;
     emojis?: string[];
-    refreshToken?: string;
     fullname?: string;
     theme?: AppTheme;
     featureLevel?: FeatureLevel;

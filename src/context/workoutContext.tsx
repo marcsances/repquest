@@ -15,13 +15,7 @@
     along with RepQuest.  If not, see <https://www.gnu.org/licenses/>.
  */
 import React, {ReactElement, useCallback, useContext, useEffect, useState} from "react";
-import {
-    ExerciseSet,
-    Workout,
-    WorkoutExercise,
-    WorkoutExerciseListEntry,
-    WorkoutHistory
-} from "../models/workout";
+import {ExerciseSet, Workout, WorkoutExercise, WorkoutExerciseListEntry,} from "../models/workout";
 import {Exercise} from "../models/exercise";
 import {DBContext} from "./dbContext";
 import {useTranslation} from "react-i18next";
@@ -47,7 +41,6 @@ interface IWorkoutContext {
     currentSetNumber: number;
     restStarted?: Date;
     restTime: number;
-    currentWorkoutHistory?: WorkoutHistory;
     currentWorkoutExercise?: WorkoutExercise;
     currentWorkoutExerciseIds?: number[];
     currentWorkoutExerciseList?: WorkoutExerciseListEntry[];
@@ -81,6 +74,7 @@ interface IWorkoutContext {
 }
 
 export interface PostWorkout {
+    color?: string;
     timeStarted: Date;
     timeFinished: Date;
     pbs: PB[];
@@ -96,7 +90,6 @@ export const WorkoutContext = React.createContext({
     currentSet: undefined,
     restStarted: undefined,
     restTime: 0,
-    currentWorkoutHistory: undefined,
     currentSetNumber: 1,
     currentWorkoutExercise: undefined,
     currentWorkoutExerciseNumber: 0,
@@ -107,11 +100,11 @@ export const WorkoutContext = React.createContext({
 
 export const WorkoutContextProvider = (props: { children: ReactElement }) => {
     const {children} = props;
+    const [timeStarted, setTimeStarted] = useState<Date | undefined>(undefined);
     const [timeUpdated, setTimeUpdated] = useState<Date>(new Date());
     const [focusedExercise, setFocusedExercise] = useState<Exercise | undefined>(undefined);
     const [currentWorkout, setCurrentWorkout] = useState<Workout | undefined>(undefined);
     const [currentWorkoutExerciseIds, setCurrentWorkoutExerciseIds] = useState<number[]>([]);
-    const [currentWorkoutHistory, setCurrentWorkoutHistory] = useState<WorkoutHistory | undefined>(undefined);
     const [currentSet, setCurrentSet] = useState<ExerciseSet | undefined>(undefined);
     const [currentSetNumber, setCurrentSetNumber] = useState(1);
     const [currentWorkoutExercise, setCurrentWorkoutExercise] = useState<WorkoutExercise | undefined>(undefined);
@@ -147,10 +140,6 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
             setTimeUpdated(new Date(context.timeUpdated));
             setFocusedExercise(context.focusedExercise);
             setCurrentWorkout(context.currentWorkout);
-            if (context.currentWorkoutHistory) setCurrentWorkoutHistory({
-                ...context.currentWorkoutHistory,
-                date: new Date(context.currentWorkoutHistory.date)
-            });
             setCurrentSet(context.currentSet);
             setCurrentWorkoutExercise(context.currentWorkoutExercise);
             setCurrentWorkoutExerciseNumber(context.currentWorkoutExerciseNumber);
@@ -175,11 +164,11 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
     }, []);
 
     const startWorkout = useCallback(async (followingWorkout?: Workout) => {
+        setTimeStarted(new Date());
         setTimeUpdated(new Date());
         setFocusedExercise(undefined);
         setCurrentSetNumber(1);
         setCurrentWorkoutExerciseNumber(0);
-        setCurrentWorkoutHistory(getBlankWorkout(followingWorkout?.name));
         setFollowingWorkout(followingWorkout);
         setFocusedExercise(undefined);
         setCurrentSet(undefined);
@@ -187,7 +176,7 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
         setPbs([]);
         setCurrentWorkoutExerciseList([]);
         setSuperset(undefined);
-    }, [setCurrentWorkoutHistory, setCurrentWorkoutExerciseNumber, setFollowingWorkout, setFocusedExercise]);
+    }, [setCurrentWorkoutExerciseNumber, setFollowingWorkout, setFocusedExercise]);
 
     useEffect(() => {
         if (!setCurrentWorkout || !init) return;
@@ -360,10 +349,6 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
             workoutExerciseList.push({position: i, exercise: (await db.exercise.get(workoutExercises[i].exerciseId)) as Exercise});
         }
         setCurrentWorkoutExerciseList(workoutExerciseList);
-        setCurrentWorkoutHistory((prevState) => prevState ? ({
-            ...prevState,
-            workoutExerciseIds: currentWorkoutExerciseIds
-        }) : prevState);
     })()}, [currentWorkoutExerciseIds]);
 
 
@@ -375,20 +360,17 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
     }
 
     const stopWorkout = useCallback(async () => {
-        if (currentWorkoutHistory) setPostWorkout({
-            timeStarted: currentWorkoutHistory.date,
+        if (currentWorkout) setPostWorkout({
+            color: currentWorkout.color,
+            timeStarted: timeStarted || new Date(),
             timeFinished: new Date(),
-            workoutName: currentWorkoutHistory.workoutName,
+            workoutName: followingWorkout?.name || t("freeTraining"),
             pbs
         });
-        if (currentWorkoutHistory && await notEmptyHistory(currentWorkoutExerciseIds)) await db?.workoutHistory.put({
-            ...currentWorkoutHistory,
-            workoutExerciseIds: currentWorkoutExerciseIds
-        });
+        setTimeStarted(undefined);
         setFocusedExercise(undefined);
         setCurrentSetNumber(1);
         setCurrentWorkoutExerciseNumber(0);
-        setCurrentWorkoutHistory(undefined)
         setFollowingWorkout(undefined);
         setFocusedExercise(undefined);
         setCurrentSet(undefined);
@@ -397,7 +379,7 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
         setPbs([]);
         setSuperset(undefined);
         setCurrentWorkout(undefined);
-    }, [currentWorkoutHistory, currentWorkoutExerciseIds, setCurrentWorkoutHistory, setFollowingWorkout, setFocusedExercise, setCurrentSet, setRestStarted, setRestTime, pbs, db?.workoutHistory]);
+    }, [currentWorkoutExerciseIds, setFollowingWorkout, setFocusedExercise, setCurrentSet, setRestStarted, setRestTime, pbs]);
 
     const addSet = useCallback(async () => {
         if (!init || !db || !currentSet || !currentWorkoutExercise) return;
@@ -439,7 +421,7 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
     useEffect(() => {
         if (!init) return;
         const getData = async () => {
-            if (currentWorkoutHistory && db && currentWorkoutExercise && focusedExercise && currentWorkoutHistory?.date) {
+            if (timeStarted && db && currentWorkoutExercise && focusedExercise) {
                 const sets: ExerciseSet[] = [];
                 const allSets = (await db.exerciseSet
                     .where("exerciseId")
@@ -470,15 +452,15 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
                 setIsFetching(false);
             }
         });
-    }, [db, currentWorkoutHistory, focusedExercise, currentSetNumber, currentWorkoutExercise, refetchHistoryToken]);
+    }, [db, timeStarted, focusedExercise, currentSetNumber, currentWorkoutExercise, refetchHistoryToken]);
 
     const addExercise = useCallback((workoutExercise: WorkoutExercise) => {
         const weids = [...(currentWorkout && currentWorkoutExerciseIds ? currentWorkoutExerciseIds : []), workoutExercise.id];
         if (!currentWorkout) {
+            setTimeStarted(new Date());
             setFocusedExercise(undefined);
             setCurrentSetNumber(1);
             setCurrentWorkoutExerciseNumber(0);
-            setCurrentWorkoutHistory(getBlankWorkout());
             setFollowingWorkout(undefined);
             setFocusedExercise(undefined);
             setCurrentSet(undefined);
@@ -492,16 +474,12 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
             });
             setSuperset(undefined);
         } else setCurrentWorkout((prevState) => ({...prevState!, workoutExerciseIds: weids, name: t("freeTraining")}));
-        setCurrentWorkoutHistory((prevState) => ({
-            ...prevState ? prevState : getBlankWorkout(),
-            workoutName: t("freeTraining")
-        }));
         setCurrentWorkoutExerciseIds(weids);
         setCurrentWorkoutExerciseNumber((currentWorkoutExerciseIds.length));
         setCurrentWorkoutExercise(workoutExercise);
         setCurrentSetNumber(1);
         setTimeUpdated(new Date());
-    }, [currentWorkout, setCurrentWorkoutHistory, t]);
+    }, [currentWorkout, t]);
 
     const replaceExercise = useCallback((workoutExercise: WorkoutExercise) => {
         setCurrentWorkoutExerciseIds((prevIds) => {
@@ -527,7 +505,7 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
     }
 
     const context = {
-        timeStarted: currentWorkoutHistory?.date,
+        timeStarted,
         timeUpdated,
         followingWorkout,
         focusedExercise,
@@ -538,7 +516,6 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
         restStarted,
         currentWorkoutExercise,
         currentWorkoutExerciseNumber,
-        currentWorkoutHistory,
         setCurrentWorkout,
         setCurrentSet,
         setCurrentSetNumber,
@@ -546,7 +523,7 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
         setFocusedExercise,
         setCurrentWorkoutExerciseNumber, setShowWorkoutFinishedPage,
         setRestStarted, isFetching, currentWorkoutExerciseList,
-        setCurrentWorkoutHistory, replaceExercise, refetchHistory, postWorkout,
+        replaceExercise, refetchHistory, postWorkout,
         addSet, removeSet, addExercise, pbs, currentExerciseHistory, superset, setSuperset,
         startWorkout, saveSet, stopWorkout, startRest, stopRest, setRestTime, showWorkoutFinishedPage
     };

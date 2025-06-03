@@ -23,7 +23,7 @@ import {Box} from "@mui/material";
 export const WhatsNew = () => {
     const {t} = useTranslation();
     return <Layout title={t("whatsNew")} hideNav scroll>
-        <Box sx={{padding: "20px", width: "calc(100% - 40px)", height: "calc(100vh - 96px)", overflow: "scroll"}}>
+        <Box sx={{padding: "20px", width: "calc(100% - 40px)", height: "calc(100vh - 96px)", overflow: "auto"}}>
             <Typography variant="h4">RepQuest</Typography>
             <Typography variant="subtitle2">Copyright Marc Sances 2025. All rights reserved.<br/>
                 This program is free software: you can redistribute it and/or modify
@@ -41,6 +41,24 @@ export const WhatsNew = () => {
                 <br/>
                 Acknowledgements to <a href="https://github.com/yuhonas">yuhonas</a> for providing the <a href="https://github.com/yuhonas/free-exercise-db">Free Exercise DB</a> used in WeightLog.
             </Typography>
+            <br/>
+            <Typography variant="h4">RepQuest Version 0.3.4</Typography>
+            <Typography variant="subtitle1">Released on 03/06/2025</Typography>
+            <Typography variant="subtitle2">Copyright Marc Sances 2025. All rights reserved.</Typography>
+            <Typography variant="h5">Features</Typography>
+            <ul>
+                <li>Workout completed page now shows a header tinted with the workout color and some additional fields.</li>
+            </ul>
+            <Typography variant="h5">Enhancements</Typography>
+            <ul>
+                <li>Fixed layout of 1RM calculator.</li>
+                <li>Cleaned up legacy code and internal records that were not needed.</li>
+                <li>Removed all references to legacy WeightCloud service. Stay tuned for the upcoming RepCloud!</li>
+            </ul>
+            <Typography variant="h5">Bugfixes</Typography>
+            <ul>
+                <li>Removed some scrollbars that show in desktop when not necessary.</li>
+            </ul>
             <br/>
             <Typography variant="h4">RepQuest Version 0.3.3</Typography>
             <Typography variant="subtitle1">Released on 01/01/2025</Typography>

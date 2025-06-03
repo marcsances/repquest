@@ -46,7 +46,7 @@ import ConfirmDialog from "../../components/confirmDialog";
 import Loader from "../../components/Loader";
 import WorkoutDetailsEditor from "../workout-editor/workoutDetails_editor";
 import getId from "../../utils/id";
-import {ArrowDownward, ArrowUpward, Celebration, History, MoveDown, MoveUp, Share} from "@mui/icons-material";
+import {ArrowDownward, ArrowUpward, Celebration, Share} from "@mui/icons-material";
 import {TimerContext} from "../../context/timerContext";
 import AddExercisePicker from "../workout/addExercisePicker";
 import defer from "../../utils/defer";

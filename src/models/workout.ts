@@ -28,14 +28,6 @@ export interface Workout {
     order?: number;
 }
 
-export interface WorkoutHistory {
-    id: number;
-    userName: string;
-    workoutName: string;
-    date: Date;
-    workoutExerciseIds: number[];
-}
-
 export interface WorkoutExercise {
     id: number;
     exerciseId: number;

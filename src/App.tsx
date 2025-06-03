@@ -21,7 +21,7 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
-import {BrowserRouter, HashRouter, useNavigate} from "react-router-dom";
+import {HashRouter, useNavigate} from "react-router-dom";
 import {createTheme, Paper, ThemeProvider} from '@mui/material';
 import {DBContext} from "./context/dbContext";
 import {DexieDB} from "./db/db";
@@ -36,10 +36,8 @@ import Loader from "./components/Loader";
 import {useTranslation} from "react-i18next";
 import {MasterDB} from "./db/masterDb";
 import CalendarProvider from './context/calendarProvider';
-import {ApiContextProvider} from "./context/apiContext";
 import {DialogContextProvider} from './context/dialogContext';
 import AppRoutes from "./AppRoutes";
-import {Geiger} from "react-geiger";
 
 registerSW({immediate: true})
 const darkTheme = createTheme({
@@ -115,15 +113,13 @@ function App() {
                                 <TimerContextProvider>
                                     <UserContextProvider>
                                         <SettingsContextProvider theme={appTheme} setTheme={setAppTheme}>
-                                            <ApiContextProvider>
-                                                <CalendarProvider>
-                                                    <WorkoutContextProvider>
-                                                        <Paper>
-                                                            <AppRoutes />
-                                                        </Paper>
-                                                    </WorkoutContextProvider>
-                                                </CalendarProvider>
-                                            </ApiContextProvider>
+                                            <CalendarProvider>
+                                                <WorkoutContextProvider>
+                                                    <Paper>
+                                                        <AppRoutes />
+                                                    </Paper>
+                                                </WorkoutContextProvider>
+                                            </CalendarProvider>
                                         </SettingsContextProvider>
                                     </UserContextProvider>
                                 </TimerContextProvider>

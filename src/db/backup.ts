@@ -16,7 +16,7 @@
  */
 import {DexieDB} from "./db";
 import {OneRm} from "../utils/oneRm";
-import {ExerciseSet, Plan, Workout, WorkoutExercise, WorkoutHistory} from "../models/workout";
+import {ExerciseSet, Plan, Workout, WorkoutExercise} from "../models/workout";
 import {User, UserMetric} from "../models/user";
 import {Exercise} from "../models/exercise";
 import getId from "../utils/id";
@@ -31,7 +31,6 @@ export interface BackupObject {
     workoutExercises?: WorkoutExercise[];
     plans?: Plan[];
     users?: User[];
-    workoutHistory?: WorkoutHistory[];
     userMetric?: UserMetric[];
     settings?: Record<string, string | undefined>;
 }
@@ -51,7 +50,6 @@ export async function generateBackup(db: DexieDB, level: string, user: User, set
     }
     if (["everything", "restoreBackup"].includes(level)) {
         backupObject.users = [ user ];
-        backupObject.workoutHistory = await db.workoutHistory.toArray();
         backupObject.userMetric = await db.userMetric.toArray();
         backupObject.settings = {
             weightUnit: settings.useLbs ? "lbs" : "kg",
@@ -145,16 +143,14 @@ export async function shareBlob(blob: Blob, title: string) {
 }
 
 export function importFromJSON(db: DexieDB, masterDb: MasterDB, userName: string, level: string, payload: BackupObject): Promise<void> {
-    return db.transaction("rw", [db.exercise, db.exerciseSet, db.workout, db.workoutExercise, db.plan, db.user, db.userMetric, db.workoutHistory], async (trans) => {
+    return db.transaction("rw", [db.exercise, db.exerciseSet, db.workout, db.workoutExercise, db.plan, db.userMetric], async (trans) => {
         if (level === "restoreBackup") {
             await trans.db.table("exercise").clear();
             await trans.db.table("exerciseSet").clear();
             await trans.db.table("workout").clear();
             await trans.db.table("workoutExercise").clear();
             await trans.db.table("plan").clear();
-            await trans.db.table("user").clear();
             await trans.db.table("userMetric").clear();
-            await trans.db.table("workoutHistory").clear();
         }
         await trans.db.table("exercise").bulkPut(payload.exercises);
 
@@ -167,15 +163,6 @@ export function importFromJSON(db: DexieDB, masterDb: MasterDB, userName: string
             await trans.db.table("workoutExercise").bulkPut(payload.workoutExercises);
             if (["plans", "everything", "restoreBackup"].includes(level)) {
                 await trans.db.table("plan").bulkPut(payload.plans);
-            }
-            if (["everything", "restoreBackup"].includes(level) && payload.users) {
-                await trans.db.table("user").bulkPut(payload.users);
-            }
-            if (["everything", "restoreBackup"].includes(level) && payload.workoutHistory) {
-                await trans.db.table("workoutHistory").bulkPut(payload.workoutHistory.map((entry) => ({
-                    ...entry,
-                    date: entry.date ? new Date(entry.date) : entry.date
-                })));
             }
             if (["everything", "restoreBackup"].includes(level) && payload.userMetric) {
                 await trans.db.table("userMetric").bulkPut(payload.userMetric.map((entry) => ({

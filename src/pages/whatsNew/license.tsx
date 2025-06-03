@@ -702,7 +702,7 @@ export const License = () => {
     const {t} = useTranslation();
     return <Layout title={t("license")} hideNav scroll>
         <Typography variant="subtitle2" sx={{paddingLeft: "20px", paddingTop: "5px"}}>The source code for this program is available at Github (github.com/marcsances/repquest).</Typography>
-        <Box sx={{padding: "20px", width: "calc(100% - 40px)", height: "calc(100vh - 96px)", overflow: "scroll", whiteSpace: "nowrap"}}>
+        <Box sx={{padding: "20px", width: "calc(100% - 40px)", height: "calc(100vh - 96px)", overflow: "auto", whiteSpace: "nowrap"}}>
             {gpl.split("\n").map((line) => <Typography variant="subtitle2" sx={{fontFamily: "monospace"}}>{line}</Typography>)}
         </Box>
     </Layout>;

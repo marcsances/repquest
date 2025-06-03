@@ -16,19 +16,13 @@
  */
 import * as React from 'react';
 import {useContext} from 'react';
-import BottomNavigation from '@mui/material/BottomNavigation';
-import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import SettingsIcon from '@mui/icons-material/Settings';
 import {useTranslation} from "react-i18next";
-import {Link as RouterLink, useLocation, useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {Avatar, Box, Button, Paper, useMediaQuery} from "@mui/material";
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import {DBContext} from "../context/dbContext";
-import {UserContext} from "../context/userContext";
 import {Apps} from "@mui/icons-material";
-import IconButton from "@mui/material/IconButton";
-import Toolbar from "@mui/material/Toolbar";
 import {SettingsContext} from "../context/settingsContext";
 
 export const WLNav = () => {

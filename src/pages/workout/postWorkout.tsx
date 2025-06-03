@@ -26,17 +26,7 @@ import getId from "../../utils/id";
 import {compareSetHistoryEntries} from "../../utils/comparators";
 import {DBContext} from "../../context/dbContext";
 import Loader from "../../components/Loader";
-import {
-    Avatar, Box,
-    Card,
-    List,
-    ListItem,
-    ListItemAvatar,
-    ListItemButton,
-    ListItemText,
-    ListSubheader,
-    Stack
-} from "@mui/material";
+import {Avatar, Box, Card, List, ListItem, ListItemAvatar, ListItemText, useMediaQuery} from "@mui/material";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import Typography from "@mui/material/Typography";
 import {ExerciseSet} from "../../models/workout";
@@ -47,6 +37,7 @@ import {PB} from "../../models/pb";
 import {Download, Timer} from "@mui/icons-material";
 import DomToImage from "dom-to-image";
 import i18n from "i18next";
+import {UserContext} from "../../context/userContext";
 
 const PostWorkout = () => {
     const navigate = useNavigate();
@@ -56,7 +47,11 @@ const PostWorkout = () => {
     const {useLbs} = useContext(SettingsContext);
     const {t} = useTranslation();
     const [ history, setHistory ] = useState<HistoryEntry[]>([]);
+    const { user } = useContext(UserContext);
     const {theme: appTheme} = useContext(SettingsContext);
+
+    const portrait = (window.screen.orientation.angle % 180 === 0);
+    const isMini = portrait ?  useMediaQuery('(max-height:600px)') : useMediaQuery('(max-width:600px)');
 
     useEffect(() => {
         setLoading(true);
@@ -102,7 +97,6 @@ const PostWorkout = () => {
         return `${hours.toString()}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
     }
 
-    const daysOfWeek = ["mondays", "tuesdays", "wednesdays", "thursdays", "fridays", "saturdays", "sundays"];
 
     return <Layout hideNav hideBack scroll nogrow title={t("workoutFinished")} leftToolItems={<IconButton sx={{mr: 2}} size="large" edge="start" color="inherit"
                     onClick={() => navigate("/")}><CloseIcon/></IconButton>} toolItems={<IconButton title={t("wrapped.download")} onClick={() => {
@@ -118,11 +112,13 @@ const PostWorkout = () => {
         <Box sx={{padding: "10px"}}>{loading || !postWorkout ? <Loader/> : <Card id="wrappedCard" sx={{ placeSelf: "center", maxWidth: 345, padding: "16px", border: (theme) => "2px solid " + theme.palette.grey.A400, boxShadow: (theme) => "0px 0px 5px 0px " + theme.palette.grey.A400,
             backgroundImage: {dark: "url('/logofadenoback.png')", light: "url('/logofadelight.png')"}[appTheme] , backgroundSize: "contain", backgroundPosition: "right bottom", backgroundRepeat: "no-repeat"
         }}>
+            <Box sx={{display: "flex", flexDirection: "column", backgroundColor: (postWorkout.color ? postWorkout.color + "40" : undefined), margin: "-16px", padding: "16px", marginBottom: 0}}>
             <Box sx={{display: "flex", flexDirection: "row"}}>
                 <Typography sx={{fontSize: "12px", flex: "1 1 100%", width: "100%", textAlign: "left", textOverflow: "ellipsis"}}>{new Date().toLocaleDateString(i18n.language)}</Typography>
                 <Typography sx={{fontSize: "12px", flex: "1 1 0", width: "100%", textAlign: "right", whiteSpace: "nowrap"}}><Timer sx={{fontSize: "12px", position: "relative", top: "2px"}}/>&nbsp;{getDuration()}</Typography>
             </Box>
             <Typography sx={{fontWeight: 600, width: "100%", textAlign: "left", textOverflow: "ellipsis"}}>{postWorkout.workoutName}</Typography>
+            </Box>
 
             {Object.keys(bests).length > 0 &&
             <List dense sx={{flexShrink: 1, overflowY: "auto"}}>
@@ -139,11 +135,22 @@ const PostWorkout = () => {
                     {!entry.exercise?.picture && <Avatar>
                         <FitnessCenterIcon/>
                     </Avatar>}
-                    {entry.exercise?.picture && <Avatar src={entry.exercise.picture} />}
+                    {entry.exercise?.picture && <Avatar sx={{background: (theme) => theme.palette.background.paper }} src={entry.exercise.picture} />}
                 </ListItemAvatar>
                 <ListItemText primary={entry.exercise?.name} secondary={getLabelForEntry(entry.sets)}/>
-            </ListItem>) : <Typography sx={{textAlign: "center", margin: "10px" }}>{ history.length === 0 ? t("noHistoryEntries") : ""}</Typography>}
-            </List></Card>}</Box>
+                </ListItem>) : <Typography sx={{textAlign: "center", margin: "10px" }}>{ history.length === 0 ? t("noHistoryEntries") : ""}</Typography>}
+            </List>
+            <Box sx={{display: "flex", flexDirection: "row", gap: "16px", backgroundColor: (postWorkout.color ? postWorkout.color + "40" : undefined), margin: "-16px", padding: "16px", marginTop: 0}}>
+                {user?.picture && <Avatar
+                    sx={{width: "32px", height: "32px", alignSelf: "center"}}
+                    src={user.picture}
+                />}
+                <Box sx={{display: "flex", flexDirection: "column", alignSelf: "center"}}>
+                    {user?.name !== "Default User" && <Typography sx={{fontWeight: 600, width: "100%", textAlign: "left", textOverflow: "ellipsis"}}>{user?.name}</Typography>}
+                    <Typography sx={{fontSize: "10px",width: "100%", textAlign: "left"}}>Powered by RepQuest - www.repquest.app</Typography>
+                </Box>
+            </Box>
+        </Card>}</Box>
     </Layout>
 }
 

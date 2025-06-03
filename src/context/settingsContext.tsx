@@ -32,7 +32,6 @@ export interface ISettingsContext {
     theme: AppTheme;
     featureLevel: FeatureLevel;
     emojis: string[];
-    refreshToken: string;
     fullname: string;
     onboardingCompleted: boolean;
     saveLbs?: (value: boolean) => void;
@@ -48,7 +47,6 @@ export interface ISettingsContext {
     lang?: string;
     saveLang?: (value: string) => void;
     saveEmojis?: (value: string[]) => void;
-    saveRefreshToken?: (value: string) => void;
     saveFullname?: (value: string) => void;
 }
 
@@ -75,7 +73,6 @@ export const SettingsContextProvider = (props: { children: ReactElement, theme: 
     const [autostop, setAutostop] = useState(localStorage.getItem("autostopDisabled") !== "true");
     const [wakeLock, setWakeLock] = useState(localStorage.getItem("wakeLock") === "true");
     const [errorWakeLock, setErrorWakeLock] = useState(false);
-    const [refreshToken, setRefreshToken] = useState(localStorage.getItem("refreshToken") || "");
     const [fullname, setFullname] = useState(localStorage.getItem("fullname") || "");
     const [featureLevel, setFeatureLevel] = useState<FeatureLevel>(localStorage.getItem("featureLevel") as FeatureLevel || (localStorage.getItem("showRpe") === "true" ? "advanced" : "easy"));
     const [oneRm, setOneRm] = useState(parseInt(localStorage.getItem("oneRm") || "0"));
@@ -106,7 +103,6 @@ export const SettingsContextProvider = (props: { children: ReactElement, theme: 
         if (user?.lang !== undefined) setLang(user.lang);
         if (user?.wakeLock !== undefined) setWakeLock(user.wakeLock);
         if (user?.emojis !== undefined) setEmojis(user.emojis);
-        if (user?.refreshToken !== undefined) setRefreshToken(user.refreshToken);
         if (user?.fullname !== undefined) setFullname(user.fullname);
         if (user?.featureLevel !== undefined) setFeatureLevel(user.featureLevel)
         else if (!!(user?.showRpe)) setFeatureLevel("advanced");
@@ -144,11 +140,6 @@ export const SettingsContextProvider = (props: { children: ReactElement, theme: 
         if (userName === "Default User") localStorage.setItem("useLbs", value ? "true" : "false");
         else masterDb?.user.update(userName, {useLbs: value});
         setLbs(value);
-    }, []);
-    const saveRefreshToken = useCallback((value: string) => {
-        if (userName === "Default User") localStorage.setItem("refreshToken", value);
-        else masterDb?.user.update(userName, {refreshToken: value});
-        setRefreshToken(value);
     }, []);
     const saveFullname = useCallback((value: string) => {
         if (userName === "Default User") localStorage.setItem("fullname", value);
@@ -196,7 +187,6 @@ export const SettingsContextProvider = (props: { children: ReactElement, theme: 
         emojis,
         lang,
         autostop,
-        refreshToken,
         fullname,
         theme,
         featureLevel,
@@ -209,7 +199,6 @@ export const SettingsContextProvider = (props: { children: ReactElement, theme: 
         toggleWakeLock,
         errorWakeLock,
         saveEmojis,
-        saveRefreshToken,
         saveFullname,
         saveFeatureLevel,
         saveTheme,

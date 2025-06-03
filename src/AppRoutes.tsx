@@ -24,7 +24,6 @@ import {WhatsNew} from "./pages/whatsNew/whatsNew";
 import {License} from "./pages/whatsNew/license";
 import OneRmCalculator from "./components/onermcalc";
 import {AccountMenu} from "./pages/profile/accountMenu";
-import {LoginPage} from "./pages/weightcloud/login";
 import NotImplemented from "./pages/notImplemented";
 import Onboarding from "./pages/onboarding/onboarding";
 import React from "react";
@@ -77,7 +76,6 @@ const AppRoutes = () => {
                element={<License/>}/>
         <Route path="/onerm" element={<OneRmCalculator/>}/>
         <Route path="/account" element={<AccountMenu/>}/>
-        <Route path="/account/login" element={<LoginPage/>}/>
         <Route path="/wrapped" element={<Wrapped/>}/>
         <Route path="/eol" element={<EOLPage/>}/>
         <Route path="*" element={<NotImplemented/>}/>
