@@ -38,13 +38,7 @@ To install, run:
 npm install
 ```
 
-**Please disable telemetry or update the Sentry DSN if you clone locally!**
-
-I still don't have the environment variables set up so you will have to modify it directly in [App.tsx](./src/App.tsx).
-
-Replace ``https://a0ae6d17918730260356b59cf049b2a3@o4506716569927680.ingest.sentry.io/4506716576153601`` with your own Sentry   DSN, or comment out the entire ``Sentry.init`` function call.
-
-To run the dev server, use:
+**Please remove the Alceris tracking script (https://alceris.com/script.js) on index.html if you want to deploy in production your own instance, otherwise your events will end up in my analytics dashboard.**
 
 ```
 npm start
