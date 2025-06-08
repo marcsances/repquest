@@ -262,6 +262,8 @@
   "developedBy": "Desarrollado por el equipo RepQuest (repquest.app)",
   "reloadTitle": "Reiniciar RepQuest",
   "reloadDescription": "A veces RepQuest se puede colgar, y un reinicio podría resolver tu problema.",
+  "resetStorageTitle": "Borrar caché",
+  "resetStorageDescription": "Si no basta con recargar la página, algunos errores se pueden resolver eliminando la caché. Esto detendrá cualquier rutina en curso.",
   "autoStop": "Parada automática",
   "autoStopDescription": "Parar y guardar un entrenamiento automáticamente si ha estado inactiva una hora",
   "account": {
@@ -459,5 +461,21 @@
     "message4": "Pulsa el botón de abajo para descargar una copia de seguridad de tu perfil, que podrás importar a RepQuest en acceder por primera vez. Si necesitas ayuda para hacer la transición, estaremos en info@repquest.app.",
     "message5": "Gracias por usar WeightLog. ¡Nos vemos en RepQuest!",
     "openRepquest": "Abrir RepQuest"
+  },
+  "repcloud": {
+    "loginTitle": "Iniciar sesión en RepCloud",
+    "createAccount": "Crear una cuenta en RepCloud",
+    "pleaseEnterCredentials": "Por favor, introduzca sus credenciales",
+    "wrongCredentials": "Usuario o contraseña incorrectos",
+    "checkIfAccountExists": "Algo ha ido mal, compruebe que la cuenta no exista ya.",
+    "emailSent": "Si la dirección de correo existe, le hemos enviado un e-mail con instrucciones para restablecer su contraseña.",
+    "recoverYourAccount": "Recuperar su cuenta",
+    "email": "Dirección de correo electrónico",
+    "password": "Contraseña",
+    "register": "Registrarse",
+    "login": "Iniciar sesión",
+    "forgotPassword": "¿Ha olvidado su contraseña?",
+    "enterYourEmailForgot": "Introduzca su dirección de correo y le enviaremos un e-mail con instrucciones para restablecer su contraseña.",
+    "sendEmail": "Enviar e-mail con instrucciones"
   }
 }

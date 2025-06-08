@@ -12,6 +12,14 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    env:
+      VITE_SUPABASE_ENABLED: false
+      VITE_SUPABASE_CLIENT_ID: ${{ secrets.SUPABASE_CLIENT_ID }}
+      VITE_SUPABASE_CLIENT_KEY: ${{ secrets.VITE_SUPABASE_CLIENT_KEY }}
+      VITE_SENTRY_ENABLED: true
+      VITE_SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+      VITE_SUPABASE_REGISTRATION_ENABLED: false
+
     strategy:
       matrix:
         node-version: [18.x]

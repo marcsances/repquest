@@ -146,6 +146,7 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
             setCurrentWorkoutExerciseIds(context.currentWorkoutExerciseIds || []);
             setFollowingWorkout(context.followingWorkout);
             setCurrentWorkoutExerciseList(context.currentWorkoutExerciseList || []);
+            setTimeStarted(context.timeStarted ? new Date(context.timeStarted) : undefined);
             setRestStarted(context.restStarted ? new Date(context.restStarted) : undefined);
             setRestTime(context.restTime);
             setPbs(context.pbs || []);

@@ -145,11 +145,9 @@
     "doBackup": "Realitzar còpia de seguretat",
     "toFile": "A un fitxer",
     "toGoogleDrive": "A Google Drive",
-    "toWeightCloud": "A WeightCloud",
     "importData": "Importar dades",
     "fromFile": "Des d'un fitxer",
     "fromGoogleDrive": "Des de Google Drive",
-    "fromWeightCloud": "Des de WeightCloud",
     "whatToBackup": "Trieu què voleu exportar",
     "whatToImport": "Trieu què voleu importar",
     "items": {
@@ -262,6 +260,8 @@
   "developedBy": "Desenvolupat per l'equip RepQuest (repquest.app).",
   "reloadTitle": "Reiniciar RepQuest",
   "reloadDescription": "De vegades RepQuest es pot enganxar, i un reinici podria solucionar el vostre problema.",
+  "resetStorageTitle": "Esborrar memòria cau",
+  "resetStorageDescription": "Si no n'hi ha prou amb recarregar la pàgina, alguns errors es poden resoldre esborrant la memòria cau. Això aturarà qualsevol rutina en curs.",
   "autoStop": "Parada automàtica",
   "autoStopDescription": "Aturar i desar un entrenament automàticament si està inactiu més d'una hora",
   "account": {
@@ -343,21 +343,6 @@
   "defaults": "Valors per omissió",
   "feedback": "Informar d'un error / Comentaris",
   "feedbackDescription": "Informeu d'un error o envieu-nos propostes de millora",
-  "weightcloud": {
-    "login": {
-      "login": "Inicieu la sessió a WeightCloud",
-      "username": "Nom d'usuari",
-      "password": "Contrassenya",
-      "do_login": "Iniciar sessió",
-      "wrong_credentials": "Les credencials no són correctes",
-      "logged_in": "Heu iniciat sessió com a {{user}}",
-      "logout": "Tancar sessió",
-      "logged_out": "Heu tancat la sessió",
-      "syncing": "S'està sincronitzant amb WeightCloud...",
-      "synced": "S'ha sincronitzat amb WeightCloud"
-    },
-    "alpha": "WeightCloud és una funcionalitat en proves i només està disponible per a usuaris sel·leccionats. Si voleu participar en la beta tancada, contacteu amb nosaltres."
-  },
   "average": "Promig (Pot ser menys exacte)",
   "appsMenu": {
     "title": "Utilitats",
@@ -459,5 +444,21 @@
     "message4": "Feu clic al botó de sota per a descarregar una còpia de seguretat del vostre perfil, que podreu importar a RepQuest en accedir per primer cop. Si necessiteu ajuda per a fer la transició, ens podeu escriure a info@repquest.app.",
     "message5": "Gràcies per utilitzar WeightLog. Ens veiem a RepQuest!",
     "openRepquest": "Obrir RepQuest"
+  },
+  "repcloud": {
+    "loginTitle": "Inicieu la sessió a RepCloud",
+    "createAccount": "Creeu un compte a RepCloud",
+    "pleaseEnterCredentials": "Si us plau introduïu les vostres credencials",
+    "wrongCredentials": "Usuari o contrasenya incorrectes",
+    "checkIfAccountExists": "Alguna cosa ha anat malament, comproveu si aquest compte ja existeix.",
+    "emailSent": "Si l'adreça de correu existeix, us hem enviat un e-mail amb instruccions per a restablir el vostre compte.",
+    "recoverYourAccount": "Recuperar el vostre compte",
+    "email": "Adreça de correu",
+    "password": "Contrasenya",
+    "register": "Registreu-vos",
+    "login": "Iniciar sessió",
+    "forgotPassword": "Heu oblidat la contrasenya?",
+    "enterYourEmailForgot": "Introduïu la vostra adreça de correu i us enviarem un e-mail per recuperar el vostre compte.",
+    "sendEmail": "Enviar e-mail amb instruccions"
   }
 }

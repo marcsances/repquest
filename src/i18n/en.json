@@ -139,17 +139,15 @@
     "hips": "Hips"
   },
   "comingSoon": "Coming soon...",
-  "backup": {
+  "backFacup": {
     "title": "Backup & Import",
     "description": "Backup your training data or import data into the app",
     "doBackup": "Perform backup",
     "toFile": "To a file",
     "toGoogleDrive": "To Google Drive",
-    "toWeightCloud": "To WeightCloud",
     "importData": "Import data",
     "fromFile": "From a file",
     "fromGoogleDrive": "From Google Drive",
-    "fromWeightCloud": "From WeightCloud",
     "whatToBackup": "Select what do to backup",
     "whatToImport": "Select what to import",
     "items": {
@@ -262,6 +260,8 @@
   "developedBy": "Developed by RepQuest Team (repquest.app)",
   "reloadTitle": "Reload RepQuest",
   "reloadDescription": "Sometimes RepQuest might get stuck, reloading the page could fix the issues.",
+  "resetStorageTitle": "Clear cache",
+  "resetStorageDescription": "If reloading the page doesn't work, clearing cache might fix some issues. This will stop any ongoing workout.",
   "autoStop": "Automatic stop",
   "autoStopDescription": "Stop and save a workout automatically if it's been unchanged for one hour",
   "account": {
@@ -343,21 +343,6 @@
   "defaults": "Defaults",
   "feedback": "Bug report / Comments",
   "feedbackDescription": "Send us a bug report or comments to improve our app",
-  "weightcloud": {
-    "login": {
-      "login": "Log in to WeightCloud",
-      "username": "Username",
-      "password": "Password",
-      "do_login": "Log in",
-      "wrong_credentials": "Wrong credentials",
-      "logged_in": "You are now logged into WeightCloud as {{user}}",
-      "logout": "Log out",
-      "logged_out": "You've sucessfully logged out from WeightCloud",
-      "syncing": "Syncing with WeightCloud...",
-      "synced": "You are in sync with WeightCloud"
-    },
-    "alpha": "WeightCloud is under testing and it's only available for selected users. If you want to participate in our tests, please reach out to us."
-  },
   "average": "Average (Could be less precise)",
   "appsMenu": {
     "title": "Tools",
@@ -459,5 +444,21 @@
     "message4": "Click on the button below to download a full backup of your account, that you will be able to import to RepQuest when logging in for the first time. If you need help for the migration, please contact us at info@repquest.app.",
     "message5": "Thank you for using WeightLog. See you in RepQuest!",
     "openRepquest": "Go to RepQuest"
+  },
+  "repcloud": {
+    "loginTitle": "Log in to RepCloud",
+    "createAccount": "Create an account in RepCloud",
+    "pleaseEnterCredentials": "Please enter your credentials",
+    "wrongCredentials": "Wrong username or password",
+    "checkIfAccountExists": "Something went wrong, check if the account exists already.",
+    "emailSent": "If the e-mail address exists, we have sent an email to restore your credentials.",
+    "recoverYourAccount": "Recover your account",
+    "email": "Email address",
+    "password": "Password",
+    "register": "Register",
+    "login": "Log in",
+    "forgotPassword": "Forgot password?",
+    "enterYourEmailForgot": "Enter your email address and we will send an email to restore your password.",
+    "sendEmail": "Send email with instructions"
   }
 }

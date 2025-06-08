@@ -30,11 +30,13 @@ import React from "react";
 import BulkEditor from "./pages/workout-editor/bulkEditor";
 import Wrapped from "./pages/wrapped";
 import EOLPage from "./pages/eol";
+import RepcloudLoginPage from "./pages/login/login";
 
 const AppRoutes = () => {
     return <Routes>
         <Route path="/onboarding" element={<Onboarding/>}/>
         <Route path="/login" element={<Login/>}/>
+        <Route path="/cloud/login" element={<RepcloudLoginPage/>}/>
         <Route path="/" element={<WorkoutList/>}/>
         <Route path="/apps" element={<AppsMenu/>}/>
         <Route path="/apps/timer" element={<Timer/>}/>

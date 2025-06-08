@@ -14,7 +14,7 @@
     You should have received a copy of the GNU General Public License
     along with RepQuest.  If not, see <https://www.gnu.org/licenses/>.
  */
-import React, {ReactElement, useContext, useState} from 'react';
+import React, {ReactElement, useContext, useEffect, useState} from 'react';
 import * as Sentry from "@sentry/react";
 import './App.css';
 import '@fontsource/roboto/300.css';
@@ -38,6 +38,7 @@ import {MasterDB} from "./db/masterDb";
 import CalendarProvider from './context/calendarProvider';
 import {DialogContextProvider} from './context/dialogContext';
 import AppRoutes from "./AppRoutes";
+import {SupabaseContextProvider} from "./context/supabaseContext";
 
 registerSW({immediate: true})
 const darkTheme = createTheme({
@@ -52,9 +53,9 @@ const lightTheme = createTheme({
     }
 })
 
-if (localStorage.getItem("disable_telemetry") !== "true") {
+if (localStorage.getItem("disable_telemetry") !== "true" && import.meta.env.VITE_SENTRY_ENABLED === "true") {
     Sentry.init({
-        dsn: "https://a0ae6d17918730260356b59cf049b2a3@o4506716569927680.ingest.sentry.io/4506716576153601",
+        dsn: import.meta.env.VITE_SENTRY_DSN,
         integrations: [
             Sentry.browserTracingIntegration()
         ],
@@ -76,27 +77,30 @@ const DBGuard = ({children}: { children: ReactElement }) => {
     const [masterDbReady, setMasterDbReady] = useState(false);
     const [dbReady, setDbReady] = useState(false);
     const navigate = useNavigate();
-    if (masterDb) masterDb?.user.count().then((count) => {
-        if (count === 0) {
-            localStorage.setItem("userName", "Default User");
-            setMasterDbReady(true);
-        } else if (count > 0 && !localStorage.getItem("userName") && location.pathname !== "/login") {
-            navigate("/login");
-        } else setMasterDbReady(true);
-    });
-    if (masterDbReady && db) db.plan.count().then((count) => {
-        if (count === 0) {
-            db.plan.put({
-                id: 1,
-                name: "RepQuest",
-                workoutIds: []
-            }).then(() => {
-                navigate("/onboarding");
-            });
-        } else {
-            setDbReady(true);
-        }
-    });
+    useEffect(() => {
+        if (masterDb) masterDb?.user.count().then((count) => {
+            if (count === 0) {
+                localStorage.setItem("userName", "Default User");
+                setMasterDbReady(true);
+            } else if (count > 0 && !localStorage.getItem("userName") && location.pathname !== "/login") {
+                localStorage.setItem("userName", "Default User");
+                navigate("/login");
+            } else setMasterDbReady(true);
+        });
+        if (masterDbReady && db) db.plan.count().then((count) => {
+            if (count === 0) {
+                db.plan.put({
+                    id: 1,
+                    name: "RepQuest",
+                    workoutIds: []
+                }).then(() => {
+                    navigate("/onboarding");
+                });
+            } else {
+                setDbReady(true);
+            }
+        });
+    }, [db, masterDb, masterDbReady]);
     if (dbReady || location.pathname === "/login") return children;
     return <div style={{width: "100vw", height: "100vh"}}><Loader prompt={t("loading")}/></div>;
 }
@@ -107,25 +111,27 @@ function App() {
         <ErrorBoundary>
             <ThemeProvider theme={appTheme === "light" ? lightTheme : darkTheme}>
                 <DialogContextProvider>
-                    <DBContext.Provider value={{db: new DexieDB(), masterDb: new MasterDB()}}>
-                        <HashRouter>
-                            <DBGuard>
-                                <TimerContextProvider>
-                                    <UserContextProvider>
-                                        <SettingsContextProvider theme={appTheme} setTheme={setAppTheme}>
-                                            <CalendarProvider>
-                                                <WorkoutContextProvider>
-                                                    <Paper>
-                                                        <AppRoutes />
-                                                    </Paper>
-                                                </WorkoutContextProvider>
-                                            </CalendarProvider>
-                                        </SettingsContextProvider>
-                                    </UserContextProvider>
-                                </TimerContextProvider>
-                            </DBGuard>
-                        </HashRouter>
-                    </DBContext.Provider>
+                    <SupabaseContextProvider>
+                        <DBContext.Provider value={{db: new DexieDB(), masterDb: new MasterDB()}}>
+                            <HashRouter>
+                                <DBGuard>
+                                    <TimerContextProvider>
+                                        <UserContextProvider>
+                                            <SettingsContextProvider theme={appTheme} setTheme={setAppTheme}>
+                                                <CalendarProvider>
+                                                    <WorkoutContextProvider>
+                                                        <Paper>
+                                                            <AppRoutes />
+                                                        </Paper>
+                                                    </WorkoutContextProvider>
+                                                </CalendarProvider>
+                                            </SettingsContextProvider>
+                                        </UserContextProvider>
+                                    </TimerContextProvider>
+                                </DBGuard>
+                            </HashRouter>
+                        </DBContext.Provider>
+                    </SupabaseContextProvider>
                 </DialogContextProvider>
             </ThemeProvider>
         </ErrorBoundary>

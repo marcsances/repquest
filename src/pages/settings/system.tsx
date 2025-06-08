@@ -19,7 +19,7 @@ import Layout from "../../components/layout";
 import {useTranslation} from "react-i18next";
 import {Avatar, List, ListItemAvatar, ListItemButton, ListItemText} from "@mui/material";
 import InstallMobileIcon from '@mui/icons-material/InstallMobile';
-import {AutoFixHigh, Mail, MonitorHeart, PhonelinkErase, Policy} from "@mui/icons-material";
+import {AutoFixHigh, Cached, Mail, MonitorHeart, PhonelinkErase, Policy} from "@mui/icons-material";
 import {useNavigate} from "react-router-dom";
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import {DBContext} from "../../context/dbContext";
@@ -76,6 +76,14 @@ export const SystemSettingsPage = () => {
                     </Avatar>
                 </ListItemAvatar>
                 <ListItemText primary={t("reloadTitle")} secondary={t("reloadDescription")} />
+            </ListItemButton>
+            <ListItemButton component="a" onClick={() => { localStorage.clear(); window.location.href = window.location.origin}}>
+                <ListItemAvatar>
+                    <Avatar sx={{bgcolor: (theme) => theme.palette.warning.main}}>
+                        <Cached/>
+                    </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary={t("resetStorageTitle")} secondary={t("resetStorageDescription")} />
             </ListItemButton>
             <ListItemButton component="a" onClick={() => {
                 showAlert(t("resetAll"), t("resetAllWarning"), (result) => {

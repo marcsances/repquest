@@ -42,6 +42,23 @@ export const WhatsNew = () => {
                 Acknowledgements to <a href="https://github.com/yuhonas">yuhonas</a> for providing the <a href="https://github.com/yuhonas/free-exercise-db">Free Exercise DB</a> used in WeightLog.
             </Typography>
             <br/>
+            <Typography variant="h4">RepQuest Version 0.3.6</Typography>
+            <Typography variant="subtitle1">Released on 08/06/2025</Typography>
+            <Typography variant="subtitle2">Copyright Marc Sances 2025. All rights reserved.</Typography>
+            <Typography variant="h5">Features</Typography>
+            <ul>
+                <li>Added a "clear cache" option in the system menu to solve some issues that might come up using the app.</li>
+            </ul>
+            <Typography variant="h5">Dev enhancements</Typography>
+            <ul>
+                <li>Sentry is now configurable through environment variables instead of the DSN being hardcoded. It can be disabled, too.</li>
+                <li>Added Supabase client and support. Still working on the backend.</li>
+            </ul>
+            <Typography variant="h5">Bugfixes</Typography>
+            <ul>
+                <li>Solved an issue causing a blank home page when a workout is in progress and the app is closed and restarted.</li>
+                <li>Solved an issue causing issues loading the app in certain situations.</li>
+            </ul>
             <Typography variant="h4">RepQuest Version 0.3.5</Typography>
             <Typography variant="subtitle1">Released on 03/06/2025</Typography>
             <Typography variant="subtitle2">Copyright Marc Sances 2025. All rights reserved.</Typography>

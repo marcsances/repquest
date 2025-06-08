@@ -23,7 +23,7 @@ It is being developed by [Marc Sances](mailto:marc.sances@coetic.cat).
 
 ## Changelog
 
-Refer to the file [whatsNew.tsx](./src/pages/whatsNew/whatsNew.tsx) or [the built in What's new page in the app](https://weightlog.marcsances.net/whats-new) for a changelog.
+Refer to the file [whatsNew.tsx](./src/pages/whatsNew/whatsNew.tsx) or [the built in What's new page in the app](https://weightlog.marcsances.net/#/whats-new) for a changelog.
 
 ## Usage
 
