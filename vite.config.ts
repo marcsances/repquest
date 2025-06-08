@@ -63,7 +63,8 @@ export default defineConfig({
         }
     }), sentryVitePlugin({
         org: "marc-sances",
-        project: "javascript-react"
+        project: "javascript-react",
+        authToken: process.env.SENTRY_AUTH_TOKEN
     })],
     server: {
         port: 3000
