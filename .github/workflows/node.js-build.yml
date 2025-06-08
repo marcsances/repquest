@@ -16,7 +16,6 @@ jobs:
       VITE_SENTRY_ENABLED: true
       VITE_SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
       VITE_SUPABASE_REGISTRATION_ENABLED: false
-      SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
 
     runs-on: ubuntu-latest
 

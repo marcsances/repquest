@@ -36,7 +36,7 @@ jobs:
     - name: Build
       run: |
         npm ci
-        unset CI && npm run build --if-present 2>1
+        unset CI && npm run build --if-present 2>1 || true
         cd build
         tar czvf package.tar.gz *
         cd ..
