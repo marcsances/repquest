@@ -8,7 +8,7 @@
   "appearanceSettings": "Aparença",
   "appearanceSettingsDescription": "Personalitzeu el disseny i aparença de RepQuest",
   "theme": "Tema",
-  "lightTheme": "Tema clar (beta)",
+  "lightTheme": "Tema clar",
   "darkTheme": "Tema fosc",
   "simpleMode": "Mode d'ús: Mode simple",
   "simpleModeDescription": "L'aplicació només mostra paràmetres bàsics, els elements de la IU són més grans. Recomanat per a principiants.",

@@ -8,7 +8,7 @@
   "appearanceSettings": "Apariencia",
   "appearanceSettingsDescription": "Personalizar el diseño y apariencia de RepQuest",
   "theme": "Tema",
-  "lightTheme": "Tema claro (beta)",
+  "lightTheme": "Tema claro",
   "darkTheme": "Tema oscuro",
   "simpleMode": "Modo de uso: Modo simple",
   "simpleModeDescription": "La aplicación muestra solo parámetros básicos y los elementos de la IU son más grandes. Ideal para principiantes.",

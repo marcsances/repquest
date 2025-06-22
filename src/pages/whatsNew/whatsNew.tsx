@@ -42,6 +42,19 @@ export const WhatsNew = () => {
                 Acknowledgements to <a href="https://github.com/yuhonas">yuhonas</a> for providing the <a href="https://github.com/yuhonas/free-exercise-db">Free Exercise DB</a> used in WeightLog.
             </Typography>
             <br/>
+            <Typography variant="h4">RepQuest Version 0.3.7</Typography>
+            <Typography variant="subtitle1">Released on 22/06/2025</Typography>
+            <Typography variant="subtitle2">Copyright Marc Sances 2025. All rights reserved.</Typography>
+            <Typography variant="h5">Enhancements</Typography>
+            <ul>
+                <li>Workout length is now based on time between first and last sets and not time started.</li>
+                <li>A second workout started 4h later than the first workout is considered a separate workout in the post workout screen.</li>
+                <li>Added confirmation dialog to stop a workout from the workout list.</li>
+            </ul>
+            <Typography variant="h5">Bugfixes</Typography>
+            <ul>
+                <li>Fixed the notes popup being visible in the top right corner when the user switches to the next exercise.</li>
+            </ul>
             <Typography variant="h4">RepQuest Version 0.3.6</Typography>
             <Typography variant="subtitle1">Released on 08/06/2025</Typography>
             <Typography variant="subtitle2">Copyright Marc Sances 2025. All rights reserved.</Typography>

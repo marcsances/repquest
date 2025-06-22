@@ -116,7 +116,7 @@ export const WorkoutPage = () => {
         isFetching,
         refetchHistory,
         superset,
-        setSuperset, stopRest, restStarted, currentWorkoutExerciseList
+        setSuperset, currentWorkoutExerciseList
     } = useContext(WorkoutContext);
     const {featureLevel, useLbs, oneRm, wakeLock,
         toggleWakeLock, errorWakeLock, theme } = useContext(SettingsContext);
@@ -202,6 +202,11 @@ export const WorkoutPage = () => {
     useEffect(() => {
         if (!timeStarted) navigate("/");
     }, [timeStarted]);
+
+    useEffect(() => {
+        setNotes(undefined);
+        setNotesAnchor(undefined);
+    }, [focusedExercise]);
 
     const delSet = (set: ExerciseSet) => {
         if (!db || !set) return;

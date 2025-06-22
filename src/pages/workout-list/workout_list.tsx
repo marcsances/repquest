@@ -87,7 +87,7 @@ export const WorkoutList = () => {
     const [confirmDeletePlan, setConfirmDeletePlan] = useState<Plan | undefined>(undefined);
     const [mustSelectPlan, setMustSelectPlan] = useState(false);
     const [addExerciseOpen, setAddExerciseOpen] = useState(false);
-    const {showPrompt} = useContext(DialogContext);
+    const {showPrompt, showAlert} = useContext(DialogContext);
     const {theme: appTheme} = useContext(SettingsContext);
     const [showWrapped, setShowWrapped] = useState(false);
     const wrappedYear = (new Date().getFullYear() + (new Date().getMonth() === 0 ? -1 : 0));
@@ -155,9 +155,9 @@ export const WorkoutList = () => {
     }, [setTargetWorkout]);
 
     const onStopWorkout = useCallback(() => {
-        if (stopWorkout) {
-            stopWorkout().then();
-        }
+        if (stopWorkout) showAlert(t("stopWorkout") + "?", "", (r) => {
+            if (r) stopWorkout().then();
+        }, "yesNo");
     }, [stopWorkout]);
 
     const workoutLabel = useMemo(() => {

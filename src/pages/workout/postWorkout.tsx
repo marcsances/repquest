@@ -62,7 +62,11 @@ const PostWorkout = () => {
 
             const sets = allSets.filter((it) => {
                 const djs = dayjs(it.date).startOf("day");
-                return djs.isSame(dayjs(new Date()).startOf("day"));
+                if (postWorkout!.timeStarted.getTime() - it.date!.getTime() >= 4 * 3600 * 1000) {
+                    // Set started 4h earlier than the current workout. Filter out of the workout as it is a different workout in the same day.
+                    return false;
+                }
+                return djs.isSame(dayjs(postWorkout?.timeStarted).startOf("day"));
             });
 
             for (const set of sets) {
@@ -87,10 +91,11 @@ const PostWorkout = () => {
     const getLabel = (pbList: PB[]) => pbList.map((pb) => `${t(pb?.recordType || "")}: ${pb.value?.toString()}`).join(", ");
 
     const getDuration = () => {
-        if (!postWorkout || !postWorkout.timeStarted || !postWorkout.timeFinished) return "";
-        const startTime = new Date(postWorkout?.timeStarted).getTime();
-        const currentTime = new Date(postWorkout?.timeFinished).getTime();
-        const timeElapsed= currentTime - startTime;
+        if (!history?.length || !history[0].sets?.length) return "";
+        const historyTimes = history.flatMap((it) => it.sets).map((it) => it.date?.getTime()).sort();
+        const startTime = historyTimes[0] || 0;
+        const currentTime = historyTimes[historyTimes.length - 1] || 0;
+        const timeElapsed = currentTime - startTime;
         const hours = Math.floor(timeElapsed / (1000 * 60 * 60));
         const minutes = Math.floor((timeElapsed % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((timeElapsed % (1000 * 60)) / 1000);
