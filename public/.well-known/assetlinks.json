@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "app.repquest.client.twa",
+        "sha256_cert_fingerprints": ["40:29:72:66:B1:B7:2E:AE:FD:74:19:11:5A:19:90:FC:B9:6B:CB:58:46:B9:EA:75:3B:2B:4D:AC:53:95:04:40", "04:52:65:FD:78:DE:13:AD:DF:00:4D:06:4C:2E:2A:92:3E:34:C7:7B:C1:11:EF:B1:5B:9E:63:D9:4F:1B:53:04"]
+      }
+    }]
