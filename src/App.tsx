@@ -83,7 +83,7 @@ const DBGuard = ({children}: { children: ReactElement }) => {
             if (count === 0) {
                 localStorage.setItem("userName", "Default User");
                 setMasterDbReady(true);
-            } else if (count > 0 && !localStorage.getItem("userName") && location.pathname !== "/login") {
+            } else if (count > 0 && !localStorage.getItem("userName") && location.hash !== "#/login") {
                 localStorage.setItem("userName", "Default User");
                 navigate("/login");
             } else setMasterDbReady(true);
@@ -97,14 +97,14 @@ const DBGuard = ({children}: { children: ReactElement }) => {
                     name: "RepQuest",
                     workoutIds: []
                 }).then(() => {
-                    navigate("/onboarding");
+                    setTimeout(() => { window.location.href = window.location.href + "#/onboarding"}, 0)
                 });
             } else {
                 setDbReady(true);
             }
         });
     }, [db, masterDbReady]);
-    if (dbReady || location.pathname === "/login") return children;
+    if (dbReady || location.hash === "#/login") return children;
     return <div style={{width: "100vw", height: "100vh"}}><Loader prompt={t("loading")}/></div>;
 }
 
