@@ -39,6 +39,7 @@ import CalendarProvider from './context/calendarProvider';
 import {DialogContextProvider} from './context/dialogContext';
 import AppRoutes from "./AppRoutes";
 import {SupabaseContextProvider} from "./context/supabaseContext";
+import defer from "./utils/defer";
 
 registerSW({immediate: true})
 const darkTheme = createTheme({
@@ -72,25 +73,20 @@ if (localStorage.getItem("disable_telemetry") !== "true" && import.meta.env.VITE
 }
 
 const DBGuard = ({children}: { children: ReactElement }) => {
-    const {db, masterDb} = useContext(DBContext);
+    const {db} = useContext(DBContext);
     const {t} = useTranslation();
-    const [masterDbReady, setMasterDbReady] = useState(false);
+    const [userReady, setUserReady] = useState(false);
     const [dbReady, setDbReady] = useState(false);
     const navigate = useNavigate();
     useEffect(() => {
-        if (!masterDb || masterDbReady) return;
-        masterDb?.user.count().then((count) => {
-            if (count === 0) {
-                localStorage.setItem("userName", "Default User");
-                window.location.reload();
-            } else if (count > 0 && !localStorage.getItem("userName") && location.pathname !== "/login") {
-                localStorage.setItem("userName", "Default User");
-                window.location.reload();
-            } else setMasterDbReady(true);
-        });
-    }, [db, masterDb]);
+        if (userReady) return;
+        if (localStorage.getItem("userName") && location.pathname !== "/login")  {
+            localStorage.setItem("userName", "Default User");
+            defer(() => window.location.reload());
+        } else setUserReady(true);
+    }, [db]);
     useEffect(() => {
-        if (masterDbReady && db) db.plan.count().then((count) => {
+        if (userReady && db) db.plan.count().then((count) => {
             if (count === 0) {
                 db.plan.put({
                     id: 1,
@@ -103,7 +99,7 @@ const DBGuard = ({children}: { children: ReactElement }) => {
                 setDbReady(true);
             }
         });
-    }, [db, masterDbReady]);
+    }, [db, userReady]);
     if (dbReady || location.pathname === "/login") return children;
     return <div style={{width: "100vw", height: "100vh"}}><Loader prompt={t("loading")}/></div>;
 }
