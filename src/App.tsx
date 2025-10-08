@@ -78,7 +78,8 @@ const DBGuard = ({children}: { children: ReactElement }) => {
     const [dbReady, setDbReady] = useState(false);
     const navigate = useNavigate();
     useEffect(() => {
-        if (masterDb) masterDb?.user.count().then((count) => {
+        if (!masterDb || masterDbReady) return;
+        masterDb?.user.count().then((count) => {
             if (count === 0) {
                 localStorage.setItem("userName", "Default User");
                 setMasterDbReady(true);
@@ -87,6 +88,8 @@ const DBGuard = ({children}: { children: ReactElement }) => {
                 navigate("/login");
             } else setMasterDbReady(true);
         });
+    }, [db, masterDb]);
+    useEffect(() => {
         if (masterDbReady && db) db.plan.count().then((count) => {
             if (count === 0) {
                 db.plan.put({
@@ -100,7 +103,7 @@ const DBGuard = ({children}: { children: ReactElement }) => {
                 setDbReady(true);
             }
         });
-    }, [db, masterDb, masterDbReady]);
+    }, [db, masterDbReady]);
     if (dbReady || location.pathname === "/login") return children;
     return <div style={{width: "100vw", height: "100vh"}}><Loader prompt={t("loading")}/></div>;
 }
