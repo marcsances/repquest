@@ -14,7 +14,7 @@
     You should have received a copy of the GNU General Public License
     along with RepQuest.  If not, see <https://www.gnu.org/licenses/>.
  */
-import React, {ReactElement, useContext, useEffect, useState} from 'react';
+import React, {ReactElement, useContext, useEffect, useState, useReducer} from 'react';
 import * as Sentry from "@sentry/react";
 import './App.css';
 import '@fontsource/roboto/300.css';
