@@ -78,9 +78,11 @@ const DBGuard = ({children}: { children: ReactElement }) => {
     const [userReady, setUserReady] = useState(false);
     const [dbReady, setDbReady] = useState(false);
     const navigate = useNavigate();
+    const [, forceUpdate] = useReducer(x => x + 1, 0);
+
     useEffect(() => {
         if (userReady) return;
-        if (localStorage.getItem("userName") && location.pathname !== "/login")  {
+        if (!localStorage.getItem("userName") && location.hash !== "#/login")  {
             localStorage.setItem("userName", "Default User");
             defer(() => window.location.reload());
         } else setUserReady(true);
@@ -94,14 +96,17 @@ const DBGuard = ({children}: { children: ReactElement }) => {
                     workoutIds: []
                 }).then(() => {
                     setDbReady(true);
-                    defer(() => navigate("/onboarding"));
+                    defer(() => {
+                        location.hash = "#/onboarding";
+                        forceUpdate();
+                    });
                 });
             } else {
                 setDbReady(true);
             }
         });
     }, [db, userReady]);
-    if (dbReady || location.pathname === "/login") return children;
+    if (dbReady || location.hash === "#/login" || location.hash === "#/onboarding") return children;
     return <div style={{width: "100vw", height: "100vh"}}><Loader prompt={t("loading")}/></div>;
 }
 
