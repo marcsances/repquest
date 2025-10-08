@@ -93,7 +93,8 @@ const DBGuard = ({children}: { children: ReactElement }) => {
                     name: "RepQuest",
                     workoutIds: []
                 }).then(() => {
-                    navigate("/onboarding");
+                    setDbReady(true);
+                    defer(() => navigate("/onboarding"));
                 });
             } else {
                 setDbReady(true);
