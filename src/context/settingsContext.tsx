@@ -115,6 +115,7 @@ export const SettingsContextProvider = (props: { children: ReactElement, theme: 
         if (user?.theme !== undefined) setTheme(user.theme);
         if (user?.onboardingCompleted !== undefined) setOnboardingCompleted(user.onboardingCompleted);
         if (user?.ntfyTopic !== undefined) setNtfyTopic(user.ntfyTopic);
+        if (user?.curVersion !== undefined) setCurVersion(user.curVersion);
     }, [user]);
 
     const requestWakeLock = useCallback(async () => {
