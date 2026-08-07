@@ -206,7 +206,7 @@ export const WorkoutPage = () => {
     useEffect(() => {
         setNotes(undefined);
         setNotesAnchor(undefined);
-    }, [focusedExercise]);
+    }, [focusedExercise, currentWorkoutExercise]);
 
     const delSet = (set: ExerciseSet) => {
         if (!db || !set) return;

@@ -22,7 +22,7 @@ import TranslateIcon from '@mui/icons-material/Translate';
 import pjson from "../../../package.json";
 import i18n from "i18next";
 import Selector from "../../components/selector";
-import {Build, Cake, Campaign, FormatPaint} from "@mui/icons-material";
+import {Build, Cake, Campaign, FormatPaint, NotificationsRounded} from "@mui/icons-material";
 import {useNavigate} from "react-router-dom";
 import BackupIcon from "@mui/icons-material/Backup";
 import {DBContext} from "../../context/dbContext";
@@ -55,7 +55,7 @@ export const SettingsPage = () => {
         <List dense sx={{backgroundImage: {dark: "url('/logofadenoback.png')", light: "url('/logofadelight.png')"}[appTheme], backgroundSize: "contain", backgroundPosition: "right bottom", backgroundRepeat: "no-repeat", width: '100%', height: 'calc(100% - 74px)', overflow: "auto"}}>
             <ListItemButton component="a" onClick={() => navigate("/account")}>
                 <ListItemAvatar>
-                    <Avatar src={user?.picture} />
+                    <Avatar src={user?.picture} sx={{bgcolor: (theme) => theme.palette.primary.main}} />
                 </ListItemAvatar>
                 <ListItemText primary={userName || t("account.title")} secondary={userName ? t("account.title") : ""}/>
             </ListItemButton>
@@ -77,15 +77,23 @@ export const SettingsPage = () => {
             </ListItemButton>
             <ListItemButton component="a" onClick={() => navigate("/settings/workout")}>
                 <ListItemAvatar>
-                    <Avatar sx={{bgcolor: (theme) => theme.palette.success.main}}>
+                    <Avatar sx={{bgcolor: (theme) => theme.palette.primary.main}}>
                         <FitnessCenterIcon sx={{color: (theme) => theme.palette.success.contrastText}}/>
                     </Avatar>
                 </ListItemAvatar>
                 <ListItemText primary={t("workoutSettings")} secondary={t("workoutSettingsDescription")} />
             </ListItemButton>
+            <ListItemButton component="a" onClick={() => navigate("/settings/notifications")} >
+                <ListItemAvatar>
+                    <Avatar sx={{bgcolor: (theme) => theme.palette.primary.main}}>
+                        <NotificationsRounded sx={{color: (theme) => theme.palette.warning.contrastText}}/>
+                    </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary={t("notifications.title")} secondary={t("notifications.description")} />
+            </ListItemButton>
             <ListItemButton component="a" onClick={() => navigate("/settings/backup")}>
                 <ListItemAvatar>
-                    <Avatar sx={{bgcolor: (theme) => theme.palette.secondary.main}}>
+                    <Avatar sx={{bgcolor: (theme) => theme.palette.primary.main}}>
                         <BackupIcon sx={{color: (theme) => theme.palette.secondary.contrastText}}/>
                     </Avatar>
                 </ListItemAvatar>
@@ -93,15 +101,15 @@ export const SettingsPage = () => {
             </ListItemButton>
             <ListItemButton component="a" onClick={() => navigate("/settings/system")}>
                 <ListItemAvatar>
-                    <Avatar>
-                        <Build/>
+                    <Avatar sx={{bgcolor: (theme) => theme.palette.primary.main}}>
+                        <Build sx={{color: (theme) => theme.palette.warning.contrastText}}/>
                     </Avatar>
                 </ListItemAvatar>
                 <ListItemText primary={t("system")} secondary={t("systemDescription")} />
             </ListItemButton>
             <ListItemButton component="a" href="https://docs.google.com/forms/d/e/1FAIpQLSdrG44hZZ8MoGzFx2DjIVKSnFylDDbCHtaQL3vhEGM4yuOb8g/viewform?usp=sf_link" target="_blank">
                 <ListItemAvatar>
-                    <Avatar sx={{bgcolor: (theme) => theme.palette.warning.main}}>
+                    <Avatar sx={{bgcolor: (theme) => theme.palette.primary.main}}>
                         <Campaign sx={{color: (theme) => theme.palette.warning.contrastText}}/>
                     </Avatar>
                 </ListItemAvatar>
@@ -109,8 +117,8 @@ export const SettingsPage = () => {
             </ListItemButton>
             <ListItemButton component="a" onClick={() => navigate("/whats-new")}>
                 <ListItemAvatar>
-                    <Avatar>
-                        <Cake/>
+                    <Avatar sx={{bgcolor: (theme) => theme.palette.primary.main}}>
+                        <Cake sx={{color: (theme) => theme.palette.warning.contrastText}}/>
                     </Avatar>
                 </ListItemAvatar>
                 <ListItemText primary={t("whatsNew")} secondary={t("version") + " " + pjson.version} />

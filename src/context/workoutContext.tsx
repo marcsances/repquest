@@ -119,7 +119,7 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
     const [init, setInit] = useState(false);
     const {db} = useContext(DBContext);
     const {slowTime} = useContext(TimerContext);
-    const {oneRm, autostop} = useContext(SettingsContext);
+    const {oneRm, autostop, ntfyTopic} = useContext(SettingsContext);
     const {t} = useTranslation();
     const [isFetching, setIsFetching] = useState(false);
     const [superset, setSuperset] = useState<Superset | undefined>(undefined);
@@ -251,6 +251,20 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
     }, [focusedExercise, currentWorkoutExercise, setFocusedExercise, db]);
 
     const startRest = useCallback((time: number) => {
+        if (ntfyTopic && time > 10) {
+            fetch(`https://push.repquest.app/${ntfyTopic}/rest`, {
+                method: "POST",
+                body: t("notifications.restCompleted"),
+                headers: {
+                    'Title': "RepQuest",
+                    'Icon': "https://client.repquest.app/logo192.png",
+                    'X-Actions': `view, ${t("notifications.openApp")}, https://client.repquest.app/`,
+                    'X-Priority': '5',
+                    'X-Tags': 'stopwatch',
+                    'X-In': `${time.toString()}s`
+                }
+            }).catch((x) => console.error(x));
+        }
         setRestStarted(new Date());
         setRestTime(time);
         setTimeUpdated(new Date());
@@ -291,6 +305,11 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
     }, [focusedExercise, currentExerciseHistory, init, oneRm]);
 
     const stopRest = useCallback(() => {
+        if (ntfyTopic) {
+            fetch(`https://push.repquest.app/${ntfyTopic}/rest`, {
+                method: "DELETE"
+            }).catch((x) => console.error(x));
+        }
         setRestStarted(undefined);
         setRestTime(0);
         setTimeUpdated(new Date());
@@ -505,6 +524,24 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
         setRefetchHistoryToken(new Date());
     }
 
+    const updateRestTime = (time: number) => {
+        setRestTime(time);
+        if (ntfyTopic && time > 10) {
+            fetch(`https://push.repquest.app/${ntfyTopic}/rest`, {
+                method: "POST",
+                body: t("notifications.restCompleted"),
+                headers: {
+                    'Title': "RepQuest",
+                    'Icon': "https://client.repquest.app/logo192.png",
+                    'Actions': `view, ${t("notifications.openApp")}, https://client.repquest.app/`,
+                    'Priority': '5',
+                    'Tags': 'stopwatch',
+                    'In': `${time.toString()}s`
+                }
+            }).catch((x) => console.error(x));
+        }
+    }
+
     const context = {
         timeStarted,
         timeUpdated,
@@ -526,7 +563,8 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
         setRestStarted, isFetching, currentWorkoutExerciseList,
         replaceExercise, refetchHistory, postWorkout,
         addSet, removeSet, addExercise, pbs, currentExerciseHistory, superset, setSuperset,
-        startWorkout, saveSet, stopWorkout, startRest, stopRest, setRestTime, showWorkoutFinishedPage
+        startWorkout, saveSet, stopWorkout, startRest, stopRest, showWorkoutFinishedPage,
+        setRestTime: updateRestTime
     };
 
     useEffect(() => {

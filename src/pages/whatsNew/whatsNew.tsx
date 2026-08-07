@@ -42,6 +42,19 @@ export const WhatsNew = () => {
                 Acknowledgements to <a href="https://github.com/yuhonas">yuhonas</a> for providing the <a href="https://github.com/yuhonas/free-exercise-db">Free Exercise DB</a> used in WeightLog.
             </Typography>
             <br/>
+            <Typography variant="h4">RepQuest Version 0.4.0</Typography>
+            <Typography variant="subtitle1">Released on 07/08/2026</Typography>
+            <Typography variant="subtitle2">Copyright Marc Sances 2026. All rights reserved.</Typography>
+            <Typography variant="h5">Features</Typography>
+            <ul>
+                <li>Added support for push notifications via <a href="https://docs.ntfy.sh/publish/" target="_blank">ntfy.sh</a>.</li>
+                <li>Added snackbar when RepQuest is updated.</li>
+            </ul>
+            <Typography variant="h5">Bugfixes</Typography>
+            <ul>
+                <li>Fixed missing translations in English locale.</li>
+                <li>Fixed UI glitch when the notes popup was open.</li>
+            </ul>
             <Typography variant="h4">RepQuest Version 0.3.8</Typography>
             <Typography variant="subtitle1">Released on 08/08/2025</Typography>
             <Typography variant="subtitle2">Copyright Marc Sances 2025. All rights reserved.</Typography>

@@ -104,6 +104,7 @@
     "moveDown": "Bajar",
     "startRest": "Iniciar descanso",
     "copy": "Copiar",
+    "copied": "Se ha copiado",
     "edit": "Editar",
     "delete": "Borrar",
     "goBack": "Volver atrás"
@@ -477,5 +478,19 @@
     "forgotPassword": "¿Ha olvidado su contraseña?",
     "enterYourEmailForgot": "Introduzca su dirección de correo y le enviaremos un e-mail con instrucciones para restablecer su contraseña.",
     "sendEmail": "Enviar e-mail con instrucciones"
-  }
+  },
+  "notifications": {
+    "title": "Notificaciones push",
+    "description": "Reciba notificaciones de RepQuest en su dispositivo",
+    "infoPush1": "Puede recibir notificaciones de RepQuest instalando y configurando la aplicación gratuita de ntfy.sh en su dispositivo. Actualmente solo se pueden recibir notificaciones de descanso completado.",
+    "infoPush2": "Descargue e instale la aplicación de ntfy en su dispositivo.",
+    "infoPush3": "Abra la aplicación de ntfy en su dispositivo y permita las notificaciones push.",
+    "infoPush4": "Copie la configuración siguiente, elija añadir un tema con servidor personalizado y suscríbase al tema siguiente.",
+    "enablePush": "Activar las notificaciones de descanso terminado",
+    "restCompleted": "Descanso terminado",
+    "topic": "Tema a suscribir",
+    "serverURL": "Dirección del servidor de Ntfy",
+    "openApp": "Volver a RepQuest"
+  },
+  "updateCompleted": "RepQuest se ha actualizado a la versión "
 }

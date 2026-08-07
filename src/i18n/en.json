@@ -104,6 +104,7 @@
     "moveDown": "Move down",
     "startRest": "Start rest",
     "copy": "Copy",
+    "copied": "Copied to clipboard",
     "edit": "Edit",
     "delete": "Delete",
     "goBack": "Go back"
@@ -139,7 +140,7 @@
     "hips": "Hips"
   },
   "comingSoon": "Coming soon...",
-  "backFacup": {
+  "backup": {
     "title": "Backup & Import",
     "description": "Backup your training data or import data into the app",
     "doBackup": "Perform backup",
@@ -460,5 +461,19 @@
     "forgotPassword": "Forgot password?",
     "enterYourEmailForgot": "Enter your email address and we will send an email to restore your password.",
     "sendEmail": "Send email with instructions"
-  }
+  },
+  "notifications": {
+    "title": "Push notifications",
+    "description": "Receive push notifications in your device",
+    "infoPush1": "You can receive RepQuest notifications by installing and configuring the free ntfy.sh app in your device. At the moment, RepQuest only supports sending rest complete notifications.",
+    "infoPush2": "Download and install ntfy in your device.",
+    "infoPush3": "Open ntfy and allow push notifications.",
+    "infoPush4": "Go to subscribe to a new topic, and use the following configuration.",
+    "enablePush": "Enable rest complete notifications",
+    "restCompleted": "Rest completed",
+    "topic": "Topic to subscribe",
+    "serverURL": "Ntfy server address",
+    "openApp": "Back to RepQuest"
+  },
+  "updateCompleted": "RepQuest updated to version "
 }

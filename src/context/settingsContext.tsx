@@ -33,6 +33,7 @@ export interface ISettingsContext {
     featureLevel: FeatureLevel;
     emojis: string[];
     fullname: string;
+    ntfyTopic?: string;
     onboardingCompleted: boolean;
     saveLbs?: (value: boolean) => void;
     saveSound?: (value: boolean) => void;
@@ -41,6 +42,7 @@ export interface ISettingsContext {
     saveOneRm?: (value: OneRm) => void;
     saveTheme?: (value: AppTheme) => void;
     saveFeatureLevel?: (level: FeatureLevel) => void;
+    saveNtfyTopic?: (value: string) => void;
     wakeLock?: boolean;
     toggleWakeLock?: () => void;
     errorWakeLock ?: boolean;
@@ -48,6 +50,8 @@ export interface ISettingsContext {
     saveLang?: (value: string) => void;
     saveEmojis?: (value: string[]) => void;
     saveFullname?: (value: string) => void;
+    curVersion?: string;
+    saveCurVersion?: (value: string) => void;
 }
 
 export const SettingsContext = React.createContext({
@@ -80,6 +84,8 @@ export const SettingsContextProvider = (props: { children: ReactElement, theme: 
     const [wakeLockSentinel, setWakeLockSentinel] = useState<WakeLockSentinel | null>(null);
     const {time} = useContext(TimerContext);
     const { user, userName} = useContext(UserContext);
+    const [ntfyTopic, setNtfyTopic] = useState<string | undefined>(user?.ntfyTopic || localStorage.getItem("ntfyTopic") || "");
+    const [curVersion, setCurVersion] = useState<string | undefined>(user?.curVersion || localStorage.getItem("curVersion") || "");
     const [lang, setLang] = useState<string | undefined>(user?.lang || localStorage.getItem("lang") || "");
     const {masterDb} = useContext(DBContext);
     const toggleWakeLock = () => {
@@ -108,6 +114,7 @@ export const SettingsContextProvider = (props: { children: ReactElement, theme: 
         else if (!!(user?.showRpe)) setFeatureLevel("advanced");
         if (user?.theme !== undefined) setTheme(user.theme);
         if (user?.onboardingCompleted !== undefined) setOnboardingCompleted(user.onboardingCompleted);
+        if (user?.ntfyTopic !== undefined) setNtfyTopic(user.ntfyTopic);
     }, [user]);
 
     const requestWakeLock = useCallback(async () => {
@@ -181,6 +188,16 @@ export const SettingsContextProvider = (props: { children: ReactElement, theme: 
         else masterDb?.user.update(userName, {onboardingCompleted: value});
         setOnboardingCompleted(value);
     }, []);
+    const saveNtfyTopic = useCallback((value: string) => {
+        if (userName === "Default User") localStorage.setItem("ntfyTopic", value);
+        else masterDb?.user.update(userName, {ntfyTopic: value});
+        setNtfyTopic(value);
+    }, []);
+    const saveCurVersion = useCallback((value: string) => {
+        if (userName === "Default User") localStorage.setItem("curVersion", value);
+        else masterDb?.user.update(userName, {curVersion: value});
+        setCurVersion(value);
+    }, []);
     const settings = {
         useLbs: lbs,
         oneRm: oneRm,
@@ -202,6 +219,8 @@ export const SettingsContextProvider = (props: { children: ReactElement, theme: 
         saveFullname,
         saveFeatureLevel,
         saveTheme,
+        ntfyTopic, saveNtfyTopic,
+        curVersion, saveCurVersion,
         sound, saveSound, saveOnboardingCompleted
     };
     return <SettingsContext.Provider value={settings}>

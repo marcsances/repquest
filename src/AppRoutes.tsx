@@ -31,6 +31,7 @@ import BulkEditor from "./pages/workout-editor/bulkEditor";
 import Wrapped from "./pages/wrapped";
 import EOLPage from "./pages/eol";
 import RepcloudLoginPage from "./pages/login/login";
+import {NotificationsPage} from "./pages/settings/ntfy";
 
 const AppRoutes = () => {
     return <Routes>
@@ -56,6 +57,8 @@ const AppRoutes = () => {
                element={<WorkoutSettingsPage/>}/>
         <Route path="/settings/system"
                element={<SystemSettingsPage/>}/>
+        <Route path="/settings/notifications"
+               element={<NotificationsPage/>}/>
         <Route path="/workout" element={<WorkoutPage/>}/>
         <Route path="/workout/postworkout"
                element={<PostWorkout/>}/>

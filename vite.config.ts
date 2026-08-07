@@ -59,7 +59,10 @@ export default defineConfig({
             "display": "standalone",
             "theme_color": "#1F1F8B",
             "background_color": "#121212",
-            "categories": ["fitness", "health", "health & fitness"]
+            "categories": ["fitness", "health", "health & fitness"],
+            "launch_handler": {
+                "client_mode": ["focus-existing", "auto"]
+            }
         }
     }), sentryVitePlugin({
         org: "marc-sances",

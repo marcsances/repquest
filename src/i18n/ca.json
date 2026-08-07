@@ -104,6 +104,7 @@
     "moveDown": "Baixar",
     "startRest": "Iniciar descans",
     "copy": "Copiar",
+    "copied": "S'ha copiat",
     "edit": "Editar",
     "delete": "Esborrar",
     "goBack": "Tornar endarrera"
@@ -460,5 +461,19 @@
     "forgotPassword": "Heu oblidat la contrasenya?",
     "enterYourEmailForgot": "Introduïu la vostra adreça de correu i us enviarem un e-mail per recuperar el vostre compte.",
     "sendEmail": "Enviar e-mail amb instruccions"
-  }
+  },
+  "notifications": {
+    "title": "Notificacions push",
+    "description": "Rebeu notificacions de RepQuest al vostre mòbil",
+    "infoPush1": "Podeu rebre notificacions de RepQuest instal·lant i configurant l'aplicació gratuïta de ntfy.sh al vostre mòbil. Actualment només es poden rebre notificacions de descans completat.",
+    "infoPush2": "Descarregueu i instal·leu l'aplicació de ntfy al vostre telèfon.",
+    "infoPush3": "Obriu l'aplicació de ntfy al vostre móbil i permeteu que us envïi notificacions.",
+    "infoPush4": "Copieu la configuració següent, trieu servidor personalitzat i subscribiu-vos-hi des de l'aplicació de ntfy.",
+    "enablePush": "Activeu les notificacions de descans completat",
+    "restCompleted": "S'ha acabat el descans.",
+    "topic": "Tema a subscriure",
+    "serverURL": "Adreça del servidor de Ntfy",
+    "openApp": "Tornar a RepQuest"
+  },
+  "updateCompleted": "RepQuest s'ha actualitzat a la versió "
 }

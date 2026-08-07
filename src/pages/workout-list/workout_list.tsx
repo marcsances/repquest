@@ -19,6 +19,7 @@ import Layout from "../../components/layout";
 import {useTranslation} from "react-i18next";
 import {
     Avatar,
+    Button,
     Fab,
     IconButton,
     List,
@@ -55,6 +56,7 @@ import contrastColor from "../../utils/contrastColor";
 import {DialogContext} from "../../context/dialogContext";
 import TutorialAlert from "../../components/tutorialAlert";
 import {SettingsContext} from "../../context/settingsContext";
+import pjson from "../../../package.json";
 
 const daysOfWeek = ["mondays", "tuesdays", "wednesdays", "thursdays", "fridays", "saturdays", "sundays"];
 
@@ -88,7 +90,7 @@ export const WorkoutList = () => {
     const [mustSelectPlan, setMustSelectPlan] = useState(false);
     const [addExerciseOpen, setAddExerciseOpen] = useState(false);
     const {showPrompt, showAlert} = useContext(DialogContext);
-    const {theme: appTheme} = useContext(SettingsContext);
+    const {theme: appTheme, curVersion, saveCurVersion} = useContext(SettingsContext);
     const [showWrapped, setShowWrapped] = useState(false);
     const wrappedYear = (new Date().getFullYear() + (new Date().getMonth() === 0 ? -1 : 0));
     useEffect(() => {
@@ -368,6 +370,24 @@ export const WorkoutList = () => {
             autoHideDuration={2000}
             onClose={() => setSnackbar("")}
             message={snackbar}
+        />
+        <Snackbar
+            open={pjson.version !== curVersion}
+            onClose={() => { if (saveCurVersion) saveCurVersion(pjson.version)}}
+            message={"🎉 " + t("updateCompleted") + " " + pjson.version}
+            action={<React.Fragment>
+                <Button color="primary" size="small" onClick={() => { if (saveCurVersion) saveCurVersion(pjson.version); navigate("/whats-new")}}>
+                    {t("whatsNew")}
+                </Button>
+                <IconButton
+                    size="small"
+                    aria-label="close"
+                    color="inherit"
+                    onClick={() => { if (saveCurVersion) saveCurVersion(pjson.version)}}
+                >
+                    <CloseIcon fontSize="small" />
+                </IconButton>
+            </React.Fragment>}
         />
         <ConfirmDialog title={t("confirmDeletePlan.title")} message={t("confirmDeletePlan.message")}
                        open={confirmDeletePlan !== undefined} onDismiss={(r) => {

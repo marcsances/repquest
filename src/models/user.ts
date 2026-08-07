@@ -34,6 +34,8 @@ export interface User {
     theme?: AppTheme;
     featureLevel?: FeatureLevel;
     onboardingCompleted?: boolean;
+    ntfyTopic?: string;
+    curVersion?: string;
 }
 
 export enum Metric {
