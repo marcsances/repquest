@@ -372,7 +372,7 @@ export const WorkoutList = () => {
             message={snackbar}
         />
         <Snackbar
-            open={pjson.version !== curVersion}
+            open={curVersion !== undefined && pjson.version !== curVersion}
             onClose={() => { if (saveCurVersion) saveCurVersion(pjson.version)}}
             message={"🎉 " + t("updateCompleted") + " " + pjson.version}
             action={<React.Fragment>
