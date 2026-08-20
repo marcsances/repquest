@@ -305,11 +305,11 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
     }, [focusedExercise, currentExerciseHistory, init, oneRm]);
 
     const stopRest = useCallback(() => {
-        if (ntfyTopic) {
+        /*if (ntfyTopic) {
             fetch(`https://push.repquest.app/${ntfyTopic}/rest`, {
                 method: "DELETE"
             }).catch((x) => console.error(x));
-        }
+        }*/
         setRestStarted(undefined);
         setRestTime(0);
         setTimeUpdated(new Date());
