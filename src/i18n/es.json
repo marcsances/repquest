@@ -492,6 +492,8 @@
     "devTools": "Herramientas de desarrollador",
     "devToolsDescription": "Acceda a herramientas avanzadas de depuración",
     "consoleLogs": "Registros",
-    "consoleLogsDescription": "Leer los registros de consola"
+    "consoleLogsDescription": "Leer los registros de consola",
+    "jsConsole": "Consola JavaScript",
+    "jsConsoleDescription": "Acceda a un terminal JavaScript pera ejecutar comandos"
   }
 }

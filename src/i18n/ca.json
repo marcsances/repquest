@@ -475,6 +475,8 @@
     "devTools": "Eines de desenvolupador",
     "devToolsDescription": "Accediu a eines avançades de depuració",
     "consoleLogs": "Registres",
-    "consoleLogsDescription": "Llegiu els registres de consola"
+    "consoleLogsDescription": "Llegiu els registres de consola",
+    "jsConsole": "Consola JavaScript",
+    "jsConsoleDescription": "Accediu a un terminal JavaScript per executar comandes"
   }
 }

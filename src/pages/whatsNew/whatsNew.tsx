@@ -63,12 +63,12 @@ export const WhatsNew = () => {
                 Acknowledgements to <a href="https://github.com/yuhonas">yuhonas</a> for providing the <a href="https://github.com/yuhonas/free-exercise-db">Free Exercise DB</a> used in WeightLog.
             </Typography>
             <br/>
-            <Typography variant="h4">RepQuest Version 0.4.2</Typography>
-            <Typography variant="subtitle1">Released on 07/08/2026</Typography>
+            <Typography variant="h4">RepQuest Version 0.4.5</Typography>
+            <Typography variant="subtitle1">Released on 08/10/2026</Typography>
             <Typography variant="subtitle2">Copyright Marc Sances 2026. All rights reserved.</Typography>
             <Typography variant="h5">Features</Typography>
             <ul>
-                <li>Added developer tools access to console logs. To enable devtools tap the RepQuest title in this page (below app title) 10 times.</li>
+                <li>Added developer tools access to console logs and terminal. To enable devtools tap the RepQuest title in this page (below app title) 10 times.</li>
             </ul>
             <Typography variant="h4">RepQuest Version 0.4.0</Typography>
             <Typography variant="subtitle1">Released on 07/08/2026</Typography>

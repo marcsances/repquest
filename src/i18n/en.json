@@ -475,6 +475,8 @@
     "devTools": "Developer Tools",
     "devToolsDescription": "Access advanced debug features",
     "consoleLogs": "Logs",
-    "consoleLogsDescription": "Read the console logs"
+    "consoleLogsDescription": "Read the console logs",
+    "jsConsole": "JavaScript Console",
+    "jsConsoleDescription": "Access a JavaScript console to run console commands"
   }
 }

@@ -29,21 +29,25 @@ var oldLog = window.console.log;
 window.messages = [];
 
 window.console.log = function(msg: any) {
+    if (!msg || !msg.toString) return;
     window.messages.push("LOG: " + new Date().toISOString() + " - " + msg.toString());
     oldLog.apply(null, arguments);
 }
 
 window.console.info = function(msg: any) {
+    if (!msg || !msg.toString) return;
     window.messages.push("INFO: " + new Date().toISOString() + " - " + msg.toString());
     oldLog.apply(null, arguments);
 }
 
 window.console.warn = function(msg: any) {
+    if (!msg || !msg.toString) return;
     window.messages.push("WARN: " + new Date().toISOString() + " - " + msg.toString());
     oldLog.apply(null, arguments);
 }
 
 window.console.error = function(msg: any) {
+    if (!msg || !msg.toString) return;
     window.messages.push("ERROR: " + new Date().toISOString() + " - " + msg.toString());
     oldLog.apply(null, arguments);
 }

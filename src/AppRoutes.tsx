@@ -33,6 +33,7 @@ import RepcloudLoginPage from "./pages/login/login";
 import {NotificationsPage} from "./pages/settings/ntfy";
 import { DevToolsPage } from "./pages/settings/devtools";
 import { ConsoleLogs } from "./pages/settings/consoleLogs";
+import { Terminal } from "./pages/settings/terminal";
 
 const AppRoutes = () => {
     return <Routes>
@@ -85,6 +86,7 @@ const AppRoutes = () => {
         <Route path="/wrapped" element={<Wrapped/>}/>
         <Route path="/devTools" element={<DevToolsPage />} />
         <Route path="/consoleLogs" element={<ConsoleLogs />} />
+        <Route path="/terminal" element={<Terminal />} />
         <Route path="*" element={<NotImplemented/>}/>
     </Routes>
 }
