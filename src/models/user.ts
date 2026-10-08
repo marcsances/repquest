@@ -36,6 +36,7 @@ export interface User {
     onboardingCompleted?: boolean;
     ntfyTopic?: string;
     curVersion?: string;
+    devTools?: boolean;
 }
 
 export enum Metric {

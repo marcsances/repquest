@@ -52,6 +52,8 @@ export interface ISettingsContext {
     saveFullname?: (value: string) => void;
     curVersion?: string;
     saveCurVersion?: (value: string) => void;
+    devTools?: boolean;
+    saveDevTools?: (value: boolean) => void;
 }
 
 export const SettingsContext = React.createContext({
@@ -87,6 +89,7 @@ export const SettingsContextProvider = (props: { children: ReactElement, theme: 
     const [ntfyTopic, setNtfyTopic] = useState<string | undefined>(user?.ntfyTopic || localStorage.getItem("ntfyTopic") || "");
     const [curVersion, setCurVersion] = useState<string | undefined>(user?.curVersion || localStorage.getItem("curVersion") || "");
     const [lang, setLang] = useState<string | undefined>(user?.lang || localStorage.getItem("lang") || "");
+    const [devTools, setDevTools] = useState(user?.devTools || localStorage.getItem("devTools") === "true" || false);
     const {masterDb} = useContext(DBContext);
     const toggleWakeLock = () => {
         setWakeLock((prev) => {
@@ -199,6 +202,11 @@ export const SettingsContextProvider = (props: { children: ReactElement, theme: 
         else masterDb?.user.update(userName, {curVersion: value});
         setCurVersion(value);
     }, []);
+    const saveDevTools = useCallback((value: boolean) => {
+        if (userName === "Default User") localStorage.setItem("devTools", value ? "true" : "false");
+        else masterDb?.user.update(userName, { devTools: value });
+        setDevTools(value);
+    }, []);
     const settings = {
         useLbs: lbs,
         oneRm: oneRm,
@@ -222,7 +230,7 @@ export const SettingsContextProvider = (props: { children: ReactElement, theme: 
         saveTheme,
         ntfyTopic, saveNtfyTopic,
         curVersion, saveCurVersion,
-        sound, saveSound, saveOnboardingCompleted
+        sound, saveSound, saveOnboardingCompleted, devTools, saveDevTools
     };
     return <SettingsContext.Provider value={settings}>
         {children}

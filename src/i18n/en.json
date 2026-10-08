@@ -437,15 +437,6 @@
     "workouts": "sessions",
     "thanks": "Thank you for training with RepQuest this %Y!"
   },
-  "eol": {
-    "title": "RepQuest is now RepQuest!",
-    "message": "Thank you for being one of the first users to collaborate in the development of WeightLog.",
-    "message2": "The cycle has come to an end. RepQuest is closing and now we will be RepQuest.",
-    "message3": "Unfortunately, we cannot migrate your data automatically. Since we are in a new address (find us at client.repquest.app), you have to migrate manually your database.",
-    "message4": "Click on the button below to download a full backup of your account, that you will be able to import to RepQuest when logging in for the first time. If you need help for the migration, please contact us at info@repquest.app.",
-    "message5": "Thank you for using WeightLog. See you in RepQuest!",
-    "openRepquest": "Go to RepQuest"
-  },
   "repcloud": {
     "loginTitle": "Log in to RepCloud",
     "createAccount": "Create an account in RepCloud",
@@ -475,5 +466,15 @@
     "serverURL": "Ntfy server address",
     "openApp": "Back to RepQuest"
   },
-  "updateCompleted": "RepQuest updated to version "
+  "updateCompleted": "RepQuest updated to version ",
+  "devTools": {
+    "disabled": "Developer tools have been disabled",
+    "youAre": "You are",
+    "clicksAway": "taps away from accessing developer tools",
+    "youAreDev": "You are now a developer!",
+    "devTools": "Developer Tools",
+    "devToolsDescription": "Access advanced debug features",
+    "consoleLogs": "Logs",
+    "consoleLogsDescription": "Read the console logs"
+  }
 }

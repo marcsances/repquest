@@ -454,15 +454,6 @@
     "workouts": "sesiones",
     "thanks": "¡Gracias por entrenar con RepQuest este %Y!"
   },
-  "eol": {
-    "title": "¡WeightLog ahora es RepQuest!",
-    "message": "Muchas gracias por ser de los primeros usuarios en colaborar con el desarrollo de WeightLog.",
-    "message2": "Es hora de cerrar un ciclo. WeightLog cierra y a partir de ahora seremos RepQuest.",
-    "message3": "Desafortunadamente, no podemos migrar tus datos automáticamente. Al estar en otra dirección web (a partir de ahora estaremos en client.repquest.app), debes migrar manualmente tu base de datos.",
-    "message4": "Pulsa el botón de abajo para descargar una copia de seguridad de tu perfil, que podrás importar a RepQuest en acceder por primera vez. Si necesitas ayuda para hacer la transición, estaremos en info@repquest.app.",
-    "message5": "Gracias por usar WeightLog. ¡Nos vemos en RepQuest!",
-    "openRepquest": "Abrir RepQuest"
-  },
   "repcloud": {
     "loginTitle": "Iniciar sesión en RepCloud",
     "createAccount": "Crear una cuenta en RepCloud",
@@ -492,5 +483,15 @@
     "serverURL": "Dirección del servidor de Ntfy",
     "openApp": "Volver a RepQuest"
   },
-  "updateCompleted": "RepQuest se ha actualizado a la versión "
+  "updateCompleted": "RepQuest se ha actualizado a la versión ",
+  "devTools": {
+    "disabled": "Se desactivaron las herramientas de desarrollador",
+    "youAre": "Está a",
+    "clicksAway": "toques de acceder a las herramientas de desarrollador",
+    "youAreDev": "¡Ahora es desarrollador!",
+    "devTools": "Herramientas de desarrollador",
+    "devToolsDescription": "Acceda a herramientas avanzadas de depuración",
+    "consoleLogs": "Registros",
+    "consoleLogsDescription": "Leer los registros de consola"
+  }
 }

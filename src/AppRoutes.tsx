@@ -29,9 +29,10 @@ import Onboarding from "./pages/onboarding/onboarding";
 import React from "react";
 import BulkEditor from "./pages/workout-editor/bulkEditor";
 import Wrapped from "./pages/wrapped";
-import EOLPage from "./pages/eol";
 import RepcloudLoginPage from "./pages/login/login";
 import {NotificationsPage} from "./pages/settings/ntfy";
+import { DevToolsPage } from "./pages/settings/devtools";
+import { ConsoleLogs } from "./pages/settings/consoleLogs";
 
 const AppRoutes = () => {
     return <Routes>
@@ -82,7 +83,8 @@ const AppRoutes = () => {
         <Route path="/onerm" element={<OneRmCalculator/>}/>
         <Route path="/account" element={<AccountMenu/>}/>
         <Route path="/wrapped" element={<Wrapped/>}/>
-        <Route path="/eol" element={<EOLPage/>}/>
+        <Route path="/devTools" element={<DevToolsPage />} />
+        <Route path="/consoleLogs" element={<ConsoleLogs />} />
         <Route path="*" element={<NotImplemented/>}/>
     </Routes>
 }

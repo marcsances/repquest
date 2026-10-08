@@ -251,7 +251,9 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
     }, [focusedExercise, currentWorkoutExercise, setFocusedExercise, db]);
 
     const startRest = useCallback((time: number) => {
+        console.log("start rest called")
         if (ntfyTopic && time > 10) {
+            console.log("Create rest topic with time " + time.toString());
             fetch(`https://push.repquest.app/${ntfyTopic}/rest`, {
                 method: "POST",
                 body: t("notifications.restCompleted"),
@@ -305,11 +307,6 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
     }, [focusedExercise, currentExerciseHistory, init, oneRm]);
 
     const stopRest = useCallback(() => {
-        /*if (ntfyTopic) {
-            fetch(`https://push.repquest.app/${ntfyTopic}/rest`, {
-                method: "DELETE"
-            }).catch((x) => console.error(x));
-        }*/
         setRestStarted(undefined);
         setRestTime(0);
         setTimeUpdated(new Date());
@@ -527,6 +524,7 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
     const updateRestTime = (time: number) => {
         setRestTime(time);
         if (ntfyTopic && time > 10) {
+            console.log("update rest topic with time " + time.toString());
             fetch(`https://push.repquest.app/${ntfyTopic}/rest`, {
                 method: "POST",
                 body: t("notifications.restCompleted"),

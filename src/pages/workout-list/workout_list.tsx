@@ -93,9 +93,6 @@ export const WorkoutList = () => {
     const {theme: appTheme, curVersion, saveCurVersion} = useContext(SettingsContext);
     const [showWrapped, setShowWrapped] = useState(false);
     const wrappedYear = (new Date().getFullYear() + (new Date().getMonth() === 0 ? -1 : 0));
-    useEffect(() => {
-        if (location.hostname === "weightlog.marcsances.net") navigate("/eol");
-    }, []);
 
     useEffect(() => {
         if (!db) return;

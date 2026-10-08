@@ -14,17 +14,38 @@
     You should have received a copy of the GNU General Public License
     along with RepQuest.  If not, see <https://www.gnu.org/licenses/>.
  */
-import React from "react";
+import React, { useCallback, useContext, useState } from "react";
 import Layout from "../../components/layout";
 import {useTranslation} from "react-i18next";
 import Typography from "@mui/material/Typography";
-import {Box} from "@mui/material";
+import {Box, Snackbar} from "@mui/material";
+import { SettingsContext } from "../../context/settingsContext";
 
 export const WhatsNew = () => {
     const {t} = useTranslation();
+    const {devTools, saveDevTools} = useContext(SettingsContext); 
+    const [snackbar, setSnackbar] = useState<string | null>(null);
+    const [clicksToDev, setClicksToDev] = useState(10);
+
+    const clickTitle = useCallback(() => {
+        if (!saveDevTools) return;
+        if (devTools) {
+            setSnackbar(t("devTools.disabled"));
+            saveDevTools(false);
+            return;
+        }
+        if (clicksToDev > 0) {
+            setClicksToDev((clicks) => clicks - 1);
+            setSnackbar(t("devTools.youAre") + " " + clicksToDev.toString() + " " + t("devTools.clicksAway"));
+            return;
+        }
+        setSnackbar(t("devTools.youAreDev"));
+        saveDevTools(true);
+    }, [clicksToDev]);
+    
     return <Layout title={t("whatsNew")} hideNav scroll>
         <Box sx={{padding: "20px", width: "calc(100% - 40px)", height: "calc(100vh - 96px)", overflow: "auto"}}>
-            <Typography variant="h4">RepQuest</Typography>
+            <Typography variant="h4" onClick={clickTitle}>RepQuest</Typography>
             <Typography variant="subtitle2">Copyright Marc Sances 2025. All rights reserved.<br/>
                 This program is free software: you can redistribute it and/or modify
                 it under the terms of the GNU General Public License as published by
@@ -42,6 +63,13 @@ export const WhatsNew = () => {
                 Acknowledgements to <a href="https://github.com/yuhonas">yuhonas</a> for providing the <a href="https://github.com/yuhonas/free-exercise-db">Free Exercise DB</a> used in WeightLog.
             </Typography>
             <br/>
+            <Typography variant="h4">RepQuest Version 0.4.2</Typography>
+            <Typography variant="subtitle1">Released on 07/08/2026</Typography>
+            <Typography variant="subtitle2">Copyright Marc Sances 2026. All rights reserved.</Typography>
+            <Typography variant="h5">Features</Typography>
+            <ul>
+                <li>Added developer tools access to console logs. To enable devtools tap the RepQuest title in this page (below app title) 10 times.</li>
+            </ul>
             <Typography variant="h4">RepQuest Version 0.4.0</Typography>
             <Typography variant="subtitle1">Released on 07/08/2026</Typography>
             <Typography variant="subtitle2">Copyright Marc Sances 2026. All rights reserved.</Typography>
@@ -715,5 +743,11 @@ export const WhatsNew = () => {
                 <li>History now shows correct month in dates</li>
             </ul>
         </Box>
+        <Snackbar
+                    open={snackbar !== null}
+                    autoHideDuration={2000}
+                    onClose={() => setSnackbar(null)}
+                    message={snackbar}
+                />
     </Layout>;
 }

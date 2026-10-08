@@ -25,6 +25,29 @@ import caJson from "./i18n/ca.json";
 import esJson from "./i18n/es.json";
 import LanguageDetector from 'i18next-browser-languagedetector';
 
+var oldLog = window.console.log;
+window.messages = [];
+
+window.console.log = function(msg: any) {
+    window.messages.push("LOG: " + new Date().toISOString() + " - " + msg.toString());
+    oldLog.apply(null, arguments);
+}
+
+window.console.info = function(msg: any) {
+    window.messages.push("INFO: " + new Date().toISOString() + " - " + msg.toString());
+    oldLog.apply(null, arguments);
+}
+
+window.console.warn = function(msg: any) {
+    window.messages.push("WARN: " + new Date().toISOString() + " - " + msg.toString());
+    oldLog.apply(null, arguments);
+}
+
+window.console.error = function(msg: any) {
+    window.messages.push("ERROR: " + new Date().toISOString() + " - " + msg.toString());
+    oldLog.apply(null, arguments);
+}
+
 i18n
     .use(LanguageDetector)
     .use(initReactI18next) // passes i18n down to react-i18next

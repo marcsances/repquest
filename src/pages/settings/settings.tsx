@@ -22,7 +22,7 @@ import TranslateIcon from '@mui/icons-material/Translate';
 import pjson from "../../../package.json";
 import i18n from "i18next";
 import Selector from "../../components/selector";
-import {Build, Cake, Campaign, FormatPaint, NotificationsRounded} from "@mui/icons-material";
+import {BugReport, Build, Cake, Campaign, FormatPaint, NotificationsRounded} from "@mui/icons-material";
 import {useNavigate} from "react-router-dom";
 import BackupIcon from "@mui/icons-material/Backup";
 import {DBContext} from "../../context/dbContext";
@@ -49,7 +49,7 @@ export const SettingsPage = () => {
     const navigate = useNavigate();
     const [openLanguage, setOpenLanguage] = useState(false);
     const {userName, user} = useContext(UserContext);
-    const {theme: appTheme} = useContext(SettingsContext);
+    const {theme: appTheme, devTools} = useContext(SettingsContext);
 
     return <Layout showAccountMenu title={t("settings")}>
         <List dense sx={{backgroundImage: {dark: "url('/logofadenoback.png')", light: "url('/logofadelight.png')"}[appTheme], backgroundSize: "contain", backgroundPosition: "right bottom", backgroundRepeat: "no-repeat", width: '100%', height: 'calc(100% - 74px)', overflow: "auto"}}>
@@ -123,6 +123,14 @@ export const SettingsPage = () => {
                 </ListItemAvatar>
                 <ListItemText primary={t("whatsNew")} secondary={t("version") + " " + pjson.version} />
             </ListItemButton>
+            {devTools && <ListItemButton component="a" onClick={() => navigate("/devTools")}>
+                <ListItemAvatar>
+                    <Avatar sx={{bgcolor: (theme) => theme.palette.primary.main}}>
+                        <BugReport sx={{color: (theme) => theme.palette.warning.contrastText}}/>
+                    </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary={t("devTools.devTools")} secondary={t("devTools.devToolsDescription")} />
+            </ListItemButton>}
         </List>
         <Selector
             defaultValue={i18n.language}
