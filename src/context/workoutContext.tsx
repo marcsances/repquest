@@ -270,7 +270,7 @@ export const WorkoutContextProvider = (props: { children: ReactElement }) => {
         setRestStarted(new Date());
         setRestTime(time);
         setTimeUpdated(new Date());
-    }, [setRestStarted]);
+    }, [setRestStarted, ntfyTopic]);
 
     const [pbs, setPbs] = useState<PB[]>([]);
 
