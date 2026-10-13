@@ -18,14 +18,14 @@ import React, {useContext, useState} from "react";
 import Layout from "../../components/layout";
 import {WorkoutContext} from "../../context/workoutContext";
 import {useTranslation} from "react-i18next";
-import {Avatar, Box, ListItemAvatar, ListItemButton, ListItemText, ListSubheader} from "@mui/material";
+import {Avatar, Box, ListItemAvatar, ListItemButton, ListItemText, ListSubheader, Snackbar} from "@mui/material";
 import BackupIcon from '@mui/icons-material/Backup';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
-import {CloudUpload, DoNotDisturb} from "@mui/icons-material";
+import {CloudDownload, CloudUpload, DoNotDisturb} from "@mui/icons-material";
 import Selector from "../../components/selector";
 import {DBContext} from "../../context/dbContext";
-import {BackupObject, backupToJSON, importFromJSON} from "../../db/backup";
+import {BackupObject, backupToJSON, backupToPuter, importFromJSON} from "../../db/backup";
 import Typography from "@mui/material/Typography";
 import Loader from "../../components/Loader";
 import {UserContext} from "../../context/userContext";
@@ -35,6 +35,7 @@ import getId from "../../utils/id";
 import {ExerciseSet, Plan, Workout, WorkoutExercise} from "../../models/workout";
 import {DialogContext} from "../../context/dialogContext";
 import {useNavigate} from "react-router-dom";
+import puter from "@heyputer/puter.js";
 
 export const Backup = ({onboarding}: {onboarding?: boolean}) => {
     const {db, masterDb} = useContext(DBContext);
@@ -44,6 +45,7 @@ export const Backup = ({onboarding}: {onboarding?: boolean}) => {
     const [target, setTarget] = useState("");
     const [isWorking, setIsWorking] = useState(false);
     const [payload, setPayload] = useState<BackupObject | undefined>();
+    const [snackbar, setSnackbar] =useState("");
     const {showAlert} = useContext(DialogContext);
     const navigate = useNavigate();
 
@@ -66,6 +68,17 @@ export const Backup = ({onboarding}: {onboarding?: boolean}) => {
         })
 
     }
+    
+    const backupPuter = (level: string) => {
+        if (!db || !user) return;
+        setIsWorking(true);
+        backupToPuter(db, level, user, settings).then((blobUrl) => {
+            setSnackbar(t("completed"));
+            setMode("");
+            setIsWorking(false);
+        })
+
+    }
 
     const importJson = (level: string) => {
         if (!db || !payload || !masterDb || !userName) return;
@@ -77,7 +90,7 @@ export const Backup = ({onboarding}: {onboarding?: boolean}) => {
         });
     }
 
-    const readFile = (file: File) => {
+    const readFile = (file: File | Blob) => {
         const reader = new FileReader();
         return new Promise((resolve, reject) => {
             reader.onload = () => resolve(reader.result?.toString());
@@ -86,13 +99,7 @@ export const Backup = ({onboarding}: {onboarding?: boolean}) => {
         })
     }
 
-    const readPayload = () => {
-        const input = document.createElement('input');
-        input.setAttribute('accept', 'application/json, text/plain, text/csv');
-        input.setAttribute('type', 'file');
-        document.body.appendChild(input);
-        input.onchange = () => {
-            if (input.files && input.files[0]) readFile(input.files[0]).then((payload: unknown) => {
+    const acceptJSON = async (payload: unknown, filename: string) => {
                 const data = payload?.toString();
                 if (data && data.length > 0 && data[0] === '{') {
                     const backup = JSON.parse(data);
@@ -204,7 +211,7 @@ export const Backup = ({onboarding}: {onboarding?: boolean}) => {
                     const plans: Plan[] = [
                         {
                             id: getId(),
-                            name: input.files![0].name.split(".")[0],
+                            name: filename,
                             workoutIds: Object.values(workouts).map((it) => it.id)
                         }
                     ]
@@ -224,7 +231,15 @@ export const Backup = ({onboarding}: {onboarding?: boolean}) => {
                 } else {
                     return Promise.reject();
                 }
-            }).catch((e) => {
+    }
+
+    const readPayload = () => {
+        const input = document.createElement('input');
+        input.setAttribute('accept', 'application/json, text/plain, text/csv');
+        input.setAttribute('type', 'file');
+        document.body.appendChild(input);
+        input.onchange = () => {
+            if (input.files && input.files[0]) readFile(input.files[0]).then((payload) => acceptJSON(payload, input.files![0].name.split(".")[0])).catch((e) => {
                 showAlert(t("error"), t("errors.invalidJSON"), () => {});
             }).finally(() => {
                 input.parentNode?.removeChild(input);
@@ -232,6 +247,14 @@ export const Backup = ({onboarding}: {onboarding?: boolean}) => {
             else input.parentNode?.removeChild(input);
         };
         input.click();
+    }
+
+    const readPuter = () => {
+        puter.fs.read("repquest.json").then((jsonFile) => {
+            readFile(jsonFile).then((payload) => acceptJSON(payload, "puter.json").catch((e) => {
+                showAlert(t("error"), t("errors.invalidJSON"), () => {});
+            }))
+        }).catch((err) => showAlert(t("error"), err, () => {}));
     }
 
     return <Layout title={t("backup.title")} hideNav hideBack={isWorking || onboarding}>
@@ -264,13 +287,33 @@ export const Backup = ({onboarding}: {onboarding?: boolean}) => {
             <ListItemText primary={t("backup.toFile")}
                           secondary={isWorking && mode === "backup" && target === "json" ? t("backup.backingUp") : undefined}/>
         </ListItemButton>
-        <ListItemButton component="a" disabled>
+        <ListItemButton component="a" onClick={() => {
+            setMode("backup");
+            setTarget("puter");
+        }} disabled={isWorking}>
             <ListItemAvatar>
-                <Avatar>
-                    <BackupIcon/>
+                <Avatar sx={{bgcolor: (theme) => theme.palette.primary.main}}>
+                    <Box position="relative" display="inline-flex">
+                        {isWorking && mode === "backup" && target === "puter" && <Loader/>}
+                        <Box
+                            top={0}
+                            left={0}
+                            bottom={0}
+                            right={0}
+                            position="absolute"
+                            display="flex"
+                            alignItems="center"
+                            justifyContent="center"
+                        >
+                            <Typography variant="caption" component="div">
+                                <CloudDownload sx={{marginTop: "7px"}}/>
+                            </Typography>
+                        </Box>
+                    </Box>
                 </Avatar>
             </ListItemAvatar>
-            <ListItemText primary={t("backup.toGoogleDrive")} secondary={t("comingSoon")}/>
+            <ListItemText primary={t("backup.toPuter")}
+                          secondary={isWorking && mode === "backup" && target === "json" ? t("backup.backingUp") : t("backup.toPuterDescription")}/>
         </ListItemButton>
         </>}
         <ListSubheader>{t("backup.importData")}</ListSubheader>
@@ -298,15 +341,33 @@ export const Backup = ({onboarding}: {onboarding?: boolean}) => {
             </Avatar>
             </ListItemAvatar>
             <ListItemText primary={t("backup.fromFile")}
-                          secondary={isWorking && mode === "backup" && target === "json" ? t("backup.importing") : ""}/>
+                          secondary={isWorking && mode === "restore" && target === "json" ? t("backup.importing") : ""}/>
         </ListItemButton>
-        <ListItemButton component="a" disabled>
-            <ListItemAvatar>
-                <Avatar>
-                    <CloudUpload/>
-                </Avatar>
+        <ListItemButton component="a" onClick={() => {
+            readPuter();
+        }} disabled={isWorking}>
+            <ListItemAvatar><Avatar sx={{bgcolor: (theme) => theme.palette.primary.main}}>
+                <Box position="relative" display="inline-flex">
+                    {isWorking && mode === "restore" && <Loader/>}
+                    <Box
+                        top={0}
+                        left={0}
+                        bottom={0}
+                        right={0}
+                        position="absolute"
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"
+                    >
+                        <Typography variant="caption" component="div">
+                            <CloudUpload sx={{marginTop: "7px"}}/>
+                        </Typography>
+                    </Box>
+                </Box>
+            </Avatar>
             </ListItemAvatar>
-            <ListItemText primary={t("backup.fromGoogleDrive")} secondary={t("comingSoon")}/>
+            <ListItemText primary={t("backup.fromPuter")}
+                          secondary={isWorking && mode === "restore" && target === "puter" ? t("backup.importing") : ""}/>
         </ListItemButton>
         {onboarding && <ListItemButton component="a" onClick={() => navigate("/")}>
             <ListItemAvatar>
@@ -320,8 +381,12 @@ export const Backup = ({onboarding}: {onboarding?: boolean}) => {
             defaultValue="cancel"
             open={mode !== "" && !isWorking}
             onClose={(val: string) => {
-                if (val !== "cancel" && mode === "backup" && target === "json" && db) {
-                    backupJson(val);
+                if (val !== "cancel" && mode === "backup"&& db) {
+                    if (target === "json") {
+                        backupJson(val);
+                    } else if (target === "puter") {
+                        backupPuter(val);
+                    }
                 } else if (val !== "cancel" && mode === "restore" && target === "json" && db && payload) {
                     if (val === "restoreBackup") {
                         showAlert(t("warning"), t("importWillReplaceEverything"), (result) => {
@@ -352,6 +417,12 @@ export const Backup = ({onboarding}: {onboarding?: boolean}) => {
                 }] : []),
                 {key: "cancel", value: t("cancel")}
             ]}
+        />
+        <Snackbar
+            open={snackbar !== ""}
+            autoHideDuration={2000}
+            onClose={() => setSnackbar("")}
+            message={snackbar}
         />
     </Layout>;
 }

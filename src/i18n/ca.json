@@ -162,7 +162,11 @@
     "importing": "S'està important, si us plau no marxeu...",
     "importSuccess": "S'ha completat la importació. RepQuest es reiniciarà.",
     "nothing": "No vull importar res",
-    "startWeightlog": "Continuar amb l'inici de RepQuest"
+    "startWeightlog": "Continuar amb l'inici de RepQuest",
+    "toPuter": "Al núvol (Puter.com)",
+    "toPuterDescription": "Utilitza Puter.com per a desar la cópia de seguretat al núvol.",
+    "fromPuter": "Des del núvol (Puter.com)",
+    "fromPuterDescription": "Utilitza Puter.com per a recuperar la cópia de seguretat del núvol."
   },
   "workoutEditor": {
     "title": "Editor de rutines",
@@ -478,5 +482,6 @@
     "consoleLogsDescription": "Llegiu els registres de consola",
     "jsConsole": "Consola JavaScript",
     "jsConsoleDescription": "Accediu a un terminal JavaScript per executar comandes"
-  }
+  },
+  "completed": "Finalitzat!"
 }

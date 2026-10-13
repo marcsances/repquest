@@ -162,7 +162,11 @@
     "importing": "Importing. Please do not leave the page",
     "importSuccess": "Import has been completed. RepQuest will restart now.",
     "nothing": "Don't import anything",
-    "startWeightlog": "Continue starting RepQuest"
+    "startWeightlog": "Continue starting RepQuest",
+    "toPuter": "To the cloud (Puter.com)",
+    "toPuterDescription": "Use Puter.com to save a cloud backup.",
+    "fromPuter": "From the cloud (Puter.com)",
+    "fromPuterDescription": "Use Puter.com to restore a cloud backup."
   },
   "exercises": "Exercises",
   "addExercise": "Add exercise",
@@ -478,5 +482,6 @@
     "consoleLogsDescription": "Read the console logs",
     "jsConsole": "JavaScript Console",
     "jsConsoleDescription": "Access a JavaScript console to run console commands"
-  }
+  },
+  "completed": "Done!"
 }

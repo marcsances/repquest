@@ -22,6 +22,7 @@ import {Exercise} from "../models/exercise";
 import getId from "../utils/id";
 import {MasterDB} from "./masterDb";
 import {ISettingsContext} from "../context/settingsContext";
+import puter from "@heyputer/puter.js";
 
 export interface BackupObject {
     date: string;
@@ -72,6 +73,13 @@ export async function backupToJSON(db: DexieDB, level: string, user: User, setti
     const jsonObject = JSON.stringify(backup);
     const blob = new Blob([jsonObject], {type: "application/octet-stream"});
     return URL.createObjectURL(blob);
+}
+
+export async function backupToPuter(db: DexieDB, level: string, user: User, settings: ISettingsContext) {
+    const backup = await generateBackup(db, level, user, settings);
+    const jsonObject = JSON.stringify(backup);
+    const blob = new Blob([jsonObject], {type: "application/octet-stream"});
+    await puter.fs.write("repquest.json", blob, { overwrite: true });
 }
 
 export async function backupWorkout(db: DexieDB, workout: Workout): Promise<BackupObject> {

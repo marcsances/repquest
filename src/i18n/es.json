@@ -164,7 +164,11 @@
     "importing": "Importación en curso, por favor no salga de la página",
     "importSuccess": "Se ha completado la importación. RepQuest se va a reiniciar.",
     "nothing": "No quiero importar nada",
-    "startWeightlog": "Continuar con el inicio de RepQuest"
+    "startWeightlog": "Continuar con el inicio de RepQuest",
+    "toPuter":"A la nube (Puter.com)",
+    "toPuterDescription": "Usa Puter.com para guardar tu copia de seguridad en la nube.",
+    "fromPuter":"Des de la nube (Puter.com)",
+    "fromPuterDescription": "Usa Puter.com para recuperar tu copia de seguridad de la nube."
   },
   "workoutEditor": {
     "title": "Editor de rutinas",
@@ -495,5 +499,6 @@
     "consoleLogsDescription": "Leer los registros de consola",
     "jsConsole": "Consola JavaScript",
     "jsConsoleDescription": "Acceda a un terminal JavaScript pera ejecutar comandos"
-  }
+  },
+  "completed": "¡Finalizado!"
 }
